@@ -1,0 +1,52 @@
+To do
+
+1. Change language option
+
+2. More levels
+
+3. Chasing enemy AI and slow
+bosses
+captain
+grunt
+elements
+
+3.5
+Elemental damage and resistence
+
+4. Items
+* blood drop (HP potion) with rand() drop after killing enemy
+price = 10
+* Money drop
+rand() drop depending on the level or boss type
+* Sanskrit scroll drop - adds 1 to skills (xp)
+price = 20
+* ressurection scroll
+price = 100
+
+5. In-game shop
+* use money to buy items or sell items
+
+
+5.5
+Spells
+
+6. Magic
+* ultimate spell with x score = xp can skip levels
+* kill all enemies on map
+* charm all enemies
+* wall shields surrounding you and protecting from enemies
+* fire shield surrounding you that kills all enemies it touches
+* Summon angel - fights for you and tracks enemies a.i.
+
+7. High score table local and online
+
+8. Graphics - SDL
+* Include 
+
+9. Sound effects
+
+10. Add different game modes, tutorial, survival, timed mode
+
+11. Multiplayer
+
+12. Login to website and register account for more

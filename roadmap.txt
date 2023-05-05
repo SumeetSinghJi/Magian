@@ -1,0 +1,11 @@
+Roadmap
+
+Today I need to finish - Level 2
+
+
+
+
+After that - Level select
+    * requires output int level to generic file (as will be used for high scores)
+    * read file and level_select_function() shows available levels
+    with special condition after level ends exit that mode.
