@@ -103,7 +103,7 @@ enum edirection {
 edirection direction;
 int menu_variable;
 int lives = 3;
-int difficulty;
+int difficulty=3;
 //create 2D array for double buffering
 char buffer[height][width];
 //changing language variable in settings - future use for include <locale>
@@ -141,6 +141,10 @@ void clear_screen()
 void menu();
 
 void setup() {
+
+  // reset the level variables
+  score=0;
+  gameover = false;
 
   // Below srand method needs to be executed at runtime hence run in a function vs global variable;
   moneyx = rand() % width;
@@ -515,8 +519,7 @@ void logic() {
 
 void startgame() {
   setup();
-  // reset the gameover flag to false
-  gameover = false;
+  lives = difficulty;
   while (!gameover) {
     draw_level_1();
     input();
@@ -617,16 +620,16 @@ void language()
 void settings() 
 {
   cout << "Choose a difficulty level \n"
-  "1. Easy - 3 Lives \n"
-  "2. Medium - 2 Lives \n"
-  "3. Hard - 1 Life \n\n\n\n\n"
+  "1. Hard - 1 Life \n"
+  "2. Medium - 2 Life \n"
+  "3. Easy - 3 Life \n\n\n\n\n"
   "4. Change language"
   "5. Exit back to Main menu \n"
   "Enter an option: ";
   cin >> difficulty;
   switch (difficulty) {
   case 1:
-    lives = 3;
+    lives = 1;
     break;
   case 2:
     lives = 2;
