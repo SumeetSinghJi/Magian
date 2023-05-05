@@ -1,8 +1,6 @@
-What this software is?
-
 _________________________________________________________________________________________________
 
-User section - This section is for the player the person that plays the game.
+                                            How to play
 _________________________________________________________________________________________________
 
 Magian. A game of mages from the school of Agni in Kashmir mountain basin.
@@ -23,7 +21,7 @@ Rules
 _________________________________________________________________________________________________
 
 
-Content
+                                            Rules
 
 _________________________________________________________________________________________________
 
@@ -38,7 +36,7 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________
 
 
-Programmer section - This section is for the programmer the person who edits the software logic.
+                                            Contents
 
 _________________________________________________________________________________________________
 
@@ -55,14 +53,25 @@ The heirachy of files included in the game are below
 * readme.txt - this is this guide for how to play the game and modify it.
 
 
-Further support
+_________________________________________________________________________________________________
 
-talk to the owner: Sumeet Singh
-Owners personal website: www.sumeet-singh.com
+                                            Main menu
+_________________________________________________________________________________________________
+
+Main menu
+* represented by switch(case) when staring game
+* 1. Start game - core game logic draw()
+* 2. Level select - bonus mode to choose any level to play
+* 3. Help
+* 4. Settings
+    * 4.1. Difficulty switch = more or less lives
+    * 4.2. Change console output language e.g. Japanese
+* 5. Quit
+
 
 _________________________________________________________________________________________________
 
-Functions
+                                            Functions
 _________________________________________________________________________________________________
 
 Main logic of game follows running c++ functions in sequence
@@ -82,7 +91,7 @@ void menu()
 
 _________________________________________________________________________________________________
 
-Logic
+                                            Logic
 _________________________________________________________________________________________________
 
 
@@ -119,15 +128,18 @@ Money
 Win logic
 * collect enough money ($) to win
 
-Main menu
-* represented by switch(case) when staring game
-* 1. Start game - core game logic draw()
-* 2. Level select - bonus mode to choose any level to play
-* 3. Help
-* 4. Settings
-    * 4.1. Difficulty switch = more or less lives
-    * 4.2. Change console output language e.g. Japanese
-* 5. Quit
 
 
 
+
+_________________________________________________________________________________________________
+
+                                            Further support
+_________________________________________________________________________________________________
+
+This is an free c++ game hosted on GitHub free to download and play
+ https://github.com/SumeetSinghJi/Magian
+
+For support talk to the author: Sumeet Singh
+Author email: kurta.kursi@gmail.com
+Author can be reached through their personal website: www.sumeet-singh.com
