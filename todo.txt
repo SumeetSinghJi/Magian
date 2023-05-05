@@ -10,6 +10,10 @@ captain
 grunt
 elements
 
+
+1. Button L opens "log" log_function()
+
+
 3.5
 Elemental damage and resistence
 

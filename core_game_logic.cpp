@@ -53,7 +53,7 @@ int language=1;
 // max number of levels
 int level=11;
 // Extra game mode level select
-int level_select_counter=1;
+int level_select_variable=1;
 
 
 
@@ -216,7 +216,8 @@ void logic()
   level = 2;
   cout << "You win the level";
   gameover=TRUE;
-  level_select_counter=1;
+  level_select_variable=1;
+
   }
   
 

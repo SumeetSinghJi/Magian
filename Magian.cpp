@@ -5,8 +5,6 @@
 #include <unistd.h>
 #include <string>
 #include <fstream>
-//custom developed level select header included with source files
-#include <level_select.h>
 using namespace std;
 
 // Global Macros
@@ -24,8 +22,8 @@ public:
   int speed=1;
   int damage;
   int inventory;
-  int first_enemy_x_pos;
-  int first_enemy_y_pos;
+  int level_1_enemy_x_pos;
+  int level_1_enemy_y_pos;
 };
 // creating an enemy that damages player by removing 1 life
 class enemy_class_2_rakshasa {
@@ -34,8 +32,8 @@ public:
   int speed=2;
   int damage=1;
   int inventory;
-  int first_enemy_x_pos;
-  int first_enemy_y_pos;
+  int level_1_enemy_x_pos;
+  int level_1_enemy_y_pos;
 };
 // creating an enemy that damages player by removing 1 life
 class enemy_class_2_animated_tree {
@@ -44,8 +42,8 @@ public:
   int speed;
   int damage;
   int inventory;
-  int first_enemy_x_pos;
-  int first_enemy_y_pos;
+  int level_1_enemy_x_pos;
+  int level_1_enemy_y_pos;
 };
 // creating an enemy that damages player by removing 1 life
 class enemy_class_3_animated_armour {
@@ -54,8 +52,8 @@ public:
   int speed;
   int damage;
   int inventory;
-  int first_enemy_x_pos;
-  int first_enemy_y_pos;
+  int level_1_enemy_x_pos;
+  int level_1_enemy_y_pos;
 };
 // creating an enemy that damages player by removing 1 life
 class enemy_class_3_animated_horror {
@@ -64,8 +62,8 @@ public:
   int speed;
   int damage;
   int inventory;
-  int first_enemy_x_pos;
-  int first_enemy_y_pos;
+  int level_1_enemy_x_pos;
+  int level_1_enemy_y_pos;
 };
 /*
 class magic_stop_time_class {
@@ -79,7 +77,7 @@ Also include void to cast and add to key binding or possibly logic..
 
 
 /* Global Objects */
-enemy_class_fire enemy_object;
+enemy_class_fire level_1_enemy_object;
 enemy_class_2_rakshasa level_2_enemy_object;
 
 // for changing the colour of tiles, NPC's, items etc.,
@@ -113,7 +111,7 @@ int language=1;
 // max number of levels
 int level=11;
 // Extra game mode level select
-int level_select_counter=1;
+int level_select_variable=1;
 
 
 
@@ -154,13 +152,13 @@ void setup() {
   y_pos = height / 2;
 
   // level 1 setup enemy
-  enemy_object.first_enemy_x_pos = rand() % width;
-  enemy_object.first_enemy_y_pos = rand() % height;
-  enemy_object.speed = 1;
+  level_1_enemy_object.level_1_enemy_x_pos = rand() % width;
+  level_1_enemy_object.level_1_enemy_y_pos = rand() % height;
+  level_1_enemy_object.speed = 1;
 
   // level 2 setup enemy
-  level_2_enemy_object.first_enemy_x_pos = rand() % level_2_width;
-  level_2_enemy_object.first_enemy_y_pos = rand() % level_2_height;
+  level_2_enemy_object.level_1_enemy_x_pos = rand() % level_2_width;
+  level_2_enemy_object.level_1_enemy_y_pos = rand() % level_2_height;
   level_2_enemy_object.speed = 1;
 }
 
@@ -193,7 +191,7 @@ void draw_level_1() {
         buffer[y][x] = '$';
       } 
       //draw enemy
-      else if (x == enemy_object.first_enemy_x_pos && y == enemy_object.first_enemy_y_pos) {
+      else if (x == level_1_enemy_object.level_1_enemy_x_pos && y == level_1_enemy_object.level_1_enemy_y_pos) {
         buffer[y][x] = 'E';
       }    
       //draw blank if not wall or player
@@ -233,66 +231,135 @@ void draw_level_1() {
 // Level 2 draw logic
 void draw_level_2() {
 
-  // Draw top wall  
-  for (int top_wall = 0; top_wall < width; top_wall++) {
-    buffer[0][top_wall] = '#';
-  }
+}
+// Level 3 draw logic
+void draw_level_3() {
 
-  // draw middle section
-  //loop through y axis 19 times down
-  for (int y = 1; y < height-1; y++) {
-    // loop through x axis 19 times across
-    for (int x = 0; x < width; x++) {
-      // draw side wall
-      if (x == 0 || x == width - 1) {
-        buffer[y][x] = '#';
-      }
-      //draw player
-      else if (x == x_pos && y == y_pos) {
-        buffer[y][x] = 'P';
-      }
-      //draw money
-      else if (x == moneyx && y == moneyy) {
-        buffer[y][x] = '$';
-      } 
-      //draw enemy
-      else if (x == enemy_object.first_enemy_x_pos && y == enemy_object.first_enemy_y_pos) {
-        buffer[y][x] = 'E';
-      }    
-      //draw blank if not wall or player
-      else {
-        buffer[y][x] = ' ';
-      }
-    }
-  }
+}
+// Level 4 draw logic
+void draw_level_4() {
 
-  // Draw bottom wall
-  for (int bottom_wall = 0; bottom_wall < width; bottom_wall++) {
-    buffer[height-1][bottom_wall] = '#';
-  }
+}
+// Level 5 draw logic
+void draw_level_5() {
 
-  // print the current score and lives beneath the array
-  string score_str = "Current Score: " + to_string(score);
-  string lives_str = "Current Lives: " + to_string(lives);
-  int score_pos = (width - score_str.length()) / 2;
-  int lives_pos = (width - lives_str.length()) / 2;
-  for (int i = 0; i < score_str.length(); i++) {
-    buffer[height][score_pos+i] = score_str[i];
-  }
-  for (int i = 0; i < lives_str.length(); i++) {
-    buffer[height+1][lives_pos+i] = lives_str[i];
-  }
+}
+// Level 6 draw logic
+void draw_level_6() {
 
-  // clear the console and print the buffer
-  system("cls");
-  for (int y = 0; y < height+2; y++) {
-    for (int x = 0; x < width; x++) {
-      cout << buffer[y][x];
-    }
-    cout << endl;
-  }
+}
+// Level 7 draw logic
+void draw_level_7() {
+
+}
+// Level 8 draw logic
+void draw_level_8() {
+
+}
+// Level 9 draw logic
+void draw_level_9() {
+
+}
+// Level 10 draw logic
+void draw_level_10() {
+
+}
+// Level 11 draw logic
+void draw_level_11() {
+
 }
 
+
+void level_select_function()
+{
+  cout << "Choose any level you've unlocked \n"; 
+
+  // add a condition to show only levels that are below or equal to level_select
+  for (int i = 1; i <= level_select_variable; i++) {
+    switch (i) {
+      case 1:
+        cout << "1. Kashmir_Basin\n";
+        break;
+      case 2:
+        cout << "2. Agni_Mandir_ablaze\n";
+        break;
+      case 3:
+        cout << "3. Shikaar\n";
+        break;
+      case 4:
+        cout << "4. Seized_aboard\n";
+        break;
+      case 5:
+        cout << "5. Capsize\n";
+        break;
+      case 6:
+        cout << "6. Underwater_hell\n";
+        break;
+      case 7:
+        cout << "7. Final_spell\n";
+        break;
+      case 8:
+        cout << "8. Rakashaa_ghar\n";
+        break;
+      case 9:
+        cout << "9. नरक_Hell\n";
+        break;
+      case 10:
+        cout << "10. संसार_Samsara\n";
+        break;
+      case 11:
+        cout << "11. यम_Yama\n";
+        break;
+      default:
+        break;
+    }
+  }
+
+  // ask the user for their choice
+  int level_select_choice_variable;
+  cout << "Enter your choice: ";
+  cin >> level_select_choice_variable;
+
+  // execute the selected level
+  switch (level_select_choice_variable)
+  {
+    case 1:
+      draw_level_1();
+      break;
+    case 2:
+      draw_level_2();
+      break;
+    case 3:
+      draw_level_3();
+      break;
+    case 4:
+      draw_level_4();
+      break;
+    case 5:
+      draw_level_5();
+      break;
+    case 6:
+      draw_level_6();
+      break;
+    case 7:
+      draw_level_7();
+      break;
+    case 8:
+      draw_level_8();
+      break;
+    case 9:
+      draw_level_9();
+      break;
+    case 10:
+      draw_level_10();
+      break;
+    case 11:
+      draw_level_11();
+      break;
+    default:
+      break;
+  }
+}
 
 
 // keyboard WSAD directional movement capture for logic() function
@@ -370,12 +437,16 @@ void logic() {
   }
 
   // Level 1 - win logic 
-  if (score > 10) 
+  if (score >= 5) 
   {
   level = 2;
   cout << "You win the level";
+   level_select_variable=1;
+
+
+  
   draw_level_2();
-  level_select_counter=1;
+ 
   
   }
 
@@ -385,7 +456,7 @@ void logic() {
   level = 3;
   cout << "You win the level";
   //draw_level_3();
-  level_select_counter=2;
+  level_select_variable=2;
 
   }
 
@@ -395,7 +466,7 @@ void logic() {
   level = 4;
   cout << "You win the level";
   //draw_level_4();
-  level_select_counter=3;
+  level_select_variable=3;
   }
 
 
@@ -404,29 +475,29 @@ void logic() {
   int random_direction = rand() % 4; // choose a random direction (0 = up, 1 = down, 2 = left, 3 = right)
   switch (random_direction) {
     case 0:
-      if (enemy_object.first_enemy_y_pos > 1) {
-        enemy_object.first_enemy_y_pos--;
+      if (level_1_enemy_object.level_1_enemy_y_pos > 1) {
+        level_1_enemy_object.level_1_enemy_y_pos--;
       }
       break;
     case 1:
-      if (enemy_object.first_enemy_y_pos < height - 2) {
-        enemy_object.first_enemy_y_pos++;
+      if (level_1_enemy_object.level_1_enemy_y_pos < height - 2) {
+        level_1_enemy_object.level_1_enemy_y_pos++;
       }
       break;
     case 2:
-      if (enemy_object.first_enemy_x_pos > 1) {
-        enemy_object.first_enemy_x_pos--;
+      if (level_1_enemy_object.level_1_enemy_x_pos > 1) {
+        level_1_enemy_object.level_1_enemy_x_pos--;
       }
       break;
     case 3:
-      if (enemy_object.first_enemy_x_pos < width - 2) {
-        enemy_object.first_enemy_x_pos++;
+      if (level_1_enemy_object.level_1_enemy_x_pos < width - 2) {
+        level_1_enemy_object.level_1_enemy_x_pos++;
       }
       break;
   }
 
   // Check if enemy caught player and update lives if true
-  if (x_pos == enemy_object.first_enemy_x_pos && y_pos == enemy_object.first_enemy_y_pos) {
+  if (x_pos == level_1_enemy_object.level_1_enemy_x_pos && y_pos == level_1_enemy_object.level_1_enemy_y_pos) {
     lives--;
     x_pos = width / 2;
     y_pos = height /2;
@@ -599,7 +670,7 @@ void menu()
     menu();
     break;
   case 4:
-    level_select();
+    level_select_function();
     break;
   case 5:
     cout << "Goodbye" << endl;

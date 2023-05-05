@@ -2,7 +2,7 @@ What this software is?
 
 _________________________________________________________________________________________________
 
-This section is for the player the person that plays the game.
+User section - This section is for the player the person that plays the game.
 _________________________________________________________________________________________________
 
 Magian. A game of mages from the school of Agni in Kashmir mountain basin.
@@ -23,6 +23,11 @@ Rules
 _________________________________________________________________________________________________
 
 
+Content
+
+_________________________________________________________________________________________________
+
+
 * enemy table
 * Damage table
 * item table
@@ -33,7 +38,7 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________
 
 
-This section is for the programmer the person who edits the software logic.
+Programmer section - This section is for the programmer the person who edits the software logic.
 
 _________________________________________________________________________________________________
 
@@ -57,8 +62,28 @@ Owners personal website: www.sumeet-singh.com
 
 _________________________________________________________________________________________________
 
-C++ game logic
+Functions
+_________________________________________________________________________________________________
 
+Main logic of game follows running c++ functions in sequence
+
+void menu() 
+1.0. startgame()
+1.1. setup()
+1.2. gameover = false; // reset the gameover flag to false
+1.3. while (!gameover)
+1.4. draw_level_1()
+1.5. input()
+1.6. logic()
+1.7. Sleep(150)
+
+2.0 Settings
+2.1 Help
+
+_________________________________________________________________________________________________
+
+Logic
+_________________________________________________________________________________________________
 
 
 Player
