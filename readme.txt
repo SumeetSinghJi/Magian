@@ -42,15 +42,18 @@ ________________________________________________________________________________
 
 Modding and problem fixing tutorial
 
-Modding means editing the games files to customise it however you want. That could be to fix problems 
-known as bugs or to add changes to the software.
+Modding means editing the games files to customise it however you want. That could be to fix 
+problems known as bugs or to add changes to the software.
 
-The heirachy of files included in the game are below
-* magian.cpp - the main games source code
-* magian.exe - main game binary executable. Open or run this to play game
-* core_game_logic.cpp - The work version of the codes main logic
-* test_of_core_logic.cpp - This is a copy of the core_game_logic to test different code
-* readme.txt - this is this guide for how to play the game and modify it.
+The files included in the game are below
+
+.vscode (folder) - contains the configuration files for editing the repo in VScode with minggw c++
+sound (folder) - containts music
+* magian.cpp - the main games source code.
+* magian.exe - main game binary executable. Open or run this to play game.
+* test.cpp - For testing.
+* test.cpp - For testing.
+* readme.txt - the file you are reading right now is the readme.txt file it's a guide on playing.
 
 
 _________________________________________________________________________________________________
