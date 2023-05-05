@@ -537,7 +537,7 @@ void menu();
 
 void welcome() 
 {
-  cout << "Welcome to Magian \n" 
+  cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~    MAGIAN    ~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n" 
   "A game of mages from the school of Agni in Kashmir mountain basin. \n"
   "Collect from scrolls, herbs, gold and items to build your player and advance through the level. \n"
   "but dont fall off the path less you die! \n\n\n"
@@ -656,12 +656,13 @@ void settings()
 
 void menu() 
 {
-
+  PlaySoundW(L"sound//shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
   welcome();
   cin >> menu_variable;
   switch (menu_variable) 
   {
   case 1:
+  PlaySoundW(L"sound//intro.wav", NULL, SND_FILENAME | SND_ASYNC);
     startgame();
     break;
   case 2:

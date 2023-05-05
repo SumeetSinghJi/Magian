@@ -3,6 +3,8 @@ ________________________________________________________________________________
                                             How to play
 _________________________________________________________________________________________________
 
+Version: 0.1 (In development)
+
 Magian. A game of mages from the school of Agni in Kashmir mountain basin.
 collect from scrolls, herbs, gold and items to build your player and advance through the level.
 
@@ -132,9 +134,35 @@ Win logic
 * collect enough money ($) to win
 
 
+_________________________________________________________________________________________________
+
+                                            Graphics
+_________________________________________________________________________________________________
 
 
+_________________________________________________________________________________________________
 
+                                            Music
+_________________________________________________________________________________________________
+
+All music taken and altered from Pixabay.com
+we thank the website developers greatly for their product.
+
+Song list
+1. Intro - Magian Avatar
+Jungle Alien Ambient Mastered by szegvari x Amen Break by JapanYoshiTheGamer @ pixabay.com
+2. Shima-uta seige
+From: Okinawa folk dance x fire sfx x long wind sfx @ pixabay.com
+3. Cyber Attack
+From: JuliusH on pixabay.com
+4. 
+5. 
+6. 
+7. 
+8. 
+9. 
+10. 
+11. 
 _________________________________________________________________________________________________
 
                                             Further support

@@ -10,7 +10,8 @@
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-I${fileDirname}"
+                "-I${fileDirname}",
+                "-lwinmm" // This linker added by Sumeet to connect playsound() to windows sound player
             ],
             "options": {
                 "cwd": "${fileDirname}"

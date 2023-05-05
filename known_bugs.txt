@@ -1,0 +1,3 @@
+Known bugs
+
+1. Cannot set locale, therefore cannot cin <<, then cout >> unicode e.g. Jap, Chinese, in settings()
