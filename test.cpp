@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 // including magian header for saving files functions
-#include <magian_save_game.h>
+#include "magian_save_game.h"
 using namespace std;
 
 int level_select_variable=1;
@@ -18,6 +18,8 @@ int main()
     update_savefile_level();
 
     match_savefile_level_function();
+    
+    // cout << "The level select variable returned from save file is: " << level_select_variable << endl;
 
 }
 

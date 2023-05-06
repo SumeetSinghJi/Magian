@@ -1,10 +1,14 @@
 #include <iostream>
+// for random function
 #include <ctime>
 #include <conio.h>
 #include <windows.h>
 #include <unistd.h>
 #include <string>
+// for save file read write
 #include <fstream>
+// including magian header for saving files functions
+#include "magian_save_game.h"
 using namespace std;
 
 // Global Macros
@@ -79,6 +83,7 @@ Also include void to cast and add to key binding or possibly logic..
 /* Global Objects */
 enemy_class_fire level_1_enemy_object;
 enemy_class_2_rakshasa level_2_enemy_object;
+fstream savefile_object;
 
 // for changing the colour of tiles, NPC's, items etc.,
 HANDLE handle_object = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -113,10 +118,7 @@ int level=11;
 // Extra game mode level select
 int level_select_variable=1;
 
-
-
 //function prototype
-
 void clear_screen()
 {
 #ifdef HAVE_NCURSES_H
@@ -137,9 +139,9 @@ void clear_screen()
 #endif
 #endif
 }
-
+// Calling menu function before other void functions so they know it exists at compile time
 void menu();
-
+// Function for setting up game before draw()
 void setup() {
 
   // reset the level variables
@@ -165,11 +167,7 @@ void setup() {
   level_2_enemy_object.level_1_enemy_y_pos = rand() % level_2_height;
   level_2_enemy_object.speed = 1;
 }
-
-
-
-
-
+// Level 1 draw logic
 void draw_level_1() {
 
   // Draw top wall  
@@ -215,6 +213,7 @@ void draw_level_1() {
   string lives_str = "Current Lives: " + to_string(lives);
   int score_pos = (width - score_str.length()) / 2;
   int lives_pos = (width - lives_str.length()) / 2;
+
   for (int i = 0; i < score_str.length(); i++) {
     buffer[height][score_pos+i] = score_str[i];
   }
@@ -231,10 +230,68 @@ void draw_level_1() {
     cout << endl;
   }
 }
-
 // Level 2 draw logic
 void draw_level_2() {
 
+  // Draw top wall  
+  for (int top_wall = 0; top_wall < level_2_width; top_wall++) {
+    buffer[0][top_wall] = '#';
+  }
+
+  // draw middle section
+  //loop through y axis 19 times down
+  for (int y = 1; y < level_2_height-1; y++) {
+    // loop through x axis 19 times across
+    for (int x = 0; x < level_2_width; x++) {
+      // draw side wall
+      if (x == 0 || x == level_2_width - 1) {
+        buffer[y][x] = '#';
+      }
+      //draw player
+      else if (x == x_pos && y == y_pos) {
+        buffer[y][x] = 'P';
+      }
+      //draw money
+      else if (x == moneyx && y == moneyy) {
+        buffer[y][x] = '$';
+      } 
+      //draw enemy
+      else if (x == level_1_enemy_object.level_1_enemy_x_pos && y == level_1_enemy_object.level_1_enemy_y_pos) {
+        buffer[y][x] = 'E';
+      }    
+      //draw blank if not wall or player
+      else {
+        buffer[y][x] = ' ';
+      }
+    }
+  }
+
+  // Draw bottom wall
+  for (int bottom_wall = 0; bottom_wall < level_2_width; bottom_wall++) {
+    buffer[level_2_height-1][bottom_wall] = '#';
+  }
+
+  // print the current score and lives beneath the array
+  string score_str = "Current Score: " + to_string(score);
+  string lives_str = "Current Lives: " + to_string(lives);
+  int score_pos = (level_2_width - score_str.length()) / 2;
+  int lives_pos = (level_2_width - lives_str.length()) / 2;
+  
+  for (int i = 0; i < score_str.length(); i++) {
+    buffer[level_2_height][score_pos+i] = score_str[i];
+  }
+  for (int i = 0; i < lives_str.length(); i++) {
+    buffer[level_2_height+1][lives_pos+i] = lives_str[i];
+  }
+
+  // clear the console and print the buffer
+  system("cls");
+  for (int y = 0; y < level_2_height+2; y++) {
+    for (int x = 0; x < level_2_width; x++) {
+      cout << buffer[y][x];
+    }
+    cout << endl;
+  }
 }
 // Level 3 draw logic
 void draw_level_3() {
@@ -272,10 +329,190 @@ void draw_level_10() {
 void draw_level_11() {
 
 }
+// keyboard WSAD directional movement capture for logic() function
+void input() {
+    if (_kbhit()) 
+    {
+        switch (_getch()) 
+        {
+        case 'w':
+            direction = UP;
+            break;
+        case 's':
+            direction = DOWN;
+            break;
+        case 'a':
+            direction = LEFT;
+            break;
+        case 'd':
+            direction = RIGHT;
+            break;
+        }
+    }
+}
+// recieves keyboard input from input() and dictates logic
+void logic() {
+    // Update player position based on direction
+    switch (direction) 
+    {
+        case UP:
+            y_pos--;
+            break;
+        case DOWN:
+            y_pos++;
+            break;
+        case LEFT:
+            x_pos--;
+            break;
+        case RIGHT:
+            x_pos++;
+            break;
+    }
+
+    // Check if player hit a wall and reset position to center if true
+    if (x_pos == 0 || x_pos == width - 1 || y_pos == 0 || y_pos == height - 1) 
+    {
+        lives--;
+        x_pos = width / 2;
+        y_pos = height /2;
+    }
+
+    // Level 2 logic - Check if player hit a wall and reset position to center if true
+    if (x_pos == 0 || x_pos == level_2_width - 1 || y_pos == 0 || y_pos == level_2_height - 1) 
+    {
+        lives--;
+        x_pos = level_2_width / 2;
+        y_pos = level_2_height /2;
+    }
+
+    // Check if player has run out of lives and end the game if true
+    if (lives == 0) 
+    {
+        cout << "You died!" << endl;
+        menu();
+    }
+
+    // Level 1 score - Check if player picked up money and update score and money location if true
+    if (x_pos == moneyx && y_pos == moneyy) 
+    {
+        score++;
+        money++;
+        moneyx = rand() % width-1;
+        moneyy = rand() % height-1;
+    }
+
+   // Level 2 score - Check if player picked up money and update score and money location if true
+    if (x_pos == moneyx && y_pos == moneyy) 
+    {
+        score++;
+        money++;
+        moneyx = rand() % level_2_width-1;
+        moneyy = rand() % level_2_height-1;
+    }
+
+    // Level 1 - win logic 
+    if (score >= 1) 
+    {
+    level = 2;
+    cout << "You win the level";
+    level_select_variable=2;
+    update_savefile_level();
+    draw_level_2();
+    }
+
+    // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
+    if (score >= 2) 
+    {
+    level = 3;
+    cout << "You win the level";
+    level_select_variable=3;
+    update_savefile_level();
+    draw_level_3();
+    }
+
+   // Level 3 - win logic - specific enemy dies
+    if (score >= 3) 
+    {
+      level = 4;
+      cout << "You win the level";
+      level_select_variable=4;
+      update_savefile_level();
+      draw_level_4();
+    }
 
 
+
+    // Update enemy position randomly
+    int random_direction = rand() % 4; // choose a random direction (0 = up, 1 = down, 2 = left, 3 = right)
+    switch (random_direction) 
+    {
+        case 0:
+            if (level_1_enemy_object.level_1_enemy_y_pos > 1) 
+            {
+            level_1_enemy_object.level_1_enemy_y_pos--;
+            }
+            break;
+        case 1:
+            if (level_1_enemy_object.level_1_enemy_y_pos < height - 2) 
+            {
+            level_1_enemy_object.level_1_enemy_y_pos++;
+            }
+            break;
+        case 2:
+            if (level_1_enemy_object.level_1_enemy_x_pos > 1) 
+            {
+            level_1_enemy_object.level_1_enemy_x_pos--;
+            }
+            break;
+        case 3:
+            if (level_1_enemy_object.level_1_enemy_x_pos < width - 2) 
+            {
+            level_1_enemy_object.level_1_enemy_x_pos++;
+            }
+            break;
+    }
+
+  // Check if enemy caught player and update lives if true
+  if (x_pos == level_1_enemy_object.level_1_enemy_x_pos && y_pos == level_1_enemy_object.level_1_enemy_y_pos) 
+    {
+        lives--;
+        x_pos = width / 2;
+        y_pos = height /2;
+    }
+}
+// starting game funciton called in menu()
+void startgame() {
+  setup();
+  lives = difficulty;
+  while (!gameover) {
+    draw_level_1();
+    input();
+    logic();
+    Sleep(150);
+  }
+  cout << "Game Over. Your final score is: " << score << endl;
+  system("pause");
+}
+// Function for greeting Title page
+void welcome() 
+{
+  cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~    MAGIAN    ~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n" 
+  "A game of mages from the school of Agni in Kashmir mountain basin. \n"
+  "Collect from scrolls, herbs, gold and items to build your player and advance through the level. \n"
+  "but dont fall off the path less you die! \n\n\n"
+  "Main Menu \n"
+  "1. Start Game\n"
+  "2. Help \n"
+  "3. Settings \n"
+  "4. Bonus - Level Select \n"
+  "5. Exit \n\n"
+  "Enter an option: " << endl;
+}
+// Bonus game mode - select any level unlocked from savefile.txt
 void level_select_function()
 {
+  match_savefile_level_function();
+  
   cout << "Choose any level you've unlocked \n"; 
 
   // add a condition to show only levels that are below or equal to level_select
@@ -364,215 +601,7 @@ void level_select_function()
       break;
   }
 }
-
-
-// keyboard WSAD directional movement capture for logic() function
-void input() {
-    if (_kbhit()) 
-    {
-        switch (_getch()) 
-        {
-        case 'w':
-            direction = UP;
-            break;
-        case 's':
-            direction = DOWN;
-            break;
-        case 'a':
-            direction = LEFT;
-            break;
-        case 'd':
-            direction = RIGHT;
-            break;
-        }
-    }
-}
-
-// recieves keyboard input from input() and dictates logic
-void logic() {
-    // Update player position based on direction
-    switch (direction) 
-    {
-        case UP:
-            y_pos--;
-            break;
-        case DOWN:
-            y_pos++;
-            break;
-        case LEFT:
-            x_pos--;
-            break;
-        case RIGHT:
-            x_pos++;
-            break;
-    }
-
-    // Check if player hit a wall and reset position to center if true
-    if (x_pos == 0 || x_pos == width - 1 || y_pos == 0 || y_pos == height - 1) 
-    {
-        lives--;
-        x_pos = width / 2;
-        y_pos = height /2;
-    }
-
-    // Level 2 logic - Check if player hit a wall and reset position to center if true
-    if (x_pos == 0 || x_pos == level_2_width - 1 || y_pos == 0 || y_pos == level_2_height - 1) 
-    {
-        lives--;
-        x_pos = level_2_width / 2;
-        y_pos = level_2_height /2;
-    }
-
-    // Check if player has run out of lives and end the game if true
-    if (lives == 0) 
-    {
-        cout << "You died!" << endl;
-        menu();
-    }
-
-    // Level 1 score - Check if player picked up money and update score and money location if true
-    if (x_pos == moneyx && y_pos == moneyy) 
-    {
-        score++;
-        money++;
-        moneyx = rand() % width-1;
-        moneyy = rand() % height-1;
-    }
-
-   // Level 2 score - Check if player picked up money and update score and money location if true
-    if (x_pos == moneyx && y_pos == moneyy) 
-    {
-        score++;
-        money++;
-        moneyx = rand() % level_2_width-1;
-        moneyy = rand() % level_2_height-1;
-    }
-
-    // Level 1 - win logic 
-    if (score >= 1) 
-    {
-    level = 2;
-    cout << "You win the level";
-    level_select_variable=1;
-
-
-  
-    draw_level_2();
-    }
-
-    // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
-    if (score > 40) 
-    {
-        level = 3;
-        cout << "You win the level";
-        //draw_level_3();
-        level_select_variable=2;
-
-    }
-
-   // Level 3 - win logic - specific enemy dies
-    if (score > 80) 
-    {
-        level = 4;
-        cout << "You win the level";
-        //draw_level_4();
-        level_select_variable=3;
-    }
-
-
-
-    // Update enemy position randomly
-    int random_direction = rand() % 4; // choose a random direction (0 = up, 1 = down, 2 = left, 3 = right)
-    switch (random_direction) 
-    {
-        case 0:
-            if (level_1_enemy_object.level_1_enemy_y_pos > 1) 
-            {
-            level_1_enemy_object.level_1_enemy_y_pos--;
-            }
-            break;
-        case 1:
-            if (level_1_enemy_object.level_1_enemy_y_pos < height - 2) 
-            {
-            level_1_enemy_object.level_1_enemy_y_pos++;
-            }
-            break;
-        case 2:
-            if (level_1_enemy_object.level_1_enemy_x_pos > 1) 
-            {
-            level_1_enemy_object.level_1_enemy_x_pos--;
-            }
-            break;
-        case 3:
-            if (level_1_enemy_object.level_1_enemy_x_pos < width - 2) 
-            {
-            level_1_enemy_object.level_1_enemy_x_pos++;
-            }
-            break;
-    }
-
-  // Check if enemy caught player and update lives if true
-  if (x_pos == level_1_enemy_object.level_1_enemy_x_pos && y_pos == level_1_enemy_object.level_1_enemy_y_pos) 
-    {
-        lives--;
-        x_pos = width / 2;
-        y_pos = height /2;
-    }
-}
-
-
-
-
-
-
-
-// starting game funciton called in menu()
-
-void startgame() {
-  setup();
-  lives = difficulty;
-  while (!gameover) {
-    draw_level_1();
-    input();
-    logic();
-    Sleep(150);
-  }
-  cout << "Game Over. Your final score is: " << score << endl;
-  system("pause");
-}
-
-
-
-void menu();
-
-
-void welcome() 
-{
-  cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~    MAGIAN    ~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n" 
-  "A game of mages from the school of Agni in Kashmir mountain basin. \n"
-  "Collect from scrolls, herbs, gold and items to build your player and advance through the level. \n"
-  "but dont fall off the path less you die! \n\n\n"
-  "Main Menu \n"
-  "1. Start Game\n"
-  "2. Help \n"
-  "3. Settings \n"
-  "4. Bonus - Level Select \n"
-  "5. Exit \n\n"
-  "Enter an option: " << endl;
-}
-
-
-string update() 
-{
-  time_t now = time(0);
-    tm* ltm = localtime(&now);
-    int year = 1900 + ltm->tm_year;
-    int month = 1 + ltm->tm_mon;
-    int day = ltm->tm_mday;
-    string update_variable = to_string(day) + "/" + to_string(month) + "/" + to_string(year);
-    return update_variable;
-}
-
+// Function for help on how to play game
 void help() 
 {
   cout << "Magian. A game of mages from the school of Agni in Kashmir mountain basin. \n"
@@ -589,7 +618,7 @@ void help()
   "Make it to the end of the levels. Each has their own goals for example, collect 10 scrolls \n"
   "or find the exit without getting killed." << endl;
 }
-
+// Function for language setup in the future
 /*
 void language() 
 {
@@ -627,7 +656,7 @@ void language()
   }
 }
 */
-
+// Function for changing in game settings
 void settings() 
 {
   cout << "Choose a difficulty level \n"
@@ -662,9 +691,7 @@ void settings()
 
   menu();
 }
-
-
-
+// Function for in game menu
 void menu() 
 {
   PlaySoundW(L"sound//shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
@@ -693,9 +720,10 @@ void menu()
     break;
   }
 }
-
+// Int main
 int main() 
 {
+  create_savefile_function();
   menu();
   return 0;
 }

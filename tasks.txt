@@ -1,8 +1,4 @@
 To do
 
-Today  - Level select + Score - savefile
-
-
-/*
-
-*/
+Today  - Test win condition updates level select variable write to file, then can close open
+game and it can read from your last vicoty in game
