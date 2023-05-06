@@ -54,3 +54,5 @@ Spells
 11. Multiplayer
 
 12. Login to website and register account for more
+
+13. GET from official website or GitHub repo advising of company news.

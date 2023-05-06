@@ -368,145 +368,156 @@ void level_select_function()
 
 // keyboard WSAD directional movement capture for logic() function
 void input() {
-  if (_kbhit()) {
-    switch (_getch()) {
-    case 'w':
-      direction = UP;
-      break;
-    case 's':
-      direction = DOWN;
-      break;
-    case 'a':
-      direction = LEFT;
-      break;
-    case 'd':
-      direction = RIGHT;
-      break;
+    if (_kbhit()) 
+    {
+        switch (_getch()) 
+        {
+        case 'w':
+            direction = UP;
+            break;
+        case 's':
+            direction = DOWN;
+            break;
+        case 'a':
+            direction = LEFT;
+            break;
+        case 'd':
+            direction = RIGHT;
+            break;
+        }
     }
-  }
 }
 
 // recieves keyboard input from input() and dictates logic
 void logic() {
-  // Update player position based on direction
-  switch (direction) {
-    case UP:
-      y_pos--;
-      break;
-    case DOWN:
-      y_pos++;
-      break;
-    case LEFT:
-      x_pos--;
-      break;
-    case RIGHT:
-      x_pos++;
-      break;
-  }
+    // Update player position based on direction
+    switch (direction) 
+    {
+        case UP:
+            y_pos--;
+            break;
+        case DOWN:
+            y_pos++;
+            break;
+        case LEFT:
+            x_pos--;
+            break;
+        case RIGHT:
+            x_pos++;
+            break;
+    }
 
-  // Check if player hit a wall and reset position to center if true
-  if (x_pos == 0 || x_pos == width - 1 || y_pos == 0 || y_pos == height - 1) {
-    lives--;
-    x_pos = width / 2;
-    y_pos = height /2;
-  }
+    // Check if player hit a wall and reset position to center if true
+    if (x_pos == 0 || x_pos == width - 1 || y_pos == 0 || y_pos == height - 1) 
+    {
+        lives--;
+        x_pos = width / 2;
+        y_pos = height /2;
+    }
 
-  // Level 2 logic - Check if player hit a wall and reset position to center if true
-  if (x_pos == 0 || x_pos == level_2_width - 1 || y_pos == 0 || y_pos == level_2_height - 1) {
-    lives--;
-    x_pos = level_2_width / 2;
-    y_pos = level_2_height /2;
-  }
+    // Level 2 logic - Check if player hit a wall and reset position to center if true
+    if (x_pos == 0 || x_pos == level_2_width - 1 || y_pos == 0 || y_pos == level_2_height - 1) 
+    {
+        lives--;
+        x_pos = level_2_width / 2;
+        y_pos = level_2_height /2;
+    }
 
-  // Check if player has run out of lives and end the game if true
-  if (lives == 0) {
-    cout << "You died!" << endl;
-    menu();
-  }
+    // Check if player has run out of lives and end the game if true
+    if (lives == 0) 
+    {
+        cout << "You died!" << endl;
+        menu();
+    }
 
-  // Level 1 score - Check if player picked up money and update score and money location if true
-  if (x_pos == moneyx && y_pos == moneyy) {
-    score++;
-    money++;
-    moneyx = rand() % width-1;
-    moneyy = rand() % height-1;
-  }
+    // Level 1 score - Check if player picked up money and update score and money location if true
+    if (x_pos == moneyx && y_pos == moneyy) 
+    {
+        score++;
+        money++;
+        moneyx = rand() % width-1;
+        moneyy = rand() % height-1;
+    }
 
    // Level 2 score - Check if player picked up money and update score and money location if true
-  if (x_pos == moneyx && y_pos == moneyy) {
-    score++;
-    money++;
-    moneyx = rand() % level_2_width-1;
-    moneyy = rand() % level_2_height-1;
-  }
+    if (x_pos == moneyx && y_pos == moneyy) 
+    {
+        score++;
+        money++;
+        moneyx = rand() % level_2_width-1;
+        moneyy = rand() % level_2_height-1;
+    }
 
-  // Level 1 - win logic 
-  if (score >= 5) 
-  {
-  level = 2;
-  cout << "You win the level";
-   level_select_variable=1;
+    // Level 1 - win logic 
+    if (score >= 1) 
+    {
+    level = 2;
+    cout << "You win the level";
+    level_select_variable=1;
 
 
   
-  draw_level_2();
- 
-  
-  }
+    draw_level_2();
+    }
 
-   // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
-  if (score > 40) 
-  {
-  level = 3;
-  cout << "You win the level";
-  //draw_level_3();
-  level_select_variable=2;
+    // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
+    if (score > 40) 
+    {
+        level = 3;
+        cout << "You win the level";
+        //draw_level_3();
+        level_select_variable=2;
 
-  }
+    }
 
    // Level 3 - win logic - specific enemy dies
-  if (score > 80) 
-  {
-  level = 4;
-  cout << "You win the level";
-  //draw_level_4();
-  level_select_variable=3;
-  }
+    if (score > 80) 
+    {
+        level = 4;
+        cout << "You win the level";
+        //draw_level_4();
+        level_select_variable=3;
+    }
 
 
 
-  // Update enemy position randomly
-  int random_direction = rand() % 4; // choose a random direction (0 = up, 1 = down, 2 = left, 3 = right)
-  switch (random_direction) {
-    case 0:
-      if (level_1_enemy_object.level_1_enemy_y_pos > 1) {
-        level_1_enemy_object.level_1_enemy_y_pos--;
-      }
-      break;
-    case 1:
-      if (level_1_enemy_object.level_1_enemy_y_pos < height - 2) {
-        level_1_enemy_object.level_1_enemy_y_pos++;
-      }
-      break;
-    case 2:
-      if (level_1_enemy_object.level_1_enemy_x_pos > 1) {
-        level_1_enemy_object.level_1_enemy_x_pos--;
-      }
-      break;
-    case 3:
-      if (level_1_enemy_object.level_1_enemy_x_pos < width - 2) {
-        level_1_enemy_object.level_1_enemy_x_pos++;
-      }
-      break;
-  }
+    // Update enemy position randomly
+    int random_direction = rand() % 4; // choose a random direction (0 = up, 1 = down, 2 = left, 3 = right)
+    switch (random_direction) 
+    {
+        case 0:
+            if (level_1_enemy_object.level_1_enemy_y_pos > 1) 
+            {
+            level_1_enemy_object.level_1_enemy_y_pos--;
+            }
+            break;
+        case 1:
+            if (level_1_enemy_object.level_1_enemy_y_pos < height - 2) 
+            {
+            level_1_enemy_object.level_1_enemy_y_pos++;
+            }
+            break;
+        case 2:
+            if (level_1_enemy_object.level_1_enemy_x_pos > 1) 
+            {
+            level_1_enemy_object.level_1_enemy_x_pos--;
+            }
+            break;
+        case 3:
+            if (level_1_enemy_object.level_1_enemy_x_pos < width - 2) 
+            {
+            level_1_enemy_object.level_1_enemy_x_pos++;
+            }
+            break;
+    }
 
   // Check if enemy caught player and update lives if true
-  if (x_pos == level_1_enemy_object.level_1_enemy_x_pos && y_pos == level_1_enemy_object.level_1_enemy_y_pos) {
-    lives--;
-    x_pos = width / 2;
-    y_pos = height /2;
-  }
-
+  if (x_pos == level_1_enemy_object.level_1_enemy_x_pos && y_pos == level_1_enemy_object.level_1_enemy_y_pos) 
+    {
+        lives--;
+        x_pos = width / 2;
+        y_pos = height /2;
+    }
 }
 
 
