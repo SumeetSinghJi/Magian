@@ -1,3 +1,7 @@
 Known bugs
 
 1. Cannot set locale, therefore cannot cin <<, then cout >> unicode e.g. Jap, Chinese, in settings()
+
+2. Save game file getting too long with appends
+
+3. Save file match() function not working

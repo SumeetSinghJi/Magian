@@ -14,27 +14,15 @@ extern double version;
 extern fstream savefile_object;
 
 
-// Creates a savefile.txt and enters data on game version
-void create_savefile_function()
-{
-    savefile_object.open("magian_save.txt", ios::out); // write to file
-    if (savefile_object.is_open())
-    {
-        savefile_object << "Creating new save file for Magian.exe"<< endl;
-        savefile_object << "Version: "<< version << endl;
-        savefile_object << "Date: " << get_datetime_function()  << endl;
-        savefile_object << endl;
-        savefile_object.close();
-    }
-}
-
 // This function should be called in win condition
 void update_savefile_level()
 {
     savefile_object.open("magian_save.txt", ios::app); // append to file (don't overwite)
     if (savefile_object.is_open())
     {
-        savefile_object << "New entry: " << get_datetime_function()  << endl;
+        savefile_object << "Creating new save file for Magian.exe: " << get_datetime_function()  << endl;
+        savefile_object << "Version: "<< version << endl;
+        savefile_object << "Date: " << get_datetime_function()  << endl;
         savefile_object << "Level_select_variable=" << level_select_variable << endl;
         savefile_object.close();
     }
@@ -62,31 +50,31 @@ void match_savefile_level_function()
             // cout << savefile_contents_string_variable << endl;
             if (savefile_contents_string_variable == Level_one_match_variable)
             {
-                cout << "Access to levels 1" << endl;
+                cout << "Access to levels 1" << level_select_variable << endl;
                 match_found_bool = true;
                 level_select_variable=1;
             }
             else if (savefile_contents_string_variable == Level_two_match_variable)
             {
-                cout << "Access to levels 1, 2" << endl;
+                cout << "Access to levels 1, 2" << level_select_variable << endl;
                 match_found_bool = true;
                 level_select_variable=2;
             }
             else if (savefile_contents_string_variable == Level_three_match_variable)
             {
-                cout << "Access to levels 1, 2, 3" << endl;
+                cout << "Access to levels 1, 2, 3" << level_select_variable << endl;
                 match_found_bool = true;
                 level_select_variable=3;
             }
             else if (savefile_contents_string_variable == Level_four_match_variable)
             {
-                cout << "Access to levels 1, 2, 3, 4" << endl;
+                cout << "Access to levels 1, 2, 3, 4" << level_select_variable << endl;
                 match_found_bool = true;
                 level_select_variable=4;
             }
             else if (savefile_contents_string_variable == Level_five_match_variable)
             {
-                cout << "Access to levels 1, 2, 3, 4, 5" << endl;
+                cout << "Access to levels 1, 2, 3, 4, 5" << level_select_variable << endl;
                 match_found_bool = true;
                 level_select_variable=5;
             }    

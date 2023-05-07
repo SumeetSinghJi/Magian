@@ -7,6 +7,8 @@
 #include <string>
 // for save file read write
 #include <fstream>
+// for finding save game exists and delete option save_load_game()
+#include <filesystem>
 // including magian header for saving files functions
 #include "magian_save_game.h"
 using namespace std;
@@ -16,7 +18,6 @@ using namespace std;
 #ifdef HAVE_NCURSES_H
 #include <ncurses.h>
 #endif
-
 
 // Global classes
 // creating an enemy that damages player by removing 1 life
@@ -79,7 +80,6 @@ class magic_stop_time_class {
 Also include void to cast and add to key binding or possibly logic..
 */
 
-
 /* Global Objects */
 enemy_class_fire level_1_enemy_object;
 enemy_class_2_rakshasa level_2_enemy_object;
@@ -94,9 +94,6 @@ bool gameover = false;
 // level 1 width/height
 const int width = 20;
 const int height = 20;
-// level 2 width/height
-const int level_2_width = 60;
-const int level_2_height = 60;
 int moneyx, moneyy;
 int score = 0;
 int money = 0;
@@ -162,10 +159,6 @@ void setup() {
   level_1_enemy_object.level_1_enemy_y_pos = rand() % height;
   level_1_enemy_object.speed = 1;
 
-  // level 2 setup enemy
-  level_2_enemy_object.level_1_enemy_x_pos = rand() % level_2_width;
-  level_2_enemy_object.level_1_enemy_y_pos = rand() % level_2_height;
-  level_2_enemy_object.speed = 1;
 }
 // Level 1 draw logic
 void draw_level_1() {
@@ -230,105 +223,48 @@ void draw_level_1() {
     cout << endl;
   }
 }
-// Level 2 draw logic
-void draw_level_2() {
 
-  // Draw top wall  
-  for (int top_wall = 0; top_wall < level_2_width; top_wall++) {
-    buffer[0][top_wall] = '#';
-  }
-
-  // draw middle section
-  //loop through y axis 19 times down
-  for (int y = 1; y < level_2_height-1; y++) {
-    // loop through x axis 19 times across
-    for (int x = 0; x < level_2_width; x++) {
-      // draw side wall
-      if (x == 0 || x == level_2_width - 1) {
-        buffer[y][x] = '#';
-      }
-      //draw player
-      else if (x == x_pos && y == y_pos) {
-        buffer[y][x] = 'P';
-      }
-      //draw money
-      else if (x == moneyx && y == moneyy) {
-        buffer[y][x] = '$';
-      } 
-      //draw enemy
-      else if (x == level_1_enemy_object.level_1_enemy_x_pos && y == level_1_enemy_object.level_1_enemy_y_pos) {
-        buffer[y][x] = 'E';
-      }    
-      //draw blank if not wall or player
-      else {
-        buffer[y][x] = ' ';
-      }
-    }
-  }
-
-  // Draw bottom wall
-  for (int bottom_wall = 0; bottom_wall < level_2_width; bottom_wall++) {
-    buffer[level_2_height-1][bottom_wall] = '#';
-  }
-
-  // print the current score and lives beneath the array
-  string score_str = "Current Score: " + to_string(score);
-  string lives_str = "Current Lives: " + to_string(lives);
-  int score_pos = (level_2_width - score_str.length()) / 2;
-  int lives_pos = (level_2_width - lives_str.length()) / 2;
-  
-  for (int i = 0; i < score_str.length(); i++) {
-    buffer[level_2_height][score_pos+i] = score_str[i];
-  }
-  for (int i = 0; i < lives_str.length(); i++) {
-    buffer[level_2_height+1][lives_pos+i] = lives_str[i];
-  }
-
-  // clear the console and print the buffer
-  system("cls");
-  for (int y = 0; y < level_2_height+2; y++) {
-    for (int x = 0; x < level_2_width; x++) {
-      cout << buffer[y][x];
-    }
-    cout << endl;
-  }
+void draw_level_2()
+{
+    cout << "Test" << endl;
 }
-// Level 3 draw logic
-void draw_level_3() {
-
+void draw_level_3()
+{
+    cout << "Test" << endl;
 }
-// Level 4 draw logic
-void draw_level_4() {
-
+void draw_level_4()
+{
+    cout << "Test" << endl;
 }
-// Level 5 draw logic
-void draw_level_5() {
-
+void draw_level_5()
+{
+    cout << "Test" << endl;
 }
-// Level 6 draw logic
-void draw_level_6() {
-
+void draw_level_6()
+{
+    cout << "Test" << endl;
 }
-// Level 7 draw logic
-void draw_level_7() {
-
+void draw_level_7()
+{
+    cout << "Test" << endl;
 }
-// Level 8 draw logic
-void draw_level_8() {
-
+void draw_level_8()
+{
+    cout << "Test" << endl;
 }
-// Level 9 draw logic
-void draw_level_9() {
-
+void draw_level_9()
+{
+    cout << "Test" << endl;
 }
-// Level 10 draw logic
-void draw_level_10() {
-
+void draw_level_10()
+{
+    cout << "Test" << endl;
 }
-// Level 11 draw logic
-void draw_level_11() {
-
+void draw_level_11()
+{
+    cout << "Test" << endl;
 }
+
 // keyboard WSAD directional movement capture for logic() function
 void input() {
     if (_kbhit()) 
@@ -377,13 +313,7 @@ void logic() {
         y_pos = height /2;
     }
 
-    // Level 2 logic - Check if player hit a wall and reset position to center if true
-    if (x_pos == 0 || x_pos == level_2_width - 1 || y_pos == 0 || y_pos == level_2_height - 1) 
-    {
-        lives--;
-        x_pos = level_2_width / 2;
-        y_pos = level_2_height /2;
-    }
+    
 
     // Check if player has run out of lives and end the game if true
     if (lives == 0) 
@@ -401,14 +331,6 @@ void logic() {
         moneyy = rand() % height-1;
     }
 
-   // Level 2 score - Check if player picked up money and update score and money location if true
-    if (x_pos == moneyx && y_pos == moneyy) 
-    {
-        score++;
-        money++;
-        moneyx = rand() % level_2_width-1;
-        moneyy = rand() % level_2_height-1;
-    }
 
     // Level 1 - win logic 
     if (score >= 1) 
@@ -417,7 +339,7 @@ void logic() {
     cout << "You win the level";
     level_select_variable=2;
     update_savefile_level();
-    draw_level_2();
+    //draw_level_2();
     }
 
     // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
@@ -502,10 +424,11 @@ void welcome()
   "but dont fall off the path less you die! \n\n\n"
   "Main Menu \n"
   "1. Start Game\n"
-  "2. Help \n"
-  "3. Settings \n"
-  "4. Bonus - Level Select \n"
-  "5. Exit \n\n"
+  "2. Save | Load\n"
+  "3. Level select\n"
+  "4. Help \n"
+  "5. Settings \n"
+  "6. Exit \n\n"
   "Enter an option: " << endl;
 }
 // Bonus game mode - select any level unlocked from savefile.txt
@@ -688,9 +611,38 @@ void settings()
     settings();
     break;
   }
-
-  menu();
 }
+
+void save_load_game()
+{
+    cout << "Checking to see if any saves exist" << endl;
+    string filename = "magian_save.txt";
+    if(filesystem::exists(filename))
+    {
+        cout << "The file exists. Do you want to delete it? (y/n)";
+        char response;
+        cin >> response;
+        if(response=='y'||response=='Y')
+        {
+            filesystem::remove(filename);
+            cout << "Save game deleted" << endl;
+        }
+        else
+        {
+            cout << "Save game not deleted" << endl;
+        }
+    }
+    else
+    {
+        cout << "Save game doesn't exist." << endl;
+        menu();
+    }
+    
+
+}
+
+
+
 // Function for in game menu
 void menu() 
 {
@@ -704,17 +656,20 @@ void menu()
     startgame();
     break;
   case 2:
+    save_load_game();
+    break;
+  case 3:
+    level_select_function();
+    break;
+  case 4:
     help();
     menu();
     break;
-  case 3:
+  case 5:
     settings();
     menu();
     break;
-  case 4:
-    level_select_function();
-    break;
-  case 5:
+  case 6:
     cout << "Goodbye" << endl;
     exit(1);
     break;
@@ -723,7 +678,6 @@ void menu()
 // Int main
 int main() 
 {
-  create_savefile_function();
   menu();
   return 0;
 }

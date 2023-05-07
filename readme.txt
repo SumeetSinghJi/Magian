@@ -3,7 +3,10 @@ ________________________________________________________________________________
                                             How to play
 _________________________________________________________________________________________________
 
-Version: 0.1 (In development)
+Version: 0.1 (under development)
+
+A stable release version 1.0 is to be hopefully released publically on GitHub by 30th June 2023.
+A full graphical working copy can be expected by 2024.
 
 Magian. A game of mages from the school of Agni in Kashmir mountain basin.
 collect from scrolls, herbs, gold and items to build your player and advance through the level.
@@ -16,9 +19,14 @@ Rules
 * Money/Scrolls look like this $ or ₹ - If you find one you get a point
 * Enemies look like this E or क - If you touch them you lose a life
 * Walls look like this # - If you touch them you lose a life
-* To move use the keyboard buttons to walk 'W' = UP,'S' = Down,'A' = Left,'D' = RIGHT
+
 * Make it to the end of the levels. Each level has their own goals for example, collect 10 scrolls
 * or find the exit without getting killed.
+
+buttons
+To move use the keyboard buttons to walk 'W' = UP,'S' = Down,'A' = Left,'D' = RIGHT
+Q = quit game
+L = check logs for objective to win level for example collect 10 scrolls.
 
 _________________________________________________________________________________________________
 
