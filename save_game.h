@@ -80,7 +80,7 @@ void update_savefile_level()
 
 
 // This code is read in the bonus level select mode to see available levels
-void match_savefile_level_function() 
+void match_savefile_level() 
 {
     savefile_object.open("magian_save.txt", ios::in); //read file contents
     if(savefile_object.is_open())

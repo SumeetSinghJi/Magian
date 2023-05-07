@@ -12,6 +12,12 @@
 #include <filesystem>
 // including magian header for saving files functions
 #include "save_game.h"
+// settings header contains main menu settings options
+#include <settings.h>
+// main menu level select option is in own header
+#include <level_select.h>
+// check objectives skill
+#include <get_objective.h>
 using namespace std;
 
 // Global Macros
@@ -139,10 +145,8 @@ void clear_screen()
 }
 // Calling menu function before other void functions so they know it exists at compile time
 void menu();
-//key bindings to logic()
-void check_objective_function();
-void check_items_function();
-void check_skills_function();
+void check_items();
+void check_skills();
 // Function for setting up game before draw()
 void setup() 
 {
@@ -296,19 +300,19 @@ void input() {
             break;
         case 'i':
             cout << "INVENTORY" << endl;
-            check_items_function();
+            check_items();
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break;
         case 'l':
             cout << "OBJECTIVE" << endl;
-            check_objective_function();
+            check_objective();
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break;
         case 'x':
             cout << "SKILLS" << endl;
-            check_skills_function();
+            check_skills();
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break; 
@@ -451,32 +455,14 @@ void startgame()
 }
 
 
-void check_objective_function()
-{
-  if(level_select_variable==1) 
-  {
-    cout << "Collect 10 scrolls to return back to the Magian school to study." << endl;
-  }
-  if(level_select_variable==2) 
-  {
-    cout << "Your home is on fire. You should search for survivors." << endl;
-  }
-  if(level_select_variable==3) 
-  {
-    cout << "Shikaar 'the hunt' is on for revenge, find the culprit responsible and put an end to their lives" << endl;
-  }
-  if(level_select_variable==4) 
-  {
-    cout << "You were captured and taken aboard a foreign ship. You must escape!" << endl;
-  }
-}
 
-void check_items_function()
+
+void check_items()
 {
   cout << "COMING SOON" <<endl;
 }
 
-void check_skills_function()
+void check_skills()
 {
   cout << "COMING SOON" <<endl;
 }
@@ -497,125 +483,7 @@ void welcome()
   "6. Exit\n\n"
   "Enter an option: " << endl;
 }
-// Bonus game mode - select any level unlocked from savefile.txt
-void level_select_function()
-{
-  match_savefile_level_function();
-  
-  cout << "Choose any level you've unlocked \n"; 
 
-  // add a condition to show only levels that are below or equal to level_select
-  for (int i = 1; i <= level_select_variable; i++) {
-    switch (i) {
-      case 1:
-        cout << "1. Kashmir_Basin\n";
-        break;
-      case 2:
-        cout << "2. Agni_Mandir_ablaze\n";
-        break;
-      case 3:
-        cout << "3. Shikaar\n";
-        break;
-      case 4:
-        cout << "4. Seized_aboard\n";
-        break;
-      case 5:
-        cout << "5. Capsize\n";
-        break;
-      case 6:
-        cout << "6. Underwater_hell\n";
-        break;
-      case 7:
-        cout << "7. Final_spell\n";
-        break;
-      case 8:
-        cout << "8. Rakashaa_ghar\n";
-        break;
-      case 9:
-        cout << "9. नरक_Hell\n";
-        break;
-      case 10:
-        cout << "10. संसार_Samsara\n";
-        break;
-      case 11:
-        cout << "11. यम_Yama\n";
-        break;
-      default:
-        break;
-    }
-  }
-
-  // ask the user for their choice
-  int level_select_choice_variable;
-  cout << "Enter your choice (Press 0 to exit): ";
-  cin >> level_select_choice_variable;
-
-  // execute the selected option
-  switch (level_select_choice_variable)
-  {
-    case 0:
-      menu();
-      break;
-    case 1:
-      PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
-      setup();
-      lives = difficulty;
-      while (!gameover) 
-      {
-        draw_level_1();
-        input();
-        logic();
-        Sleep(150);
-      }
-      cout << "Game Over. Your final score is: " << score << endl;
-      cin.get();
-      break;
-    case 2:
-      PlaySoundW(L"sound//music//Shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
-      setup();
-      lives = difficulty;
-      while (!gameover) 
-      {
-        draw_level_2();
-        input();
-        logic();
-        Sleep(150);
-      }
-      cout << "Game Over. Your final score is: " << score << endl;
-      cin.get();
-      break;
-      break;
-    case 3:
-      draw_level_3();
-      break;
-    case 4:
-      draw_level_4();
-      break;
-    case 5:
-      draw_level_5();
-      break;
-    case 6:
-      draw_level_6();
-      break;
-    case 7:
-      draw_level_7();
-      break;
-    case 8:
-      draw_level_8();
-      break;
-    case 9:
-      draw_level_9();
-      break;
-    case 10:
-      draw_level_10();
-      break;
-    case 11:
-      draw_level_11();
-      break;
-    default:
-      break;
-  }
-}
 // Function for help on how to play game
 void help() 
 {
@@ -638,86 +506,6 @@ void help()
   "Make it to the end of the levels. Each has their own goals for example, collect 10 scrolls \n"
   "or find the exit without getting killed." << endl;
 }
-// Function for language setup in the future
-/*
-void language() 
-{
-  
-  cout << "choose your language \n\n"
-  "English \n"
-  "Japanese \n"
-  "Hindustani \n" << endl;
-  switch(language) 
-  {
-    case 1:
-      language=1;
-      break;
-    case 2:
-      language=2;
-      break;
-    case 3:
-      language=3;
-      break;
-    default 1:
-      cout << "Incorrect option." << endl;
-      return;
-  }
-  if(language == 1) 
-  {
-
-  }
-  else if(language ==2) 
-  {
-
-  }
-  else if(language==3)
-  {
-
-  }
-}
-*/
-// Function for changing in game settings
-void settings() 
-{
-  cout << "SETTINGS\n\n"
-  "DIFFICULTY\n"
-  "Choose a difficulty level\n"
-  "1. Hard - 1 Life \n"
-  "2. Medium - 2 Life \n"
-  "3. Easy - 3 Life \n\n"
-  "LANGUAGE\n"
-  "4. Change language\n\n"
-  "MAIN MENU\n"
-  "5. Exit back to Main menu \n\n"
-  "Enter an option: ";
-  cin >> difficulty;
-  switch (difficulty) {
-  case 1:
-    lives = 1;
-    break;
-  case 2:
-    lives = 2;
-    break;
-  case 3:
-    lives = 1;
-    break;
-  case 4:
-    cout << "CHANGE LANGUAGE coming soon" << endl;
-    break;
-  case 5:
-    menu();
-    return;
-  default:
-    cout << "Incorrect choice, try again." << endl;
-    settings();
-    break;
-  }
-}
-
-
-
-
-
 // Function for in game menu
 void menu() 
 {
@@ -734,7 +522,7 @@ void menu()
     save_load_game();
     break;
   case 3:
-    level_select_function();
+    level_select();
     break;
   case 4:
     help();
