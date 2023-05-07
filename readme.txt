@@ -1,21 +1,32 @@
 _________________________________________________________________________________________________
 
-                                        How to play
+                                        
+                                        MAGIAN
+
 _________________________________________________________________________________________________
 
-Version: 0.1 (under development)
-
-A stable release version 1.0 is to be hopefully released publically on GitHub by 30th June 2023.
-A full graphical working copy can be expected by 2024.
 
 Magian. A game of mages from the school of Agni in Kashmir mountain basin.
 collect from scrolls, herbs, gold and items to build your player and advance through the level.
 
-This game was written by Sumeet Singh, www.sumeet-singh.com
-The build version for this software is: 0.1 (Under development).
+This is an free c++ game hosted on GitHub free to download and play
+https://github.com/SumeetSinghJi/Magian
+
+For support talk to the author: Sumeet Singh
+Author email: kurta.kursi@gmail.com
+Author can be reached through their personal website: www.sumeet-singh.com
+
+A stable release version 1.0 is to be hopefully released publically on GitHub by 30th June 2023.
+
+A full graphical working copy can be expected by 2024.
 
 
-                                            RULES
+_________________________________________________________________________________________________ 
+
+
+                                        OBJECTIVES
+
+_________________________________________________________________________________________________   
 
 
 * This character represents you P or स - This is you, stay safe and collect objectives.
@@ -26,8 +37,12 @@ The build version for this software is: 0.1 (Under development).
 * Make it to the end of the levels. Each level has their own goals for example, collect 10 scrolls
 * or find the exit without getting killed.
 
+_________________________________________________________________________________________________ 
+
 
                                             BUTTONS
+
+_________________________________________________________________________________________________                                            
 
 
 To move use the keyboard buttons to walk 'W' = UP,'S' = Down,'A' = Left,'D' = RIGHT
@@ -39,22 +54,58 @@ X = Check and use skills you gained.
 _________________________________________________________________________________________________
 
 
-                                            Rules
+                                            CONTENT
 
 _________________________________________________________________________________________________
 
 
-* enemy table
-* Damage table
-* item table
-* price table
-* skill table
+ENEMIES
+(LEVEL | NAME | DAMAGE | HEALTH | SPEED | DROPS)
+Level 1 | 
+Level 2 | 
+Level 3 | 
+Level 4 | 
+Level 5 | 
+Level 6 | 
+Level 7 | 
+Level 8 | 
+Level 9 |
+Level 10 | 
+Level 11 | 
+
+ITEMS
+(LEVEL | NAME | MODIFIERS)
+Level 1 | 
+Level 2 | 
+Level 3 | 
+Level 4 | 
+Level 5 | 
+Level 6 | 
+Level 7 | 
+Level 8 | 
+Level 9 |
+Level 10 | 
+Level 11 | 
+
+SKILLS
+(LEVEL | NAME | MODIFIERS)
+Level 1 | 
+Level 2 | 
+Level 3 | 
+Level 4 | 
+Level 5 | 
+Level 6 | 
+Level 7 | 
+Level 8 | 
+Level 9 |
+Level 10 | 
+Level 11 | 
 
 
 _________________________________________________________________________________________________
 
 
-                                            Contents
+                                            FILES
 
 _________________________________________________________________________________________________
 
@@ -152,10 +203,24 @@ Money
 Win logic
 * collect enough money ($) to win
 
+SKILLS
+                                            COMING SOON
+
+INVENTORY
+                                            COMING SOON
+
+Save Load
+* header magian_save_game.h called in source code magian.cpp main menu case
+to create save game file magian_save.txt 
+
+Level select
+* level select variable updated after every win and written to magian_save.txt file
+* level select option reads level_select_variable from file above
+
 
 _________________________________________________________________________________________________
 
-                                            Graphics
+                                        Graphics
 _________________________________________________________________________________________________
 
 
@@ -179,39 +244,27 @@ Jungle Alien Ambient Mastered by Szegvari x Amen Break by JapanYoshiTheGamer @ p
 From: Okinawa folk dance x fire sfx x long wind sfx @ pixabay.com
 3. Cyber Attack
 From: JuliusH on pixabay.com
-4. COMMING SOON
-5. COMMING SOON
-6. COMMING SOON
-7. COMMING SOON
-8. COMMING SOON
-9. COMMING SOON
-10. COMMING SOON
-11. COMMING SOON
-_________________________________________________________________________________________________
-
-                                            Further support
-_________________________________________________________________________________________________
-
-This is an free c++ game hosted on GitHub free to download and play
- https://github.com/SumeetSinghJi/Magian
-
-For support talk to the author: Sumeet Singh
-Author email: kurta.kursi@gmail.com
-Author can be reached through their personal website: www.sumeet-singh.com
+4. COMING SOON
+5. COMING SOON
+6. COMING SOON
+7. COMING SOON
+8. COMING SOON
+9. COMING SOON
+10. COMING SOON
+11. COMING SOON
 
 
 _________________________________________________________________________________________________
 
 
-                                            About us
-                                     Credits & Attributions
+                                            Credits
 
 _________________________________________________________________________________________________
 
 
-                                     Game developer 👨‍💻- Sumeet Singh 
-                                          Tester 📜- You 
+                                Game developer 👨🏿‍💻- Sumeet Singh 
+                                       Playtester 📜- You 
 
-                                            Graphics
+                                           Graphics
 
                             Icon - flame.ico taken from https://icons8.com

@@ -1,22 +1,24 @@
 Roadmap
 
-1. Change language option
+1 
+Change language option
 
-1.3 stop save file from overload txt/bytes with limit
+2
+More levels
 
-2. More levels
+3
+Mor enemies and AI.
+Chasing enemy AI
+Fast AI enemy
 
-3. Chasing enemy AI and slow
-bosses
-captain
-grunt
-elements
+4
+Obstacles e.g. fire, sea, trees
 
-
-3.5
+5
 Elemental damage and resistence
 
-4. Items
+6
+Items
 * blood drop (HP potion) with rand() drop after killing enemy
 price = 10
 * Money drop
@@ -26,14 +28,14 @@ price = 20
 * ressurection scroll
 price = 100
 
-5. In-game shop
+7
+In-game shop
 * use money to buy items or sell items
 
-
-5.5
+8
 Spells
 
-6. Magic
+9
 * ultimate spell with x score = xp can skip levels
 * kill all enemies on map
 * charm all enemies
@@ -41,17 +43,23 @@ Spells
 * fire shield surrounding you that kills all enemies it touches
 * Summon angel - fights for you and tracks enemies a.i.
 
-7. High score table local and online
+10
+High score table local and online
 
-8. Graphics - SDL
-* Include 
+11 
+Graphics - SDL
 
-9. Sound effects
 
-10. Add different game modes, tutorial, survival, timed mode
+12 
+Sound effects
 
-11. Multiplayer
+13 
+Multiplayer
 
-12. Login to website and register account for more
+14 
+Login to website and register account for more
 
-13. GET from official website or GitHub repo advising of company news.
+15 
+GET from official website or GitHub repo advising of company news.
+
+16 Multiple OS releases with cmake
