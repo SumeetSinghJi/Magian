@@ -2,10 +2,10 @@
 #ifndef GET_SKILLS_H
 #define GET_SKILLS_H
 #include <iostream>
-
+using namespace std;
 void check_skills()
 {
-    std::cout << "COMING SOON" << std::endl;
+    cout << "COMING SOON" << endl;
 }
 
 #endif
