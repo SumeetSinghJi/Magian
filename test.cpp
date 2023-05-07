@@ -349,7 +349,7 @@ void logic() {
     }
 
     // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
-    if (score >= 2) 
+    if (score >= 10) 
     {
     level = 3;
     cout << "You win the level";
@@ -359,7 +359,7 @@ void logic() {
     }
 
    // Level 3 - win logic - specific enemy dies
-    if (score >= 3) 
+    if (score >= 20) 
     {
       level = 4;
       cout << "You win the level";
@@ -640,6 +640,7 @@ void save_load_game()
         else
         {
             cout << "Save game not deleted" << endl;
+            menu();
         }
     }
     else

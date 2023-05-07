@@ -283,6 +283,12 @@ void input() {
         case 'd':
             direction = RIGHT;
             break;
+        case 'l':
+            cout << "Your objective is: " << endl;
+            break;
+        case 'q':
+            exit(0);
+            break;
         }
     }
 }
@@ -343,7 +349,7 @@ void logic() {
     }
 
     // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
-    if (score >= 2) 
+    if (score >= 10) 
     {
     level = 3;
     cout << "You win the level";
@@ -353,7 +359,7 @@ void logic() {
     }
 
    // Level 3 - win logic - specific enemy dies
-    if (score >= 3) 
+    if (score >= 20) 
     {
       level = 4;
       cout << "You win the level";
@@ -533,10 +539,14 @@ void help()
 
   cout << "HOW TO PLAY\n\n"
   "This character represents you स - This is you, stay safe and collect objectives.\n"
-  "To move use the keyboard buttons to walk 'W' = UP,'S' = Down,'A' = Left,'D' = RIGHT \n"
+  
   "Scrolls look like this ₹ - If you find one you get a point \n"
   "Enemies look like this क - If you touch them you lose a life \n"
   "Walls look like this # - If you touch them you lose a life \n"
+  "BUTTONS"
+  "To move use the keyboard buttons to walk 'W' = UP,'S' = Down,'A' = Left,'D' = RIGHT \n"
+  "Q = quit game"
+  "L = check logs for objective to win level for example collect 10 scrolls."
   "OBJECTIVE. \n\n"
   "Make it to the end of the levels. Each has their own goals for example, collect 10 scrolls \n"
   "or find the exit without getting killed." << endl;
@@ -630,6 +640,7 @@ void save_load_game()
         else
         {
             cout << "Save game not deleted" << endl;
+            menu();
         }
     }
     else

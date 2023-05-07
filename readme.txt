@@ -57,13 +57,16 @@ problems known as bugs or to add changes to the software.
 
 The files included in the game are below
 
-.vscode (folder) - contains the configuration files for editing the repo in VScode with minggw c++
-sound (folder) - containts music
+* .vscode (folder) - contains the configuration files for editing the repo in VScode with minggw c++
+* sound (folder) - contains music
 * magian.cpp - the main games source code.
 * magian.exe - main game binary executable. Open or run this to play game.
 * test.cpp - For testing.
 * test.cpp - For testing.
 * readme.txt - the file you are reading right now is the readme.txt file it's a guide on playing.
+* magian_save.txt - the save file
+* known_bugs.txt - To eventually host online
+* roadmap.txt - To eventually host online
 
 
 _________________________________________________________________________________________________
