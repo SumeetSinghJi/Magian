@@ -1,6 +1,0 @@
-Known bugs
-
-1. Fatal flaw in code - When selecting a new level e.g. Level 2, how does the game know to input(), logic()?
-it has something to do with while (!gameover) {...}. how can I fix this professionally.
-
-2. Cannot set locale, therefore cannot cin <<, then cout >> unicode e.g. Jap, Chinese, in settings()
