@@ -7,7 +7,7 @@ Change language option
 More levels
 
 3
-Mor enemies and AI.
+More enemies and AI.
 Chasing enemy AI
 Fast AI enemy
 

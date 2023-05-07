@@ -556,7 +556,7 @@ void level_select_function()
       menu();
       break;
     case 1:
-      PlaySoundW(L"sound//intro.wav", NULL, SND_FILENAME | SND_ASYNC);
+      PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
       setup();
       lives = difficulty;
       while (!gameover) 
@@ -570,7 +570,7 @@ void level_select_function()
       cin.get();
       break;
     case 2:
-      //PlaySoundW(L"sound//intro.wav", NULL, SND_FILENAME | SND_ASYNC);
+      PlaySoundW(L"sound//music//Shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
       setup();
       lives = difficulty;
       while (!gameover) 
@@ -619,7 +619,7 @@ void level_select_function()
 void help() 
 {
   cout << "MAGIAN.\n\nA game of mages from the school of Agni in Kashmir mountain basin. \n"
-  "collect from scrolls, herbs, gold and items to build your player and advance through the level.\n" << endl;
+  "collect from scrolls, herbs, gold and items to build your player\n and advance through the level.\n\n" << endl;
   cout << "The build version for this software is: " << version << endl;
 
   cout << "\n\nHOW TO PLAY\n\n"
@@ -716,13 +716,13 @@ void settings()
 // Function for in game menu
 void menu() 
 {
-  PlaySoundW(L"sound//shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
+  PlaySoundW(L"sound//music//Cyber_Attack_by_JuliusH.wav", NULL, SND_FILENAME | SND_ASYNC);
   welcome();
   cin >> menu_variable;
   switch (menu_variable) 
   {
   case 1:
-  PlaySoundW(L"sound//intro.wav", NULL, SND_FILENAME | SND_ASYNC);
+  PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
     startgame();
     break;
   case 2:
