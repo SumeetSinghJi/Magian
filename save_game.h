@@ -1,11 +1,11 @@
-#ifndef MAGIAN_SAVE_GAME_H
-#define MAGIAN_SAVE_GAME_H
+#ifndef SAVE_GAME_H
+#define SAVE_GAME_H
 
 #include <fstream>
 #include <string>
 #include <iostream>
 // custom magian header for getting the date and time
-#include "get_datetime_function_header.h"
+#include "get_datetime.h"
 
 using namespace std;
 
@@ -36,9 +36,9 @@ void update_savefile_level()
                 savefile_object.open("magian_save.txt", ios::out);
                 if (savefile_object.is_open())
                 {
-                    savefile_object << "Creating new save file for Magian.exe: " << get_datetime_function()  << endl;
+                    savefile_object << "Creating new save file for Magian.exe: " << get_datetime()  << endl;
                     savefile_object << "Version: "<< version << endl;
-                    savefile_object << "Date: " << get_datetime_function()  << endl;
+                    savefile_object << "Date: " << get_datetime()  << endl;
                     savefile_object << level_select_variable_match << level_select_variable << endl;
                     savefile_object.close();
                     match_found = true;
@@ -64,9 +64,9 @@ void update_savefile_level()
     savefile_object.open("magian_save.txt", ios::app);
     if (savefile_object.is_open())
     {
-        savefile_object << "Creating new save file for Magian.exe: " << get_datetime_function()  << endl;
+        savefile_object << "Creating new save file for Magian.exe: " << get_datetime()  << endl;
         savefile_object << "Version: "<< version << endl;
-        savefile_object << "Date: " << get_datetime_function()  << endl;
+        savefile_object << "Date: " << get_datetime()  << endl;
         savefile_object << "Level_select_variable=" << level_select_variable << endl;
         savefile_object.close();
     }

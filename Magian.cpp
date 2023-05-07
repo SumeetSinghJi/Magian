@@ -1,6 +1,7 @@
 #include <iostream>
-// for random function
+// for seed random srand() function
 #include <ctime>
+// for input() ky presses  _kbhit 
 #include <conio.h>
 #include <windows.h>
 #include <unistd.h>
@@ -10,7 +11,7 @@
 // for finding save game exists and delete option save_load_game()
 #include <filesystem>
 // including magian header for saving files functions
-#include "magian_save_game.h"
+#include "save_game.h"
 using namespace std;
 
 // Global Macros
@@ -310,7 +311,7 @@ void input() {
             check_skills_function();
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
-            break;
+            break; 
         case 'q':
             exit(0);
             break;
@@ -462,7 +463,7 @@ void check_objective_function()
   }
   if(level_select_variable==3) 
   {
-    cout << "Shikaaa 'the hunt' is on for revenge, find the culprit responsible and put an end to their lives" << endl;
+    cout << "Shikaar 'the hunt' is on for revenge, find the culprit responsible and put an end to their lives" << endl;
   }
   if(level_select_variable==4) 
   {
@@ -472,12 +473,12 @@ void check_objective_function()
 
 void check_items_function()
 {
-  cout << "COMMING SOON" <<endl;
+  cout << "COMING SOON" <<endl;
 }
 
 void check_skills_function()
 {
-  cout << "COMMING SOON" <<endl;
+  cout << "COMING SOON" <<endl;
 }
 
 // Function for greeting Title page
@@ -487,13 +488,13 @@ void welcome()
   "A game of mages from the school of Agni in Kashmir mountain basin. \n"
   "Collect from scrolls, herbs, gold and items to build your player and advance through the level. \n"
   "but dont fall off the path less you die! \n\n\n"
-  "Main Menu \n"
+  "MAIN MENU\n"
   "1. Start Game\n"
   "2. Save & Load\n"
   "3. Level select\n"
-  "4. Help \n"
-  "5. Settings \n"
-  "6. Exit \n\n"
+  "4. Help\n"
+  "5. Settings\n"
+  "6. Exit\n\n"
   "Enter an option: " << endl;
 }
 // Bonus game mode - select any level unlocked from savefile.txt
@@ -546,7 +547,7 @@ void level_select_function()
 
   // ask the user for their choice
   int level_select_choice_variable;
-  cout << "Enter your choice (or 0 to go back to the main menu): ";
+  cout << "Enter your choice (Press 0 to exit): ";
   cin >> level_select_choice_variable;
 
   // execute the selected option
@@ -678,12 +679,16 @@ void language()
 // Function for changing in game settings
 void settings() 
 {
-  cout << "Choose a difficulty level \n"
+  cout << "SETTINGS\n\n"
+  "DIFFICULTY\n"
+  "Choose a difficulty level\n"
   "1. Hard - 1 Life \n"
   "2. Medium - 2 Life \n"
-  "3. Easy - 3 Life \n\n\n\n\n"
-  "4. Change language"
-  "5. Exit back to Main menu \n"
+  "3. Easy - 3 Life \n\n"
+  "LANGUAGE\n"
+  "4. Change language\n\n"
+  "MAIN MENU\n"
+  "5. Exit back to Main menu \n\n"
   "Enter an option: ";
   cin >> difficulty;
   switch (difficulty) {
@@ -697,7 +702,7 @@ void settings()
     lives = 1;
     break;
   case 4:
-    cout << "Feature coming soon" << endl;
+    cout << "CHANGE LANGUAGE coming soon" << endl;
     break;
   case 5:
     menu();

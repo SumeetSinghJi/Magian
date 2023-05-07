@@ -1,9 +1,9 @@
-#ifndef GET_DATETIME_FUNCTION_HEADER_H
-#define GET_DATETIME_FUNCTION_HEADER_H
+#ifndef GET_DATETIME_H
+#define GET_DATETIME_H
 
 #include <string> // Add this line to include the string type
 
-std::string get_datetime_function() 
+std::string get_datetime() 
 {
   time_t now = time(0);
   tm* ltm = localtime(&now);
