@@ -556,7 +556,17 @@ void level_select_function()
       menu();
       break;
     case 1:
-      draw_level_1();
+      setup();
+      lives = difficulty;
+      while (!gameover) 
+      {
+        draw_level_1();
+        input();
+        logic();
+        Sleep(150);
+      }
+      cout << "Game Over. Your final score is: " << score << endl;
+      cin.get();
       break;
     case 2:
       draw_level_2();

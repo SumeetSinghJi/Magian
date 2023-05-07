@@ -3,7 +3,6 @@ Known bugs
 1. Fatal flaw in code - When selecting a new level e.g. Level 2, how does the game know to input(), logic()?
 it has something to do with while (!gameover) {...}. how can I fix this professionally.
 
-2. Cannot set locale, therefore cannot cin <<, then cout >> unicode e.g. Jap, Chinese, in settings()
+1.1. Level select option plays theme music not music for level
 
-3. Save game file getting too long with appends, need to edit code that if level variable = level 2 unlocked in save
-then dont overwrite before save logic in win logic.
+2. Cannot set locale, therefore cannot cin <<, then cout >> unicode e.g. Jap, Chinese, in settings()

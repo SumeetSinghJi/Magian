@@ -69,7 +69,7 @@ The files included in the game are below
 * sound (folder) - contains music
 * magian.cpp - the main games source code.
 * magian.exe - main game binary executable. Open or run this to play game.
-* test.cpp - For testing.
+* test.cpp - For testing source code before replacing.
 * test.cpp - For testing.
 * readme.txt - the file you are reading right now is the readme.txt file it's a guide on playing.
 * magian_save.txt - the save file

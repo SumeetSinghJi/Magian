@@ -1,24 +1,2 @@
-Creating new save file for Magian.exe: 7/5/2023
-Version: 0.1
-Date: 7/5/2023
-Level_select_variable=2
-Creating new save file for Magian.exe: 7/5/2023
-Version: 0.1
-Date: 7/5/2023
-Level_select_variable=2
-Creating new save file for Magian.exe: 7/5/2023
-Version: 0.1
-Date: 7/5/2023
-Level_select_variable=2
-Creating new save file for Magian.exe: 7/5/2023
-Version: 0.1
-Date: 7/5/2023
-Level_select_variable=2
-Creating new save file for Magian.exe: 7/5/2023
-Version: 0.1
-Date: 7/5/2023
-Level_select_variable=2
-Creating new save file for Magian.exe: 7/5/2023
-Version: 0.1
-Date: 7/5/2023
+
 Level_select_variable=2
