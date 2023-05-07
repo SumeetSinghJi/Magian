@@ -556,6 +556,7 @@ void level_select_function()
       menu();
       break;
     case 1:
+      PlaySoundW(L"sound//intro.wav", NULL, SND_FILENAME | SND_ASYNC);
       setup();
       lives = difficulty;
       while (!gameover) 
@@ -569,7 +570,19 @@ void level_select_function()
       cin.get();
       break;
     case 2:
-      draw_level_2();
+      //PlaySoundW(L"sound//intro.wav", NULL, SND_FILENAME | SND_ASYNC);
+      setup();
+      lives = difficulty;
+      while (!gameover) 
+      {
+        draw_level_2();
+        input();
+        logic();
+        Sleep(150);
+      }
+      cout << "Game Over. Your final score is: " << score << endl;
+      cin.get();
+      break;
       break;
     case 3:
       draw_level_3();
@@ -696,35 +709,7 @@ void settings()
   }
 }
 
-void save_load_game()
-{
-    cout << "Checking to see if any saves exist" << endl;
-    string filename = "magian_save.txt";
-    if(filesystem::exists(filename))
-    {
-        cout << "The file exists. Do you want to delete it? (y/n)";
-        char response;
-        cin >> response;
-        if(response=='y'||response=='Y')
-        {
-            filesystem::remove(filename);
-            cout << "Save game deleted" << endl;
-            menu();
-        }
-        else
-        {
-            cout << "Save game not deleted" << endl;
-            menu();
-        }
-    }
-    else
-    {
-        cout << "Save game doesn't exist." << endl;
-        menu();
-    }
-    
 
-}
 
 
 

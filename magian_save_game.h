@@ -13,11 +13,55 @@ extern int level_select_variable;
 extern double version;
 extern fstream savefile_object;
 
+//added function declaration for void menu(); for the save load function  
+void menu();
 
 // This function should be called in win condition
 void update_savefile_level()
 {
-    savefile_object.open("magian_save.txt", ios::app); // append to file (don't overwite)
+    // open file to read the contents first
+    savefile_object.open("magian_save.txt", ios::in);
+    if (savefile_object.is_open())
+    {
+        string line;
+        string level_select_variable_match = "Level_select_variable=";
+        bool match_found = false;
+
+        while (getline(savefile_object, line))
+        {
+            if (line.find(level_select_variable_match) != string::npos)
+            {
+                // level_select_variable already exists in the save file, overwrite it
+                savefile_object.close();
+                savefile_object.open("magian_save.txt", ios::out);
+                if (savefile_object.is_open())
+                {
+                    savefile_object << "Creating new save file for Magian.exe: " << get_datetime_function()  << endl;
+                    savefile_object << "Version: "<< version << endl;
+                    savefile_object << "Date: " << get_datetime_function()  << endl;
+                    savefile_object << level_select_variable_match << level_select_variable << endl;
+                    savefile_object.close();
+                    match_found = true;
+                    break;
+                }
+                else
+                {
+                    cerr << "Error: failed to overwrite save file!" << endl;
+                    return;
+                }
+            }
+        }
+        savefile_object.close();
+
+        if (match_found)
+        {
+            // level_select_variable was found and overwritten, return
+            return;
+        }
+    }
+
+    // level_select_variable was not found in the save file, append it
+    savefile_object.open("magian_save.txt", ios::app);
     if (savefile_object.is_open())
     {
         savefile_object << "Creating new save file for Magian.exe: " << get_datetime_function()  << endl;
@@ -26,7 +70,13 @@ void update_savefile_level()
         savefile_object << "Level_select_variable=" << level_select_variable << endl;
         savefile_object.close();
     }
+    else
+    {
+        cerr << "Error: failed to create save file!" << endl;
+        return;
+    }
 }
+
 
 
 // This code is read in the bonus level select mode to see available levels
@@ -83,5 +133,34 @@ void match_savefile_level_function()
     savefile_object.close();
 }
 
+
+// Function for finding save files and deleting
+void save_load_game()
+{
+    cout << "Checking to see if any saves exist" << endl;
+    string filename = "magian_save.txt";
+    if(filesystem::exists(filename))
+    {
+        cout << "Save file exists.\n\n" << filename << "\n\nDo you want to delete it? (y/n)";
+        char response;
+        cin >> response;
+        if(response=='y'||response=='Y')
+        {
+            filesystem::remove(filename);
+            cout << "Save game deleted" << endl;
+            menu();
+        }
+        else
+        {
+            cout << "Save game not deleted" << endl;
+            menu();
+        }
+    }
+    else
+    {
+        cout << "Save game doesn't exist." << endl;
+        menu();
+    }
+}
 
 #endif
