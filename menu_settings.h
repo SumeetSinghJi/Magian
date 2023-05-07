@@ -1,5 +1,5 @@
-#ifndef GET_SETTINGS_H
-#define GET_SETTINGS_H
+#ifndef MENU_SETTINGS_H
+#define MENU_SETTINGS_H
 
 extern int lives;
 extern int difficulty;

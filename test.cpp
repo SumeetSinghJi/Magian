@@ -13,7 +13,7 @@
 // including magian header for saving files functions
 #include "save_game.h"
 // settings header contains main menu settings options
-#include <get_settings.h>
+#include <menu_settings.h>
 // main menu level select option is in own header
 #include <level_select.h>
 // check objectives skill
@@ -322,6 +322,8 @@ void input() {
         }
     }
 }
+
+
 // recieves keyboard input from input() and dictates logic
 void logic() {
     // Update player position based on direction
