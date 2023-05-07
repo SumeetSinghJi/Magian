@@ -226,11 +226,15 @@ void draw_level_1() {
 
 void draw_level_2()
 {
-    cout << "Test" << endl;
+    score=0;
+    cout << "Level 2 coming soon" << endl;
+    menu();
 }
 void draw_level_3()
 {
-    cout << "Test" << endl;
+    score=0;
+    cout << "Level 3 coming soon" << endl;
+    menu();
 }
 void draw_level_4()
 {
@@ -345,7 +349,7 @@ void logic() {
     cout << "You win the level";
     level_select_variable=2;
     update_savefile_level();
-    //draw_level_2();
+    draw_level_2();
     }
 
     // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
@@ -430,7 +434,7 @@ void welcome()
   "but dont fall off the path less you die! \n\n\n"
   "Main Menu \n"
   "1. Start Game\n"
-  "2. Save | Load\n"
+  "2. Save & Load\n"
   "3. Level select\n"
   "4. Help \n"
   "5. Settings \n"
@@ -487,12 +491,15 @@ void level_select_function()
 
   // ask the user for their choice
   int level_select_choice_variable;
-  cout << "Enter your choice: ";
+  cout << "Enter your choice (or 0 to go back to the main menu): ";
   cin >> level_select_choice_variable;
 
-  // execute the selected level
+  // execute the selected option
   switch (level_select_choice_variable)
   {
+    case 0:
+      menu();
+      break;
     case 1:
       draw_level_1();
       break;
@@ -636,6 +643,7 @@ void save_load_game()
         {
             filesystem::remove(filename);
             cout << "Save game deleted" << endl;
+            menu();
         }
         else
         {
