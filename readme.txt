@@ -151,6 +151,11 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________
 
 
+
+Icon - flame.ico taken from https://icons8.com
+
+
+
 _________________________________________________________________________________________________
 
                                             Music
@@ -185,3 +190,21 @@ This is an free c++ game hosted on GitHub free to download and play
 For support talk to the author: Sumeet Singh
 Author email: kurta.kursi@gmail.com
 Author can be reached through their personal website: www.sumeet-singh.com
+
+
+_________________________________________________________________________________________________
+
+
+                                            About us
+                                     Credits & Attributions
+
+_________________________________________________________________________________________________
+
+
+                                     Game developer 👨‍💻- Sumeet Singh 
+                                          Tester 📜- You 
+
+
+                                            Graphics
+
+                            Icon - flame.ico taken from https://icons8.com
