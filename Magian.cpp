@@ -13,7 +13,7 @@
 // including magian header for saving files functions
 #include "save_game.h"
 // settings header contains main menu settings options
-#include <settings.h>
+#include <get_settings.h>
 // main menu level select option is in own header
 #include <level_select.h>
 // check objectives skill
@@ -472,7 +472,7 @@ void welcome()
 {
   cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~    MAGIAN    ~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n" 
   "A game of mages from the school of Agni in Kashmir mountain basin. \n"
-  "Collect from scrolls, herbs, gold and items to build your player and advance through the level. \n"
+  "Collect from scrolls, herbs, gold and items to build your player\nand advance through the level. \n"
   "but dont fall off the path less you die! \n\n\n"
   "MAIN MENU\n"
   "1. Start Game\n"
@@ -488,7 +488,7 @@ void welcome()
 void help() 
 {
   cout << "MAGIAN.\n\nA game of mages from the school of Agni in Kashmir mountain basin. \n"
-  "collect from scrolls, herbs, gold and items to build your player\n and advance through the level.\n\n" << endl;
+  "collect from scrolls, herbs, gold and items to build your player\nand advance through the level.\n\n" << endl;
   cout << "The build version for this software is: " << version << endl;
 
   cout << "\n\nHOW TO PLAY\n\n"
@@ -529,7 +529,7 @@ void menu()
     menu();
     break;
   case 5:
-    settings();
+    change_settings();
     menu();
     break;
   case 6:

@@ -1,5 +1,5 @@
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#ifndef GET_SETTINGS_H
+#define GET_SETTINGS_H
 
 extern int lives;
 extern int difficulty;
@@ -10,7 +10,7 @@ void change_language();
 
 
 // Function for changing in game settings
-void settings() 
+void change_settings() 
 {
   cout << "SETTINGS\n\n"
   "DIFFICULTY\n"
@@ -42,7 +42,7 @@ void settings()
     return;
   default:
     cout << "Incorrect choice, try again." << endl;
-    settings();
+    change_settings();
     break;
   }
 }
