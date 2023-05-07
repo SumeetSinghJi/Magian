@@ -96,7 +96,7 @@ fstream savefile_object;
 HANDLE handle_object = GetStdHandle(STD_OUTPUT_HANDLE);
 
 /* Global Variables */
-double version = 0.1;
+double version = 0.2;
 bool gameover = false;
 // level 1 width/height
 const int width = 20;
