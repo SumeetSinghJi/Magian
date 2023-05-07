@@ -1,6 +1,6 @@
 _________________________________________________________________________________________________
 
-                                            How to play
+                                        How to play
 _________________________________________________________________________________________________
 
 Version: 0.1 (under development)
@@ -12,9 +12,12 @@ Magian. A game of mages from the school of Agni in Kashmir mountain basin.
 collect from scrolls, herbs, gold and items to build your player and advance through the level.
 
 This game was written by Sumeet Singh, www.sumeet-singh.com
-The build version for this software is: 0.1 (Test version) 5th of May 2023.
+The build version for this software is: 0.1 (Under development).
 
-Rules
+
+                                            RULES
+
+
 * This character represents you P or स - This is you, stay safe and collect objectives.
 * Money/Scrolls look like this $ or ₹ - If you find one you get a point
 * Enemies look like this E or क - If you touch them you lose a life
@@ -23,10 +26,15 @@ Rules
 * Make it to the end of the levels. Each level has their own goals for example, collect 10 scrolls
 * or find the exit without getting killed.
 
-buttons
+
+                                            BUTTONS
+
+
 To move use the keyboard buttons to walk 'W' = UP,'S' = Down,'A' = Left,'D' = RIGHT
 Q = quit game
-L = check logs for objective to win level for example collect 10 scrolls.
+L = Check level objective to see goals to complete level. for example collect 10 scrolls.
+I = Check inventory and use items you found.
+X = Check and use skills you gained.
 
 _________________________________________________________________________________________________
 
@@ -166,19 +174,19 @@ we thank the website developers greatly for their product.
 
 Song list
 1. Intro - Magian Avatar
-Jungle Alien Ambient Mastered by szegvari x Amen Break by JapanYoshiTheGamer @ pixabay.com
+Jungle Alien Ambient Mastered by Szegvari x Amen Break by JapanYoshiTheGamer @ pixabay.com
 2. Shima-uta seige
 From: Okinawa folk dance x fire sfx x long wind sfx @ pixabay.com
 3. Cyber Attack
 From: JuliusH on pixabay.com
-4. 
-5. 
-6. 
-7. 
-8. 
-9. 
-10. 
-11. 
+4. COMMING SOON
+5. COMMING SOON
+6. COMMING SOON
+7. COMMING SOON
+8. COMMING SOON
+9. COMMING SOON
+10. COMMING SOON
+11. COMMING SOON
 _________________________________________________________________________________________________
 
                                             Further support
@@ -203,7 +211,6 @@ ________________________________________________________________________________
 
                                      Game developer 👨‍💻- Sumeet Singh 
                                           Tester 📜- You 
-
 
                                             Graphics
 

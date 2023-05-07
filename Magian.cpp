@@ -138,8 +138,14 @@ void clear_screen()
 }
 // Calling menu function before other void functions so they know it exists at compile time
 void menu();
+//key bindings to logic()
+void check_objective_function();
+void check_items_function();
+void check_skills_function();
 // Function for setting up game before draw()
-void setup() {
+void setup() 
+{
+
 
   // reset the level variables
   score=0;
@@ -287,8 +293,23 @@ void input() {
         case 'd':
             direction = RIGHT;
             break;
+        case 'i':
+            cout << "INVENTORY" << endl;
+            check_items_function();
+            cout << "Press ENTER button to Return to game" << endl;
+            cin.get();
+            break;
         case 'l':
-            cout << "Your objective is: " << endl;
+            cout << "OBJECTIVE" << endl;
+            check_objective_function();
+            cout << "Press ENTER button to Return to game" << endl;
+            cin.get();
+            break;
+        case 'x':
+            cout << "SKILLS" << endl;
+            check_skills_function();
+            cout << "Press ENTER button to Return to game" << endl;
+            cin.get();
             break;
         case 'q':
             exit(0);
@@ -413,18 +434,52 @@ void logic() {
     }
 }
 // starting game funciton called in menu()
-void startgame() {
+void startgame() 
+{
   setup();
   lives = difficulty;
-  while (!gameover) {
+  while (!gameover) 
+  {
     draw_level_1();
     input();
     logic();
     Sleep(150);
   }
   cout << "Game Over. Your final score is: " << score << endl;
-  system("pause");
+  cin.get();
 }
+
+
+void check_objective_function()
+{
+  if(level_select_variable==1) 
+  {
+    cout << "Collect 10 scrolls to return back to the Magian school to study." << endl;
+  }
+  if(level_select_variable==2) 
+  {
+    cout << "Your home is on fire. You should search for survivors." << endl;
+  }
+  if(level_select_variable==3) 
+  {
+    cout << "Shikaaa 'the hunt' is on for revenge, find the culprit responsible and put an end to their lives" << endl;
+  }
+  if(level_select_variable==4) 
+  {
+    cout << "You were captured and taken aboard a foreign ship. You must escape!" << endl;
+  }
+}
+
+void check_items_function()
+{
+  cout << "COMMING SOON" <<endl;
+}
+
+void check_skills_function()
+{
+  cout << "COMMING SOON" <<endl;
+}
+
 // Function for greeting Title page
 void welcome() 
 {
@@ -540,21 +595,22 @@ void level_select_function()
 // Function for help on how to play game
 void help() 
 {
-  cout << "Magian. A game of mages from the school of Agni in Kashmir mountain basin. \n"
+  cout << "MAGIAN.\n\nA game of mages from the school of Agni in Kashmir mountain basin. \n"
   "collect from scrolls, herbs, gold and items to build your player and advance through the level.\n" << endl;
   cout << "The build version for this software is: " << version << endl;
 
-  cout << "HOW TO PLAY\n\n"
+  cout << "\n\nHOW TO PLAY\n\n"
   "This character represents you स - This is you, stay safe and collect objectives.\n"
-  
   "Scrolls look like this ₹ - If you find one you get a point \n"
   "Enemies look like this क - If you touch them you lose a life \n"
   "Walls look like this # - If you touch them you lose a life \n"
-  "BUTTONS"
+  "\n\nBUTTONS\n\n"
   "To move use the keyboard buttons to walk 'W' = UP,'S' = Down,'A' = Left,'D' = RIGHT \n"
-  "Q = quit game"
-  "L = check logs for objective to win level for example collect 10 scrolls."
-  "OBJECTIVE. \n\n"
+  "Q = quit game.\n"
+  "L = Check level objective to see goals to complete level. for example collect 10 scrolls.\n"
+  "I = Check inventory and use items you found.\n"
+  "X = Check and use skills you gained.\n"
+  "\n\nOBJECTIVE\n\n"
   "Make it to the end of the levels. Each has their own goals for example, collect 10 scrolls \n"
   "or find the exit without getting killed." << endl;
 }
