@@ -7,6 +7,8 @@
 // custom magian header for getting the date and time
 #include "get_datetime.h"
 
+
+
 using namespace std;
 
 extern int level_select_variable;
@@ -15,6 +17,22 @@ extern fstream savefile_object;
 
 //added function declaration for void menu(); for the save load function  
 void menu();
+
+// for debugging purposes
+string find_host_os()
+{   
+    string host_OS_name_variable;
+    #ifdef __WIN32
+        host_OS_name_variable += "Host is Windows OS";
+    #elif __linux__
+        host_OS_name_variable += "Host OS is Linux";
+    #elif __APPLE__
+        host_OS_name_variable += "Host OS is Apple";
+    #else
+        host_OS_name_variable += "Cannot detect the host OS";
+    #endif
+    return host_OS_name_variable; 
+}
 
 // This function should be called in win condition
 void update_savefile_level()
@@ -37,8 +55,9 @@ void update_savefile_level()
                 if (savefile_object.is_open())
                 {
                     savefile_object << "Creating new save file for Magian.exe: " << get_datetime()  << endl;
+                    savefile_object << find_host_os() << endl;
                     savefile_object << "Version: "<< version << endl;
-                    savefile_object << "Date: " << get_datetime()  << endl;
+                    savefile_object << "Date: " << get_datetime() << endl;
                     savefile_object << level_select_variable_match << level_select_variable << endl;
                     savefile_object.close();
                     match_found = true;

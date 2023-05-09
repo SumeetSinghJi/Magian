@@ -20,12 +20,6 @@
 #include <get_objective.h>
 using namespace std;
 
-// Global Macros
-// to check if ncurses.h header exists and if not ignore all further code that relies on it e.g. clear screen
-#ifdef HAVE_NCURSES_H
-#include <ncurses.h>
-#endif
-
 // Global classes
 // creating an enemy that damages player by removing 1 life
 class enemy_class_fire {
@@ -125,22 +119,14 @@ int level_select_variable=1;
 //function prototype
 void clear_screen()
 {
-#ifdef HAVE_NCURSES_H
-  //initialises ncurses header
-  initscr();
-  // clears screen
-  clear();
-  //refreshs the screen
-  refresh();
-  // cleans up ncurses
-  endwin();
-#else
-  //use the default system command below. if Windows do "cls", if unix do "clear"
-#ifdef WIN_32
-  system("cls");
-#else
-  system("clear");
-#endif
+#ifdef __WIN32
+    #define CLEAR_SCREEN system("cls")
+#elif __linux__
+    #define CLEAR_SCREEN system("clear")
+#elif __APPLE__
+    #define CLEAR_SCREEN system("clear")
+#else 
+    #define CLEAR_SCREEN cout << "Host OS cannot be detected so cannot clear screen";
 #endif
 }
 // Calling menu function before other void functions so they know it exists at compile time
@@ -225,8 +211,9 @@ void draw_level_1() {
     buffer[height+1][lives_pos+i] = lives_str[i];
   }
 
-  // clear the console and print the buffer
-  system("cls");
+  // clear or cls the console and print the buffer
+  // clear_screen(); - too slow 
+system("cls");
   for (int y = 0; y < height+2; y++) {
     for (int x = 0; x < width; x++) {
       cout << buffer[y][x];
