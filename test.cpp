@@ -5,7 +5,6 @@
 // In input() the command _kbhit uses user input to move key
 #include <conio.h>
 #include <windows.h>
-// <unistd.h> Unix OS (Linux and Apple) only header
 #include <unistd.h>
 #include <string>
 // for save file read write
