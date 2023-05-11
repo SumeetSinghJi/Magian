@@ -113,7 +113,6 @@ void level_select()
       cout << "Game Over. Your final score is: " << score << endl;
       cin.get();
       break;
-      break;
     case 3:
       draw_level_3();
       break;
