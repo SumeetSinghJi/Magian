@@ -1,7 +1,8 @@
 #include <iostream>
 // for seed random srand() function
 #include <ctime>
-// for input() ky presses  _kbhit 
+// <conio.h> is specific to Microsoft Visual C++ compiler on Windows only.
+// In input() the command _kbhit uses user input to move key
 #include <conio.h>
 #include <windows.h>
 #include <unistd.h>
@@ -19,7 +20,6 @@
 // check objectives skill
 #include <get_objective.h>
 using namespace std;
-
 // Global classes
 // creating an enemy that damages player by removing 1 life
 class enemy_class_fire {
@@ -71,24 +71,12 @@ public:
   int level_1_enemy_x_pos;
   int level_1_enemy_y_pos;
 };
-/*
-class magic_stop_time_class {
-  public:
-    void magic_stop_time_class_method() {
-      
-    }
-}
-Also include void to cast and add to key binding or possibly logic..
-*/
-
 /* Global Objects */
 enemy_class_fire level_1_enemy_object;
 enemy_class_2_rakshasa level_2_enemy_object;
 fstream savefile_object;
-
 // for changing the colour of tiles, NPC's, items etc.,
 HANDLE handle_object = GetStdHandle(STD_OUTPUT_HANDLE);
-
 /* Global Variables */
 double version = 0.2;
 bool gameover = false;
@@ -115,7 +103,6 @@ int language=1;
 int level=11;
 // Extra game mode level select
 int level_select_variable=1;
-
 //function prototype
 void clear_screen()
 {
@@ -159,7 +146,6 @@ void setup()
 }
 // Level 1 draw logic
 void draw_level_1() {
-
   // Draw top wall  
   for (int top_wall = 0; top_wall < width; top_wall++) {
     buffer[0][top_wall] = '#';
@@ -221,7 +207,6 @@ system("cls");
     cout << endl;
   }
 }
-
 void draw_level_2()
 {
     score=0;
@@ -266,7 +251,6 @@ void draw_level_11()
 {
     cout << "Test" << endl;
 }
-
 // keyboard WSAD directional movement capture for logic() function
 void input() {
     if (_kbhit()) 
@@ -309,8 +293,6 @@ void input() {
         }
     }
 }
-
-
 // recieves keyboard input from input() and dictates logic
 void logic() {
     // Update player position based on direction
@@ -442,20 +424,86 @@ void startgame()
   cout << "Game Over. Your final score is: " << score << endl;
   cin.get();
 }
-
-
-
-
 void check_items()
 {
   cout << "COMING SOON" <<endl;
 }
-
 void check_skills()
 {
   cout << "COMING SOON" <<endl;
 }
+void soundtrack()
+{
+  int soundtrack_option_variable;
 
+  cout << "SOUNDTRACK\n\n"
+  "Theme title song\n"
+  "1. Cyber Attack - Julius H\n"
+  "Level 1\n"
+  "2. Alien Jungle remix\n"
+  "Level 2\n"
+  "3. Shima Uta Seige remix\n"
+  "Level 3\n"
+  "\n"
+  "Level 4\n"
+  "\n"
+  "Level 5\n"
+  "\n"
+  "Level 6\n"
+  "\n"
+  "Level 7\n"
+  "\n"
+  "Level 8\n"
+  "\n"
+  "Level 9\n"
+  "\n"
+  "Level 10\n"
+  "\n"
+  "Level 11 Bonus\n"
+  "\n"
+  "Choose an option (ENTER 0 to exit): ";
+
+  cin >> soundtrack_option_variable;
+  switch(soundtrack_option_variable)
+  {
+    case 0:
+      menu();
+      break;
+    case 1:
+      PlaySoundW(L"sound//music//Cyber_Attack_by_JuliusH.wav", NULL, SND_FILENAME | SND_ASYNC);
+      cin.get();
+      break;
+    case 2:
+      PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
+      cin.get();
+      break;
+    case 3:
+      PlaySoundW(L"sound//music//shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
+      cin.get();
+      break;
+    case 4:
+      break;
+    case 5:
+      break;
+    case 6:
+      break;
+    case 7:
+      break;
+    case 8:
+      break;
+    case 9:
+      break;
+    case 10:
+      break;
+    case 11:
+      break;
+    default:
+      cout << "choose a number between 1 - 11" << endl;
+      soundtrack();
+      break;
+  }
+  soundtrack();
+}
 // Function for greeting Title page
 void welcome() 
 {
@@ -469,10 +517,10 @@ void welcome()
   "3. Level select\n"
   "4. Help\n"
   "5. Settings\n"
-  "6. Exit\n\n"
+  "6. Soundtrack\n"
+  "7. Exit\n\n"
   "Enter an option: " << endl;
 }
-
 // Function for help on how to play game
 void help() 
 {
@@ -522,6 +570,10 @@ void menu()
     menu();
     break;
   case 6:
+    soundtrack();
+    menu();
+    break;
+  case 7:
     cout << "Goodbye" << endl;
     exit(1);
     break;

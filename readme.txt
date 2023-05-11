@@ -135,14 +135,17 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________
 
 Main menu
+
 * represented by switch(case) when staring game
 * 1. Start game - core game logic draw()
-* 2. Level select - bonus mode to choose any level to play
-* 3. Help
-* 4. Settings
+* 2. Save & Load - View and delete save game file
+* 3. Level select - bonus mode to choose any level to play
+* 4. Help
+* 5. Settings
     * 4.1. Difficulty switch = more or less lives
     * 4.2. Change console output language e.g. Japanese
-* 5. Quit
+* 6. Soundtrack - browse in game music
+* 7. Quit
 
 
 _________________________________________________________________________________________________

@@ -46,6 +46,12 @@ Spells
 10
 High score table local and online
 
+10.5 Achievements
+* funnest task set goals!
+
+10.5.5
+* Unlockables
+
 11 
 Graphics - SDL
 
