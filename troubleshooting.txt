@@ -1,16 +1,16 @@
 Problems
 
-1. The playsoundW() function only works as the argument "-lwinmm" is passed to tasks.json for VScode to build app
-for full release consider CMake.
+1. The playsoundW() works tasks.json linker "-lwinmm" to Windows media player, consider Linux/MacOS
 
-2. Fatal flaw in code - When selecting a new level e.g. Level 2, how does the game know to input(), logic()?
-it has something to do with while (!gameover) {...}. how can I fix this professionally.
+2. Past level 1 e.g. on Level 2, how does the game know to setup(), input(), logic()?
+does it relate to while (!gameover) while lives > 0. so as long as lives > 0, the 
+game will keep setup(), input(), logic() for every level is that correct?
 
 3. Cannot set locale, therefore cannot cin <<, then cout >> unicode e.g. Jap, Chinese, in settings()
 
 4. clear_screen(); in draw_level_1(); is too slow. used hard coded system("cls") faster for buffering
 
-5. <conio.h> for keyboard input logic in logic() is a Microsoft C++ Compiler Windows OS specific header.
+5. <conio.h> for keyboard input logic in logic() is Windows OS only, consider <studio.h> for linux
 
 
 

@@ -56,6 +56,7 @@ void change_language()
     "1. English \n"
     "2. 日本語 \n"
     "3. हिंदुस्तानी \n" << endl;
+    cin >> language;
     switch(language) 
     {
         case 1:
@@ -73,18 +74,6 @@ void change_language()
         default:
             cout << "Incorrect option." << endl;
             return;
-    }
-    if(language == 1) 
-    {
-        cout << "English" <<endl;
-    }
-    else if(language ==2) 
-    {
-        cout << "日本語" <<endl;
-    }
-    else if(language==3)
-    {
-        cout << "हिंदुस्तानी" <<endl;
     }
 }
 
