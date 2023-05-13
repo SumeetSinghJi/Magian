@@ -53,15 +53,38 @@ public:
     this->name = name;
     this->description = description;
   }
+  virtual void use(int& value)
+  {
+    /*
+    This section deliberately left blank
+    This is Virtual function that makes this item_class polymorphic.
+    This virtual function will be overwritten by the subclass e.g. potion_item_subclass
+
+    the use function for subclasses will be used in check_item() index dynamic cast
+    use for that item for that subclass items effect
+    */
+  }
 };
-class potion_item_subclass  : public item_class
+
+class potion_item_subclass : public item_class
 {
-  public:
-  potion_item_subclass() :item_class("Potion", "When used increases players life by 1 by regenerating their body.") {}
+public:
+  potion_item_subclass() : item_class("Potion", "When used increases players life by 1 by regenerating their body.") {}
   void use(int& lives)
   {
     cout << "You used a Potion. 1 life gained" << endl;
     lives++;
+  }
+};
+
+class leather_boots_item_subclass : public item_class
+{
+public:
+  leather_boots_item_subclass() : item_class("Leather boots", "When used increases players speed by 1 by cushioning their steps.") {}
+  void use(int& player_speed)
+  {
+    cout << "You wore leather boots. Speed permanently increased by 1" << endl;
+    player_speed++;
   }
 };
 // creating an enemy that damages player by removing 1 life
@@ -88,6 +111,7 @@ int x_pos, y_pos;
 int menu_variable;
 int lives = 3;
 int difficulty=3;
+int player_speed=1;
 //create 2D array for double buffering
 char buffer[height][width];
 //changing language variable in settings - future use for include <locale>
@@ -135,8 +159,9 @@ void setup()
   level_1_enemy_object.enemy_x_pos = rand() % width;
   level_1_enemy_object.enemy_y_pos = rand() % height;
 
-  // Adding healing medicine item to players inventory vector
+  // Adding starting items to players inventory vector
   inventory_vector.push_back(new potion_item_subclass());
+  inventory_vector.push_back(new leather_boots_item_subclass());
 
 }
 // Level 1 draw logic
@@ -421,9 +446,38 @@ void startgame()
 void check_items()
 {
   cout << "INVENTORY" <<endl;
+  for (int i=0;i<inventory_vector.size(); i++)
+  {
+    cout << i << ": " << inventory_vector[i]->name << endl;
+  }
 
+  // using an item
+  int item_select_variable;
+  cout << "Select item you wish to use: " << endl;
+  cin >> item_select_variable;
+
+  if (item_select_variable >= 0 && item_select_variable < inventory_vector.size())
+  {
+    cout << "Using item: " << inventory_vector[item_select_variable]->name << endl;
+
+    if (inventory_vector[item_select_variable]->name == "Potion")
+    {
+      potion_item_subclass* potion = dynamic_cast<potion_item_subclass*>(inventory_vector[item_select_variable]);
+      potion->use(lives);
+    }
+    else if (inventory_vector[item_select_variable]->name == "Leather boots")
+    {
+      leather_boots_item_subclass* boots = dynamic_cast<leather_boots_item_subclass*>(inventory_vector[item_select_variable]);
+      boots->use(player_speed);
+    }
+
+    inventory_vector.erase(inventory_vector.begin() + item_select_variable);
+  }
+  else
+  {
+    cout << "Invalid item index option" << endl;
+  }
 }
-
 void check_skills()
 {
   cout << "COMING SOON" <<endl;

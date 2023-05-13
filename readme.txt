@@ -51,55 +51,7 @@ L = Check level objective to see goals to complete level. for example collect 10
 I = Check inventory and use items you found.
 X = Check and use skills you gained.
 
-_________________________________________________________________________________________________
 
-
-                                            CONTENT
-
-_________________________________________________________________________________________________
-
-
-ENEMIES
-(LEVEL | NAME | DAMAGE | HEALTH | SPEED | DROPS)
-Level 1 | 
-Level 2 | 
-Level 3 | 
-Level 4 | 
-Level 5 | 
-Level 6 | 
-Level 7 | 
-Level 8 | 
-Level 9 |
-Level 10 | 
-Level 11 | 
-
-ITEMS
-(LEVEL | NAME | MODIFIERS)
-Level 1 | 
-Level 2 | 
-Level 3 | 
-Level 4 | 
-Level 5 | 
-Level 6 | 
-Level 7 | 
-Level 8 | 
-Level 9 |
-Level 10 | 
-Level 11 | 
-
-SKILLS
-(LEVEL | NAME | MODIFIERS)
-Level 1 | 
-Level 2 | 
-Level 3 | 
-Level 4 | 
-Level 5 | 
-Level 6 | 
-Level 7 | 
-Level 8 | 
-Level 9 |
-Level 10 | 
-Level 11 | 
 
 
 _________________________________________________________________________________________________
@@ -152,7 +104,7 @@ Main menu
 
 _________________________________________________________________________________________________
 
-                                            Functions
+                                            Game loop logic
 _________________________________________________________________________________________________
 
 Main logic of game follows running c++ functions in sequence
@@ -166,9 +118,6 @@ void menu()
 1.5. input()
 1.6. logic()
 1.7. Sleep(150)
-
-2.0 Settings
-2.1 Help
 
 _________________________________________________________________________________________________
 
@@ -209,12 +158,6 @@ Money
 Win logic
 * collect enough money ($) to win
 
-SKILLS
-                                            COMING SOON
-
-INVENTORY
-                                            COMING SOON
-
 Save Load
 * header magian_save_game.h called in source code magian.cpp main menu case
 to create save game file magian_save.txt 
@@ -223,6 +166,53 @@ Level select
 * level select variable updated after every win and written to magian_save.txt file
 * level select option reads level_select_variable from file above
 
+Inventory
+* Inventory is a vector of item classes initialised through pushback of item subclasses
+* item classes have subclasses of items e.g. potion_subclass
+* check_inventory keyboard input "i" gives option to loop through vector of inventory 
+and use subclass function use to use that subclasses effect e.g. potion_subclass increases lives++
+* inventory vector index item is then removed through vector.erase()
+
+_________________________________________________________________________________________________
+
+                                            Items
+_________________________________________________________________________________________________
+
+Item name | Description | effect
+
+* Healing Potion - restores 1 life, life + 1
+* Leather boots - increases players speed by 1, speed + 1
+
+_________________________________________________________________________________________________
+
+                                            Skills
+_________________________________________________________________________________________________
+
+
+                                            Coming soon
+
+
+_________________________________________________________________________________________________
+
+
+                                            Enemies
+
+_________________________________________________________________________________________________
+
+
+ENEMIES
+(LEVEL | NAME | DAMAGE | HEALTH | SPEED | DROPS)
+Level 1 | 
+Level 2 | 
+Level 3 | 
+Level 4 | 
+Level 5 | 
+Level 6 | 
+Level 7 | 
+Level 8 | 
+Level 9 |
+Level 10 | 
+Level 11 |                                             
 
 _________________________________________________________________________________________________
 

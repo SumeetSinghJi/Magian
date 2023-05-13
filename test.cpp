@@ -22,6 +22,9 @@ public:
     This section deliberately left blank
     This is Virtual function that makes this item_class polymorphic.
     This virtual function will be overwritten by the subclass e.g. potion_item_subclass
+
+    the use function for subclasses will be used in check_item() index dynamic cast
+    use for that item for that subclass items effect
     */
   }
 };
