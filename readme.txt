@@ -121,8 +121,10 @@ The files included in the game are below
 * images (folder) - contains images
 * magian.cpp - the main games source code.
 * magian.exe - main game binary executable. Open or run this to play game.
-* test.cpp - For testing source code before replacing.
-* test.cpp - For testing.
+* staging.cpp - For testing changes to source code before deploying to main source code
+* staging.exe - for testing.
+* test.cpp - For testing random code.
+* test.exe - For testing.
 * readme.txt - the file you are reading right now is the readme.txt file it's a guide on playing.
 * magian_save.txt - the save file
 * Troubleshooting.txt - Contanins known problems in code and solutions

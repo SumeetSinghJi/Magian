@@ -23,11 +23,11 @@ string find_host_os()
 {   
     string host_OS_name_variable;
     #ifdef __WIN32
-        host_OS_name_variable += "Host is Windows OS";
+        host_OS_name_variable += "Host is: Windows OS";
     #elif __linux__
-        host_OS_name_variable += "Host OS is Linux";
+        host_OS_name_variable += "Host OS: is Linux";
     #elif __APPLE__
-        host_OS_name_variable += "Host OS is Apple";
+        host_OS_name_variable += "Host OS: is Apple MacOS";
     #else
         host_OS_name_variable += "Cannot detect the host OS";
     #endif
@@ -54,7 +54,7 @@ void update_savefile_level()
                 savefile_object.open("magian_save.txt", ios::out);
                 if (savefile_object.is_open())
                 {
-                    savefile_object << "Creating new save file for Magian.exe: " << get_datetime()  << endl;
+                    savefile_object << "Creating new save file for Magian.exe: " << endl;
                     savefile_object << find_host_os() << endl;
                     savefile_object << "Version: "<< version << endl;
                     savefile_object << "Date: " << get_datetime() << endl;

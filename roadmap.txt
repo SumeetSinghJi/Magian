@@ -1,23 +1,38 @@
 Roadmap
 
-1 
-Change language option
+1
+from test.cpp add new function for using item
+
+for help with ChatGPT copy the code in test.cpp then say. 
+create a simple code where int lives = 1; and if item is used called healing potion, the life will increase
 
 2
-More levels
+in logic() move enemy movement and damage to class functions, then call them in logic
 
 3
+Under help()
+enter enemy database
+enter item database
+enter skill database
+
+4 
+Change language option
+
+5
+More levels
+
+6
 More enemies and AI.
 Chasing enemy AI
 Fast AI enemy
 
-4
+7
 Obstacles e.g. fire, sea, trees
 
-5
+8
 Elemental damage and resistence
 
-6
+9
 Items
 * blood drop (HP potion) with rand() drop after killing enemy
 price = 10
@@ -28,14 +43,14 @@ price = 20
 * ressurection scroll
 price = 100
 
-7
+10
 In-game shop
 * use money to buy items or sell items
 
-8
+11
 Spells
 
-9
+12
 * ultimate spell with x score = xp can skip levels
 * kill all enemies on map
 * charm all enemies
@@ -43,29 +58,25 @@ Spells
 * fire shield surrounding you that kills all enemies it touches
 * Summon angel - fights for you and tracks enemies a.i.
 
-10
+13
 High score table local and online
 
-10.5 Achievements
+14 Achievements
 * funnest task set goals!
 
-10.5.5
+15
 * Unlockables
 
-11 
-Graphics - SDL
+16
+Graphics - SDL 2 or qt, or open gl, investigate
 
-
-12 
+17
 Sound effects
 
-12.5
-Soundtrack option
-
-13 
+18
 Multiplayer
 
-14 - WEBSITE
+19 - WEBSITE
 Register - Login to website and register account for more
 Sountrack - 
 Readme - 
@@ -73,8 +84,16 @@ Download link -
 GitHub repo - 
 Social Media repo - 
 
-15 
+20
 GET from official website or GitHub repo advising of company news.
 
-16 
+21
 Multiple OS releases with cmake
+
+22
+World map option - places to visit
+* Home
+* Shop
+* Teacher
+* Single path of unlocked levels 1 - 11 branching like mario
+* repeat levels
