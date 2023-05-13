@@ -12,13 +12,14 @@ collect from scrolls, herbs, gold and items to build your player and advance thr
 This is an free c++ game hosted on GitHub free to download and play
 https://github.com/SumeetSinghJi/Magian
 
-For support talk to the author: Sumeet Singh
-Author email: kurta.kursi@gmail.com
-Author can be reached through their personal website: www.sumeet-singh.com
+website: www.sumeet-singh.com
 
-A stable release version 1.0 is to be hopefully released publically on GitHub by 30th June 2023.
+Stable release version 1.0 expected before December 2024.
 
-A full graphical working copy can be expected by 2024.
+We need you to help build and test this game. Contact the author directly.
+
+Author: Sumeet Singh
+Email: kurta.kursi@gmail.com
 
 
 _________________________________________________________________________________________________ 

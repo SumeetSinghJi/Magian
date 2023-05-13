@@ -1,19 +1,13 @@
 Roadmap
 
 1
-from test.cpp add new function for using item
-
-for help with ChatGPT copy the code in test.cpp then say. 
-create a simple code where int lives = 1; and if item is used called healing potion, the life will increase
+Install <ncurses.h> into projects directory
 
 2
 in logic() move enemy movement and damage to class functions, then call them in logic
 
 3
-Under help()
-enter enemy database
-enter item database
-enter skill database
+Have help() cout readme.txt
 
 4 
 Change language option

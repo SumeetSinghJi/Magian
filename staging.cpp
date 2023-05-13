@@ -1,11 +1,13 @@
-#include <iostream>
-// for seed random srand() function
-#include <ctime>
-// <conio.h> and <windows.h> are Windows OS only headers
+// Windows OS specific headers below
 // In input() the command _kbhit uses user input to move key
 #include <conio.h>
 #include <windows.h>
+// Unix based OS specific headers below
 #include <unistd.h>
+// Any OS headers below
+// for seed random srand() function
+#include <ctime>
+#include <iostream>
 #include <string>
 // including vector header for inventory
 #include <vector>
@@ -21,6 +23,7 @@
 #include <level_select.h>
 // check objectives skill
 #include <get_objective.h>
+
 using namespace std;
 // Global classes
 // creating an enemy that damages player by removing 1 life
@@ -65,7 +68,6 @@ public:
     */
   }
 };
-
 class potion_item_subclass : public item_class
 {
 public:
@@ -76,7 +78,6 @@ public:
     lives++;
   }
 };
-
 class leather_boots_item_subclass : public item_class
 {
 public:
