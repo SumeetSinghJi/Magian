@@ -11,7 +11,8 @@
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I${fileDirname}",
-                // "${fileDirname}\\images\\icons\\resource.res", // adding .res to .exe for icon
+                // adding .res to .exe for icon
+                // "${fileDirname}\\images\\icons\\resource.res", 
                 "-lwinmm" // This linker added by Sumeet to connect playsound() to windows sound player
             ],
             "options": {

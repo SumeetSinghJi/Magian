@@ -12,5 +12,4 @@ game will keep setup(), input(), logic() for every level is that correct?
 
 5. <conio.h> for keyboard input logic in logic() is Windows OS only, consider <ncurses.h> for linux
 
-
-
+6. Resources.res isn't linking to tasks.json to compile .exe with icon

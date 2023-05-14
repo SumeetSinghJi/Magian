@@ -1,5 +1,23 @@
 Roadmap
 
+0
+Load game option that automatically starts level at last level_select_variable
+
+0.1
+In save_game.h link to extern vector inventory and output to file inventory
+
+0.2
+On level start read items in inventory and populates vector
+
+0.3
+getting new item = new trigger write to save file.
+
+0.4
+F1 key is save
+
+0.5
+save manually overwrites to file all inventory and level variable
+
 1
 Install <ncurses.h> into projects directory
 
@@ -62,13 +80,14 @@ High score table local and online
 * Unlockables
 
 16
-Graphics - SDL 2 or qt, or open gl, investigate
+Graphics - SDL 2 or qt, or Open gl
 
 17
 Sound effects
 
 18
-Multiplayer
+Arena mode, where you can select any soundtrack, items, monsters, and level (including obstacles) and fight
+Arena mode needs to be build like a GUI, which may require Graphics from 16.
 
 19 - WEBSITE
 Register - Login to website and register account for more
