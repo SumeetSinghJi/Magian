@@ -16,6 +16,8 @@ website: www.sumeet-singh.com
 
 Stable release version 1.0 expected before December 2024.
 
+Code conforms to minimum version C++17
+
 We need you to help build and test this game. Contact the author directly.
 
 Author: Sumeet Singh
