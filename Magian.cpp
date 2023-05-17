@@ -11,6 +11,8 @@
 #include <string>
 // including vector header for inventory
 #include <vector>
+// for smart pointers
+#include <memory>
 // for save file read write
 #include <fstream>
 // for finding save game exists and delete option save_load_game()
@@ -98,7 +100,7 @@ enum edirection {
 };
 edirection direction;
 /* Global Vectors*/
-vector<item_class*> inventory_vector;
+vector<unique_ptr<item_class>> inventory_vector;
 /* Global Variables */
 double version = 0.2;
 bool gameover = false;
@@ -160,17 +162,13 @@ void setup()
   level_1_enemy_object.enemy_x_pos = rand() % width;
   level_1_enemy_object.enemy_y_pos = rand() % height;
 
-  // to prevent memory leaks in small processing units and refresh inventory for level select
-  for (item_class* i : inventory_vector)
-  {
-    delete i;
-  }
+  // to refresh inventory for level select
   inventory_vector.clear();
-  // code to read savefile and retrieve items in inventory go here;
+  
 
   // Adding starting items to players inventory vector
-  inventory_vector.push_back(new potion_item_subclass());
-  inventory_vector.push_back(new leather_boots_item_subclass());
+  inventory_vector.push_back(make_unique<potion_item_subclass>());
+  inventory_vector.push_back(make_unique<leather_boots_item_subclass>());
 
 }
 // Level 1 draw logic
@@ -454,6 +452,7 @@ void startgame()
 }
 void check_items()
 {
+  
   cout << "INVENTORY" <<endl;
   for (int i=0;i<inventory_vector.size(); i++)
   {
@@ -468,15 +467,15 @@ void check_items()
   if (item_select_variable >= 0 && item_select_variable < inventory_vector.size())
   {
     cout << "Using item: " << inventory_vector[item_select_variable]->name << endl;
-
+    unique_ptr<item_class>& item = inventory_vector[item_select_variable];
     if (inventory_vector[item_select_variable]->name == "Potion")
     {
-      potion_item_subclass* potion = dynamic_cast<potion_item_subclass*>(inventory_vector[item_select_variable]);
+      potion_item_subclass* potion = dynamic_cast<potion_item_subclass*>(item.get());
       potion->use(lives);
     }
     else if (inventory_vector[item_select_variable]->name == "Leather boots")
     {
-      leather_boots_item_subclass* boots = dynamic_cast<leather_boots_item_subclass*>(inventory_vector[item_select_variable]);
+      leather_boots_item_subclass* boots = dynamic_cast<leather_boots_item_subclass*>(item.get());
       boots->use(player_speed);
     }
 

@@ -6,5 +6,9 @@ Change
 
 0.2.1
 17/05/2023
-* Added in game memory leak and inventory clear
+
+Major
+* Replaced raw pointers with c++11 modern smart pointers
+Minor
+* Added inventory vector clear() for level select mode
 * Replaced header guards with #pragma once
