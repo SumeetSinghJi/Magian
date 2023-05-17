@@ -1,5 +1,10 @@
 UPDATE LOG
 
-Version | Date | Change
+Version
+Date
+Change
 
-0.2.1 - 17/05/2023 - Fixed in game memory leak to for smaller processors
+0.2.1
+17/05/2023
+* Added in game memory leak and inventory clear
+* Replaced header guards with #pragma once

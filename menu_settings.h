@@ -1,14 +1,9 @@
-#ifndef MENU_SETTINGS_H
-#define MENU_SETTINGS_H
-
+#pragma once
 extern int lives;
 extern int difficulty;
 extern int language;
-
 // calling language before settings
 void change_language();
-
-
 // Function for changing in game settings
 void change_settings() 
 {
@@ -47,8 +42,6 @@ void change_settings()
     break;
   }
 }
-
-
 void change_language() 
 {
   
@@ -76,7 +69,4 @@ void change_language()
             return;
     }
 }
-
-
-
-#endif
+#pragma once

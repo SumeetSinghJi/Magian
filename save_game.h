@@ -1,23 +1,16 @@
-#ifndef SAVE_GAME_H
-#define SAVE_GAME_H
-
+#pragma once
 #include <fstream>
 #include <string>
 #include <iostream>
 // custom magian header for getting the date and time
 #include "get_datetime.h"
-
-
-
 using namespace std;
-
 extern int level_select_variable;
 extern double version;
 extern fstream savefile_object;
 
 //added function declaration for void menu(); for the save load function  
 void menu();
-
 // for debugging purposes
 string find_host_os()
 {   
@@ -33,7 +26,6 @@ string find_host_os()
     #endif
     return host_OS_name_variable; 
 }
-
 // This function should be called in win condition
 void update_savefile_level()
 {
@@ -95,9 +87,6 @@ void update_savefile_level()
         return;
     }
 }
-
-
-
 // This code is read in the bonus level select mode to see available levels
 void match_savefile_level() 
 {
@@ -151,8 +140,6 @@ void match_savefile_level()
     }
     savefile_object.close();
 }
-
-
 // Function for finding save files and deleting
 void save_load_game()
 {
@@ -181,5 +168,3 @@ void save_load_game()
         menu();
     }
 }
-
-#endif

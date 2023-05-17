@@ -1,5 +1,4 @@
-#ifndef GET_DATETIME_H
-#define GET_DATETIME_H
+#pragma once
 
 #include <string> // Add this line to include the string type
 
@@ -13,5 +12,3 @@ std::string get_datetime()
   std::string datetime_variable = std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
   return datetime_variable;
 }
-
-#endif

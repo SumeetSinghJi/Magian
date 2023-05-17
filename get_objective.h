@@ -1,5 +1,4 @@
-#ifndef GET_OBJECTIVE_H
-#define GET_OBJECTIVE_H
+#pragma once
 #include <iostream>
 using namespace std;
 extern int level_select_variable;
@@ -27,5 +26,3 @@ void check_objective()
         cout << "You must keep searching" <<endl;
     }
 }
-
-#endif

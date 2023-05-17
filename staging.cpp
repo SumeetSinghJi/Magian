@@ -160,11 +160,12 @@ void setup()
   level_1_enemy_object.enemy_x_pos = rand() % width;
   level_1_enemy_object.enemy_y_pos = rand() % height;
 
-  // to prevent memory leaks in small processing units and for best practice
+  // to prevent memory leaks in small processing units and refresh inventory for level select
   for (item_class* i : inventory_vector)
   {
     delete i;
   }
+  inventory_vector.clear();
   // code to read savefile and retrieve items in inventory go here;
 
   // Adding starting items to players inventory vector

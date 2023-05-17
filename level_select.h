@@ -1,6 +1,4 @@
-#ifndef LEVEL_SELECT_H
-#define LEVEL_SELECT_H
-
+#pragma once
 #include <save_game.h>
 using namespace std;
 
@@ -144,5 +142,3 @@ void level_select()
       break;
   }
 }
-
-#endif
