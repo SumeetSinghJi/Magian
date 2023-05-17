@@ -1,0 +1,5 @@
+UPDATE LOG
+
+Version | Date | Change
+
+0.2.1 - 17/05/2023 - Fixed in game memory leak to for smaller processors

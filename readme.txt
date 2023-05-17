@@ -82,6 +82,7 @@ The files included in the game are below
 * magian_save.txt - the save file
 * Troubleshooting.txt - Contanins known problems in code and solutions
 * roadmap.txt - Contains future planned changes to game
+* update_log.txt - Contains update log to be eventually migrated to website
 
 
 _________________________________________________________________________________________________

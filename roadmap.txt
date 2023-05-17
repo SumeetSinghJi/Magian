@@ -1,5 +1,8 @@
 Roadmap
 
+0.0
+have help() cout << readme.txt
+
 0
 Load game option that automatically starts level at last level_select_variable
 
@@ -23,9 +26,6 @@ Install <ncurses.h> into projects directory
 
 2
 in logic() move enemy movement and damage to class functions, then call them in logic
-
-3
-Have help() cout readme.txt
 
 4 
 Change language option
@@ -89,7 +89,12 @@ Sound effects
 Arena mode, where you can select any soundtrack, items, monsters, and level (including obstacles) and fight
 Arena mode needs to be build like a GUI, which may require Graphics from 16.
 
-19 - WEBSITE
+19.1
+Curl official website to check for updates and if so prompt to Download in the main
+if not cout no updates available.
+
+19.2
+WEBSITE
 Register - Login to website and register account for more
 Sountrack - 
 Readme - 
