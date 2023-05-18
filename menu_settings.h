@@ -13,7 +13,7 @@ void change_settings()
   "1. Hard - 1 Life \n"
   "2. Medium - 2 Life \n"
   "3. Easy - 3 Life \n"
-  "4. Unlimited lives\n\n"
+  //"4. Unlimited lives\n\n"
   "LANGUAGE\n"
   "4. Change language\n\n"
   "MAIN MENU\n"

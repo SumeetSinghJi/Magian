@@ -564,8 +564,17 @@ void soundtrack()
 }
 // Function for greeting Title page
 void welcome() 
-{
-  cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~    MAGIAN    ~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n" 
+{ 
+  cout << "\n\n"
+  "      ▄▄▄▄███▄▄▄▄      ▄████████    ▄██████▄   ▄█     ▄████████ ███▄▄▄▄ \n" 
+  "   ▄██▀▀▀███▀▀▀██▄   ███    ███   ███    ███ ███    ███    ███ ███▀▀▀██▄\n" 
+  "   ███   ███   ███   ███    ███   ███    █▀  ███▌   ███    ███ ███   ███\n" 
+  "   ███   ███   ███   ███    ███  ▄███        ███▌   ███    ███ ███   ███\n" 
+  "   ███   ███   ███ ▀███████████ ▀▀███ ████▄  ███▌ ▀███████████ ███   ███\n" 
+  "   ███   ███   ███   ███    ███   ███    ███ ███    ███    ███ ███   ███\n" 
+  "   ███   ███   ███   ███    ███   ███    ███ ███    ███    ███ ███   ███\n" 
+  "     █   ███   █▀    ███    █▀    ████████▀  █▀     ███    █▀   ▀█   █▀ \n"                                                                        
+  "  \n\n\n" 
   "A game of mages from the school of Agni in Kashmir mountain basin. \n"
   "Collect from scrolls, herbs, gold and items to build your player\nand advance through the level. \n"
   "but dont fall off the path less you die! \n\n\n"
@@ -600,6 +609,10 @@ void help()
   "\n\nOBJECTIVE\n\n"
   "Make it to the end of the levels. Each has their own goals for example, collect 10 scrolls \n"
   "or find the exit without getting killed." << endl;
+  cout << "\nPress Enter to continue...";
+  cin.ignore();
+  cin.get();
+  menu();
 }
 // Function for in game menu
 void menu() 
@@ -621,15 +634,12 @@ void menu()
     break;
   case 4:
     help();
-    menu();
     break;
   case 5:
     change_settings();
-    menu();
     break;
   case 6:
     soundtrack();
-    menu();
     break;
   case 7:
     cout << "Goodbye" << endl;
