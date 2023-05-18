@@ -591,7 +591,27 @@ void welcome()
 // Function for help on how to play game
 void help() 
 {
-  cout << "MAGIAN.\n\nA game of mages from the school of Agni in Kashmir mountain basin. \n"
+  cout << "\n\n" 
+  "                         ░░░░░░░░░░░░░░░▄▀▄░░░░░░░░░░░░░░░\n"
+  "                         ░░░░░░░░░░░░░▄▀░░░▀▄░░░░░░░░░░░░░\n"
+  "                         ░░░░░░░░░░░▄▀░░░░▄▀█░░░░░░░░░░░░░\n"
+  "                         ░░░░░░░░░▄▀░░░░▄▀░▄▀░▄▀▄░░░░░░░░░\n"
+  "                         ░░░░░░░▄▀░░░░▄▀░▄▀░▄▀░░░▀▄░░░░░░░\n"
+  "                         ░░░░░░░█▀▄░░░░▀█░▄▀░░░░░░░▀▄░░░░░\n"
+  "                         ░░░▄▀▄░▀▄░▀▄░░░░▀░░░░▄█▄░░░░▀▄░░░\n"
+  "                         ░▄▀░░░▀▄░▀▄░▀▄░░░░░▄▀░█░▀▄░░░░▀▄░\n"
+  "                         ░█▀▄░░░░▀▄░█▀░░░░░░░▀█░▀▄░▀▄░▄▀█░\n"
+  "                         ░▀▄░▀▄░░░░▀░░░░▄█▄░░░░▀▄░▀▄░█░▄▀░\n"
+  "                         ░░░▀▄░▀▄░░░░░▄▀░█░▀▄░░░░▀▄░▀█▀░░░\n"
+  "                         ░░░░░▀▄░▀▄░▄▀░▄▀░█▀░░░░▄▀█░░░░░░░\n"
+  "                         ░░░░░░░▀▄░█░▄▀░▄▀░░░░▄▀░▄▀░░░░░░░\n"
+  "                         ░░░░░░░░░▀█▀░▄▀░░░░▄▀░▄▀░░░░░░░░░\n"
+  "                         ░░░░░░░░░░░░░█▀▄░▄▀░▄▀░░░░░░░░░░░\n"
+  "                         ░░░░░░░░░░░░░▀▄░█░▄▀░░░░░░░░░░░░░\n"
+  "                         ░░░░░░░░░░░░░░░▀█▀░░░░░░░░░░░░░░░\n\n\n"
+  "DISCLAIMER: This game and the symbols, language, and references used represent the culture of\n"
+  "the Indo-Iranian people known collectivly as Aryans. We do not condone any violence or hate.\n\n\n"
+  "A game of mages from the school of Agni in Kashmir mountain basin. \n"
   "collect from scrolls, herbs, gold and items to build your player\nand advance through the level.\n\n" << endl;
   cout << "The build version for this software is: " << version << endl;
 
@@ -608,8 +628,8 @@ void help()
   "X = Check and use skills you gained.\n"
   "\n\nOBJECTIVE\n\n"
   "Make it to the end of the levels. Each has their own goals for example, collect 10 scrolls \n"
-  "or find the exit without getting killed." << endl;
-  cout << "\nPress Enter to continue...";
+  "or find the exit without getting killed.\n"<< endl;
+  cout << "Press Enter to continue...";
   cin.ignore();
   cin.get();
   menu();

@@ -5,9 +5,13 @@ ________________________________________________________________________________
 
 _________________________________________________________________________________________________
 
+DISCLAIMER: This game and the symbols, language, and references used represent the culture of
+the Indo-Iranian people known collectivly as Aryans. We do not condone any violence or hate.
 
-Magian. A game of mages from the school of Agni in Kashmir mountain basin.
-collect from scrolls, herbs, gold and items to build your player and advance through the level.
+Magian. A game of mages from the fictional school of Agni in Kashmir, Arianna. (known as
+present day Afghanistan/Pakistan/North India).
+
+Collect scrolls, herbs, skills and items to build your player and advance through the level.
 
 This is an free c++ game hosted on GitHub free to download and play
 https://github.com/SumeetSinghJi/Magian
