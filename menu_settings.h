@@ -1,9 +1,12 @@
 #pragma once
+#include <iostream>
+using namespace std;
 extern int lives;
 extern int difficulty;
 extern int language;
 // calling language before settings
 void change_language();
+void menu(); // Declaration of the menu function
 // Function for changing in game settings
 void change_settings() 
 {
@@ -16,11 +19,12 @@ void change_settings()
   //"4. Unlimited lives\n\n"
   "LANGUAGE\n"
   "4. Change language\n\n"
-  "MAIN MENU\n"
-  "5. Exit back to Main menu \n\n"
-  "Enter an option: ";
+  "Choose an option (ENTER 0 to exit): ";
   cin >> difficulty;
-  switch (difficulty) {
+  switch (difficulty) 
+  {
+  case 0:
+    menu();
   case 1:
     lives = 1;
     break;
@@ -33,14 +37,12 @@ void change_settings()
   case 4:
     change_language();
     break;
-  case 5:
-    menu();
-    return;
   default:
     cout << "Incorrect choice, try again." << endl;
     change_settings();
     break;
   }
+  menu();
 }
 void change_language() 
 {
@@ -65,8 +67,8 @@ void change_language()
             cout << "हिंदुस्तानी" <<endl;
             break;
         default:
-            cout << "Incorrect option." << endl;
+            cout << "Incorrect option. Returning to Settings." << endl;
             return;
     }
+    change_settings();
 }
-#pragma once

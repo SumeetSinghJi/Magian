@@ -2,7 +2,7 @@
 // In input() the command _kbhit uses user input to move key
 #include <conio.h>
 #include <windows.h>
-// Unix based OS specific headers below
+// POSIX (Unix) based (Linux/MacOS/etc.) OS specific headers below
 #include <unistd.h>
 // Any OS headers below
 // for seed random srand() function
@@ -518,7 +518,7 @@ void soundtrack()
   "Level 10\n"
   "\n"
   "Level 11 Bonus\n"
-  "\n"
+  "\n\n"
   "Choose an option (ENTER 0 to exit): ";
 
   cin >> soundtrack_option_variable;
@@ -556,7 +556,7 @@ void soundtrack()
     case 11:
       break;
     default:
-      cout << "choose a number between 1 - 11" << endl;
+      "Choose an option (ENTER 0 to exit): ";
       soundtrack();
       break;
   }
@@ -584,9 +584,8 @@ void welcome()
   "3. Level select\n"
   "4. Help\n"
   "5. Settings\n"
-  "6. Soundtrack\n"
-  "7. Exit\n\n"
-  "Enter an option: " << endl;
+  "6. Soundtrack\n\n"
+  "Choose an option (ENTER 0 to exit): ";
 }
 // Function for help on how to play game
 void help() 
@@ -642,6 +641,8 @@ void menu()
   cin >> menu_variable;
   switch (menu_variable) 
   {
+  case 0:
+    exit(1);
   case 1:
   PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
     startgame();
@@ -661,9 +662,9 @@ void menu()
   case 6:
     soundtrack();
     break;
-  case 7:
-    cout << "Goodbye" << endl;
-    exit(1);
+  default:
+    cout << "Inccorect option try again";
+    menu();
     break;
   }
 }
