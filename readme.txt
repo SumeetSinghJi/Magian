@@ -115,7 +115,8 @@ HEADERS
 
 DEVELOPMENT
 * known_bugs.txt - Contanins known problems in code and solutions
-* .vscode (folder) - contains the configuration files for editing the repo in VScode with minggw c++
+* .vscode (folder) - contains the configuration files for editing the repo in VScode with minggw
+c++
 * staging.cpp - For testing changes to source code before deploying to main source code
 * staging.exe - for testing.
 * test.cpp - For testing random code.
