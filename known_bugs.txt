@@ -6,8 +6,6 @@ game will keep setup(), input(), logic() for every level is that correct?
 
 2. Cannot set locale, therefore cannot cin <<, then cout >> unicode e.g. Jap, Chinese, in settings()
 
-3. clear_screen(); in draw_level_1(); is too slow. used hard coded system("cls") faster for buffering
+3. <conio.h> for keyboard input logic in logic() is Windows OS only, consider <ncurses.h> for linux
 
-4. <conio.h> for keyboard input logic in logic() is Windows OS only, consider <ncurses.h> for linux
-
-5. Resources.res isn't linking to tasks.json to compile .exe with icon
+4. Resources.res isn't linking to tasks.json to compile .exe with icon

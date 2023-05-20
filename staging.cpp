@@ -125,14 +125,10 @@ int level=11;
 int level_select_variable=1;
 void clear_screen()
 {
-#ifdef __WIN32
-    #define CLEAR_SCREEN system("cls")
-#elif __linux__
-    #define CLEAR_SCREEN system("clear")
-#elif __APPLE__
-    #define CLEAR_SCREEN system("clear")
-#else 
-    #define CLEAR_SCREEN cout << "Host OS cannot be detected so cannot clear screen";
+#ifdef _WIN32
+    system("cls");
+#else
+    cout << "\033[2J\033[1;1H";
 #endif
 }
 int cin_valid_input()
@@ -242,10 +238,7 @@ void draw_level_1() {
   for (int i = 0; i < lives_str.length(); i++) {
     buffer[height+1][lives_pos+i] = lives_str[i];
   }
-
-  // clear or cls the console and print the buffer
-  // clear_screen(); - too slow 
-system("cls");
+  clear_screen();
   for (int y = 0; y < height+2; y++) {
     for (int x = 0; x < width; x++) {
       cout << buffer[y][x];
