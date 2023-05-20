@@ -8,7 +8,7 @@ ________________________________________________________________________________
 DISCLAIMER: This game and the symbols, language, and references used represent the culture of
 the Indo-Iranian people known collectivly as Aryans. We do not condone any violence or hate.
 
-Magian. A game of mages from the fictional school of Agni in Kashmir, Arianna. (known as
+Magian. A game of mages from the fictional school of Agni in Arianna. (known as
 present day Afghanistan/Pakistan/North India).
 
 Collect scrolls, herbs, skills and items to build your player and advance through the level.

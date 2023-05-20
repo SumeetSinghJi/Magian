@@ -684,7 +684,7 @@ void help()
   "                         ░░░░░░░░░░░░░░░▀█▀░░░░░░░░░░░░░░░\n\n\n"
   "DISCLAIMER: This game and the symbols, language, and references used represent the culture of\n"
   "the Indo-Iranian people known collectivly as Aryans. We do not condone any violence or hate.\n\n\n"
-  "A game of mages from the school of Agni in Kashmir mountain basin. \n"
+  "A game of mages from the school of Agni in Arianna. \n"
   "collect from scrolls, herbs, gold and items to build your player\nand advance through the level.\n\n" << endl;
   cout << "The build version for this software is: " << version << endl;
 
