@@ -308,9 +308,10 @@ author remix.
 
 icon - Flame icon is restriced without crediting website that designed read more
 
-Ncurses - is open source and can be used in commercial applications. It's licensed under the MIT license,
-which is permissive and allows for commercial use, modification, distribution, and private use. However,
-it still requires you to include the original copyright notice and disclaimer in your distribution.
+Ncurses - is open source and can be used in commercial applications. It's licensed under the
+MIT license, which is permissive and allows for commercial use, modification, distribution,
+and private use. However, it still requires you to include the original copyright notice and
+disclaimer in your distribution.
 
 SDL 2 - TBD
 
