@@ -1,6 +1,5 @@
 Problems
-
-1. The playsoundW() works tasks.json linker "-lwinmm" to Windows media player, consider Linux/MacOS
+1. Lives not updating in settings header
 
 2. Past level 1 e.g. on Level 2, how does the game know to setup(), input(), logic()?
 does it relate to while (!gameover) while lives > 0. so as long as lives > 0, the 

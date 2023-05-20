@@ -95,7 +95,8 @@ public:
 enemy_class level_1_enemy_object;
 fstream savefile_object;
 /* Global Enum*/
-enum edirection {
+enum edirection 
+{
   STOP = 0, UP, DOWN, LEFT, RIGHT
 };
 edirection direction;
@@ -111,19 +112,17 @@ int moneyx, moneyy;
 int score = 0;
 int money = 0;
 int x_pos, y_pos;
-int menu_variable;
 int lives = 3;
 int difficulty=3;
+// language = 1 is English by default
+int language=1;
 int player_speed=1;
 //create 2D array for double buffering
 char buffer[height][width];
-//changing language variable in settings - future use for include <locale>
-int language=1;
 // max number of levels
 int level=11;
 // Extra game mode level select
 int level_select_variable=1;
-//function prototype
 void clear_screen()
 {
 #ifdef __WIN32
@@ -136,7 +135,27 @@ void clear_screen()
     #define CLEAR_SCREEN cout << "Host OS cannot be detected so cannot clear screen";
 #endif
 }
-// Calling menu function before other void functions so they know it exists at compile time
+int cin_valid_input()
+{
+  int input_variable;
+  while(true)
+  {
+    cin >> input_variable;
+    if(cin.fail())
+    {
+      cin.clear();
+      cin.ignore();
+      cout << "Invalid input. Try again: ";
+    }
+    else
+    {
+      break;
+    }
+  }
+    cin.ignore();
+    return input_variable;
+}
+// Function prototype Calling menu function before other void functions so they know it exists at compile time
 void menu();
 void check_items();
 void check_skills();
@@ -638,7 +657,7 @@ void menu()
 {
   PlaySoundW(L"sound//music//Cyber_Attack_by_JuliusH.wav", NULL, SND_FILENAME | SND_ASYNC);
   welcome();
-  cin >> menu_variable;
+  int menu_variable = cin_valid_input();
   switch (menu_variable) 
   {
   case 0:

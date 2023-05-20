@@ -2,26 +2,26 @@
 #include <iostream>
 using namespace std;
 extern int lives;
-extern int difficulty;
 extern int language;
-// calling language before settings
+// functino prototpes
+int cin_valid_input();
 void change_language();
-void menu(); // Declaration of the menu function
+void menu();
 // Function for changing in game settings
 void change_settings() 
 {
   cout << "SETTINGS\n\n"
   "DIFFICULTY\n"
   "Choose a difficulty level\n"
-  "1. Hard - 1 Life \n"
-  "2. Medium - 2 Life \n"
-  "3. Easy - 3 Life \n"
-  //"4. Unlimited lives\n\n"
+  "1. Easy - 9 Life\n"
+  "2. Medium - 5 Life\n"
+  "3. Hard - 2 Life\n"
+  "4. Story Mode - 99 lives\n\n"
   "LANGUAGE\n"
-  "4. Change language\n\n"
+  "5. Change language\n\n"
   "Choose an option (ENTER 0 to exit): ";
-  cin >> difficulty;
-  switch (difficulty) 
+  int lives_variable = cin_valid_input();
+  switch (lives_variable) 
   {
   case 0:
     menu();
@@ -35,6 +35,9 @@ void change_settings()
     lives = 3;
     break;
   case 4:
+    lives = 99;
+    break;
+  case 5:
     change_language();
     break;
   default:
@@ -51,8 +54,8 @@ void change_language()
     "1. English \n"
     "2. 日本語 \n"
     "3. हिंदुस्तानी \n" << endl;
-    cin >> language;
-    switch(language) 
+    int language_variable;
+    switch(language_variable) 
     {
         case 1:
             language=1;
