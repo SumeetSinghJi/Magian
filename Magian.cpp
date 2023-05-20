@@ -4,7 +4,6 @@
 #include <windows.h>
 // POSIX (Unix) based (Linux/MacOS/etc.) OS specific headers below
 #include <unistd.h>
-// Any OS headers below
 // for seed random srand() function
 #include <ctime>
 #include <iostream>
@@ -665,44 +664,21 @@ void welcome()
 // Function for help on how to play game
 void help() 
 {
-  cout << "\n\n" 
-  "                         ░░░░░░░░░░░░░░░▄▀▄░░░░░░░░░░░░░░░\n"
-  "                         ░░░░░░░░░░░░░▄▀░░░▀▄░░░░░░░░░░░░░\n"
-  "                         ░░░░░░░░░░░▄▀░░░░▄▀█░░░░░░░░░░░░░\n"
-  "                         ░░░░░░░░░▄▀░░░░▄▀░▄▀░▄▀▄░░░░░░░░░\n"
-  "                         ░░░░░░░▄▀░░░░▄▀░▄▀░▄▀░░░▀▄░░░░░░░\n"
-  "                         ░░░░░░░█▀▄░░░░▀█░▄▀░░░░░░░▀▄░░░░░\n"
-  "                         ░░░▄▀▄░▀▄░▀▄░░░░▀░░░░▄█▄░░░░▀▄░░░\n"
-  "                         ░▄▀░░░▀▄░▀▄░▀▄░░░░░▄▀░█░▀▄░░░░▀▄░\n"
-  "                         ░█▀▄░░░░▀▄░█▀░░░░░░░▀█░▀▄░▀▄░▄▀█░\n"
-  "                         ░▀▄░▀▄░░░░▀░░░░▄█▄░░░░▀▄░▀▄░█░▄▀░\n"
-  "                         ░░░▀▄░▀▄░░░░░▄▀░█░▀▄░░░░▀▄░▀█▀░░░\n"
-  "                         ░░░░░▀▄░▀▄░▄▀░▄▀░█▀░░░░▄▀█░░░░░░░\n"
-  "                         ░░░░░░░▀▄░█░▄▀░▄▀░░░░▄▀░▄▀░░░░░░░\n"
-  "                         ░░░░░░░░░▀█▀░▄▀░░░░▄▀░▄▀░░░░░░░░░\n"
-  "                         ░░░░░░░░░░░░░█▀▄░▄▀░▄▀░░░░░░░░░░░\n"
-  "                         ░░░░░░░░░░░░░▀▄░█░▄▀░░░░░░░░░░░░░\n"
-  "                         ░░░░░░░░░░░░░░░▀█▀░░░░░░░░░░░░░░░\n\n\n"
-  "DISCLAIMER: This game and the symbols, language, and references used represent the culture of\n"
-  "the Indo-Iranian people known collectivly as Aryans. We do not condone any violence or hate.\n\n\n"
-  "A game of mages from the school of Agni in Kashmir mountain basin. \n"
-  "collect from scrolls, herbs, gold and items to build your player\nand advance through the level.\n\n" << endl;
-  cout << "The build version for this software is: " << version << endl;
-
-  cout << "\n\nHOW TO PLAY\n\n"
-  "This character represents you स - This is you, stay safe and collect objectives.\n"
-  "Scrolls look like this ₹ - If you find one you get a point \n"
-  "Enemies look like this क - If you touch them you lose a life \n"
-  "Walls look like this # - If you touch them you lose a life \n"
-  "\n\nBUTTONS\n\n"
-  "To move use the keyboard buttons to walk 'W' = UP,'S' = Down,'A' = Left,'D' = RIGHT \n"
-  "Q = quit game.\n"
-  "L = Check level objective to see goals to complete level. for example collect 10 scrolls.\n"
-  "I = Check inventory and use items you found.\n"
-  "X = Check and use skills you gained.\n"
-  "\n\nOBJECTIVE\n\n"
-  "Make it to the end of the levels. Each has their own goals for example, collect 10 scrolls \n"
-  "or find the exit without getting killed.\n"<< endl;
+  fstream readme_object;
+  readme_object.open("readme.txt", ios::in);
+  if (readme_object.is_open())
+  {
+    string line;
+    while(getline(readme_object, line))
+    {
+      cout << line << endl;
+    }
+    readme_object.close();
+  }
+  else
+  {
+    cout << "No readme.txt file in project folder" << endl;
+  }
   cout << "Press Enter to continue...";
   cin.ignore();
   cin.get();

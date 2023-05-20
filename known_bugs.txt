@@ -4,6 +4,6 @@ Known problems
 
 2. Need Internationalisation (Foreign language) option. Pending Locale implementation.
 
-3. POSIX KB input - use ncurses for DEV, then in full version use SDL 2 with OpenGL. 
+3. POSIX KB input - use ncurses for DEV, then in full version use SDL 2 with OpenGL.
 
 4. Resources.res isn't linking to tasks.json to compile .exe with icon.
