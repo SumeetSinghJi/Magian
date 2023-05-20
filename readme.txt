@@ -1,6 +1,6 @@
 _________________________________________________________________________________________________
 
-                                        
+                                    
                                             MAGIAN
 
 _________________________________________________________________________________________________
@@ -14,20 +14,36 @@ present day Afghanistan/Pakistan/North India).
 Collect scrolls, herbs, skills and items to build your player and advance through the level.
 
 This is an free c++ game hosted on GitHub free to download and play
-https://github.com/SumeetSinghJi/Magian
+https://github.com/SumeetSinghJi/Magian 
 
-website: www.sumeet-singh.com
+License: Free to download, modify, and share but not for commerical reasons,
+unless for reviewing, education or through radical customisation where likeness not linked to 
+original story, author or content.
 
 Stable release version 1.0 expected before December 2024.
 
-Code conforms to minimum version C++17
-
-We need you to help build and test this game. Contact the author directly.
+WE NEED YOUR HELP to build and test this game. Contact the author directly.
 
 Author: Sumeet Singh
 Email: kurta.kursi@gmail.com
+website: TBD
+
+_________________________________________________________________________________________________
+
+                                    
+                                            Requirements
+
+_________________________________________________________________________________________________
+
+SOFTWARE
+Operating System: Tested on any modern (2023) Operating system in Windows/Unix environment
 
 
+HARDWARE
+CPU: TBD
+GPU: TBD
+RAM: TBD
+Storage: TBD
 _________________________________________________________________________________________________ 
 
 
@@ -147,6 +163,7 @@ ________________________________________________________________________________
                                             Logic
 _________________________________________________________________________________________________
 
+Code conforms to minimum version C++17
 
 Player
 * represented by character 'P'
@@ -212,7 +229,7 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________
 
 
-                                            Coming soon
+                                        Coming soon
 
 
 _________________________________________________________________________________________________
@@ -239,10 +256,10 @@ Level 11 |
 
 _________________________________________________________________________________________________
 
+                                            
                                             Graphics
+
 _________________________________________________________________________________________________
-
-
 
 Icon - flame.ico taken from https://icons8.com
 
@@ -250,7 +267,9 @@ Icon - flame.ico taken from https://icons8.com
 
 _________________________________________________________________________________________________
 
+                                            
                                             Music
+
 _________________________________________________________________________________________________
 
 All music taken and altered from Pixabay.com
@@ -275,11 +294,40 @@ From: JuliusH on pixabay.com
 
 _________________________________________________________________________________________________
 
+                                            
+                                            Licensing
+
+_________________________________________________________________________________________________
+
+Source code - Free to download, modify, and share but not for commerical reasons,
+unless for reviewing, education or through radical customisation where likeness not linked to 
+original story, author or content.
+
+Sound - Pixabay says free to use aslong as creativly modified, you can credit artists name e.g.
+author remix.
+
+icon - Flame icon is restriced without crediting website that designed read more
+
+Ncurses - is open source and can be used in commercial applications. It's licensed under the MIT license,
+which is permissive and allows for commercial use, modification, distribution, and private use. However,
+it still requires you to include the original copyright notice and disclaimer in your distribution.
+
+SDL 2 - TBD
+
+OpenGL - TBD
+
+
+
+
+_________________________________________________________________________________________________
+
 
                                             Credits
 
 _________________________________________________________________________________________________
 
+                                This game is given to the thankless magus (Zoroastrian mages)
+                                and Rishis (Vedic scholars) that kept the knowledge of science 
 
                                 Game developer 👨🏿‍💻- Sumeet Singh 
                                        Playtester 📜- You 

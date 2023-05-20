@@ -1,13 +1,9 @@
-Known problems/bugs
+Known problems
 
-1. Past level 1 e.g. on Level 2, how does the game know to setup(), input(), logic()?
-does it relate to while (!gameover) while lives > 0. so as long as lives > 0, the 
-game will keep setup(), input(), logic() for every level is that correct?
+1. How does game call draw(), setup(), input(), logic() simultaniously? can this be multi-threaded?
 
-Basically are draw/setup/input/logic functions constantly called? would it be better to use multi-threading instead?
+2. Need Internationalisation (Foreign language) option. Pending Locale implementation.
 
-2. Cannot set locale, therefore cannot cin <<, then cout >> unicode e.g. Jap, Chinese, in settings()
+3. POSIX KB input - use ncurses for DEV, then in full version use SDL 2 with OpenGL. 
 
-3. for void input_POSIX() - import <ncurses.h> for linux kb input
-
-4. Resources.res isn't linking to tasks.json to compile .exe with icon
+4. Resources.res isn't linking to tasks.json to compile .exe with icon.

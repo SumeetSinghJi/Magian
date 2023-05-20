@@ -4,7 +4,6 @@
 #include <windows.h>
 // POSIX (Unix) based (Linux/MacOS/etc.) OS specific headers below
 #include <unistd.h>
-// Any OS headers below
 // for seed random srand() function
 #include <ctime>
 #include <iostream>
