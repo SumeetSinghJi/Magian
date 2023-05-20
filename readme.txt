@@ -18,7 +18,7 @@ https://github.com/SumeetSinghJi/Magian
 
 License: Free to download, modify, and share but not for commerical reasons,
 unless for reviewing, education or through radical customisation where likeness not linked to 
-original story, author or content.
+original story, author or content such as using the source code to make an unrelated game.
 
 Stable release version 1.0 expected before December 2024.
 
@@ -301,7 +301,7 @@ ________________________________________________________________________________
 
 Source code - Free to download, modify, and share but not for commerical reasons,
 unless for reviewing, education or through radical customisation where likeness not linked to 
-original story, author or content.
+original story, author or content such as using the source code to make an unrelated game.
 
 Sound - Pixabay says free to use aslong as creativly modified, you can credit artists name e.g.
 author remix.
