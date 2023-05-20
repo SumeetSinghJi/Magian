@@ -1,7 +1,7 @@
 _________________________________________________________________________________________________
 
                                     
-              ▄▄▄▄███▄▄▄▄      ▄████████    ▄██████▄   ▄█     ▄████████ ███▄▄▄▄ 
+            ▄▄▄▄███▄▄▄▄      ▄████████    ▄██████▄   ▄█     ▄████████ ███▄▄▄▄ 
            ▄██▀▀▀███▀▀▀██▄   ███    ███   ███    ███ ███    ███    ███ ███▀▀▀██▄
            ███   ███   ███   ███    ███   ███    █▀  ███▌   ███    ███ ███   ███
            ███   ███   ███   ███    ███  ▄███        ███▌   ███    ███ ███   ███
@@ -34,7 +34,7 @@ Stable release version 1.0 expected before December 2024.
 WE NEED YOUR HELP to build and test this game. Contact the author directly.
 
 Author: Sumeet Singh
-Email: kurta.kursi@gmail.com
+Email: kurta.kursi█gmail.com
 website: TBD
 
 _________________________________________________________________________________________________
@@ -276,9 +276,9 @@ we thank the website developers greatly for their product.
 
 Song list
 1. Intro - Magian Avatar
-Jungle Alien Ambient Mastered by Szegvari x Amen Break by JapanYoshiTheGamer @ pixabay.com
+Jungle Alien Ambient Mastered by Szegvari x Amen Break by JapanYoshiTheGamer █ pixabay.com
 2. Shima-uta seige
-From: Okinawa folk dance x fire sfx x long wind sfx @ pixabay.com
+From: Okinawa folk dance x fire sfx x long wind sfx █ pixabay.com
 3. Cyber Attack
 From: JuliusH on pixabay.com
 4. COMING SOON
@@ -340,21 +340,21 @@ kept the knowledge of science, and culture alive in some of the most harshest en
 
 
 
-                             @@@@@@@@@     @@@@@@@@@@@@@@@@@@@@@@@ 
-                             @@@@@@@@@     @@@@@@@@@@@@@@@@@@@@@@@ 
-                             @@@@@@@@@     @@@@@@@@@@@@@@@@@@@@@@@ 
-                             @@@@@@@@@     @@@@@@@@@               
-                             @@@@@@@@@     @@@@@@@@@               
-                             @@@@@@@@@     @@@@@@@@@               
-                             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
-                             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
-                             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
-                                           @@@@@@@@@     @@@@@@@@@ 
-                                           @@@@@@@@@     @@@@@@@@@ 
-                             @@@@@@@@@@@@@@@@@@@@@@@     @@@@@@@@@ 
-                             @@@@@@@@@@@@@@@@@@@@@@@     @@@@@@@@@ 
-                             @@@@@@@@@@@@@@@@@@@@@@@     @@@@@@@@@ 
-                             @@@@@@@@@@@@@@@@@@@@@@@     @@@@@@@@@
+                             █████████     ███████████████████████ 
+                             █████████     ███████████████████████ 
+                             █████████     ███████████████████████ 
+                             █████████     █████████               
+                             █████████     █████████               
+                             █████████     █████████               
+                             █████████████████████████████████████ 
+                             █████████████████████████████████████ 
+                             █████████████████████████████████████ 
+                                           █████████     █████████ 
+                                           █████████     █████████ 
+                             ███████████████████████     █████████ 
+                             ███████████████████████     █████████ 
+                             ███████████████████████     █████████ 
+                             ███████████████████████     █████████
 
 
 
