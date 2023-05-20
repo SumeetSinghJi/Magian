@@ -1,65 +1,101 @@
+// Windows OS specific headers below
+// In input() the command _kbhit uses user input to move key
+#include <conio.h>
+#include <windows.h>
+// POSIX (Unix) based (Linux/MacOS/etc.) OS specific headers below
+#include <unistd.h>
+// Any OS headers below
+// for seed random srand() function
+#include <ctime>
 #include <iostream>
-#include <memory>
-#include <vector>
+#include <string>
+// for finding save game exists and delete option save_load_game()
+#include <filesystem>
+// settings header contains main menu settings options
+#include <game_settings.h>
+
 
 using namespace std;
-
-// Item class
-class item_class 
+/* Global Variables */
+double version = 0.2;
+bool gameover = false;
+int lives = 3;
+int difficulty=3;
+int language=1;
+int cin_valid_input()
 {
-public:
-  string name;
-  string description;
-  int cost;
-  int effect;
-  
-  item_class(string name, string description)
-    : name(name), description(description)
+  int input_variable;
+  while(true)
   {
-  }
-
-  virtual void use(int& value)
-  {
-    // This section deliberately left blank
-    // This is a virtual function that makes item_class polymorphic.
-    // This virtual function will be overridden by the subclass, e.g., potion_item_subclass.
-    // The overridden use function in the subclass will be used in check_item() to apply the specific effect of that item.
-  }
-};
-
-class potion_item_subclass : public item_class
-{
-public:
-  potion_item_subclass(string name, string description)
-    : item_class(name, description)
-  {
-  }
-  
-  void use(int& value) override
-  {
-    // Apply the effect of the potion item on the value
-    // ...
-  }
-};
-
-int main()
-{
-    vector<unique_ptr<item_class>> inventory_vector;
-    int lives = 0;
-    int item_select_variable = 0;
-
-    inventory_vector.push_back(make_unique<potion_item_subclass>("Health Potion", "Restores health."));
-    unique_ptr<item_class>& item = inventory_vector[item_select_variable];
-    potion_item_subclass* potion = dynamic_cast<potion_item_subclass*>(item.get());
-    if (potion)
+    cin >> input_variable;
+    if(cin.fail())
     {
-        potion->use(lives);
+      cin.clear();
+      cin.ignore();
+      cout << "Invalid input. Try again: ";
     }
     else
     {
-        cout << "Selected item is not a potion." << endl;
+      break;
     }
-    cout << "test" << endl;
+  }
+    cin.ignore();
+    return input_variable;
+}
+// Function prototype Calling menu function before other void functions so they know it exists at compile time
+void menu();
 
-    return 0;
+// Function for greeting Title page
+void welcome() 
+{ 
+  cout << "\n\n"
+  "      ▄▄▄▄███▄▄▄▄      ▄████████    ▄██████▄   ▄█     ▄████████ ███▄▄▄▄ \n" 
+  "   ▄██▀▀▀███▀▀▀██▄   ███    ███   ███    ███ ███    ███    ███ ███▀▀▀██▄\n" 
+  "   ███   ███   ███   ███    ███   ███    █▀  ███▌   ███    ███ ███   ███\n" 
+  "   ███   ███   ███   ███    ███  ▄███        ███▌   ███    ███ ███   ███\n" 
+  "   ███   ███   ███ ▀███████████ ▀▀███ ████▄  ███▌ ▀███████████ ███   ███\n" 
+  "   ███   ███   ███   ███    ███   ███    ███ ███    ███    ███ ███   ███\n" 
+  "   ███   ███   ███   ███    ███   ███    ███ ███    ███    ███ ███   ███\n" 
+  "     █   ███   █▀    ███    █▀    ████████▀  █▀     ███    █▀   ▀█   █▀ \n"                                                                        
+  "MAIN MENU\n"
+  "1. Start Game\n"
+  "2. Settings\n"
+  "Choose an option (ENTER 0 to exit): ";
+}
+// Function for help on how to play game
+void help() 
+{
+  cout << "Press Enter to continue...";
+  cin.ignore();
+  cin.get();
+  menu();
+}
+// Function for in game menu
+void menu() 
+{
+  PlaySoundW(L"sound//music//Cyber_Attack_by_JuliusH.wav", NULL, SND_FILENAME | SND_ASYNC);
+  welcome();
+  int menu_variable = cin_valid_input();
+  switch (menu_variable) 
+  {
+  case 0:
+    exit(1);
+  case 1:
+  PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
+    //startgame();
+    break;
+  case 2:
+    change_settings(lives, language);
+    break;
+  default:
+    cout << "Inccorect option try again";
+    menu();
+    break;
+  }
+}
+// Int main
+int main() 
+{
+  menu();
+  return 0;
 }

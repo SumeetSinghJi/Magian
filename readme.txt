@@ -68,27 +68,42 @@ ________________________________________________________________________________
 
 _________________________________________________________________________________________________
 
-Modding and problem fixing tutorial
-
-Modding means editing the games files to customise it however you want. That could be to fix 
-problems known as bugs or to add changes to the software.
 
 The files included in the game are below
 
-* .vscode (folder) - contains the configuration files for editing the repo in VScode with minggw c++
+
+GAME
+* magian.exe - main game binary executable. Open or run this to play game.
+* magian_save.txt - the save file
+
+TXT
+* readme.txt - the file you are reading right now is the readme.txt file it's a guide on playing.
+* roadmap.txt - Contains future planned changes to game
+* update_log.txt - Contains update log to be eventually migrated to website
+
+ASSETS
 * sound (folder) - contains music
 * images (folder) - contains images
+
+SOURCE FILES
 * magian.cpp - the main games source code.
-* magian.exe - main game binary executable. Open or run this to play game.
+
+HEADERS
+* game_settings.h - In game settings
+* save_game.h - logic for saving and loading game
+* level_select.h - logic for bonus level select mode
+* get_skills.h - logic for activating skills
+* get_objective.h - logic for checking objective
+* get_items.h - logic for using items
+* get_datetime.h - logic for general datetime use
+
+DEVELOPMENT
+* known_bugs.txt - Contanins known problems in code and solutions
+* .vscode (folder) - contains the configuration files for editing the repo in VScode with minggw c++
 * staging.cpp - For testing changes to source code before deploying to main source code
 * staging.exe - for testing.
 * test.cpp - For testing random code.
 * test.exe - For testing.
-* readme.txt - the file you are reading right now is the readme.txt file it's a guide on playing.
-* magian_save.txt - the save file
-* Troubleshooting.txt - Contanins known problems in code and solutions
-* roadmap.txt - Contains future planned changes to game
-* update_log.txt - Contains update log to be eventually migrated to website
 
 
 _________________________________________________________________________________________________

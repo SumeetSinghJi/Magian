@@ -20,7 +20,7 @@
 // including magian header for saving files functions
 #include "save_game.h"
 // settings header contains main menu settings options
-#include <menu_settings.h>
+#include <game_settings.h>
 // main menu level select option is in own header
 #include <level_select.h>
 // check objectives skill
@@ -458,7 +458,6 @@ void logic() {
 void startgame() 
 {
   setup();
-  lives = difficulty;
   while (!gameover) 
   {
     draw_level_1();
@@ -665,6 +664,7 @@ void menu()
   case 1:
   PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
     startgame();
+    menu();
     break;
   case 2:
     save_load_game();
@@ -676,7 +676,7 @@ void menu()
     help();
     break;
   case 5:
-    change_settings();
+    change_settings(lives, language);
     break;
   case 6:
     soundtrack();
