@@ -4,6 +4,7 @@
 #include <windows.h>
 // POSIX (Unix) based (Linux/MacOS/etc.) OS specific headers below
 #include <unistd.h>
+#include <cstdlib>
 // for seed random srand() function
 #include <ctime>
 #include <iostream>
@@ -17,7 +18,7 @@
 // for finding save game exists and delete option save_load_game()
 #include <filesystem>
 // including magian header for saving files functions
-#include "save_game.h"
+#include <save_game.h>
 // settings header contains main menu settings options
 #include <game_settings.h>
 // main menu level select option is in own header
@@ -649,8 +650,9 @@ void welcome()
   "           ███   ███   ███   ███    ███   ███    ███ ███    ███    ███ ███   ███\n" 
   "             █   ███   █▀    ███    █▀    ████████▀  █▀     ███    █▀   ▀█   █▀ \n"                                                                        
   "\n\n\n" 
-  "A game of mages from the school of Agni in Kashmir mountain basin. \n"
-  "Collect from scrolls, herbs, gold and items to build your player\nand advance through the level.\n"
+  "A game of mages from the school of Agni in Arianna. \n"
+  "Collect from scrolls, herbs, gold and items to build your player\n"
+  "and advance through the level.\n"
   "but dont fall off the path less you die! \n\n\n"
   "MAIN MENU\n"
   "1. Start Game\n"
