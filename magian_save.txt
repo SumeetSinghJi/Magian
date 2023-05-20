@@ -1,5 +1,5 @@
 Creating new save file for Magian.exe: 
-Host is: Windows OS
+Computers Operating system is: Windows
 Version: 0.2
 Date: 20/5/2023
 Level_select_variable=2

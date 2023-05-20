@@ -4,8 +4,10 @@ Known problems/bugs
 does it relate to while (!gameover) while lives > 0. so as long as lives > 0, the 
 game will keep setup(), input(), logic() for every level is that correct?
 
+Basically are draw/setup/input/logic functions constantly called? would it be better to use multi-threading instead?
+
 2. Cannot set locale, therefore cannot cin <<, then cout >> unicode e.g. Jap, Chinese, in settings()
 
-3. <conio.h> for keyboard input logic in logic() is Windows OS only, consider <ncurses.h> for linux
+3. for void input_POSIX() - import <ncurses.h> for linux kb input
 
 4. Resources.res isn't linking to tasks.json to compile .exe with icon
