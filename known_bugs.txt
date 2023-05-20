@@ -6,4 +6,4 @@ Known problems
 
 3. POSIX KB input - use ncurses for DEV, then in full version use SDL 2 with OpenGL.
 
-4. Resources.res isn't linking to tasks.json to compile .exe with icon.
+4. Need Cmake working for linux executable, and also link .ico to Windows .exe
