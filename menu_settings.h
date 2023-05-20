@@ -54,7 +54,7 @@ void change_language()
     "1. English \n"
     "2. 日本語 \n"
     "3. हिंदुस्तानी \n" << endl;
-    int language_variable;
+    int language_variable = cin_valid_input();
     switch(language_variable) 
     {
         case 1:
