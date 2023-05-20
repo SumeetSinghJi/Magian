@@ -25,7 +25,6 @@
 #include <level_select.h>
 // check objectives skill
 #include <get_objective.h>
-
 using namespace std;
 // Global classes
 // creating an enemy that damages player by removing 1 life
@@ -291,7 +290,47 @@ void draw_level_11()
     cout << "Test" << endl;
 }
 // keyboard WSAD directional movement capture for logic() function
-void input() {
+void input()
+{
+    if (_kbhit()) 
+    {
+        switch (_getch()) 
+        {
+        case 'w':
+            direction = UP;
+            break;
+        case 's':
+            direction = DOWN;
+            break;
+        case 'a':
+            direction = LEFT;
+            break;
+        case 'd':
+            direction = RIGHT;
+            break;
+        case 'i':
+            check_items();
+            cout << "Press ENTER button to Return to game" << endl;
+            cin.get();
+            break;
+        case 'l':
+            check_objective();
+            cout << "Press ENTER button to Return to game" << endl;
+            cin.get();
+            break;
+        case 'x':
+            check_skills();
+            cout << "Press ENTER button to Return to game" << endl;
+            cin.get();
+            break; 
+        case 'q':
+            exit(0);
+            break;
+        }
+    }
+}
+void input_POSIX()
+{
     if (_kbhit()) 
     {
         switch (_getch()) 
@@ -330,7 +369,8 @@ void input() {
     }
 }
 // recieves keyboard input from input() and dictates logic
-void logic() {
+void logic() 
+{
     // Update player position based on direction
     switch (direction) 
     {
@@ -447,7 +487,6 @@ void logic() {
 
 
 }
-// starting game funciton called in menu()
 void startgame() 
 {
   setup();
@@ -460,6 +499,31 @@ void startgame()
   }
   cout << "Game Over. Your final score is: " << score << endl;
   cin.get();
+}
+void startgame_POSIX() 
+{
+  setup();
+  while (!gameover) 
+  {
+    draw_level_1();
+    input_POSIX();
+    logic();
+    Sleep(150);
+  }
+  cout << "Game Over. Your final score is: " << score << endl;
+  cin.get();
+}
+// starting game funciton called in menu()
+void game_os_check()
+{
+    if(find_host_os()=="Windows")
+    {
+        startgame();
+    }
+    else
+    {
+        startgame_POSIX();
+    }
 }
 void check_items()
 {
@@ -656,7 +720,7 @@ void menu()
     exit(1);
   case 1:
   PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
-    startgame();
+    game_os_check();
     menu();
     break;
   case 2:
