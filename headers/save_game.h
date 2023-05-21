@@ -51,7 +51,6 @@ void update_savefile_level()
                     savefile_object << "Version: "<< version << endl;
                     savefile_object << "Date: " << get_datetime() << endl;
                     savefile_object << level_select_variable_match << level_select_variable << endl;
-                    savefile_object << "__________________________________________________________________" << endl;
                     savefile_object.close();
                     match_found = true;
                     break;
@@ -81,7 +80,6 @@ void update_savefile_level()
         savefile_object << "Version: "<< version << endl;
         savefile_object << "Date: " << get_datetime() << endl;
         savefile_object << "Level_select_variable=" << level_select_variable << endl;
-        savefile_object << "__________________________________________________________________" << endl;
         savefile_object.close();
     }
     else
