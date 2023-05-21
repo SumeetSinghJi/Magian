@@ -58,35 +58,49 @@ public:
     }
     void random_fast_movement(int width, int height) 
     {
-        if (alive && enemy_pause == 0) {
-            int random_direction = rand() % 4;
-            switch (random_direction) {
-            case 0: // Up
-                if (enemy_y_pos > 1) {
-                    enemy_y_pos--;
-                    enemy_y_pos--;
+        if (alive && enemy_pause == 0) 
+        {
+            // Generate a random number between 0 and 9
+            int random_num = rand() % 10;
+            // Move the enemy only if the random number is less than 2 (20% chance)
+            if (random_num < 2) 
+            {
+                int random_direction = rand() % 4;
+                switch (random_direction) 
+                {
+                    case 0: // Up
+                        if (enemy_y_pos > 1) 
+                        {
+                            enemy_y_pos--;
+                            enemy_y_pos--;
+                        }
+                        break;
+                    case 1: // Down
+                        if (enemy_y_pos < height - 2) 
+                        {
+                            enemy_y_pos++;
+                            enemy_y_pos++;
+                        }
+                        break;
+                    case 2: // Left
+                        if (enemy_x_pos > 1) 
+                        {
+                            enemy_x_pos--;
+                            enemy_x_pos--;
+                        }
+                        break;
+                    case 3: // Right
+                        if (enemy_x_pos < width - 2) 
+                        {
+                            enemy_x_pos++;
+                            enemy_x_pos++;
+                        }
+                        break;
                 }
-                break;
-            case 1: // Down
-                if (enemy_y_pos < height - 2) {
-                    enemy_y_pos++;
-                    enemy_y_pos++;
-                }
-                break;
-            case 2: // Left
-                if (enemy_x_pos > 1) {
-                    enemy_x_pos--;
-                    enemy_x_pos--;
-                }
-                break;
-            case 3: // Right
-                if (enemy_x_pos < width - 2) {
-                    enemy_x_pos++;
-                    enemy_x_pos++;
-                }
-                break;
             }
-        } else if (enemy_pause > 0) {
+        } 
+        else if (enemy_pause > 0) 
+        {
             enemy_pause--;
         }
     }
@@ -213,6 +227,10 @@ void setup()
   x_pos = width / 2;
   y_pos = height / 2;
 
+  // to refresh vectors for new game and level select
+  inventory_vector.clear();
+  enemies_vector.clear();
+
   // level 1 setup enemy
   auto level_1_enemy_pointer = make_shared<enemy_class>();
   level_1_enemy_pointer->enemy_name="Fire";
@@ -234,9 +252,6 @@ void setup()
   level_2_enemy_pointer->alive = true;
   level_2_enemy_pointer->enemy_pause = 0;
   enemies_vector.push_back(level_2_enemy_pointer);
-
-  // to refresh inventory for level select
-  inventory_vector.clear();
 
   // Adding starting items to players inventory vector
   inventory_vector.push_back(make_unique<potion_item_subclass>());
@@ -572,64 +587,65 @@ void game_os_check()
         startgame_POSIX();
     }
 }
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction)
+void shoot(int width, int height, int x_pos, int y_pos, edirection direction) 
 {
-  // Calculate the target position based on the direction
-  int targetX = x_pos;
-  int targetY = y_pos;
+    // Calculate the target position based on the direction
+    int targetX = x_pos;
+    int targetY = y_pos;
 
-  while (true)
-  {
-    if (direction == UP)
-      targetY--;
-    else if (direction == DOWN)
-      targetY++;
-    else if (direction == LEFT)
-      targetX--;
-    else if (direction == RIGHT)
-      targetX++;
+    while (true) {
+        if (direction == UP)
+            targetY--;
+        else if (direction == DOWN)
+            targetY++;
+        else if (direction == LEFT)
+            targetX--;
+        else if (direction == RIGHT)
+            targetX++;
 
-    // Check if the target position is within the bounds of the game map
-    if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height)
-    {
-      // Check if there is an enemy at the target position
-      if (buffer[targetY][targetX] == 'E')
-      {
-        // Check if the bullet hit an enemy
-        for (const auto& enemy : enemies_vector) 
-        {
-          if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) 
-          {
-            enemy->health--;
-            // If enemy's health is 0 or less, set the enemy's alive property to false
-            if (enemy->health <= 0) 
-            {
-              enemy->alive = false;
+        // Check if the target position is within the bounds of the game map
+        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) {
+            // Check if there is an enemy at the target position
+            if (buffer[targetY][targetX] == 'E') {
+                // Check if the bullet hit an enemy
+                for (const auto& enemy : enemies_vector) {
+                    if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) {
+                        enemy->health--;
+                        // If enemy's health is 0 or less, set the enemy's alive property to false
+                        if (enemy->health <= 0) {
+                            enemy->alive = false;
+                        }
+                        break;
+                    }
+                }
             }
-          break;
-          }
+            // Check if the bullet hit a wall
+            else if (buffer[targetY][targetX] == '#') {
+                break;
+            }
+            else {
+                // Clear the bullet from the previous position
+                buffer[y_pos][x_pos] = ' ';
+
+                // Draw the bullet at the target position
+                buffer[targetY][targetX] = '*';
+                draw_level_1();
+
+                // Sleep after drawing the bullet
+                Sleep(50);
+
+                // Clear the bullet from the current position
+                buffer[targetY][targetX] = ' ';
+
+                // Update the player position to the new target position
+                x_pos = targetX;
+                y_pos = targetY;
+            }
         }
-      }
-      // Check if the bullet hit a wall
-      else if (buffer[targetY][targetX] == '#')
-      {
-        break;
-      }
-      else
-      {
-        // Draw the bullet at the target position
-        buffer[targetY][targetX] = '*';
-        draw_level_1();
-        Sleep(50);
-        // Clear the bullet from the previous position
-        buffer[targetY][targetX] = ' ';
-      }
+        else {
+            break;
+        }
     }
-    else
-    {
-      break;
-    }
-  }
 }
 void check_items()
 {

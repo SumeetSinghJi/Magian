@@ -1,9 +1,0 @@
-Known problems
-
-1. How does game call draw(), setup(), input(), logic() simultaniously? can this be multi-threaded?
-
-2. Need Internationalisation (Foreign language) option. Pending Locale implementation.
-
-3. POSIX KB input - use ncurses for DEV, then in full version use SDL 2 with OpenGL.
-
-4. Need Cmake working for linux executable, and also link .ico to Windows .exe

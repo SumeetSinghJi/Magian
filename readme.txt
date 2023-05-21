@@ -116,7 +116,6 @@ GAME
 TXT
 * readme.txt - the file you are reading right now is the readme.txt file it's a guide on playing.
 * roadmap.txt - Contains future planned changes to game
-* update_log.txt - Contains update log to be eventually migrated to website
 
 ASSETS
 * sound (folder) - contains music
@@ -136,7 +135,6 @@ under folder (headers)
 * get_datetime.h - logic for general datetime use
 
 DEVELOPMENT
-* known_bugs.txt - Contanins known problems in code and solutions
 * .vscode (folder) - contains the configuration files for editing the code in VScode with 
 minggw c++ compiler on Windows 11.
 * staging.cpp - testing changes to main source code.

@@ -1,9 +1,0 @@
-UPDATE LOG
-
-Version
-Date
-Change
-
-
-
-0.2.1 - constantly updated - various changes
