@@ -114,6 +114,7 @@ SOURCE FILES
 * magian.cpp - the main games source code.
 
 HEADERS
+under folder (headers)
 * game_settings.h - In game settings
 * save_game.h - logic for saving and loading game
 * level_select.h - logic for bonus level select mode
@@ -126,8 +127,8 @@ DEVELOPMENT
 * known_bugs.txt - Contanins known problems in code and solutions
 * .vscode (folder) - contains the configuration files for editing the repo in VScode with minggw
 c++
-* staging.cpp - For testing changes to source code before deploying to main source code
-* staging.exe - for testing.
+* core_game_logic_testing.cpp - For testing changes to source code before deploying to main source code
+* core_game_logic_testing.exe - for testing.
 
 
 _________________________________________________________________________________________________
