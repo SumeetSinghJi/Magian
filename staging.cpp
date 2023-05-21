@@ -682,7 +682,6 @@ void help()
     cout << "No readme.txt file in project folder" << endl;
   }
   cout << "Press Enter to continue...";
-  cin.ignore();
   cin.get();
   menu();
 }
