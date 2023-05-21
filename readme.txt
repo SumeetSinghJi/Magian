@@ -68,7 +68,7 @@ ________________________________________________________________________________
 * Enemies look like this E or क - If you touch them you lose a life
 * Walls look like this # - If you touch them you lose a life
 
-* Make it to the end of the levels. Each level has their own goals for example, collect 10 scrolls
+* Make it to the end of the levels. Each level has there own goals for example, collect 10 scrolls
 * or find the exit without getting killed.
 
 Difficulty can be adjusted within game settings. Story mode grants 99 lives to experience a
@@ -92,7 +92,7 @@ To move use the keyboard buttons to walk
 'D' = MOVE RIGHT
 'SPACE BAR' = Use Skill
 'Q' = quit game
-'L' = Check level objective to see goals to complete level. for example collect 10 scrolls.
+'L' = Check level objective to see goals to complete level for example collect 10 scrolls.
 'I' = Check inventory and use items you found.
 'X' = Check and use skills you gained.
 
@@ -143,14 +143,14 @@ minggw c++ compiler on Windows 11.
 * staging.exe - for testing.
 * core_game_logic_testing.cpp - For testing core game logic.
 * core_game_logic_testing.exe - for testing.
-* CMakeLists.txt - For building executables
-* linux.toolchain.cmake - used by CMake for building linux executables
+* CMakeLists.txt - For building executables.
+* linux.toolchain.cmake - used by CMake for building Linux executables.
 
 
 
 _________________________________________________________________________________________________
 
-                                            Main menu
+                                            MAIN MENU
 _________________________________________________________________________________________________
 
 Main menu
@@ -169,7 +169,7 @@ Main menu
 
 _________________________________________________________________________________________________
 
-                                            Game loop logic
+                                    GAME INITIATION LOGIC
 _________________________________________________________________________________________________
 
 Main logic of game follows running c++ functions in sequence
@@ -186,7 +186,7 @@ void menu()
 
 _________________________________________________________________________________________________
 
-                                            Logic
+                                        PROGRAMMING LOGIC
 _________________________________________________________________________________________________
 
 Code conforms to minimum version C++17
@@ -236,7 +236,7 @@ Inventory
 in setup()
 * item classes have subclasses of items e.g. potion_subclass
 * check_inventory keyboard input "i" gives option to loop through vector of inventory 
-and use subclass function use to use that subclasses effect e.g. potion_subclass increases lives++
+and use subclass function use to use that subclasses effect e.g., potion_subclass increases lives++
 * inventory vector index item is then removed through vector.erase()
 
 Skills
@@ -246,7 +246,7 @@ Skills
 
 _________________________________________________________________________________________________
 
-                                            Items
+                                            ITEMS
 _________________________________________________________________________________________________
 
 Item name | Description | effect
@@ -256,11 +256,11 @@ Item name | Description | effect
 
 _________________________________________________________________________________________________
 
-                                            Skills
+                                            SKILLS
 _________________________________________________________________________________________________
 
 
-Level 1 skill - Activated with space bar, creaes a weak fireball that shoots into a single
+Level 1 skill - Activated with space bar, conjures a weak fireball that shoots into a single
 direction burning the first thing it hits.
 Effect: 1 life damage on contact
 Range: single line in any direction
@@ -272,7 +272,7 @@ Cooldown: 1 second
 _________________________________________________________________________________________________
 
 
-                                            Enemies
+                                            ENEMIES
 
 _________________________________________________________________________________________________
 
@@ -280,7 +280,7 @@ ________________________________________________________________________________
 ENEMIES
 (LEVEL | NAME | DAMAGE | ATTACK TYPE | HEALTH | SPEED | DROPS | SKILLS)
 Level 1 | Fire | 1 | Touch | 1 | 1 | none | none
-Level 2 | flying Rakashaa | 1 | Touch | 3 | 1 | nothing | teleports when hit
+Level 2 | flying Rakshasa | 1 | Touch | 3 | 1 | nothing | teleports when hit
 Level 3 | 
 Level 4 | 
 Level 5 | 
@@ -289,14 +289,38 @@ Level 7 |
 Level 8 | 
 Level 9 |
 Level 10 | 
-Level 11 |                                             
+Level 11 |        
+
+
+
+_________________________________________________________________________________________________
+
+
+                                            ACHIEVEMENTS
+
+_________________________________________________________________________________________________
+
+
+ENEMIES
+(LEVEL | NAME | DAMAGE | ATTACK TYPE | HEALTH | SPEED | DROPS | SKILLS)
+Level 1 | Fire | 1 | Touch | 1 | 1 | none | none
+Level 2 | flying Rakshasa | 1 | Touch | 3 | 1 | nothing | teleports when hit
+Level 3 | 
+Level 4 | 
+Level 5 | 
+Level 6 | 
+Level 7 | 
+Level 8 | 
+Level 9 |
+Level 10 | 
+Level 11 |    
 
 
 
 _________________________________________________________________________________________________
 
                                             
-                                            Music
+                                            AUDIO
 
 _________________________________________________________________________________________________
 
@@ -307,7 +331,7 @@ Song list
 1. Intro - Magian Avatar
 Jungle Alien Ambient Mastered by Szegvari x Amen Break by JapanYoshiTheGamer █ pixabay.com
 2. Shima-uta seige
-From: Okinawa folk dance x fire sfx x long wind sfx █ pixabay.com
+From: Okinawa folk dance x fire SFX x long wind SFX █ pixabay.com
 3. Cyber Attack
 From: JuliusH on pixabay.com
 4. COMING SOON
@@ -323,18 +347,18 @@ From: JuliusH on pixabay.com
 _________________________________________________________________________________________________
 
                                             
-                                            Licensing
+                                            LICENSING
 
 _________________________________________________________________________________________________
 
-Source code - Free to download, modify, and share but not for commerical reasons,
+Source code - Free to download, modify, and share but not for commercial reasons,
 unless for reviewing, education or through radical customisation where likeness not linked to 
 original story, author or content such as using the source code to make an unrelated game.
 
-Sound - Pixabay says free to use aslong as creativly modified, you can credit artists name e.g.
-author remix.
+Sound - Pixabay provides audio to use if they are creatively modified, you can credit artists
+name e.g., author remix. This is a pending task pre-release.
 
-icon - Flame icon is restriced without crediting website that designed read more
+icon - Flame icon is restricted without crediting website that designed read more
 
 Ncurses - is open source and can be used in commercial applications. It's licensed under the
 MIT license, which is permissive and allows for commercial use, modification, distribution,
@@ -351,12 +375,12 @@ OpenGL - TBD
 _________________________________________________________________________________________________
 
 
-                                            Credits
+                                            CREDITS
 
 _________________________________________________________________________________________________
 
 This game is given to the thankless Magi (Zoroastrian scholars) and Rishis (Vedic scholars) that
-kept the knowledge of science, and culture alive in some of the most harshest environments. 
+kept the knowledge of science, and culture alive in some of the harshest environments. 
 
                                 Game developer 👨🏿‍💻- Sumeet Singh 
                                        Playtester 📜- You 
