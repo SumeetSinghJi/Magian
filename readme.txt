@@ -329,9 +329,9 @@ we thank the website developers greatly for their product.
 
 Song list
 1. Intro - Magian Avatar
-Jungle Alien Ambient Mastered by Szegvari x Amen Break by JapanYoshiTheGamer █ pixabay.com
+Jungle Alien Ambient Mastered by Szegvari x Amen Break by JapanYoshiTheGamer from pixabay.com
 2. Shima-uta seige
-From: Okinawa folk dance x fire SFX x long wind SFX █ pixabay.com
+From: Okinawa folk dance x fire SFX x long wind SFX from pixabay.com
 3. Cyber Attack
 From: JuliusH on pixabay.com
 4. COMING SOON
