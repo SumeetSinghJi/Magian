@@ -53,6 +53,8 @@ CPU: TBD
 GPU: TBD
 RAM: TBD
 Storage: TBD
+
+
 _________________________________________________________________________________________________ 
 
 
@@ -69,6 +71,12 @@ ________________________________________________________________________________
 * Make it to the end of the levels. Each level has their own goals for example, collect 10 scrolls
 * or find the exit without getting killed.
 
+Difficulty can be adjusted within game settings. Story mode grants 99 lives to experience a
+narrative driven game without constraints.
+
+
+
+
 _________________________________________________________________________________________________ 
 
 
@@ -78,16 +86,15 @@ ________________________________________________________________________________
 
 
 To move use the keyboard buttons to walk 
-'W' = UP,
-'S' = Down,
-'A' = Left,
-'D' = RIGHT
-SPACE BAR = Attack
-Q = quit game
-L = Check level objective to see goals to complete level. for example collect 10 scrolls.
-I = Check inventory and use items you found.
-X = Check and use skills you gained.
-
+'W' = MOVE UP,
+'S' = MOVE DOWN,
+'A' = MOVE LEFT,
+'D' = MOVE RIGHT
+'SPACE BAR' = Use Skill
+'Q' = quit game
+'L' = Check level objective to see goals to complete level. for example collect 10 scrolls.
+'I' = Check inventory and use items you found.
+'X' = Check and use skills you gained.
 
 
 
@@ -130,12 +137,15 @@ under folder (headers)
 
 DEVELOPMENT
 * known_bugs.txt - Contanins known problems in code and solutions
-* .vscode (folder) - contains the configuration files for editing the repo in VScode with minggw
-c++
+* .vscode (folder) - contains the configuration files for editing the code in VScode with 
+minggw c++ compiler on Windows 11.
 * staging.cpp - testing changes to main source code.
 * staging.exe - for testing.
 * core_game_logic_testing.cpp - For testing core game logic.
 * core_game_logic_testing.exe - for testing.
+* CMakeLists.txt - For building executables
+* linux.toolchain.cmake - used by CMake for building linux executables
+
 
 
 _________________________________________________________________________________________________
@@ -187,35 +197,34 @@ Player
 * Has 3 lives, but can set less in settings(), difficulty switch
 * Moves with keyboard input in logic()
 
-
 Enemies
-* represented by character 'E'
-* are c++ classes
+* represented by characters such as 'E'
+* enemies_vector is a vector of pointer enemy objects initialised through pushback of
+pointer enemy objects
+in setup()
+* Are pointer objects in an enemies vector
 * have a speed they move on the x,y plane
-* moves through rand() in logic()
 * are spawned in draw()
-    //draw enemy
-        else if (x == enemy_object.first_enemy_x_pos && y == enemy_object.first_enemy_y_pos) {
-            buffer[y][x] = 'E';
-        }   
-* in logic() dictate damage dealth as
-    --lives;
+* logic() dictates speed, damage
 
 Game world
 * represented by draw()
 * Surrounded by character '#' walls that hurt player causing lives--;
 * in draw() spawns (P), money ($), enemy (E)
+* Every level has unique objectives required to win to progress to next level
+* levels get increasingly difficult with harder enemies but better items, money and Skill
+opportunities to compensate.
 
 Money
 * represented by character '$'
 * score == money;
-* used in win condition to finish level and game
+* used in win conditions or to buy more items and train skills at trainers
 
 Win logic
-* collect enough money ($) to win
+* follow the objectives in your log book by pressing "l" key by default.
 
 Save Load
-* header magian_save_game.h called in source code magian.cpp main menu case
+* header save_game.h called in source code magian.cpp main menu case
 to create save game file magian_save.txt 
 
 Level select
@@ -223,11 +232,17 @@ Level select
 * level select option reads level_select_variable from file above
 
 Inventory
-* Inventory is a vector of item classes initialised through pushback of item subclasses
+* Inventory is a vector of pointer item objects initialised through pushback of item subclasses
+in setup()
 * item classes have subclasses of items e.g. potion_subclass
 * check_inventory keyboard input "i" gives option to loop through vector of inventory 
 and use subclass function use to use that subclasses effect e.g. potion_subclass increases lives++
 * inventory vector index item is then removed through vector.erase()
+
+Skills
+* Gained throughout the game
+* Activated with SPACE_BAR
+* Have various effects, damage enemies, heal etc.,
 
 _________________________________________________________________________________________________
 
@@ -245,8 +260,13 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________
 
 
-Level 1 skill - Activated with space bar is casts a ranged fireball. 
-Deals 1 life damage on contact.
+Level 1 skill - Activated with space bar, creaes a weak fireball that shoots into a single
+direction burning the first thing it hits.
+Effect: 1 life damage on contact
+Range: single line in any direction
+Cooldown: 1 second
+
+
 
 
 _________________________________________________________________________________________________
