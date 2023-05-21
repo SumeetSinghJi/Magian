@@ -1,5 +1,4 @@
-Creating new save file for Magian.exe: 
-Computers Operating system is: Windows
+Creating new save file for Magian.exe: 21/5/2023
 Version: 0.2
-Date: 20/5/2023
+Date: 21/5/2023
 Level_select_variable=2

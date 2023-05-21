@@ -1,9 +1,24 @@
 Roadmap
 
 0.0
-have help() cout << readme.txt
+vector for skills
+skill 1 = basic attack
+basic attack = x or y player input directional travelling 1 char fireball that when hits target removes 1 of their int enemy_lives
+can be used every 2 seconds
+element = fire
 
-0
+enemies also have skill 1 basic attack.
+enemies can be resistent to fire
+
+0.1
+Implement load system
+
+
+0.1
+
+ESC key in ncurses opens save or quit option
+
+0.9
 Load game option that automatically starts level at last level_select_variable
 
 0.1
@@ -24,60 +39,32 @@ save manually overwrites to file all inventory and level variable
 1
 Install <ncurses.h> into projects directory
 
-2
-in logic() move enemy movement and damage to class functions, then call them in logic
-
 4 
 Change language option
 
-5
-More levels
-
 6
-More enemies and AI.
 Chasing enemy AI
-Fast AI enemy
 
-7
-Obstacles e.g. fire, sea, trees
-
-8
-Elemental damage and resistence
 
 9
 Items
-* blood drop (HP potion) with rand() drop after killing enemy
-price = 10
-* Money drop
-rand() drop depending on the level or boss type
-* Sanskrit scroll drop - adds 1 to skills (xp)
-price = 20
-* ressurection scroll
-price = 100
 
 10
-In-game shop
+World map and In-game shop
 * use money to buy items or sell items
 
 11
 Spells
 
-12
-* ultimate spell with x score = xp can skip levels
-* kill all enemies on map
-* charm all enemies
-* wall shields surrounding you and protecting from enemies
-* fire shield surrounding you that kills all enemies it touches
-* Summon angel - fights for you and tracks enemies a.i.
 
 13
 High score table local and online
 
-14 Achievements
+14 Achievements consider a table for Steam, or not
 * funnest task set goals!
 
 15
-* Unlockables
+* Secrets
 
 16
 Graphics - SDL 2 or qt, or Open gl
@@ -101,12 +88,6 @@ Readme -
 Download link - 
 GitHub repo - 
 Social Media repo - 
-
-20
-GET from official website or GitHub repo advising of company news.
-
-21
-Multiple OS releases with cmake
 
 22
 World map option - places to visit

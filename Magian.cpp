@@ -18,13 +18,13 @@
 // for finding save game exists and delete option save_load_game()
 #include <filesystem>
 // including magian header for saving files functions
-#include <save_game.h>
+#include <headers/save_game.h>
 // settings header contains main menu settings options
-#include <game_settings.h>
+#include <headers/game_settings.h>
 // main menu level select option is in own header
-#include <level_select.h>
+#include <headers/level_select.h>
 // check objectives skill
-#include <get_objective.h>
+#include <headers/get_objective.h>
 using namespace std;
 // Global classes
 // creating an enemy that damages player by removing 1 life
