@@ -13,7 +13,6 @@ enemies can be resistent to fire
 0.1
 Implement load system
 
-
 0.1
 
 ESC key in ncurses opens save or quit option
@@ -45,17 +44,8 @@ Change language option
 6
 Chasing enemy AI
 
-
-9
-Items
-
-10
-World map and In-game shop
-* use money to buy items or sell items
-
 11
 Spells
-
 
 13
 High score table local and online
@@ -65,9 +55,6 @@ High score table local and online
 
 15
 * Secrets
-
-16
-Graphics - SDL 2 or qt, or Open gl
 
 17
 Sound effects
@@ -96,3 +83,8 @@ World map option - places to visit
 * Teacher
 * Single path of unlocked levels 1 - 11 branching like mario
 * repeat levels
+
+16
+Graphics - SDL with OpenGL
+* In order to be a proper game eventually learn SDL2/OpenGL
+* Game needs to be made 2D/3D in order to have cosmetics - e.g., Sogdian cap
