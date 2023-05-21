@@ -6,7 +6,7 @@
 #include <headers/get_datetime.h>
 using namespace std;
 extern int level_select_variable;
-extern double version;
+extern string version;
 extern fstream savefile_object;
 
 //added function declaration for void menu(); for the save load function  
@@ -46,11 +46,12 @@ void update_savefile_level()
                 savefile_object.open("magian_save.txt", ios::out);
                 if (savefile_object.is_open())
                 {
-                    savefile_object << "Creating new save file for Magian.exe: " << endl;
+                    savefile_object << "Updating save file" << endl;
                     savefile_object << "Computers Operating system is: " << find_host_os() << endl;
                     savefile_object << "Version: "<< version << endl;
                     savefile_object << "Date: " << get_datetime() << endl;
                     savefile_object << level_select_variable_match << level_select_variable << endl;
+                    savefile_object << "__________________________________________________________________" << endl;
                     savefile_object.close();
                     match_found = true;
                     break;
@@ -75,10 +76,12 @@ void update_savefile_level()
     savefile_object.open("magian_save.txt", ios::app);
     if (savefile_object.is_open())
     {
-        savefile_object << "Creating new save file for Magian.exe: " << get_datetime()  << endl;
+        savefile_object << "Updating save file" << endl;
+        savefile_object << "Computers Operating system is: " << find_host_os() << endl;
         savefile_object << "Version: "<< version << endl;
-        savefile_object << "Date: " << get_datetime()  << endl;
+        savefile_object << "Date: " << get_datetime() << endl;
         savefile_object << "Level_select_variable=" << level_select_variable << endl;
+        savefile_object << "__________________________________________________________________" << endl;
         savefile_object.close();
     }
     else

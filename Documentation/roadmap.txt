@@ -1,42 +1,15 @@
 Roadmap
 
-0.0
-vector for skills
-skill 1 = basic attack
-basic attack = x or y player input directional travelling 1 char fireball that when hits target removes 1 of their int enemy_lives
-can be used every 2 seconds
-element = fire
+0.1
+start of draw()
+1. dump inventory into savefile
+Getting new item in draw()
+2. getting new item = new trigger write to save file.
 
-enemies also have skill 1 basic attack.
-enemies can be resistent to fire
+3. Implement load system, 
 
 0.1
-Implement load system
-
-0.1
-
-ESC key in ncurses opens save or quit option
-
-0.9
-Load game option that automatically starts level at last level_select_variable
-
-0.1
-In save_game.h link to extern vector inventory and output to file inventory
-
-0.2
-On level start read items in inventory and populates vector
-
-0.3
-getting new item = new trigger write to save file.
-
-0.4
-F1 key is save
-
-0.5
-save manually overwrites to file all inventory and level variable
-
-1
-Install <ncurses.h> into projects directory
+ESC key opens save menu, or F1 key is save
 
 4 
 Change language option
@@ -44,17 +17,12 @@ Change language option
 6
 Chasing enemy AI
 
-11
-Spells
-
 13
-High score table local and online
+High sccore or Achievements 
 
-14 Achievements consider a table for Steam, or not
-* funnest task set goals!
-
-15
-* Secrets
+14
+Secret areas
+(Including secret achievements)
 
 17
 Sound effects

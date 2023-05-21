@@ -77,7 +77,12 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________                                            
 
 
-To move use the keyboard buttons to walk 'W' = UP,'S' = Down,'A' = Left,'D' = RIGHT
+To move use the keyboard buttons to walk 
+'W' = UP,
+'S' = Down,
+'A' = Left,
+'D' = RIGHT
+SPACE BAR = Attack
 Q = quit game
 L = Check level objective to see goals to complete level. for example collect 10 scrolls.
 I = Check inventory and use items you found.
@@ -127,7 +132,9 @@ DEVELOPMENT
 * known_bugs.txt - Contanins known problems in code and solutions
 * .vscode (folder) - contains the configuration files for editing the repo in VScode with minggw
 c++
-* core_game_logic_testing.cpp - For testing changes to source code before deploying to main source code
+* staging.cpp - testing changes to main source code.
+* staging.exe - for testing.
+* core_game_logic_testing.cpp - For testing core game logic.
 * core_game_logic_testing.exe - for testing.
 
 
@@ -238,7 +245,8 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________
 
 
-                                        Coming soon
+Level 1 skill - Activated with space bar is casts a ranged fireball. 
+Deals 1 life damage on contact.
 
 
 _________________________________________________________________________________________________
@@ -250,9 +258,9 @@ ________________________________________________________________________________
 
 
 ENEMIES
-(LEVEL | NAME | DAMAGE | HEALTH | SPEED | DROPS)
-Level 1 | 
-Level 2 | 
+(LEVEL | NAME | DAMAGE | ATTACK TYPE | HEALTH | SPEED | DROPS | SKILLS)
+Level 1 | Fire | 1 | Touch | 1 | 1 | none | none
+Level 2 | flying Rakashaa | 1 | Touch | 3 | 1 | nothing | teleports when hit
 Level 3 | 
 Level 4 | 
 Level 5 | 

@@ -572,64 +572,65 @@ void game_os_check()
         startgame_POSIX();
     }
 }
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction)
+void shoot(int width, int height, int x_pos, int y_pos, edirection direction) 
 {
-  // Calculate the target position based on the direction
-  int targetX = x_pos;
-  int targetY = y_pos;
+    // Calculate the target position based on the direction
+    int targetX = x_pos;
+    int targetY = y_pos;
 
-  while (true)
-  {
-    if (direction == UP)
-      targetY--;
-    else if (direction == DOWN)
-      targetY++;
-    else if (direction == LEFT)
-      targetX--;
-    else if (direction == RIGHT)
-      targetX++;
+    while (true) {
+        if (direction == UP)
+            targetY--;
+        else if (direction == DOWN)
+            targetY++;
+        else if (direction == LEFT)
+            targetX--;
+        else if (direction == RIGHT)
+            targetX++;
 
-    // Check if the target position is within the bounds of the game map
-    if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height)
-    {
-      // Check if there is an enemy at the target position
-      if (buffer[targetY][targetX] == 'E')
-      {
-        // Check if the bullet hit an enemy
-        for (const auto& enemy : enemies_vector) 
-        {
-          if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) 
-          {
-            enemy->health--;
-            // If enemy's health is 0 or less, set the enemy's alive property to false
-            if (enemy->health <= 0) 
-            {
-              enemy->alive = false;
+        // Check if the target position is within the bounds of the game map
+        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) {
+            // Check if there is an enemy at the target position
+            if (buffer[targetY][targetX] == 'E') {
+                // Check if the bullet hit an enemy
+                for (const auto& enemy : enemies_vector) {
+                    if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) {
+                        enemy->health--;
+                        // If enemy's health is 0 or less, set the enemy's alive property to false
+                        if (enemy->health <= 0) {
+                            enemy->alive = false;
+                        }
+                        break;
+                    }
+                }
             }
-          break;
-          }
+            // Check if the bullet hit a wall
+            else if (buffer[targetY][targetX] == '#') {
+                break;
+            }
+            else {
+                // Clear the bullet from the previous position
+                buffer[y_pos][x_pos] = ' ';
+
+                // Draw the bullet at the target position
+                buffer[targetY][targetX] = '*';
+                draw_level_1();
+
+                // Sleep after drawing the bullet
+                Sleep(50);
+
+                // Clear the bullet from the current position
+                buffer[targetY][targetX] = ' ';
+
+                // Update the player position to the new target position
+                x_pos = targetX;
+                y_pos = targetY;
+            }
         }
-      }
-      // Check if the bullet hit a wall
-      else if (buffer[targetY][targetX] == '#')
-      {
-        break;
-      }
-      else
-      {
-        // Draw the bullet at the target position
-        buffer[targetY][targetX] = '*';
-        draw_level_1();
-        Sleep(50);
-        // Clear the bullet from the previous position
-        buffer[targetY][targetX] = ' ';
-      }
+        else {
+            break;
+        }
     }
-    else
-    {
-      break;
-    }
-  }
 }
 void check_items()
 {
