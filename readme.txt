@@ -26,8 +26,9 @@ This is an free c++ game hosted on GitHub free to download and play
 https://github.com/SumeetSinghJi/Magian 
 
 License: Free to download, modify, and share but not for commerical reasons,
-unless for reviewing, education or through radical customisation where likeness not linked to 
-original story, author or content such as using the source code to make an unrelated game.
+unless for reviewing, education or through creative modifing the soure code where likeness not
+linked to original story, setting, content or author such as using the source code to make an
+unrelated game.
 
 Stable release version 1.0 expected before December 2024.
 
@@ -349,9 +350,10 @@ ________________________________________________________________________________
 
 _________________________________________________________________________________________________
 
-Source code - Free to download, modify, and share but not for commercial reasons,
-unless for reviewing, education or through radical customisation where likeness not linked to 
-original story, author or content such as using the source code to make an unrelated game.
+License: Free to download, modify, and share but not for commerical reasons,
+unless for reviewing, education or through creative modifing the soure code where likeness not
+linked to original story, setting, content or author such as using the source code to make an
+unrelated game.
 
 Sound - Pixabay provides audio to use if they are creatively modified, you can credit artists
 name e.g., author remix. This is a pending task pre-release.
