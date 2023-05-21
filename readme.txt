@@ -34,7 +34,7 @@ Stable release version 1.0 expected before December 2024.
 WE NEED YOUR HELP to build and test this game. Contact the author directly.
 
 Author: Sumeet Singh
-Email: kurta.kursi█gmail.com
+Email: kurta.kursi@gmail.com
 website: TBD
 
 _________________________________________________________________________________________________
