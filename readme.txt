@@ -111,12 +111,14 @@ The files included in the game are below
 
 
 GAME
-* magian.exe - main game binary executable. Open or run this to play game.
-* magian_save.txt - the save file
+* magian.exe - Start to play on Windows.
+* magian.app - Start to play on MacOS.
+* magian - Start to play on Linux/Unix.
 
-TXT
+DOCUMENTS
 * readme.txt - the file you are reading right now is the readme.txt file it's a guide on playing.
 * roadmap.txt - Contains future planned changes to game
+* magian_save.txt - the save file
 
 ASSETS
 * sound (folder) - contains music
