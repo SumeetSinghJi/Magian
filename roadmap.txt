@@ -68,6 +68,9 @@ World map option - places to visit
 * repeat levels
 
 14
+Create level editor
+
+15
 Graphics - SDL with OpenGL
 * In order to be a proper game eventually learn SDL2/OpenGL
 * Game needs to be made 2D/3D in order to have cosmetics - e.g., Sogdian cap
