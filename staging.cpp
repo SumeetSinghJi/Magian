@@ -14,7 +14,8 @@
 #include <headers/level_select.h>
 #include <headers/get_objective.h>
 using namespace std;
-class enemy_class {
+class enemy_class 
+{
 public:
     string enemy_name;
     string enemy_description;
@@ -104,7 +105,33 @@ public:
             enemy_pause--;
         }
     }
-    void check_collision(int player_x, int player_y, int& player_lives) {
+    void random_slow_chasing(int x_pos, int y_pos, int width, int height) 
+    {
+      // Move the enemy only if the random number is less than 4 (40% chance)
+      if (alive && enemy_pause == 0)
+      {
+        // Generate a random number between 0 and 9
+        int random_num = rand() % 10;
+        if (rand() % 10 < 4) 
+        {
+            // Move towards player
+            if (enemy_x_pos < x_pos && enemy_x_pos < width - 2)
+                enemy_x_pos++;
+            else if (enemy_x_pos > x_pos && enemy_x_pos > 1)
+                enemy_x_pos--;
+            if (enemy_y_pos < y_pos && enemy_y_pos < height - 2)
+                enemy_y_pos++;
+            else if (enemy_y_pos > y_pos && enemy_y_pos > 1)
+                enemy_y_pos--;
+        }
+      }
+      else if (enemy_pause > 0) 
+      {
+        enemy_pause--;
+      }
+    }
+    void check_collision(int player_x, int player_y, int& player_lives) 
+    {
         if (enemy_x_pos == player_x && enemy_y_pos == player_y) {
             player_lives--;
             enemy_pause = 5; // Pause for 5 ticks
@@ -252,6 +279,19 @@ void setup()
   level_2_enemy_pointer->alive = true;
   level_2_enemy_pointer->enemy_pause = 0;
   enemies_vector.push_back(level_2_enemy_pointer);
+
+  // level 3 setup enemy
+  auto level_3_enemy_pointer = make_shared<enemy_class>();
+  level_3_enemy_pointer->enemy_name="Stalking Rakashaa";
+  level_3_enemy_pointer->health = 3;
+  level_3_enemy_pointer->enemy_description="A white large furry humanoid with sharp nails, bare arms and legs despite a furry body"
+  "It's legs move exceedingly fast but stride is slow giving it the impression at any moment it could outrace and catch you."
+  "The uncertanty of the humanoids actions cause you deep fear.";
+  level_3_enemy_pointer->enemy_x_pos = rand() % width;
+  level_3_enemy_pointer->enemy_y_pos = rand() % height;
+  level_3_enemy_pointer->alive = true;
+  level_3_enemy_pointer->enemy_pause = 0;
+  enemies_vector.push_back(level_3_enemy_pointer);
 
   // Adding starting items to players inventory vector
   inventory_vector.push_back(make_unique<potion_item_subclass>());
@@ -538,10 +578,12 @@ void logic()
     }
 
     /* For enemies in Enemies Vector only */
-    // Level 1 enemy will move slow
+    // Fire enemy will move slow
     enemies_vector[0]->random_slow_movement(width, height);
-    // Level 2 enemy will move fast
+    // Flying Rakshaa enemy will move fast
     enemies_vector[1]->random_fast_movement(width, height);
+    // Stalking Rakshaa enemy will hunt player slowly
+    enemies_vector[2]->random_slow_chasing(x_pos, y_pos, width, height);
     // Check for enemy collision
     for (const auto& enemy : enemies_vector) {
         if (enemy->alive) {

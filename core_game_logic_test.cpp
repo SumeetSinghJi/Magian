@@ -99,6 +99,22 @@ public:
             enemy_pause--;
         }
     }
+    void random_slow_chasing(int player_x, int player_y, int width, int height) 
+    {
+        // Move the enemy only if the random number is less than 3 (30% chance)
+        if (rand() % 10 < 3) 
+        {
+            // Move towards player
+            if (enemy_x_pos < player_x && enemy_x_pos < width - 2)
+                enemy_x_pos++;
+            else if (enemy_x_pos > player_x && enemy_x_pos > 1)
+                enemy_x_pos--;
+            if (enemy_y_pos < player_y && enemy_y_pos < height - 2)
+                enemy_y_pos++;
+            else if (enemy_y_pos > player_y && enemy_y_pos > 1)
+                enemy_y_pos--;
+        }
+    }
 
     void check_collision(int player_x, int player_y, int& player_lives) {
         if (enemy_x_pos == player_x && enemy_y_pos == player_y) {
@@ -116,8 +132,8 @@ enum edirection
 edirection direction;
 double version = 0.2;
 bool gameover = false;
-const int width = 20;
-const int height = 20;
+const int width = 40;
+const int height = 40;
 int moneyx, moneyy;
 int score = 0;
 int money = 0;
