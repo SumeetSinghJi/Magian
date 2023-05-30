@@ -47,15 +47,16 @@ ________________________________________________________________________________
 
 _________________________________________________________________________________________________
 
-SOFTWARE
-Operating System: Tested on any modern (2023) Operating system in Windows/Unix environment
-
-
-HARDWARE
-CPU: TBD
-GPU: TBD
-RAM: TBD
-Storage: TBD
+MINIMUM:
+OS: Most operating systems including; 
+Windows XP/Vista/7/8/10/11, 
+MacOS X, 
+Linux (RHEL/DEBIAN/etc) 
+Processor: TBD GHz Intel Core 2 Duo or better
+Memory: TBD MB RAM
+Graphics: none
+DirectX: none
+Storage: TBD GB available space
 
 
 _________________________________________________________________________________________________ 
