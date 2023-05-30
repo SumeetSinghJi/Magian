@@ -208,6 +208,7 @@ int level_select_variable=1; // for bonus level select
 clock_t lastShootTime; // shoot() time management variables
 const int shootInterval = 1000; // 1 second in milliseconds
 void menu();
+void item_store(vector<unique_ptr<item_class>>& inventory_vector);
 void check_items();
 void check_skills();
 void shoot(int width, int height, int x_pos, int y_pos, edirection direction);
@@ -295,7 +296,9 @@ void setup()
 
   // Adding starting items to players inventory vector
   inventory_vector.push_back(make_unique<potion_item_subclass>());
+  item_store(inventory_vector);
   inventory_vector.push_back(make_unique<leather_boots_item_subclass>());
+  item_store(inventory_vector);
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
   for (int i = 0; i < height; i++)
@@ -590,11 +593,11 @@ void logic()
             enemy->check_collision(x_pos, y_pos, lives);
         }
     }
-
 }
 void startgame() 
 {
   setup();
+  lives = 3;
   while (!gameover) 
   {
     draw_level_1();
@@ -620,6 +623,7 @@ void startgame_POSIX()
 }
 void game_os_check()
 {
+    PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
     if(find_host_os()=="Windows")
     {
         startgame();
@@ -711,6 +715,7 @@ void check_items()
     {
       potion_item_subclass* potion = dynamic_cast<potion_item_subclass*>(item.get());
       potion->use(lives);
+      inventory_vector.erase(inventory_vector.begin() + item_select_variable);
       cout << "Press ENTER to continue...";
       cin.get();
     }
@@ -718,6 +723,7 @@ void check_items()
     {
       leather_boots_item_subclass* boots = dynamic_cast<leather_boots_item_subclass*>(item.get());
       boots->use(player_speed);
+      inventory_vector.erase(inventory_vector.begin() + item_select_variable);
       cout << "Press ENTER to continue...";
       cin.get();
     }
@@ -728,8 +734,32 @@ void check_items()
     cout << "Invalid item index option" << endl;
   }
 }
+void item_store(vector<unique_ptr<item_class>>& inventory_vector)
+{
+    // Accessing last Element of inventory vector
+    int inventory_last_index_variable = inventory_vector.size() - 1;
+    // accessing last item
+    item_class* inventory_last_element_variable = inventory_vector[inventory_last_index_variable].get();
+    string item_store_variable = inventory_last_element_variable->name;
+    // Storing last item to savegame file
+    savefile_object.open("magian_save.txt", ios::app);
+    if(savefile_object.is_open())
+    {
+        savefile_object << item_store_variable << endl;
+        savefile_object.close();
+    }
+    else
+    {
+        cerr << "Error: Inventory not saved to save file" << endl;
+        return;
+    }
+}
 void check_skills()
 {
+  // change the spacebar in input() to be another function e.g. from shoot() to fireball() with tri direction fire e.g.
+  //*  *  *
+  // * * *
+  //   *
   cout << "COMING SOON" <<endl;
 }
 void soundtrack()
@@ -821,8 +851,8 @@ void welcome()
   "and advance through the level.\n"
   "but dont fall off the path less you die! \n\n\n"
   "MAIN MENU\n"
-  "1. Start Game\n"
-  "2. Save & Load\n"
+  "1. New Game\n"
+  "2. Continue\n"
   "3. Level select\n"
   "4. Help\n"
   "5. Settings\n"
@@ -850,6 +880,30 @@ void help()
   cin.get();
   menu();
 }
+void overwrite_save()
+{
+savefile_object.open("magian_save.txt", ios::in);
+    if (savefile_object.is_open())
+    {
+      char choice_new_game_variable; 
+      cout << "Starting new game will Erase old save file. Are you sure? type Y to erase or any other key to Exit: ";
+      cin >> choice_new_game_variable;
+      if (choice_new_game_variable == 'Y' || choice_new_game_variable == 'y')
+      {
+        savefile_object.close();
+        filesystem::remove("magian_save.txt");
+        game_os_check();
+      }
+      else
+      {
+        menu();
+      }
+    }
+    else 
+    {
+      game_os_check();
+    }  
+}
 void menu() 
 {
   PlaySoundW(L"sound//music//Cyber_Attack_by_JuliusH.wav", NULL, SND_FILENAME | SND_ASYNC);
@@ -860,9 +914,7 @@ void menu()
   case 0:
     exit(1);
   case 1:
-  PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
-    game_os_check();
-    menu();
+    overwrite_save();
     break;
   case 2:
     save_load_game();

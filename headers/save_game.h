@@ -2,13 +2,13 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-// custom magian header for getting the date and time
+#include <vector>
+#include <memory>
 #include <headers/get_datetime.h>
 using namespace std;
 extern int level_select_variable;
 extern string version;
 extern fstream savefile_object;
-
 //added function declaration for void menu(); for the save load function  
 void menu();
 // for debugging purposes
@@ -26,6 +26,20 @@ string find_host_os()
     #endif
     return host_OS_name_variable; 
 }
+/* void write_inventory_title_in_save()
+{
+    //if already exists the word Inventory then Dont do below. Call in every win condition?
+    savefile_object.open("magian_save.txt", ios::app);
+    if (savefile_object.is_open())
+    {
+        savefile_object << "Inventory" << endl;
+    }
+    else
+    {
+        cerr << "Error: failed to create save file!" << endl;
+        return;
+    }    
+} */
 // This function should be called in win condition
 void update_savefile_level()
 {

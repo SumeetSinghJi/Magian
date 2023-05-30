@@ -16,6 +16,8 @@ ________________________________________________________________________________
 DISCLAIMER: This game and the symbols, language, and references used represent the culture of
 the Indo-Iranian people known collectivly as Aryans. We do not condone any violence or hate.
 
+NOTE For GitHub source code binaries (e.g. .exe's) need to be recompiled and save file deleted
+before playing due to time constraints of author.
 
 Magian. A game of mages from the fictional school of Agni in Arianna. (known as
 present day Afghanistan).
@@ -140,10 +142,10 @@ under folder (headers)
 DEVELOPMENT
 * .vscode (folder) - contains the configuration files for editing the code in VScode with 
 minggw c++ compiler on Windows 11.
-* staging.cpp - testing changes to main source code.
-* staging.exe - for testing.
-* core_game_logic_testing.cpp - For testing core game logic.
-* core_game_logic_testing.exe - for testing.
+* staging.cpp - testing changes to main source code. (Will be missing in final release)
+* staging.exe - for testing. (Will be missing in final release)
+* logic_test.cpp - For testing core game logic (Will be missing in final release)
+* logic_test.exe - for testing. (Will be missing in final release)
 * CMakeLists.txt - For building executables.
 * linux.toolchain.cmake - used by CMake for building Linux executables.
 

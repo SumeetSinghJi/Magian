@@ -1,6 +1,7 @@
+Potion
+Leather boots
 Updating save file
 Computers Operating system is: Windows
 Version: 0.2.1
-Date: 21/5/2023
+Date: 30/5/2023
 Level_select_variable=2
-__________________________________________________________________
