@@ -14,6 +14,11 @@
 #include <headers/level_select.h>
 #include <headers/get_objective.h>
 using namespace std;
+class Player
+{
+  public:
+    string name = "";
+};
 class enemy_class 
 {
 public:
@@ -216,7 +221,8 @@ edirection direction;
 vector<unique_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<enemy_class>> l2enemies_vector;
-string version = "0.2.1";
+unique_ptr<Player> player_pointer_object = make_unique<Player>();
+string version = "0.2.2";
 string os_variable = "";
 bool music_variable = true; 
 bool gameover = false;
@@ -236,6 +242,7 @@ int lives = 3;
 int difficulty=3;
 int language=1; // language 1 = english
 int player_speed=1;
+string name = "";
 int level=11;
 int level_select_variable=1; // for bonus level select
 clock_t lastShootTime; // shoot() time management variables
@@ -773,37 +780,6 @@ void logic()
 
     }
 }
-void startgame() 
-{
-  PlaySoundW(NULL, NULL, 0);
-  setup();
-  lives = 3;
-  
-  if (os_variable == "Windows")
-  { 
-    while (!gameover) 
-    {
-      draw_level_1();
-      input();
-      logic();
-      Sleep(150);
-    }
-    cout << "Game Over. Your final score is: " << score << endl;
-    cin.get();
-  }
-  else
-  {
-    while (!gameover) 
-    {
-      draw_level_1();
-      POSIXinput();
-      logic();
-      Sleep(150);
-    }
-    cout << "Game Over. Your final score is: " << score << endl;
-    cin.get();
-  }
-}
 void l2startgame() 
 {
   PlaySoundW(NULL, NULL, 0);
@@ -1084,7 +1060,66 @@ void help()
   cin.get();
   menu();
 }
-void overwrite_save()
+void choose_name()
+{
+  bool name_correct_variable = false;
+    while (name_correct_variable == false)
+    {        
+        cout << "Enter your characters name: ";
+        getline(cin, name);
+        if (name == "q" || name == "Q")
+        {
+            menu();
+            return;
+        }
+        else if (name.length() <= 30)
+        {
+            player_pointer_object->name = name;
+            
+            name_correct_variable = true;
+        }
+        else 
+        {
+            cout << "Name must be less then 30 characters long\n"
+            "Enter a new name again or enter q to quit: ";
+        }
+    }
+    cout << "Your name is: " << name << endl;
+}
+void startgame() 
+{
+  PlaySoundW(NULL, NULL, 0);
+  setup();
+  lives = 3;
+  cin.ignore();
+  cin.clear();
+  choose_name();
+  if (os_variable == "Windows")
+  { 
+    while (!gameover) 
+    {
+      draw_level_1();
+      input();
+      logic();
+      Sleep(150);
+    }
+    cout << "Game Over. Your final score is: " << score << endl;
+    cin.get();
+  }
+  else
+  {
+    while (!gameover) 
+    {
+      draw_level_1();
+      POSIXinput();
+      logic();
+      Sleep(150);
+    }
+    cout << "Game Over. Your final score is: " << score << endl;
+    cin.get();
+  }
+}
+void newgame()
 {
 savefile_object.open("magian_save.txt", ios::in);
     if (savefile_object.is_open())
@@ -1126,7 +1161,7 @@ void menu()
   case 0:
     exit(1);
   case 1:
-    overwrite_save();
+    newgame();
     break;
   case 2:
     save_load_game();

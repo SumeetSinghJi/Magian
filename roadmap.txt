@@ -1,40 +1,31 @@
-Roadmap
-
-
-0.0
-CHARACTER NAME
-name_variable = "";
-cin name_variable >> cin_valid_input();
-dump name to savefile
+ROADMAP
 
 0
-* l2setup() code to restore items from savefile
-
-0.1
-* fix shoot delay
-
-0.2
-* player class - move everything to it
-
-0.3
-create fireball()
-
-0.4
-loot items to pickup
-
-0.5
-enemy alive = no = rand();
-
+choose_name() write to file
 
 1
-Achievements - 
-* new string achievements_variable
-* achievements reached in logic() update achievements_variable and save to file
-* new case menu for reading achievements
-* List of achievements in readme
+text INVENTORY write to file
+ammend add item.pushback to add after text INVENTORY
 
+2
+* l2setup() code to restore items from savefile
 
-3. Skills
+3
+* fix shoot() delay with clock() in <ctime>
+
+4
+* player class - move everything to it
+
+5
+create fireball()
+
+6
+loot items add to inventory && savefile
+
+7
+enemise drop random loot chance
+
+8
 * Skills assigned numbers e.g. numbers 1 = shoot(), 2 = fireball()
 * change skills with check skills() which changes input SPACE_BAR to new skill selected
 on Windows and Unix like OS
@@ -42,61 +33,30 @@ on Windows and Unix like OS
 * Specific scroll item drop with rand() drawn to buffer
 * scroll item adds new skill
 
-3
-Their must be a custom setup() for each level
-This will populate enemies, items, money, custom width/map, etc.,
-e.g. setup1(), setup2(), for draw_level_1, and 2, and so on.
-
-4
-If possible that an enemy in the vector can have a custom symbol in the draw logic part.
-As part of above, since draw levels are unique, then different enemies can be possible drawn in from setup()?
-
-5
-start of draw()
-1. dump inventory into savefile
-Getting new item in draw()
-2. getting new item = new trigger write to save file.
-
-6
-ESC key opens save menu, or F1 key is save
-
-7
-New level
-
-8
-Secret areas
-(Including secret achievements)
-
 9
-Sound effects
+'E' in draw() custom for each enemy class object by name?
 
 10
-Level editing mode
+ESC key opens save menu, or F1 key is save
+
+10.5
+New 'C' input = Character (Avatar)
+Show all Player members e.g. speed, name
+Show inventory
 
 11
-Curl official website to check for updates and if so prompt to Download in the main
-if not cout no updates available.
+Sound effects
 
 12
-WEBSITE
-Register - Login to website and register account for more
-Sountrack - 
-Readme - 
-Commentary - biggest one
-Download link - 
-GitHub repo - 
-Social Media repo - 
+Level editing mode
 
+14
+* Official website
+* Curl official website to check for updates and if so prompt to Download in the main
+if not cout no updates available.
+ 
 13
 World map option - places to visit
 * Home
 * Shop
 * World map
-
-14
-Create level editor
-
-15
-Graphics - SDL with OpenGL
-* In order to be a proper game eventually learn SDL2/OpenGL
-* Game needs to be made 2D/3D in order to have cosmetics - e.g., Sogdian cap
