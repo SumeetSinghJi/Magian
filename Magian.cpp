@@ -192,6 +192,7 @@ vector<unique_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 string version = "0.2.1";
 string os_variable = "";
+bool music_variable = true; 
 bool gameover = false;
 const int width = 20; // size of map
 const int height = 20; // size of map
@@ -243,7 +244,14 @@ int cin_valid_input()
 }
 void setup() 
 {
-  PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
+  if (music_variable == false)
+  {
+    PlaySoundW(NULL, NULL, 0);
+  }
+  else
+  {
+    PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
+  }
   // reset the level variables
   score=0;
   gameover = false;
@@ -902,10 +910,18 @@ savefile_object.open("magian_save.txt", ios::in);
 }
 void menu() 
 {
-  PlaySoundW(L"sound//music//Cyber_Attack_by_JuliusH.wav", NULL, SND_FILENAME | SND_ASYNC);
+  os_variable = find_host_os();
+  if (music_variable == false)
+  {
+    PlaySoundW(NULL, NULL, 0);
+  }
+  else
+  {
+    PlaySoundW(L"sound//music//Cyber_Attack_by_JuliusH.wav", NULL, SND_FILENAME | SND_ASYNC);
+  }
   welcome();
   int menu_variable = cin_valid_input();
-  switch (menu_variable) 
+  switch (menu_variable)
   {
   case 0:
     exit(1);
@@ -933,9 +949,8 @@ void menu()
     break;
   }
 }
-int main() 
+int main()
 {
-  os_variable = find_host_os();
   menu();
   return 0;
 }
