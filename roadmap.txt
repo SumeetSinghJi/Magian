@@ -1,5 +1,8 @@
 Roadmap
 
+global in settings if music is turned off then 
+VARIABLE MUSIC_VARIABLE = PlaySoundW(NULL, NULL, 0);
+
 1
 Achievements - 
 * new string achievements_variable

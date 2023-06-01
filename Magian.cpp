@@ -191,6 +191,7 @@ edirection direction;
 vector<unique_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 string version = "0.2.1";
+string os_variable = "";
 bool gameover = false;
 const int width = 20; // size of map
 const int height = 20; // size of map
@@ -242,6 +243,7 @@ int cin_valid_input()
 }
 void setup() 
 {
+  PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
   // reset the level variables
   score=0;
   gameover = false;
@@ -376,9 +378,8 @@ void draw_level_1()
 }
 void draw_level_2()
 {
-    score=0;
-    cout << "Level 2 coming soon" << endl;
-    menu();
+  cout << "Level 2 coming soon" << endl;
+  menu();
 }
 void draw_level_3()
 {
@@ -464,7 +465,7 @@ void input()
         }
     }
 }
-void input_POSIX()
+void POSIXinput()
 {
     if (_kbhit()) 
     {
@@ -596,42 +597,34 @@ void logic()
 }
 void startgame() 
 {
+  PlaySoundW(NULL, NULL, 0);
   setup();
   lives = 3;
-  while (!gameover) 
-  {
-    draw_level_1();
-    input();
-    logic();
-    Sleep(150);
-  }
-  cout << "Game Over. Your final score is: " << score << endl;
-  cin.get();
-}
-void startgame_POSIX() 
-{
-  setup();
-  while (!gameover) 
-  {
-    draw_level_1();
-    input_POSIX();
-    logic();
-    Sleep(150);
-  }
-  cout << "Game Over. Your final score is: " << score << endl;
-  cin.get();
-}
-void game_os_check()
-{
-    PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
-    if(find_host_os()=="Windows")
+  
+  if (os_variable == "Windows")
+  { 
+    while (!gameover) 
     {
-        startgame();
+      draw_level_1();
+      input();
+      logic();
+      Sleep(150);
     }
-    else
+    cout << "Game Over. Your final score is: " << score << endl;
+    cin.get();
+  }
+  else
+  {
+    while (!gameover) 
     {
-        startgame_POSIX();
+      draw_level_1();
+      POSIXinput();
+      logic();
+      Sleep(150);
     }
+    cout << "Game Over. Your final score is: " << score << endl;
+    cin.get();
+  }
 }
 void shoot(int width, int height, int x_pos, int y_pos, edirection direction) 
 {
@@ -800,14 +793,17 @@ void soundtrack()
       menu();
       break;
     case 1:
+      PlaySoundW(NULL, NULL, 0);
       PlaySoundW(L"sound//music//Cyber_Attack_by_JuliusH.wav", NULL, SND_FILENAME | SND_ASYNC);
       cin.get();
       break;
     case 2:
+      PlaySoundW(NULL, NULL, 0);
       PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
       cin.get();
       break;
     case 3:
+      PlaySoundW(NULL, NULL, 0);
       PlaySoundW(L"sound//music//shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
       cin.get();
       break;
@@ -892,7 +888,7 @@ savefile_object.open("magian_save.txt", ios::in);
       {
         savefile_object.close();
         filesystem::remove("magian_save.txt");
-        game_os_check();
+        startgame();
       }
       else
       {
@@ -901,7 +897,7 @@ savefile_object.open("magian_save.txt", ios::in);
     }
     else 
     {
-      game_os_check();
+      startgame();
     }  
 }
 void menu() 
@@ -939,6 +935,7 @@ void menu()
 }
 int main() 
 {
+  os_variable = find_host_os();
   menu();
   return 0;
 }
