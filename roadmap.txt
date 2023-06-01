@@ -1,10 +1,30 @@
 Roadmap
 
-0
-* Level 2 setup, code to restore items from savefile
-* draw_level_2 code create
 
+0.0
+CHARACTER NAME
+name_variable = "";
+cin name_variable >> cin_valid_input();
+dump name to savefile
+
+0
+* l2setup() code to restore items from savefile
+
+0.1
 * fix shoot delay
+
+0.2
+* player class - move everything to it
+
+0.3
+create fireball()
+
+0.4
+loot items to pickup
+
+0.5
+enemy alive = no = rand();
+
 
 1
 Achievements - 
@@ -13,12 +33,6 @@ Achievements -
 * new case menu for reading achievements
 * List of achievements in readme
 
-2
-Unlockables
-* read achievements_variable from save
-* achievements = new skills_variables e.g. Fireball
-* create fireball()
-* View unlockables, new items, characters, under achievements case menu option 
 
 3. Skills
 * Skills assigned numbers e.g. numbers 1 = shoot(), 2 = fireball()

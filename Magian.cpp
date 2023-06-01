@@ -130,6 +130,31 @@ public:
         enemy_pause--;
       }
     }
+    void l2random_slow_chasing(int x_pos, int y_pos, int l2width, int l2height) 
+    {
+      // Move the enemy only if the random number is less than 4 (40% chance)
+      if (alive && enemy_pause == 0)
+      {
+        // Generate a random number between 0 and 9
+        int random_num = rand() % 10;
+        if (rand() % 10 < 4) 
+        {
+            // Move towards player
+            if (enemy_x_pos < x_pos && enemy_x_pos < l2width - 2)
+                enemy_x_pos++;
+            else if (enemy_x_pos > x_pos && enemy_x_pos > 1)
+                enemy_x_pos--;
+            if (enemy_y_pos < y_pos && enemy_y_pos < l2height - 2)
+                enemy_y_pos++;
+            else if (enemy_y_pos > y_pos && enemy_y_pos > 1)
+                enemy_y_pos--;
+        }
+      }
+      else if (enemy_pause > 0) 
+      {
+        enemy_pause--;
+      }
+    }
     void check_collision(int player_x, int player_y, int& player_lives) 
     {
         if (enemy_x_pos == player_x && enemy_y_pos == player_y) {
@@ -190,6 +215,7 @@ enum edirection
 edirection direction;
 vector<unique_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
+vector<shared_ptr<enemy_class>> l2enemies_vector;
 string version = "0.2.1";
 string os_variable = "";
 bool music_variable = true; 
@@ -197,9 +223,11 @@ bool gameover = false;
 // level 1 map
 const int width = 20;
 const int height = 20;
+char buffer[height][width];
 // level 2 map
 const int l2width = 40;
 const int l2height = 40;
+char l2buffer[l2height][l2width];
 int moneyx, moneyy; // money draw() position
 int score = 0;
 int money = 0;
@@ -208,12 +236,12 @@ int lives = 3;
 int difficulty=3;
 int language=1; // language 1 = english
 int player_speed=1;
-char buffer[height][width]; // draw level 1 width/height
 int level=11;
 int level_select_variable=1; // for bonus level select
 clock_t lastShootTime; // shoot() time management variables
 const int shootInterval = 1000; // 1 second in milliseconds
 void menu();
+void l2startgame();
 void item_store(vector<unique_ptr<item_class>>& inventory_vector);
 void check_items();
 void check_skills();
@@ -295,19 +323,6 @@ void setup()
   level_2_enemy_pointer->enemy_pause = 0;
   enemies_vector.push_back(level_2_enemy_pointer);
 
-  // level 3 setup enemy
-  auto level_3_enemy_pointer = make_shared<enemy_class>();
-  level_3_enemy_pointer->enemy_name="Stalking Rakashaa";
-  level_3_enemy_pointer->health = 3;
-  level_3_enemy_pointer->enemy_description="A white large furry humanoid with sharp nails, bare arms and legs despite a furry body"
-  "It's legs move exceedingly fast but stride is slow giving it the impression at any moment it could outrace and catch you."
-  "The uncertanty of the humanoids actions cause you deep fear.";
-  level_3_enemy_pointer->enemy_x_pos = rand() % width;
-  level_3_enemy_pointer->enemy_y_pos = rand() % height;
-  level_3_enemy_pointer->alive = true;
-  level_3_enemy_pointer->enemy_pause = 0;
-  enemies_vector.push_back(level_3_enemy_pointer);
-
   // Adding starting items to players inventory vector
   inventory_vector.push_back(make_unique<potion_item_subclass>());
   item_store(inventory_vector);
@@ -320,6 +335,55 @@ void setup()
     for (int j = 0; j < width; j++)
     {
         buffer[i][j] = ' ';
+    }
+  }
+}
+void l2setup() 
+{
+  if (music_variable == false)
+  {
+    PlaySoundW(NULL, NULL, 0);
+  }
+  else
+  {
+    PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
+  }
+  // reset the level variables
+  score=0;
+  gameover = false;
+
+  // Below srand method needs to be executed at runtime hence run in a function vs global variable;
+  moneyx = rand() % l2width;
+  moneyy = rand() % l2height;
+
+  // setting position of player
+  direction = STOP;
+  x_pos = l2width / 2;
+  y_pos = l2height / 2;
+
+  // to refresh vectors for new game and level select
+  inventory_vector.clear();
+  l2enemies_vector.clear();
+
+  // level 3 setup enemy
+  auto level_3_enemy_pointer = make_shared<enemy_class>();
+  level_3_enemy_pointer->enemy_name="Stalking Rakashaa";
+  level_3_enemy_pointer->health = 3;
+  level_3_enemy_pointer->enemy_description="A white large furry humanoid with sharp nails, bare arms and legs despite a furry body"
+  "It's legs move exceedingly fast but stride is slow giving it the impression at any moment it could outrace and catch you."
+  "The uncertanty of the humanoids actions cause you deep fear.";
+  level_3_enemy_pointer->enemy_x_pos = rand() % width;
+  level_3_enemy_pointer->enemy_y_pos = rand() % height;
+  level_3_enemy_pointer->alive = true;
+  level_3_enemy_pointer->enemy_pause = 0;
+  l2enemies_vector.push_back(level_3_enemy_pointer);
+
+  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
+  for (int i = 0; i < l2height; i++)
+  {  
+    for (int j = 0; j < l2width; j++)
+    {
+        l2buffer[i][j] = ' ';
     }
   }
 }
@@ -390,14 +454,73 @@ void draw_level_1()
 }
 void draw_level_2()
 {
-  cout << "Level 2 coming soon" << endl;
-  menu();
+    // Draw top wall  
+  for (int top_wall = 0; top_wall < l2width; top_wall++) {
+    l2buffer[0][top_wall] = '#';
+  }
+
+  // draw middle section
+  //loop through y axis 19 times down
+  for (int y = 1; y < l2height-1; y++) 
+  {
+    // loop through x axis 19 times across
+    for (int x = 0; x < l2width; x++) 
+    {
+      // draw side wall
+      if (x == 0 || x == l2width - 1) 
+      {
+        l2buffer[y][x] = '#';
+      }
+      //draw player
+      else if (x == x_pos && y == y_pos) 
+      {
+        l2buffer[y][x] = 'P';
+      }
+      //draw money
+      else if (x == moneyx && y == moneyy) 
+      {
+        l2buffer[y][x] = '$';
+      }
+      else 
+      {
+        // Initialize to empty space
+        l2buffer[y][x] = ' ';
+
+        // Draw all enemies if any exists at this position
+        for (const auto& enemy : l2enemies_vector) 
+        {
+          if (enemy->alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos) 
+          {
+            l2buffer[y][x] = 'E';
+          }
+        }
+      }
+    } 
+  }
+
+  // Draw bottom wall
+  for (int bottom_wall = 0; bottom_wall < l2width; bottom_wall++) {
+    l2buffer[height-1][bottom_wall] = '#';
+  }
+
+  system("cls");
+  for (int y = 0; y < l2height; y++) 
+  {
+    for (int x = 0; x < l2width; x++) {
+      cout << l2buffer[y][x];
+    }
+    cout << endl;
+  }
+  // print the current score and lives beneath the array
+  string score_str = "Current Score: " + to_string(score);
+  string lives_str = "Current Lives: " + to_string(lives);
+  cout << score_str << endl;
+  cout << lives_str << endl;
 }
 void draw_level_3()
 {
-    score=0;
-    cout << "Level 3 coming soon" << endl;
-    menu();
+  cout << "Level 3 coming soon" << endl;
+  menu();
 }
 void draw_level_4()
 {
@@ -543,6 +666,18 @@ void logic()
     // If the new position is within the bounds, update player's position
     x_pos = new_x_pos;
     y_pos = new_y_pos;
+  } else 
+  {
+
+  }
+  if (new_x_pos >= 1 && new_x_pos < l2width - 1 && new_y_pos >= 1 && new_y_pos < l2height - 1) 
+  {
+    // If the new position is within the bounds, update player's position
+    x_pos = new_x_pos;
+    y_pos = new_y_pos;
+  } else 
+  {
+
   }
     
 
@@ -551,6 +686,9 @@ void logic()
     {
         cout << "You died!" << endl;
         menu();
+    } else 
+    {
+
     }
 
     // Level 1 score - Check if player picked up money and update score and money location if true
@@ -560,6 +698,21 @@ void logic()
         money++;
         moneyx = rand() % width-1;
         moneyy = rand() % height-1;
+    } else 
+    {
+
+    }
+
+    // Level 2 score - Check if player picked up money and update score and money location if true
+    if (x_pos == moneyx && y_pos == moneyy) 
+    {
+        score++;
+        money++;
+        moneyx = rand() % l2width-1;
+        moneyy = rand() % l2height-1;
+    } else 
+    {
+
     }
 
 
@@ -570,7 +723,10 @@ void logic()
     cout << "You win the level";
     level_select_variable=2;
     update_savefile_level();
-    draw_level_2();
+    l2startgame();
+    } else 
+    {
+
     }
 
     // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
@@ -581,6 +737,9 @@ void logic()
     level_select_variable=3;
     update_savefile_level();
     draw_level_3();
+    } else 
+    {
+
     }
 
    // Level 3 - win logic - specific enemy dies
@@ -591,20 +750,27 @@ void logic()
       level_select_variable=4;
       update_savefile_level();
       draw_level_4();
+    } else 
+    {
+
     }
 
-    /* For enemies in Enemies Vector only */
     // Fire enemy will move slow
     enemies_vector[0]->random_slow_movement(width, height);
     // Flying Rakshaa enemy will move fast
     enemies_vector[1]->random_fast_movement(width, height);
-    // Stalking Rakshaa enemy will hunt player slowly
-    enemies_vector[2]->random_slow_chasing(x_pos, y_pos, width, height);
     // Check for enemy collision
     for (const auto& enemy : enemies_vector) {
         if (enemy->alive) {
             enemy->check_collision(x_pos, y_pos, lives);
         }
+    }
+    if (level==2) {
+    // Stalking Rakshaa enemy will hunt player slowly
+    l2enemies_vector[0]->random_slow_chasing(x_pos, y_pos, l2width, l2height);
+    } else 
+    {
+
     }
 }
 void startgame() 
@@ -630,6 +796,36 @@ void startgame()
     while (!gameover) 
     {
       draw_level_1();
+      POSIXinput();
+      logic();
+      Sleep(150);
+    }
+    cout << "Game Over. Your final score is: " << score << endl;
+    cin.get();
+  }
+}
+void l2startgame() 
+{
+  PlaySoundW(NULL, NULL, 0);
+  l2setup();
+  
+  if (os_variable == "Windows")
+  { 
+    while (!gameover) 
+    {
+      draw_level_2();
+      input();
+      logic();
+      Sleep(150);
+    }
+    cout << "Game Over. Your final score is: " << score << endl;
+    cin.get();
+  }
+  else
+  {
+    while (!gameover) 
+    {
+      draw_level_2();
       POSIXinput();
       logic();
       Sleep(150);
