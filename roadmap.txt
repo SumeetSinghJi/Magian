@@ -23,7 +23,7 @@ create fireball()
 loot items add to inventory && savefile
 
 7
-enemise drop random loot chance
+enemies drop random loot chance
 
 8
 * Skills assigned numbers e.g. numbers 1 = shoot(), 2 = fireball()
@@ -34,7 +34,11 @@ on Windows and Unix like OS
 * scroll item adds new skill
 
 9
-'E' in draw() custom for each enemy class object by name?
+Player class = char player_symbol = 'P';
+new function job()
+switch case (different jobs = different symbols)
+player_pointer_object->player_symbol = 'R'; - Rishi - hand to hand combat
+player_pointer_object->player_symbol = 'P'; - Magus - ranged combat specialist
 
 10
 ESC key opens save menu, or F1 key is save

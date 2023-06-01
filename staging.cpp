@@ -31,6 +31,7 @@ public:
     int enemy_y_pos;
     bool alive;
     int enemy_pause;
+    char enemy_symbol;
     // Add random movement logic as part of the enemy_class
     void random_slow_movement(int width, int height) 
     {
@@ -317,6 +318,7 @@ void setup()
   level_1_enemy_pointer->enemy_y_pos = rand() % height;
   level_1_enemy_pointer->alive = true;
   level_1_enemy_pointer->enemy_pause = 0;
+  level_1_enemy_pointer->enemy_symbol = '*';
   enemies_vector.push_back(level_1_enemy_pointer);
 
   // level 2 setup enemy
@@ -328,6 +330,7 @@ void setup()
   level_2_enemy_pointer->enemy_y_pos = rand() % height;
   level_2_enemy_pointer->alive = true;
   level_2_enemy_pointer->enemy_pause = 0;
+  level_2_enemy_pointer->enemy_symbol = '^';
   enemies_vector.push_back(level_2_enemy_pointer);
 
   // Adding starting items to players inventory vector
@@ -383,6 +386,7 @@ void l2setup()
   level_3_enemy_pointer->enemy_y_pos = rand() % height;
   level_3_enemy_pointer->alive = true;
   level_3_enemy_pointer->enemy_pause = 0;
+  level_3_enemy_pointer->enemy_symbol = '&';
   l2enemies_vector.push_back(level_3_enemy_pointer);
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
@@ -433,7 +437,7 @@ void draw_level_1()
         {
           if (enemy->alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos) 
           {
-            buffer[y][x] = 'E';
+            buffer[y][x] = enemy->enemy_symbol;
           }
         }
       }
@@ -498,7 +502,7 @@ void draw_level_2()
         {
           if (enemy->alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos) 
           {
-            l2buffer[y][x] = 'E';
+            l2buffer[y][x] = enemy->enemy_symbol;
           }
         }
       }

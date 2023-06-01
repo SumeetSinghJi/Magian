@@ -1,2 +1,7 @@
 Potion
 Leather boots
+Updating save file
+Computers Operating system is: Windows
+Version: 0.2.2
+Date: 2/6/2023
+Level_select_variable=2
