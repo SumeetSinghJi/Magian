@@ -1,7 +1,10 @@
 Roadmap
 
-global in settings if music is turned off then 
-VARIABLE MUSIC_VARIABLE = PlaySoundW(NULL, NULL, 0);
+0
+* Level 2 setup, code to restore items from savefile
+* draw_level_2 code create
+
+* fix shoot delay
 
 1
 Achievements - 

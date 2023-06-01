@@ -194,8 +194,12 @@ string version = "0.2.1";
 string os_variable = "";
 bool music_variable = true; 
 bool gameover = false;
-const int width = 20; // size of map
-const int height = 20; // size of map
+// level 1 map
+const int width = 20;
+const int height = 20;
+// level 2 map
+const int l2width = 40;
+const int l2height = 40;
 int moneyx, moneyy; // money draw() position
 int score = 0;
 int money = 0;

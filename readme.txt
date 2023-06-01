@@ -305,19 +305,12 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________
 
 
-ENEMIES
-(LEVEL | NAME | DAMAGE | ATTACK TYPE | HEALTH | SPEED | DROPS | SKILLS)
-Level 1 | Fire | 1 | Touch | 1 | 1 | none | none
-Level 2 | flying Rakshasa | 1 | Touch | 3 | 1 | nothing | teleports when hit
-Level 3 | 
-Level 4 | 
-Level 5 | 
-Level 6 | 
-Level 7 | 
-Level 8 | 
-Level 9 |
-Level 10 | 
-Level 11 |    
+Achievement | Criteria | Award
+Yamastan (Deaths door) | bool gameover = true; | Nothing
+Magha (Gifted) | skills = 20; | XXXXXX
+Rishi (Nomad) | steps = 10000; | XXXXXX
+Aesthetic | gold = 10000; | XXXXXX
+Diplomat (Parsi) | responses = 10 | XXXXXX  
 
 
 
