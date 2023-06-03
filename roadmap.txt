@@ -1,7 +1,12 @@
 ROADMAP
 
+a. item_store() match word INVENTORY in savefile then app after that line
+
 0.1
 In game book - copy of early rig veda and gathas, and shanameh
+
+0.1.1
+Key rebinding
 
 0.11
 Locale including

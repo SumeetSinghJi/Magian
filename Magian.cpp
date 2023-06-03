@@ -14,10 +14,17 @@
 #include <headers/level_select.h>
 #include <headers/get_objective.h>
 using namespace std;
+// CLASSES
 class Player
 {
   public:
     string name = "";
+    int magic = 0;
+    int vitality = 0;
+    int literacy = 0;
+    int diplomacy = 0;
+    int swimming = 0;
+    int herbology = 0;
 };
 class enemy_class 
 {
@@ -219,10 +226,18 @@ enum edirection
   STOP = 0, UP, DOWN, LEFT, RIGHT
 };
 edirection direction;
+// POINTERS
 vector<unique_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<enemy_class>> l2enemies_vector;
 unique_ptr<Player> player_pointer_object = make_unique<Player>();
+// VARIABLES
+int magic = 1;;
+int vitality = 1;
+int literacy = 1;
+int diplomacy = 1;
+int swimming = 1;
+int herbology = 1;
 string version = "0.2.2";
 string os_variable = "";
 bool music_variable = true; 
@@ -248,6 +263,8 @@ int level=11;
 int level_select_variable=1; // for bonus level select
 clock_t lastShootTime; // shoot() time management variables
 const int shootInterval = 1000; // 1 second in milliseconds
+// FUNCTION PROTOTYPE/DECLARATION
+void check_stats(const unique_ptr<Player>& player_pointer_object);
 void menu();
 void l2startgame();
 void item_store(vector<unique_ptr<item_class>>& inventory_vector);
@@ -598,6 +615,11 @@ void input()
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break; 
+        case 'c':
+            check_stats(player_pointer_object);
+            cout << "Press ENTER button to Return to game" << endl;
+            cin.get();
+            break; 
         case 'q':
             exit(0);
             break;
@@ -786,8 +808,8 @@ void logic()
 }
 void l2startgame() 
 {
-  PlaySoundW(NULL, NULL, 0);
   l2setup();
+  lives = 3;
   
   if (os_variable == "Windows")
   { 
@@ -915,6 +937,19 @@ void check_items()
     cout << "Invalid item index option" << endl;
   }
 }
+void item_store_header()
+{
+  savefile_object.open("magian_save.txt", ios::app);
+  if(savefile_object.is_open())
+  {
+    savefile_object << "INVENTORY" << endl;
+    savefile_object.close();
+  }
+  else
+  {
+    cerr << "Error: Couldn't write header txt INVENTORY to savefile";
+  }
+}
 void item_store(vector<unique_ptr<item_class>>& inventory_vector)
 {
     // Accessing last Element of inventory vector
@@ -937,11 +972,69 @@ void item_store(vector<unique_ptr<item_class>>& inventory_vector)
 }
 void check_skills()
 {
-  // change the spacebar in input() to be another function e.g. from shoot() to fireball() with tri direction fire e.g.
-  //*  *  *
-  // * * *
-  //   *
-  cout << "COMING SOON" <<endl;
+  cout << "SKILLS\n\n"
+  "Change skill to\n";
+}
+void check_stats(const unique_ptr<Player>& player_pointer_object)
+{
+  cout << "PLAYER\n"
+  << "NAME: " << player_pointer_object->name << endl
+  << "PERSONALITY\n"
+  << "Magic: " << player_pointer_object->magic << endl
+  << "(Damage dealt modifier to spells, gained from defeating enemies)\n"
+  << "Vitality: " << player_pointer_object->vitality << endl
+  << "(Vitality is your life value. Increasing helps you stay alive. Gained from experience)\n"
+  << "Literacy: " << player_pointer_object->literacy << endl
+  << "(Higher literacy equals better spells gained from scrolls and diciphering foreign objects\n"
+  << "gained from constantly reading)\n"
+  << "Diplomacy: " << player_pointer_object->diplomacy << endl
+  << "(High diplomacy grants better price haggling, reduces enemy aggression\n"
+  << "and grants more speech options and outcomes. Gained from trainers)\n"
+  << "Swimming: " << player_pointer_object->swimming << endl
+  << "(High scores grant better chance to survive swimming through long water stretches without"
+  << "surfacing. Gained by constantly swimming)"
+  << "Herbology: " << player_pointer_object->herbology << endl
+  << "(High herbology grants better chance at identfying herbs for medicine. Gained by eating new things)";
+  
+}
+void setup_player_header()
+{
+  savefile_object.open("magian_save.txt", ios::app);
+  if(savefile_object.is_open())
+  {
+    savefile_object << "STATS" << endl;
+    savefile_object.close();
+  }
+  else
+  {
+    cerr << "Error: Couldn't write header txt AVATAR to savefile";
+  }
+}
+void setup_player()
+{
+  player_pointer_object->magic = magic;
+  player_pointer_object->vitality = vitality;
+  player_pointer_object->literacy = literacy;
+  player_pointer_object->diplomacy = diplomacy;
+  player_pointer_object->swimming = swimming;
+  player_pointer_object->herbology = herbology;
+
+  savefile_object.open("magian_save.txt", ios::app);
+    if(savefile_object.is_open())
+    {
+        savefile_object << "MAGIC: " << magic << endl;
+        savefile_object << "VITALITY: " << vitality << endl;
+        savefile_object << "LITERACY: " << literacy << endl;
+        savefile_object << "DIPLOMACY: " << diplomacy << endl;
+        savefile_object << "SWIMMING: " << swimming << endl;
+        savefile_object << "HERBOLOGY: " << herbology << endl;
+        savefile_object.close();
+    }
+    else
+    {
+        cerr << "Error: Inventory not saved to save file" << endl;
+        return;
+    }
 }
 void library()
 {
@@ -970,15 +1063,15 @@ void library()
     library();
     break;
   case 2:
-    cout << "2. Rig Veda - Vyasa\n"
+    cout << "2. Rig Veda - Vyasa\n";
     library();
     break;
   case 3:
-    cout << "3. Puranas - Vyasa"
+    cout << "3. Puranas - Vyasa";
     library();
     break;
   case 4:
-    cout << "4. Mahabharata - Vyasa" 
+    cout << "4. Mahabharata - Vyasa";
     library();
     break;
   case 5:
@@ -1171,15 +1264,26 @@ void choose_name()
         }
     }
     cout << "Your name is: " << name << endl;
+    savefile_object.open("magian_save.txt", ios::app);
+    if (savefile_object.is_open())
+    {
+        savefile_object << "CHARACTER NAME: " << name << endl;
+        savefile_object.close();
+    }
+    else
+    {
+        cerr << "Error: failed to write character name to file" << endl;
+        return;
+    }
 }
 void startgame() 
 {
-  PlaySoundW(NULL, NULL, 0);
+  choose_name();
+  setup_player_header();
+  setup_player();
+  item_store_header();
   setup();
   lives = 3;
-  cin.ignore();
-  cin.clear();
-  choose_name();
   if (os_variable == "Windows")
   { 
     while (!gameover) 

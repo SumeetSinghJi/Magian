@@ -1,2 +1,16 @@
+CHARACTER NAME: 
+AVATAR
+MAGIC: 1
+VITALITY: 1
+LITERACY1
+DIPLOMACY: 1
+SWIMMING: 1
+HERBOLOGY: 1
+INVENTORY
 Potion
 Leather boots
+SAVE UPDATE
+Host OS is: Windows
+Version: 0.2.2
+Date: 3/6/2023
+Unlocked levels: 2

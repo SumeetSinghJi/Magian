@@ -48,7 +48,7 @@ void update_savefile_level()
     if (savefile_object.is_open())
     {
         string line;
-        string level_select_variable_match = "Level_select_variable=";
+        string level_select_variable_match = "Unlocked levels: ";
         bool match_found = false;
 
         while (getline(savefile_object, line))
@@ -89,11 +89,11 @@ void update_savefile_level()
     savefile_object.open("magian_save.txt", ios::app);
     if (savefile_object.is_open())
     {
-        savefile_object << "Updating save file" << endl;
-        savefile_object << "Computers Operating system is: " << find_host_os() << endl;
+        savefile_object << "SAVE UPDATE" << endl;
+        savefile_object << "Host OS is: " << find_host_os() << endl;
         savefile_object << "Version: "<< version << endl;
         savefile_object << "Date: " << get_datetime() << endl;
-        savefile_object << "Level_select_variable=" << level_select_variable << endl;
+        savefile_object << "Unlocked levels: " << level_select_variable << endl;
         savefile_object.close();
     }
     else
@@ -109,11 +109,11 @@ void match_savefile_level()
     if(savefile_object.is_open())
     {
         string savefile_contents_string_variable;
-        string Level_one_match_variable = "Level_select_variable=1";
-        string Level_two_match_variable = "Level_select_variable=2";
-        string Level_three_match_variable = "Level_select_variable=3";
-        string Level_four_match_variable = "Level_select_variable=4";
-        string Level_five_match_variable = "Level_select_variable=5";
+        string Level_one_match_variable = "Unlocked levels: 1";
+        string Level_two_match_variable = "Unlocked levels: 2";
+        string Level_three_match_variable = "Unlocked levels: 3";
+        string Level_four_match_variable = "Unlocked levels: 4";
+        string Level_five_match_variable = "Unlocked levels: 5";
         bool match_found_bool = false;
 
         while(getline(savefile_object, savefile_contents_string_variable)) 
@@ -183,3 +183,31 @@ void save_load_game()
         menu();
     }
 }
+/* - If match from save file output to screen.
+
+ifstream savefile_object("magian_save.txt");
+  if (savefile_object.is_open())
+  {
+    string line;
+    string name_savefile_variable_match = "CHARACTER NAME: ";
+    while (getline(savefile_object, line))
+    {
+      size_t found = line.find(name_savefile_variable_match);
+      // If found doesnt equal "no position" or "not found". (If found is true)
+      if (found != string::npos)
+      {
+        // Match found, extract the word after "CHARACTER NAME: "
+        string character_name = line.substr(found + name_savefile_variable_match.length());
+        cout << "Character Name: " << character_name << endl;
+        break;
+      }
+    }
+    savefile_object.close();
+  }
+  else
+  {
+    cerr << "Error: failed to open save file and read Characters name" << endl;
+    return;
+  }
+
+*/

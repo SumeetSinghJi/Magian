@@ -189,6 +189,34 @@ To move use the keyboard buttons to walk
 'X' = Check and use skills you gained.
 
 
+_________________________________________________________________________________________________ 
+
+
+                                          PLAYER STATISTICS
+
+_________________________________________________________________________________________________    
+
+
+NAME: Your name
+
+PERSONALITY - are statistics about your character that change during the game. The higher the
+number the better the character is at surviving.
+
+Magic: Damage dealt modifier to spells, gained from defeating enemies
+
+Vitality: Vitality is your life value. Increasing helps you stay alive. Gained from experience
+
+Literacy: Higher literacy equals better spells gained from scrolls and diciphering foreign objects
+gained from constantly reading
+
+Diplomacy: High diplomacy grants better price haggling, reduces enemy aggression
+and grants more speech options and outcomes. Gained from trainers
+
+Swimming: High scores grant better chance to survive swimming through long water stretches 
+without surfacing. Gained by constantly swimming
+
+Herbology: High herbology grants better chance at identfying herbs for medicine. Gained by eating
+new things
 
 _________________________________________________________________________________________________
 
