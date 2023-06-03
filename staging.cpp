@@ -943,6 +943,77 @@ void check_skills()
   //   *
   cout << "COMING SOON" <<endl;
 }
+void library()
+{
+  cout << "Choose a unlocked book to read\n\n"
+  "1. Learn Sanskrit - Sumeet Singh\n"
+  "2. Rig Veda - Aryavarta\n"
+  "3. Gathas - Iran\n"
+  "4. Code of the Nesilim - Hittite\n"
+  "5. Diary of Merer - Egypt\n"
+  "6. The Taking of Joppa - Egypt\n"
+  "7. Book of the Dead - Egypt\n"
+  "8. Code of Ur-Nammu - Summeria\n"
+  "9. Laws of Eshnunna - Akkadian\n"
+  "10. Code of Hammurabi - Akkadian\n"
+  "11. Epic of Gilgamesh - Akkadian\n"
+  "Select a book to read. ENTER 0 to exit: ";
+  int book_variable = cin_valid_input();
+  switch (book_variable)
+  {
+  case 0:
+    menu();
+  case 1:
+    cout << "1. Learn Sanskrit - Sumeet Singh\n";
+    library();
+    break;
+  case 2:
+    cout << "2. Rig Veda - Aryavarta\n";
+    library();
+    break;
+  case 3:
+    cout << "3. Gathas - Iran\n";
+    library();
+    break;
+  case 4:
+    cout << "4. Code of the Nesilim - Hittite\n";
+    library();
+    break;
+  case 5:
+    cout << "5. Diary of Merer - Egypt\n";
+    library();
+    break;
+  case 6:
+    cout << "6. The Taking of Joppa - Egypt\n";
+    library();
+    break;
+  case 7:
+    cout << "7. Book of the Dead - Egypt\n";
+    library();
+    break;
+  case 8:
+    cout << "8. Code of Ur-Nammu - Summeria\n";
+    library();
+    break;
+  case 9:
+    cout << "9. Laws of Eshnunna - Akkadian\n";
+    library();
+    break;
+  case 10:
+    cout << "10. Code of Hammurabi - Akkadian\n";
+    library();
+    break;
+  case 11:
+    cout << "11. Epic of Gilgamesh - Akkadian\n";
+    library();
+    break;
+  default: 
+    cout << "Incorrect input. Try again: ";
+    library();
+    break;
+  }
+  
+}
 void soundtrack()
 {
   int soundtrack_option_variable;
@@ -1040,7 +1111,8 @@ void welcome()
   "3. Level select\n"
   "4. Help\n"
   "5. Settings\n"
-  "6. Soundtrack\n\n"
+  "6. Library\n"
+  "7. Soundtrack\n\n"
   "Choose an option (ENTER 0 to exit): ";
 }
 void help() 
@@ -1180,6 +1252,9 @@ void menu()
     change_settings(lives, language);
     break;
   case 6:
+    library();
+    break;
+  case 7:
     soundtrack();
     break;
   default:

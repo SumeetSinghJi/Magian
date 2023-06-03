@@ -75,7 +75,7 @@ ________________________________________________________________________________
 
 
 
-During ~600 BCE (2600 of calendar Shahenshai) in Arianna (present day Afghanistan) before the rise
+During ~1300 BCE (~year 3300 of Shahenshai) in Arianna (present day Afghanistan) before the rise
 of reformed Zoroastrian belief of the earlier Aryan divine pantheon of gods, goddess, and
 everything in between lies Agni the origin school of learning magic, the art of mages to harness
 and control supernatural powers.
@@ -214,6 +214,8 @@ DOCUMENTS
 ASSETS
 * sound (folder) - contains music
 * images (folder) - contains images
+* assets (folder) - directory
+* assets/books (folder) - contains ingame books
 
 SOURCE FILES
 * magian.cpp - the main games source code.
@@ -276,6 +278,9 @@ void menu()
 1.6. logic()
 1.7. Sleep(150)
 
+on logic() win condition, a new l2startgame() and subsequent draw_level_2() for each level
+will repeat with same loop logic.
+
 _________________________________________________________________________________________________
 
                                         PROGRAMMING LOGIC
@@ -335,6 +340,12 @@ Skills
 * Gained throughout the game
 * Activated with SPACE_BAR
 * Have various effects, damage enemies, heal etc.,
+
+Soundtrack
+* In game soundtrack option
+
+Library
+* In game copy right free books
 
 _________________________________________________________________________________________________
 
@@ -494,6 +505,3 @@ kept the knowledge of science, and culture alive in some of the harshest environ
                              ███████████████████████     █████████ 
                              ███████████████████████     █████████ 
                              ███████████████████████     █████████
-
-
-
