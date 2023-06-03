@@ -947,16 +947,18 @@ void library()
 {
   cout << "Choose a unlocked book to read\n\n"
   "1. Learn Sanskrit - Sumeet Singh\n"
-  "2. Rig Veda - Aryavarta\n"
-  "3. Gathas - Iran\n"
-  "4. Code of the Nesilim - Hittite\n"
-  "5. Diary of Merer - Egypt\n"
-  "6. The Taking of Joppa - Egypt\n"
-  "7. Book of the Dead - Egypt\n"
-  "8. Code of Ur-Nammu - Summeria\n"
-  "9. Laws of Eshnunna - Akkadian\n"
-  "10. Code of Hammurabi - Akkadian\n"
-  "11. Epic of Gilgamesh - Akkadian\n"
+  "2. Rig Veda - Vyasa\n"
+  "3. Puranas - Vyasa"
+  "4. Mahabharata - Vyasa" 
+  "5. Gathas - Zarasthura\n"
+  "6. Code of the Nesilim - Hittite\n"
+  "7. Diary of Merer - Merer\n"
+  "8. The Taking of Joppa - Egypt\n"
+  "9. Book of the Dead - Egypt\n"
+  "10. Code of Ur-Nammu - Summeria\n"
+  "11. Laws of Eshnunna - Akkadian\n"
+  "12. Code of Hammurabi - Akkadian\n"
+  "13. Epic of Gilgamesh - Akkadian\n"
   "Select a book to read. ENTER 0 to exit: ";
   int book_variable = cin_valid_input();
   switch (book_variable)
@@ -968,42 +970,50 @@ void library()
     library();
     break;
   case 2:
-    cout << "2. Rig Veda - Aryavarta\n";
+    cout << "2. Rig Veda - Vyasa\n"
     library();
     break;
   case 3:
-    cout << "3. Gathas - Iran\n";
+    cout << "3. Puranas - Vyasa"
     library();
     break;
   case 4:
-    cout << "4. Code of the Nesilim - Hittite\n";
+    cout << "4. Mahabharata - Vyasa" 
     library();
     break;
   case 5:
-    cout << "5. Diary of Merer - Egypt\n";
+    cout << "3. Gathas - Iran\n";
     library();
     break;
   case 6:
-    cout << "6. The Taking of Joppa - Egypt\n";
+    cout << "4. Code of the Nesilim - Hittite\n";
     library();
     break;
   case 7:
-    cout << "7. Book of the Dead - Egypt\n";
+    cout << "5. Diary of Merer - Egypt\n";
     library();
     break;
   case 8:
-    cout << "8. Code of Ur-Nammu - Summeria\n";
+    cout << "6. The Taking of Joppa - Egypt\n";
     library();
     break;
   case 9:
-    cout << "9. Laws of Eshnunna - Akkadian\n";
+    cout << "7. Book of the Dead - Egypt\n";
     library();
     break;
   case 10:
-    cout << "10. Code of Hammurabi - Akkadian\n";
+    cout << "8. Code of Ur-Nammu - Summeria\n";
     library();
     break;
   case 11:
+    cout << "9. Laws of Eshnunna - Akkadian\n";
+    library();
+    break;
+  case 12:
+    cout << "10. Code of Hammurabi - Akkadian\n";
+    library();
+    break;
+  case 13:
     cout << "11. Epic of Gilgamesh - Akkadian\n";
     library();
     break;
