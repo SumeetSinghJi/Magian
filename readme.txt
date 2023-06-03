@@ -87,7 +87,7 @@ back to their homes.
 Students would come from around the world from Shang (China), Mycenae (Greece), Babylon (Iraq)
 and beyond to study and learn magic.
 
-On a fateful day, a student was accepted of ivory skin, and almond eyes. He spoke little but
+On a fateful day, a student of unknown heritage gained accepted into the Agni school of arts of ivory skin, and almond eyes. He spoke little but
 was a polyglot protégé. His language and culture were heavily scrutinised as the syllables the
 young adult spoke was of nothing related to recorded language.
 
@@ -99,19 +99,20 @@ The rudimentary magic through experimentation grew to encompass new heights unde
 with practitioners now able to conjure fire in their hands, learn to throw it, and even in 
 disastrous scenarios still spoken today inflamed themselves to death.
 
-A ban eventually was put into place for studying magic and practitioners were forced by the Shah
+A ban eventually was enacted into place for studying magic. The Shah forced practitioners
 (King) to stay in the school. Eventually a routine formed to control magic which required the
 art of literacy to understand past magic use, experimentation to evaluate and record the present
 and rigorous yoga to prime their bodies to control their future.
 
 Use of magic exhausted practitioners and fire eventually became seen as a source of worship within
-the kingdom. Practitioners were allowed out and became esteemed advisors to Shahs (King) and
-officials.
+the kingdom. Practitioners were eventually allowed out of the academy and became esteemed advisors to
+Shahs and officials.
 
 On an ill omen day on winter solstice when freezing air fought hard against the breaths of magicians
-and farmers alike. Rain doused conjured fires and torrential downpour  built up within the
-school compound. Previous scrolls, belongings and woodwork were drenched and at ruins. 
-The school was threatened to flood and collapse and locked magicians, attendants, and visitors were
+and farmers alike. Rain doused conjured fires and torrential downpour built up within the
+school compound. Previous scrolls, belongings and woodwork drenched and at ruins. 
+The school threatened by flood and collapse had refugees fleeing the chaos. Locked magicians,
+attendants, and visitors were
 crushed from falling book stacks and furniture, drowned and at worst cases trampled by escapees.
 
 A faculty mage decided to conjure a conflagration so strong that winter would eventually cease. The
@@ -136,17 +137,102 @@ dead) and chaos flowed from outside the magician’s body. Unfathomable horror c
 with a silent howling of dark fog. Ahriman’s body ripped to shreds and in its place the tear of the
 cosmic fabric called nirvana.
 
-In an historical event that was seen only from the eyes of the onlookers not yet killed in the ensuring
-floods of torrential downpour and chaos of souls stemming from Ahriman’s once place, now present hole
-the gate of evil was thus opened on Earth. From this hole that was torn from flesh evil was born on
-Earth.
+In an historical event observed only from the eyes of the onlookers not yet killed in the ensuring
+floods of torrential downpour and chaos of souls stemming from Ahriman’s once place, now exists a hole.
+the gate of evil was thus opened on Earth. The cosmic river nirvana of atman (souls) balance caused
+the very nature of life on Earth to change forever. Rishis (recluse pious men) and Magus (Magicians)
+were torn apart with the ensuring chaos, the former blaming the latter of releasing evil.
 
-During a reconnaissance of collecting herbs for the leadership a student on his way back to Agni sees
-a plume in the horizon of dark clouds. On closer approach the smell of burning wood caused the hurried
-student to run back to the school in haste... 
+The Ahriman’s soul rupture marked a new era. Rampant magic fire, 
+rakshasa (supernatural malicious extradimensional monsters), funeral rites change dramatically
+with new divine powers worshipped to save commonfolk from the new terrors at night, witch
+hunts against magic practitioners, invading kingdoms hoping to take advantage of the weak Arianna
+state in magical turmoil led to groups of surviving Magus to band together and create
+a new school of Agni. Nava Agni.
 
-Thus begins the story of evil on Earth how the old Aryan pantheon was forever wiped asunder by the
+The school curriculum eventually grew to encompass the study of the new world’s phenomena. Courses
+such as rakshasa studies, extradimensional research, geology, and even martial arts to understand
+and combat the newfound threats. During this time other parts of the world also faced their own 
+threats, and witch hunts, and subsequent debauchery. The nation of Arianna was no more limited
+to its own minding but now was a centre of worldly affair, where the curios, diplomats, travellers,
+scholars, those who wanted to vanquish evil to bring honour to themselves and humanity travelled to
+Arianna to experience the carnal evil.
+
+The more concerning matters of those that considered themselves civilised, were the newfound 
+sycophants, followers of the rakshasa who saw their entrance into this world as a sign of them
+new god. Atheists, agnostics, and sceptics now genuinely believed in the supernatural. Science was
+thrown aside for religious belief. Many rakshasa sycophants could be seen babbling to the beasts
+in languages not recorded elsewhere. These people came to be known as mleechas and their heresy to
+civilised folk was cause for their deaths by government laws.
+
+There were yet others who made life of traversing the rakshasa infested plains, neither good
+nor evil. Many individuals hunted, or pillaged remains of rakshasa to use their bodies often
+made of strange material such
+as multicoloured talons and hooves, or scaly magically infused hides for exotic leathers. New 
+industries invented due to existence of rakshasas.
+
+The Rakshasa themself was the topic of conversation among Earths inhabitants. Rakshasas being
+otherworldly beings (at least invisible to the presence before their existence) were a varied lot.
+Their numbers were tracked by state officials’ appointees, or landowners to try to determine
+the threat they posed and their countermeasures if plausible. No one could accurately survey them
+numbers since they did not breed as far as anyone recorded so far and were born
+from an extra dimensional plane invading Earth through the hole that sprung up from Ahriman’s
+hole.
+
+The rakshasa varied in size, stature, colour, temperament, personality, strength, magic and countless
+attributes. They were atypical. A specimen could be as short as a mouse or as tall as ten humans
+standing on top of each other. Some could have two feet, others a slithering body, and others with wings.
+
+Some specimens of rakshasa were short enough to be killed by an average human male would ignore
+its own weak stature and
+charge at humans with a rage so intense it would run into a spear and disembowel itself.
+Although the rakshasa varied in appearance, and personality there were however uniform types of
+them that could be categorised. In example flying rakshasa had the appearance of common gar alligators
+yet with wings, and a defensive personality.
+
+Their personalities and temperament meant that most considered malicious to humans, however
+their malevolence varied. Often a giant like rakshasa that could rampage across a city and kill
+thousands would be content scaring children and revel in its own trickery. though there was a
+difference in attitudes the rakshasa remained widely regarded by humans as malicious due to
+their detrimental nature. Rakshasa had no set gender. Some Rakshasa were hermaphrodites.
+
+The rakshasa themselves curiously enough would often at times imitate humans. Many would follow
+ideals such as honour, and integrity. Lawfully allowing a woman to cross their path unharmed, yet
+following her home and eating her newborns. Some would even go a further step ahead by choosing
+to sit back and watch humans exist and challenge the strongest humans to a duel of death. On being
+defeated such honourable rakshasa who lost at duelling would submit to defeat and death.
+
+The rakshasa used magic akin to the magus conjuration, however their powers ranged in varied
+frequencies. The elements of water, thunder, and earth with the caveat they were unable to summon fire.
+All other elements conjured by the rakshasa in various
+machinations to cause violence and trickery. Some rakshasas could conjure Earth to rise while a cart
+would go by causing it to spill its contents. Some rakshasas could appear out of nowhere from
+thunderstorms causing the storms to further aggravate and splitting the Earth with its immense power.
+
+Fire despite the cataclysmic effect it had on Earth remained the single element the rakshasa could
+not control, feared and despised. Nirvana the sea of lifeforce was what encompassed the universe,
+and the understanding of it was born from fire. Rakshasa traditionally recorded existed as part of Nirvana.
+However, it was during Ahriman’s cataclysm, that the fabric between Atman (those remaining as good souls)
+and rakshasa those of evil souls split. Rakshasa thus splits from fire. Fire became worshipped 
+across the globe as a benevolent spirit known as Agni.
+
+The guise of many rakshasas would earn them admires and worshippers. Shapeshifting was an ability
+that some rakshasa employed to take the form of innocent maidens, and satisfy the intimate desires
+of humans. Some would use their power to become the vizier to chiefs whispering false stories
+to turn their masters against others.
+
+Of these Rakasha and the ones that were too powerful to vanquish, there was no set leadership
+amongst them. They were considered simpleminded beasts, unable to control their desires. There were to 
+note those of esteemed quality, able to control their temperament causing them to rise to
+great infamy.
+
+Thus begins the story of evil on Earth how the old Aryan pantheon was torn asunder by the
 cataclysmic event known as the birth of duality, and the magician who spoke of this revelation.
+
+During a reconnaissance of collecting herbs for the Nava (new) Agni school’s faculty staff a prospecting
+Magus on their way back to Nava (New) Agni sees a plume in the horizon of dark clouds. On closer
+approach the smell of burning wood caused the hurried student to run back to the school in haste...
+
 
 
 

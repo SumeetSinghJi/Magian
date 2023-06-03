@@ -1,14 +1,13 @@
 ROADMAP
 
-a. item_store() match word INVENTORY in savefile then app after that line
-
-0.1
+1
 In game book - copy of early rig veda and gathas, and shanameh
 
-0.1.1
+2
 Key rebinding
+ESC key opens save menu, or F1 key is save
 
-0.11
+3
 Locale including
 * Farsi
 * Sanskrit
@@ -17,30 +16,27 @@ Locale including
 * English
 * German
 
-0
-choose_name() write to file
-
-1
-text INVENTORY write to file
-ammend add item.pushback to add after text INVENTORY
-
-2
-* l2setup() code to restore items from savefile
-
-3
-* fix shoot() delay with clock() in <ctime>
-
 4
-* player class - move everything to it
+* fix shoot() delay with clock() in <ctime>
 
 5
 create fireball()
+fireball() sfx
 
 6
-loot items add to inventory && savefile
+Draw items to buffer
+trigger event - on pickup of items, pushback
 
 7
-enemies drop random loot chance
+enemies grant xp on death
+death counter variable
+player class member xp
+logic when xp reaches x do levelup()
+levelup()
+{
+    increases stats by x
+}
+
 
 8
 * Skills assigned numbers e.g. numbers 1 = shoot(), 2 = fireball()
@@ -50,30 +46,27 @@ on Windows and Unix like OS
 * Specific scroll item drop with rand() drawn to buffer
 * scroll item adds new skill
 
-8.5
-In Buffer draw obstacles,
-Trees
-Rocks
-Water
-Gas
-
 9
-Player class = char player_symbol = 'P';
+class Obstacle
+{
+  public:
+    char obstacle_symbol = "";
+    string obstacle_name = "";
+    string obstacle_description = "";
+    int obstacle_vitality = 0;
+};
+
+
+
+10
 new function job()
 switch case (different jobs = different symbols)
 player_pointer_object->player_symbol = 'R'; - Rishi - hand to hand combat
 player_pointer_object->player_symbol = 'P'; - Magus - ranged combat specialist
-
-10
-ESC key opens save menu, or F1 key is save
-
-10.5
-New 'C' input = Character (Avatar)
-Show all Player members e.g. speed, name
-Show inventory
+update draw bugger with new player class symbol
 
 11
-Sound effects
+shoot() soundeffect
 
 12
 Level editing mode
