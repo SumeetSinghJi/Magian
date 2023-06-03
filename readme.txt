@@ -20,7 +20,7 @@ NOTE For GitHub source code binaries (e.g. .exe's) need to be recompiled and sav
 before playing due to time constraints of author.
 
 Magian. A game of mages from the fictional school of Agni in Arianna. (known as
-present day Afghanistan).
+present day Afghanistan). The story of the source of all Magic.
 
 Collect scrolls, herbs, skills and items to build your player and advance through the level.
 
@@ -47,6 +47,10 @@ ________________________________________________________________________________
 
 _________________________________________________________________________________________________
 
+
+
+
+
 MINIMUM:
 OS: Most operating systems including; 
 Windows XP/Vista/7/8/10/11, 
@@ -59,6 +63,93 @@ DirectX: none
 Storage: TBD GB available space
 
 
+
+
+
+_________________________________________________________________________________________________ 
+
+
+                                            STORY
+
+_________________________________________________________________________________________________   
+
+
+
+During ~600 BCE (2600 of calendar Shahenshai) in Arianna (present day Afghanistan) before the rise
+of reformed Zoroastrian belief of the earlier Aryan divine pantheon of gods, goddess, and
+everything in between lies Agni the origin school of learning magic, the art of mages to harness
+and control supernatural powers.
+
+The school’s history begun with yoga but eventually adopted the sciences of literacy, diplomacy,
+leadership, and eventually graduation of students to magus (magicians) to bring further knowledge
+back to their homes.
+
+Students would come from around the world from Shang (China), Mycenae (Greece), Babylon (Iraq)
+and beyond to study and learn magic.
+
+On a fateful day, a student was accepted of ivory skin, and almond eyes. He spoke little but
+was a polyglot protégé. His language and culture were heavily scrutinised as the syllables the
+young adult spoke was of nothing related to recorded language.
+
+Reciting the language led to the formation of heat among the lips of speakers, enough to warm cold
+water drunk from a pitcher. The language spread like wildfire to the faculty and the study of the
+foreign language came to be known as Magic.
+
+The rudimentary magic through experimentation grew to encompass new heights under faculty staff
+with practitioners now able to conjure fire in their hands, learn to throw it, and even in 
+disastrous scenarios still spoken today inflamed themselves to death.
+
+A ban eventually was put into place for studying magic and practitioners were forced by the Shah
+(king) to stay in the school. Eventually a routine formed to control magic which required the
+art of literacy to understand past magic use, experimentation to evaluate and record the present
+and rigorous yoga to prime their bodies to control their future.
+
+Use of magic exhausted practitioners and fire eventually became seen as a source of worship within
+the kingdom. Practitioners were allowed out and became esteemed advisors to Shahs (Emperors) and
+officials.
+
+On an ill omen day on winter solstice when freezing air fought hard against the breaths of students
+and farmers alike, with rain dousing conjured fires, heavy torrential started to build up within the
+school and scrolls were drenched and at ruins. The school was threatened to flood and locked
+magicians, attendants, and visitors were crushed from falling book stacks and arousing drowning from
+their sleeps.
+
+A faculty mage decided to case a conflagration so strong that winter would eventually cease. The
+mage named Ahriman in good intention gathered his belongings, precious magic recital scrolls, and
+searched to find a source to channel his magic. Seeing his folk crushed by the relentless flooding
+he chooses to cast the forbidden spell. Self-conflagration. He chooses his body as a medium of fire
+and with all the training of decades recited the words "Agni humara sariram".
+
+Ahriman’s body heated. The intensity of his recital led to causing his inflammable body to heat at a
+molecular level. The very nature of his body’s atoms split at violent intervals defying laws of
+science as known. The mage started to burn from the inside. The source of fire in his body grew
+in intensity to match the external forces of the waves that started to surround him. The very nature
+of duality of rain and flame, winter and summer, heat and cold raged in and out of his body.
+
+With tears in his eyes that could be confused as the steam that was generating around him Ahriman died
+inside yet the flame continued to use his body as a medium. The floods did not stop that night and
+recounters of the tale elsewhere remembered it as a worldwide phenomenon. The steam clouds surrounding
+Ahriman tore the very fabric and nature of space.
+
+Yama the god of deaths realm opened inside Ahriman’s body. The cosmic flood of atman (souls of the
+dead) and chaos flowed from outside the magician’s body. Unfathomable horror crawled from Ahriman’s chest
+with a silent howling of dark fog. Ahriman’s body ripped to shreds and in its place the tear of the
+cosmic fabric called nirvana.
+
+In an historical event that was seen only from the eyes of the onlookers not yet killed in the ensuring
+floods of torrential downpour and chaos of souls stemming from Ahriman’s once place, now present hole
+the gate of evil was thus opened on Earth. From this hole that was torn from flesh evil was born on
+Earth.
+
+During a reconnaissance of collecting herbs for the leadership a student on his way back to Agni sees
+a plume in the horizon of dark clouds. On closer approach the smell of burning wood caused the hurried
+student to run back to the school in haste... 
+
+Thus begins the story of evil on Earth how the old Aryan pantheon was forever wiped asunder by the
+cataclysmic event known as the birth of duality, and the magician who spoke of this revelation.
+
+
+
 _________________________________________________________________________________________________ 
 
 
@@ -68,12 +159,9 @@ ________________________________________________________________________________
 
 
 * This character represents you P or स - This is you, stay safe and collect objectives.
-* Money/Scrolls look like this $ or ₹ - If you find one you get a point
-* Enemies look like this E or क - If you touch them you lose a life
-* Walls look like this # - If you touch them you lose a life
-
-* Make it to the end of the levels. Each level has there own goals for example, collect 10 scrolls
-* or find the exit without getting killed.
+* Money/Scrolls can look like this $ or ₹ - If you find one you get a point
+* Enemies can look like this E or क - If you touch them you lose a life
+* Obstacles can look like this # - If you touch them you lose a life
 
 Difficulty can be adjusted within game settings. Story mode grants 99 lives to experience a
 narrative driven game without constraints.
