@@ -87,7 +87,8 @@ back to their homes.
 Students would come from around the world from Shang (China), Mycenae (Greece), Babylon (Iraq)
 and beyond to study and learn magic.
 
-On a fateful day, a student of unknown heritage gained accepted into the Agni school of arts of ivory skin, and almond eyes. He spoke little but
+On a fateful day, a student of unknown heritage gained accepted into the Agni school of arts.
+He spoke little but
 was a polyglot protégé. His language and culture were heavily scrutinised as the syllables the
 young adult spoke was of nothing related to recorded language.
 
