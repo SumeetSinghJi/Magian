@@ -100,21 +100,21 @@ with practitioners now able to conjure fire in their hands, learn to throw it, a
 disastrous scenarios still spoken today inflamed themselves to death.
 
 A ban eventually was put into place for studying magic and practitioners were forced by the Shah
-(king) to stay in the school. Eventually a routine formed to control magic which required the
+(King) to stay in the school. Eventually a routine formed to control magic which required the
 art of literacy to understand past magic use, experimentation to evaluate and record the present
 and rigorous yoga to prime their bodies to control their future.
 
 Use of magic exhausted practitioners and fire eventually became seen as a source of worship within
-the kingdom. Practitioners were allowed out and became esteemed advisors to Shahs (Emperors) and
+the kingdom. Practitioners were allowed out and became esteemed advisors to Shahs (King) and
 officials.
 
-On an ill omen day on winter solstice when freezing air fought hard against the breaths of students
-and farmers alike, with rain dousing conjured fires, heavy torrential started to build up within the
-school and scrolls were drenched and at ruins. The school was threatened to flood and locked
-magicians, attendants, and visitors were crushed from falling book stacks and arousing drowning from
-their sleeps.
+On an ill omen day on winter solstice when freezing air fought hard against the breaths of magicians
+and farmers alike. Rain doused conjured fires and torrential downpour  built up within the
+school compound. Previous scrolls, belongings and woodwork were drenched and at ruins. 
+The school was threatened to flood and collapse and locked magicians, attendants, and visitors were
+crushed from falling book stacks and furniture, drowned and at worst cases trampled by escapees.
 
-A faculty mage decided to case a conflagration so strong that winter would eventually cease. The
+A faculty mage decided to conjure a conflagration so strong that winter would eventually cease. The
 mage named Ahriman in good intention gathered his belongings, precious magic recital scrolls, and
 searched to find a source to channel his magic. Seeing his folk crushed by the relentless flooding
 he chooses to cast the forbidden spell. Self-conflagration. He chooses his body as a medium of fire
