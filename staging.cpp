@@ -236,6 +236,16 @@ enum edirection
   STOP = 0, UP, DOWN, LEFT, RIGHT
 };
 edirection direction;
+// FUNCTION PROTOTYPE/DECLARATION
+void check_stats(const unique_ptr<Player>& player_pointer_object);
+void menu();
+void l2startgame();
+void check_stats();
+void item_store(vector<unique_ptr<item_class>>& inventory_vector);
+void check_items();
+void check_skills();
+void xp();
+void shoot(int width, int height, int x_pos, int y_pos, edirection direction, unique_ptr<Player> &player_pointer_object);
 // POINTERS
 vector<unique_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
@@ -273,15 +283,6 @@ int level=11;
 int level_select_variable=1; // for bonus level select
 clock_t lastShootTime; // shoot() time management variables
 const int shootInterval = 1000; // 1 second in milliseconds
-// FUNCTION PROTOTYPE/DECLARATION
-void check_stats(const unique_ptr<Player>& player_pointer_object);
-void menu();
-void l2startgame();
-void item_store(vector<unique_ptr<item_class>>& inventory_vector);
-void check_items();
-void check_skills();
-void xp();
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction, unique_ptr<Player> &player_pointer_object);
 void clear_screen()
 {
 #ifdef _WIN32
