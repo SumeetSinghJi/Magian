@@ -25,6 +25,7 @@ class Player
     int diplomacy = 0;
     int swimming = 0;
     int herbology = 0;
+    int xp = 0;
 };
 class enemy_class 
 {
@@ -34,6 +35,7 @@ public:
     int damage;
     int health;
     int speed;
+    int xpgain;
     int enemy_x_pos;
     int enemy_y_pos;
     bool alive;
@@ -270,7 +272,8 @@ void l2startgame();
 void item_store(vector<unique_ptr<item_class>>& inventory_vector);
 void check_items();
 void check_skills();
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction);
+void xp();
+void shoot(int width, int height, int x_pos, int y_pos, edirection direction, unique_ptr<Player> &player_pointer_object);
 void clear_screen()
 {
 #ifdef _WIN32
@@ -330,6 +333,7 @@ void setup()
   auto level_1_enemy_pointer = make_shared<enemy_class>();
   level_1_enemy_pointer->enemy_name="Fire";
   level_1_enemy_pointer->health = 1;
+  level_1_enemy_pointer->xpgain = 1;
   level_1_enemy_pointer->enemy_description="A large moving flame 2 meters high burning everything it touches.";
   level_1_enemy_pointer->enemy_x_pos = rand() % width;
   level_1_enemy_pointer->enemy_y_pos = rand() % height;
@@ -342,6 +346,7 @@ void setup()
   auto level_2_enemy_pointer = make_shared<enemy_class>();
   level_2_enemy_pointer->enemy_name="Flying Rakashaa";
   level_2_enemy_pointer->health = 3;
+  level_1_enemy_pointer->xpgain = 2;
   level_2_enemy_pointer->enemy_description="A flying demon with powerfull magic.";
   level_2_enemy_pointer->enemy_x_pos = rand() % width;
   level_2_enemy_pointer->enemy_y_pos = rand() % height;
@@ -396,6 +401,7 @@ void l2setup()
   auto level_3_enemy_pointer = make_shared<enemy_class>();
   level_3_enemy_pointer->enemy_name="Stalking Rakashaa";
   level_3_enemy_pointer->health = 3;
+  level_3_enemy_pointer->xpgain = 1;
   level_3_enemy_pointer->enemy_description="A white large furry humanoid with sharp nails, bare arms and legs despite a furry body"
   "It's legs move exceedingly fast but stride is slow giving it the impression at any moment it could outrace and catch you."
   "The uncertanty of the humanoids actions cause you deep fear.";
@@ -625,7 +631,7 @@ void input()
             break;
         case ' ':
             if (direction != STOP) // Add this condition to skip shoot command if direction is STOP
-                shoot(width, height, x_pos, y_pos, direction);
+                shoot(width, height, x_pos, y_pos, direction, player_pointer_object);
             break;
         case 'e':
             direction = STOP;
@@ -755,6 +761,7 @@ void logic()
     level = 2;
     cout << "You win the level";
     level_select_variable=2;
+    xp();
     update_savefile_level();
     l2startgame();
     } else 
@@ -787,6 +794,9 @@ void logic()
     {
 
     }
+
+    // If enemy is killed, experience granted to player
+    // vector<shared_ptr<enemy_class>> l2enemies_vector;
 
     // Fire enemy will move slow
     enemies_vector[0]->random_slow_movement(width, height);
@@ -836,7 +846,7 @@ void l2startgame()
     cin.get();
   }
 }
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction) 
+void shoot(int width, int height, int x_pos, int y_pos, edirection direction, std::unique_ptr<Player>& player_pointer_object)
 {
     // Calculate the target position based on the direction
     int targetX = x_pos;
@@ -855,24 +865,41 @@ void shoot(int width, int height, int x_pos, int y_pos, edirection direction)
         // Check if the target position is within the bounds of the game map
         if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) {
             // Check if there is an enemy at the target position
-            if (buffer[targetY][targetX] == 'E') {
-                // Check if the bullet hit an enemy
-                for (const auto& enemy : enemies_vector) {
-                    if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) {
-                        enemy->health--;
-                        // If enemy's health is 0 or less, set the enemy's alive property to false
-                        if (enemy->health <= 0) {
-                            enemy->alive = false;
-                        }
-                        break;
+            bool hitEnemy = false;
+            for (const auto& enemy : enemies_vector) {
+                if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) {
+                    hitEnemy = true;
+                    enemy->health--;
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (enemy->health <= 0) {
+                        player_pointer_object->xp += enemy->xpgain;
+                        enemy->alive = false;
                     }
+                    break;
                 }
             }
-            // Check if the bullet hit a wall
-            else if (buffer[targetY][targetX] == '#') {
+
+            if (hitEnemy) {
+                // Clear the bullet from the previous position
+                buffer[y_pos][x_pos] = ' ';
+
+                // Draw the bullet at the target position
+                buffer[targetY][targetX] = '*';
+                draw_level_1();
+
+                // Sleep after drawing the bullet
+                Sleep(50);
+
+                // Clear the bullet from the current position
+                buffer[targetY][targetX] = ' ';
+
+                // Update the player position to the new target position
+                x_pos = targetX;
+                y_pos = targetY;
+            } else if (buffer[targetY][targetX] == '#') {
+                // Check if the bullet hit a wall
                 break;
-            }
-            else {
+            } else {
                 // Clear the bullet from the previous position
                 buffer[y_pos][x_pos] = ' ';
 
@@ -890,8 +917,7 @@ void shoot(int width, int height, int x_pos, int y_pos, edirection direction)
                 x_pos = targetX;
                 y_pos = targetY;
             }
-        }
-        else {
+        } else {
             break;
         }
     }
@@ -979,6 +1005,7 @@ void check_stats(const unique_ptr<Player>& player_pointer_object)
 {
   cout << "PLAYER\n"
   << "NAME: " << player_pointer_object->name << endl
+  << "XP: " << player_pointer_object->xp << endl
   << "PERSONALITY\n"
   << "Magic: " << player_pointer_object->magic << endl
   << "(Damage dealt modifier to spells, gained from defeating enemies)\n"
@@ -1275,6 +1302,19 @@ void choose_name()
         cerr << "Error: failed to write character name to file" << endl;
         return;
     }
+}
+void xp()
+{
+  savefile_object.open("magian_save.txt", ios::app);
+  if(savefile_object.is_open())
+  {
+    savefile_object << "XP: " << player_pointer_object->xp<< endl;
+    savefile_object.close();
+  }
+  else
+  {
+    cerr << "Error: Couldn't write xp to savefile";
+  }
 }
 void startgame() 
 {

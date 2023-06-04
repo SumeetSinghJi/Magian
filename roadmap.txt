@@ -1,5 +1,8 @@
 ROADMAP
 
+0.
+If save game exists, continue() must load it at start of the level.
+
 1
 In game book - copy of early rig veda and gathas, and shanameh
 
