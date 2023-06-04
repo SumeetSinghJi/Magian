@@ -80,12 +80,52 @@ of reformed Zoroastrian belief of the earlier Aryan divine pantheon of gods, god
 everything in between lies Agni the origin school of learning magic, the art of mages to harness
 and control supernatural powers.
 
-The school’s history begun with yoga but eventually adopted the sciences of literacy, diplomacy,
+Arianna since antiquity been and warring state. A nation perpetually being invaded and invading. 
+New warfare technology from surrounding and domestic origins meant the nation's ruler Shah (King) Pitaji
+(Father) was always planning measures to protect and fight against his contemporaries. 
+ 
+To the East of Arianna lies the nation of Aryavarta (home of the Aryans) and to the west lies
+the nation Iran (land of the Aryans) similarly named as Arianna to denote the dependent
+sister states all successors to the name of the great mythical origin aryan homeland. 
+ 
+To the south lies the great sea. No one yet had crossed completely as tales of dangerous
+beasts capsizing beasts and maidens singing songs at darkest of nights luri g sailors to leap
+from their boats to drown at their demise chasing the maidens sweet voice. Traders known
+as Babylonians and the Indus people had trade routes closer to shores yet erred on
+caution on travelling deeper into the ocean. 
+ 
+To the north was the barren wastelands that the ancestors of Aryans arrived from. The cold
+harsh climate was unsuitable for agriculture and fire causing their ancestors to migrate
+to warmer Plains south. 
+ 
+Shah Pitaji was married when he was 16 to an onlooker in his Zoorkaneh building. The sport
+represented the prowess of Aryan martial arts were practitioners would wield weapons such
+as wooden and metal practice clubs, bows a d shields to use in exercise to practice
+battle. Pitajj met his wife Sharmila who was also if similar age watching him practice
+his ritual. 
+ 
+Pitaji and Sharmila ruled as king and queen of Arianna their rule stretching the furthest
+bounds of previous leaders with an army of loyal soldiers trained themselves in
+zoorkhaneh ready to deploy in force to any part of the kingdom in defence if their Shah.
+The divine pantheon of the Shah were the Aryan gods. They were a genderless pantheon
+of supposed extradimensional beings that created the universe. Others proclaim they
+were existing Aryan chiefs of olden times whom their names have become legend
+through their heroic actions. 
+
+The school’s history begun with a curriculum of yoga and maths
+eventually adopted the sciences of literacy, diplomacy,
 leadership, and eventually graduation of students to magus (magicians) to bring further knowledge
 back to their homes.
 
-Students would come from around the world from Shang (China), Mycenae (Greece), Babylon (Iraq)
-and beyond to study and learn magic.
+Students would come from around the world from Shang (China), Mycenae (Greece), Babylon (Iraq).
+Misr (Egypt) and beyond to study and learn magic.
+
+Although arts have always been studied in Arianna, it wasn't until Vyasa codified the many oral
+texts of Aryans into the Rig Veda (an oral poem of great length narrarating the history of
+Aryans before being transmitted to script).and other contempoary works. His disciplies worked tirelessly
+translating texts from Misr from Papyrus to strong paper scrolls developed in the Shang
+Kingdom. An market for scrolls and knowledge sprang up and various schools came into existence to
+teach, facilitate and regulate this trade.
 
 On a fateful day, a student of unknown heritage gained accepted into the Agni school of arts.
 He spoke little but
@@ -217,6 +257,23 @@ However, it was during Ahriman’s cataclysm, that the fabric between Atman (tho
 and rakshasa those of evil souls split. Rakshasa thus splits from fire. Fire became worshipped 
 across the globe as a benevolent spirit known as Agni.
 
+Rakashaa did share a curiosity of being unable to process the full range of visible light spectrum 
+Like humans and other creatures from Earth. Nirvana the celestial plane was an inconceivable river 
+Of souls. Like an sea of souls waves would rise and fall and together the malicious and  
+Malevolent souls inside moved in the direction the current took it. Being a river naturally flame 
+Was an antithesis. The spectrum of fire colours were invisible to the them in a traditional sense 
+It caused an overload of their sensory organs akin to a fish out of water, or a human drowning in a 
+Sea. 
+
+The well of souls nirvana only ever interacts with fire when parts of it leak out into the universe 
+Causing out material plane to exist as we know it. Souls become stars, planets, comets, and gasses. 
+The furthest reaches of the universe are shrouded still in myth. Sadhus (sages) from Aryavarta  
+Spoke of tales of complex artificial cities of many spokes of wheels interconnected turning 
+Each other to power great buildings Into changing colours, and thundered to leap from site 
+To sites powering devices unfathomable to turn great ships in space. Those ideas were considered 
+Stupid and classless and those sadhus mainly lived as recluses teaching all they could pass by of 
+The great mechanical cities and ships in our space. 
+
 The guise of many rakshasas would earn them admires and worshippers. Shapeshifting was an ability
 that some rakshasa employed to take the form of innocent maidens, and satisfy the intimate desires
 of humans. Some would use their power to become the vizier to chiefs whispering false stories
@@ -227,8 +284,35 @@ amongst them. They were considered simpleminded beasts, unable to control their 
 note those of esteemed quality, able to control their temperament causing them to rise to
 great infamy.
 
-Thus begins the story of evil on Earth how the old Aryan pantheon was torn asunder by the
-cataclysmic event known as the birth of duality, and the magician who spoke of this revelation.
+Within Arianna Vritra was the rakashaa of drought, causing famine, through preventing rains
+from pouring onto 
+farmland. He could manipulate the weather to his liking and his vanity for his success meant 
+his worshippers would be attracted throughout the world to gain entrance to such an successful 
+being. His minions were known as Pani. Rakasha that could fly without wings. They spread chaos 
+to humans through their ramblings of honest and false secrets, a tale of a false adultery 
+scandal, a story of an honest time a man's best friend stole his belonging, causing the inherent 
+evil in humans to arise stroking fear. Vritra used his Pani to spread evil throughout the world 
+preventing priests from conducting rituals of piousness was his forever goal. To prevent humans 
+from attaining knowledge used to defeat him.
+
+Arianna's greenery was limited to few forests throughout the raised elevation that formed the
+Aryan plateau shared with Iran on the West and slooping to Aryavarta to the East rising
+further above north and downwards south. In the forests that did exist Vangrida the rakashaa
+of hardships often worked in tandem and angatonism with Vritra to cause hardships, drought and
+chaos to others. He would control the few forests that did exist and lure folk mad when they
+departed his domain.
+
+Urnavabha was another prominent rakasha with the power of controlling weather, thus causing draught
+and causing agricultural output to fail within kingdoms and collapse of nations.
+
+Thus begins the story of evil on Earth how the old Aryan pantheon was torn asunder by the 
+cataclysmic event known as the birth of duality, and the magician who spoke of this revelation. 
+Magus, Rishi, Sadhus and foreign scholars from Misr, Shang, Mycenae and beyond would  
+together would work in tandem to learn, document and react to the newfound threats 
+that faced this world. Putting aside differences in opinion it was a necessary reaction to the worldly 
+affairs. New weapons were forged from the hides and parts of the rakashha themselves to annihilate them. 
+New spells were conjured in order to control, and destroy them. New sciences in order to reveal 
+the very nature of their existence. 
 
 During a reconnaissance of collecting herbs for the Nava (new) Agni school’s faculty staff a prospecting
 Magus on their way back to Nava (New) Agni sees a plume in the horizon of dark clouds. On closer
