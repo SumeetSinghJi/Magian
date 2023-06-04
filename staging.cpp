@@ -237,7 +237,7 @@ enum edirection
 };
 edirection direction;
 // FUNCTION PROTOTYPE/DECLARATION
-void check_stats(const unique_ptr<Player>& player_pointer_object);
+void check_stats(unique_ptr<Player>& player_pointer_object);
 void menu();
 void l2startgame();
 void check_stats(unique_ptr<Player>& player_pointer_object);
@@ -253,7 +253,7 @@ vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<enemy_class>> l2enemies_vector;
 unique_ptr<Player> player_pointer_object = make_unique<Player>();
 // GLOBAL VARIABLES
-int magic = 1;;
+int magic = 1;
 int vitality = 1;
 int literacy = 1;
 int diplomacy = 1;

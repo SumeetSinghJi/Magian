@@ -222,19 +222,38 @@ public:
     player_speed++;
   }
 };
+class Obstacle
+{
+  public:
+    char obstacle_symbol;
+    string obstacle_name = "";
+    string obstacle_description = "";
+    int obstacle_vitality = 0;
+};
 fstream savefile_object;
 enum edirection 
 {
   STOP = 0, UP, DOWN, LEFT, RIGHT
 };
 edirection direction;
-// POINTERS
+// FUNCTION PROTOTYPE/DECLARATION
+void check_stats(unique_ptr<Player>& player_pointer_object);
+void menu();
+void l2startgame();
+void check_stats(unique_ptr<Player>& player_pointer_object);
+void levelup(unique_ptr<Player>& player_pointer_object);
+void item_store(vector<unique_ptr<item_class>>& inventory_vector);
+void check_items();
+void check_skills();
+void xp();
+void shoot(int width, int height, int x_pos, int y_pos, edirection direction, unique_ptr<Player> &player_pointer_object);
+// GLOBAL POINTERS
 vector<unique_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<enemy_class>> l2enemies_vector;
 unique_ptr<Player> player_pointer_object = make_unique<Player>();
-// VARIABLES
-int magic = 1;;
+// GLOBAL VARIABLES
+int magic = 1;
 int vitality = 1;
 int literacy = 1;
 int diplomacy = 1;
@@ -265,15 +284,6 @@ int level=11;
 int level_select_variable=1; // for bonus level select
 clock_t lastShootTime; // shoot() time management variables
 const int shootInterval = 1000; // 1 second in milliseconds
-// FUNCTION PROTOTYPE/DECLARATION
-void check_stats(const unique_ptr<Player>& player_pointer_object);
-void menu();
-void l2startgame();
-void item_store(vector<unique_ptr<item_class>>& inventory_vector);
-void check_items();
-void check_skills();
-void xp();
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction, unique_ptr<Player> &player_pointer_object);
 void clear_screen()
 {
 #ifdef _WIN32
@@ -302,6 +312,22 @@ int cin_valid_input()
     cin.ignore();
     return input_variable;
 }
+void random_generate_obstacle()
+{
+  cout << "Coming soon";
+}
+void random_generate_enemy()
+{
+  cout << "Coming soon";
+}
+void random_generate_items()
+{
+  cout << "Coming soon";
+}
+void random_generate_money()
+{
+  cout << "Coming soon";
+}
 void setup() 
 {
   if (music_variable == false)
@@ -328,6 +354,9 @@ void setup()
   // to refresh vectors for new game and level select
   inventory_vector.clear();
   enemies_vector.clear();
+
+  // setup obstacles
+  // generate a random number of obstacles
 
   // level 1 setup enemy
   auto level_1_enemy_pointer = make_shared<enemy_class>();
@@ -846,7 +875,7 @@ void l2startgame()
     cin.get();
   }
 }
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction, std::unique_ptr<Player>& player_pointer_object)
+void shoot(int width, int height, int x_pos, int y_pos, edirection direction, unique_ptr<Player>& player_pointer_object)
 {
     // Calculate the target position based on the direction
     int targetX = x_pos;
@@ -924,7 +953,7 @@ void shoot(int width, int height, int x_pos, int y_pos, edirection direction, st
 }
 void check_items()
 {
-  
+  // read from the savefile NOT the pointer object!!!
   cout << "INVENTORY" <<endl;
   for (int i=0;i<inventory_vector.size(); i++)
   {
@@ -998,11 +1027,13 @@ void item_store(vector<unique_ptr<item_class>>& inventory_vector)
 }
 void check_skills()
 {
+  // read from the savefile NOT the pointer object!!!
   cout << "SKILLS\n\n"
   "Change skill to\n";
 }
-void check_stats(const unique_ptr<Player>& player_pointer_object)
+void check_stats(unique_ptr<Player>& player_pointer_object)
 {
+  // read from the savefile NOT the pointer object!!!
   cout << "PLAYER\n"
   << "NAME: " << player_pointer_object->name << endl
   << "XP: " << player_pointer_object->xp << endl
@@ -1049,12 +1080,12 @@ void setup_player()
   savefile_object.open("magian_save.txt", ios::app);
     if(savefile_object.is_open())
     {
-        savefile_object << "MAGIC: " << magic << endl;
-        savefile_object << "VITALITY: " << vitality << endl;
-        savefile_object << "LITERACY: " << literacy << endl;
-        savefile_object << "DIPLOMACY: " << diplomacy << endl;
-        savefile_object << "SWIMMING: " << swimming << endl;
-        savefile_object << "HERBOLOGY: " << herbology << endl;
+        savefile_object << "Magic: " << magic << endl;
+        savefile_object << "Vitality: " << vitality << endl;
+        savefile_object << "Literacy: " << literacy << endl;
+        savefile_object << "Diplomacy: " << diplomacy << endl;
+        savefile_object << "Swimming: " << swimming << endl;
+        savefile_object << "Herbology: " << herbology << endl;
         savefile_object.close();
     }
     else
@@ -1236,8 +1267,8 @@ void welcome()
   "and advance through the level.\n"
   "but dont fall off the path less you die! \n\n\n"
   "MAIN MENU\n"
-  "1. New Game\n"
-  "2. Continue\n"
+  "1. Start Game\n"
+  "2. Save | Load Game\n"
   "3. Level select\n"
   "4. Help\n"
   "5. Settings\n"
@@ -1316,7 +1347,28 @@ void xp()
     cerr << "Error: Couldn't write xp to savefile";
   }
 }
-void startgame() 
+void levelup(unique_ptr<Player>& player_pointer_object)
+{
+  if (player_pointer_object->xp > 3) // level 1
+  {
+    cout << "Your experience and knowledge gained throughout life increases your capability";
+    player_pointer_object->magic += 1;
+    player_pointer_object->vitality += 1;
+  }
+  else if (player_pointer_object->xp > 6) // level 2
+  {
+    cout << "Your experience and knowledge gained throughout life increases your capability";
+    player_pointer_object->magic += 1;
+    player_pointer_object->vitality += 1;
+  }
+  else if (player_pointer_object->xp > 9) // level 3
+  {
+    cout << "Your experience and knowledge gained throughout life increases your capability";
+    player_pointer_object->magic += 1;
+    player_pointer_object->vitality += 1;
+  }
+}
+void newgame() 
 {
   choose_name();
   setup_player_header();
@@ -1349,29 +1401,77 @@ void startgame()
     cin.get();
   }
 }
-void newgame()
+void continuegame() 
 {
-savefile_object.open("magian_save.txt", ios::in);
+  setup();
+  lives = 3;
+  if (os_variable == "Windows")
+  { 
+    while (!gameover) 
+    {
+      draw_level_1();
+      input();
+      logic();
+      Sleep(150);
+    }
+    cout << "Game Over. Your final score is: " << score << endl;
+    cin.get();
+  }
+  else
+  {
+    while (!gameover) 
+    {
+      draw_level_1();
+      POSIXinput();
+      logic();
+      Sleep(150);
+    }
+    cout << "Game Over. Your final score is: " << score << endl;
+    cin.get();
+  }
+}
+void startgame()
+{
+    savefile_object.open("magian_save.txt", ios::in);
     if (savefile_object.is_open())
     {
       char choice_new_game_variable; 
-      cout << "Starting new game will Erase old save file. Are you sure? type Y to erase or any other key to Exit: ";
-      cin >> choice_new_game_variable;
-      if (choice_new_game_variable == 'Y' || choice_new_game_variable == 'y')
+      cout << "Do you want to start a New Game, or load your existing save?\n"
+      "1. New Game\n"
+      "2. Continue Game\n"
+      "Enter an option (ENTER 0 to exit): ";
+      int continue_variable = cin_valid_input();
+      switch(continue_variable)
       {
-        savefile_object.close();
-        filesystem::remove("magian_save.txt");
-        startgame();
-      }
-      else
-      {
-        menu();
+        case 0:
+          menu();
+          break;
+        case 1:
+          cout << "Starting new game will Erase old save file. Are you sure? type Y to erase, Or ENTER any other key to Exit: ";
+          cin >> choice_new_game_variable;
+          if (choice_new_game_variable == 'Y' || choice_new_game_variable == 'y')
+          {
+            savefile_object.close();
+            filesystem::remove("magian_save.txt");
+            cout << "Press ENTER to continue.." << endl;
+            cin.get();
+            newgame();
+          }
+          else
+          {
+            menu();
+            break;
+          }
+          break;
+        case 2:
+          continuegame();
+          break;
       }
     }
-    else 
+    else
     {
-      startgame();
-    }  
+      newgame();
+    }
 }
 void menu() 
 {
@@ -1391,7 +1491,7 @@ void menu()
   case 0:
     exit(1);
   case 1:
-    newgame();
+    startgame();
     break;
   case 2:
     save_load_game();
