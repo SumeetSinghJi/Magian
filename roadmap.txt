@@ -1,7 +1,17 @@
 ROADMAP
 
-0.
-If save game exists, continue() must load it at start of the level.
+Important
+void random_generate_obstacle()
+{
+  cout << "Coming soon";
+}
+void random_generate_enemy()
+{
+  cout << "Coming soon";
+}
+
+0.0
+Then allow for up to 3 save game states and can choose which to load
 
 1
 In game book - copy of early rig veda and gathas, and shanameh
@@ -48,16 +58,6 @@ on Windows and Unix like OS
 * update check_skills with achievements (check last roadmap)
 * Specific scroll item drop with rand() drawn to buffer
 * scroll item adds new skill
-
-9
-class Obstacle
-{
-  public:
-    char obstacle_symbol = "";
-    string obstacle_name = "";
-    string obstacle_description = "";
-    int obstacle_vitality = 0;
-};
 
 
 

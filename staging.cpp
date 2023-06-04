@@ -311,6 +311,14 @@ int cin_valid_input()
     cin.ignore();
     return input_variable;
 }
+void random_generate_obstacle()
+{
+  cout << "Coming soon";
+}
+void random_generate_enemy()
+{
+  cout << "Coming soon";
+}
 void setup() 
 {
   if (music_variable == false)
@@ -1248,8 +1256,8 @@ void welcome()
   "and advance through the level.\n"
   "but dont fall off the path less you die! \n\n\n"
   "MAIN MENU\n"
-  "1. New Game\n"
-  "2. Continue\n"
+  "1. Start Game\n"
+  "2. Save | Load Game\n"
   "3. Level select\n"
   "4. Help\n"
   "5. Settings\n"
@@ -1363,27 +1371,46 @@ void startgame()
 }
 void newgame()
 {
-savefile_object.open("magian_save.txt", ios::in);
+    savefile_object.open("magian_save.txt", ios::in);
     if (savefile_object.is_open())
     {
       char choice_new_game_variable; 
-      cout << "Starting new game will Erase old save file. Are you sure? type Y to erase or any other key to Exit: ";
-      cin >> choice_new_game_variable;
-      if (choice_new_game_variable == 'Y' || choice_new_game_variable == 'y')
+      cout << "Do you want to start a New Game, or load your existing save?\n"
+      "1. New Game\n"
+      "2. Continue Game\n"
+      "Enter an option (ENTER 0 to exit): ";
+      int continue_variable = cin_valid_input();
+      switch(continue_variable)
       {
-        savefile_object.close();
-        filesystem::remove("magian_save.txt");
-        startgame();
-      }
-      else
-      {
-        menu();
+        case 0:
+          menu();
+          break;
+        case 1:
+          cout << "Starting new game will Erase old save file. Are you sure? type Y to erase, Or ENTER any other key to Exit: ";
+          cin >> choice_new_game_variable;
+          if (choice_new_game_variable == 'Y' || choice_new_game_variable == 'y')
+          {
+            savefile_object.close();
+            filesystem::remove("magian_save.txt");
+            cout << "Press ENTER to continue.." << endl;
+            cin.get();
+            startgame();
+          }
+          else
+          {
+            menu();
+            break;
+          }
+          break;
+        case 2:
+          startgame();
+          break;
       }
     }
-    else 
+    else
     {
       startgame();
-    }  
+    }
 }
 void menu() 
 {
