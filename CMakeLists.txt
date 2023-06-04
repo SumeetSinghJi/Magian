@@ -18,6 +18,7 @@ if(WIN32)
     collect_files_with_extensions(images "/*.png" "/*.jpg")
     collect_files_with_extensions(sound "/*.wav" "/*.mp3")
     list(APPEND SOURCES staging.cpp ${HEADER_FILES})
+    set(LINK_LIBRARIES winmm)
 elseif(UNIX)
     # Linux-specific configurations
     set(LINUX_DESKTOP_DIR "$ENV{HOME}/bin")
@@ -35,10 +36,13 @@ include_directories(headers)
 # COMPILING
 add_executable(magian ${SOURCES})
 
+# Link libraries
+target_link_libraries(magian PRIVATE ${LINK_LIBRARIES})
+
 # Platform-specific configurations
 if(WIN32)
     # Windows-specific configurations
-    set_target_properties(magian PROPERTIES OUTPUT_NAME magian_win)
+    set_target_properties(magian PROPERTIES OUTPUT_NAME magian)
 elseif(UNIX)
     # Linux-specific configurations
     set_target_properties(magian PROPERTIES OUTPUT_NAME magian_linux)

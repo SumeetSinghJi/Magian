@@ -1,20 +1,48 @@
 #pragma once
-#include <fstream>
-#include <string>
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <headers/get_datetime.h>
 using namespace std;
+// for level select function BEGIN
+//functions declared before
+void setup();
+void input();
+void logic();
+void POSIXinput();
+void draw_level_1();
+void draw_level_2();
+void draw_level_3();
+void draw_level_4();
+void draw_level_5();
+void draw_level_6();
+void draw_level_7();
+void draw_level_8();
+void draw_level_9();
+void draw_level_10();
+void draw_level_11();
+extern int level_select_variable;
+extern int lives;
+extern int difficulty;
+extern int score;
+extern bool gameover;
+// for level select function END
+
 extern int level_select_variable;
 extern string version;
 extern fstream savefile_object;
+string host_OS_name_variable = "";
 //added function declaration for void menu(); for the save load function  
 void menu();
+string get_datetime() 
+{
+  time_t now = time(0);
+  tm* ltm = localtime(&now);
+  int year = 1900 + ltm->tm_year;
+  int month = 1 + ltm->tm_mon;
+  int day = ltm->tm_mday;
+  std::string datetime_variable = std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
+  return datetime_variable;
+}
 // for debugging purposes
-string find_host_os()
+string find_host_os(string &host_OS_name_variable)
 {   
-    string host_OS_name_variable;
     #ifdef __WIN32
         host_OS_name_variable += "Windows";
     #elif __linux__
@@ -61,7 +89,7 @@ void update_savefile_level()
                 if (savefile_object.is_open())
                 {
                     savefile_object << "Updating save file" << endl;
-                    savefile_object << "Computers Operating system is: " << find_host_os() << endl;
+                    savefile_object << "Computers Operating system is: " << host_OS_name_variable << endl;
                     savefile_object << "Version: "<< version << endl;
                     savefile_object << "Date: " << get_datetime() << endl;
                     savefile_object << level_select_variable_match << level_select_variable << endl;
@@ -90,7 +118,7 @@ void update_savefile_level()
     if (savefile_object.is_open())
     {
         savefile_object << "SAVE UPDATE" << endl;
-        savefile_object << "Host OS is: " << find_host_os() << endl;
+        savefile_object << "Host OS is: " << host_OS_name_variable << endl;
         savefile_object << "Version: "<< version << endl;
         savefile_object << "Date: " << get_datetime() << endl;
         savefile_object << "Unlocked levels: " << level_select_variable << endl;
@@ -211,3 +239,119 @@ ifstream savefile_object("magian_save.txt");
   }
 
 */
+void level_select(string host_OS_name_variable)
+{
+  match_savefile_level();
+  cout << "Choose any level you've unlocked \n"; 
+  // add a condition to show only levels that are below or equal to level_select
+  for (int i = 1; i <= level_select_variable; i++) {
+    switch (i) {
+      case 1:
+        cout << "1. Arianna Outskirts\n";
+        break;
+      case 2:
+        cout << "2. Blazed home\n";
+        break;
+      case 3:
+        cout << "3. Hunt\n";
+        break;
+      case 4:
+        cout << "4. Captured aboard\n";
+        break;
+      case 5:
+        cout << "5. Capsize\n";
+        break;
+      case 6:
+        cout << "6. Underwater inferno\n";
+        break;
+      case 7:
+        cout << "7. Final spell\n";
+        break;
+      case 8:
+        cout << "8. Rakashaa planet\n";
+        break;
+      case 9:
+        cout << "9. Cosmic escape\n";
+        break;
+      case 10:
+        cout << "10. Nirvana\n";
+        break;
+      case 11:
+        cout << "11. Restoration\n";
+        break;
+      default:
+        break;
+    }
+  }
+  // ask the user for their choice
+  int level_select_choice_variable;
+  cout << "Enter your choice (Enter 0 to exit): ";
+  cin >> level_select_choice_variable;
+  // only include continue(), l2continue() etc., for cases below
+  switch (level_select_choice_variable)
+  {
+    case 0:
+      menu();
+      break;
+    case 1:
+      setup();
+      lives = 3;
+      if (host_OS_name_variable == "Windows")
+      { 
+        while (!gameover) 
+        {
+          draw_level_1();
+          input();
+          logic();
+          Sleep(150);
+        }
+        cout << "Game Over. Your final score is: " << score << endl;
+        cin.get();
+      }
+      else
+      {
+        while (!gameover) 
+        {
+          draw_level_1();
+          POSIXinput();
+          logic();
+          Sleep(150);
+        }
+        cout << "Game Over. Your final score is: " << score << endl;
+        cin.get();
+      }
+      break;
+    case 2:
+      draw_level_2();
+      break;
+    case 3:
+      draw_level_3();
+      break;
+    case 4:
+      draw_level_4();
+      break;
+    case 5:
+      draw_level_5();
+      break;
+    case 6:
+      draw_level_6();
+      break;
+    case 7:
+      draw_level_7();
+      break;
+    case 8:
+      draw_level_8();
+      break;
+    case 9:
+      draw_level_9();
+      break;
+    case 10:
+      draw_level_10();
+      break;
+    case 11:
+      draw_level_11();
+      break;
+    default:
+      break;
+  }
+}

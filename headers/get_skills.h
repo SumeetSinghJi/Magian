@@ -1,7 +1,6 @@
 #pragma once
-#include <iostream>
 using namespace std;
-void check_skills()
+void check__extra_skills()
 {
     cout << "COMING SOON" << endl;
 }

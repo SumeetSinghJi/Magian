@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 using namespace std;
 extern int language;
 extern bool music_variable;
