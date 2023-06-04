@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 using namespace std;
-void check_items()
+void test()
 {
     cout << "COMING SOON" << endl;
 }

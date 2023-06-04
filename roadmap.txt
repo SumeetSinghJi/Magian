@@ -1,6 +1,30 @@
 ROADMAP
 
-Important
+BIGGEST ISSUE - when continuing game, doesn't read from existing savefile and writes stats etc., twice!.
+
+Setup function ALSO in continuegame() writes inventory to file twice, but an if exists then dont clause.
+for potion and leather boots.
+
+* For check_stats()
+* check_skills()
+* check_items()
+
+They should not read from the objects, they should read from SAVEFILE.
+if (savefile.object("magian_save.txt" ,ios::in)
+{
+  savefile.object.exsts
+  {
+    read xx from there
+  }
+}
+ exists then (read from there)
+ else
+ {
+  read from pointer object
+ }
+
+
+2.
 void random_generate_obstacle()
 {
   cout << "Coming soon";
@@ -10,17 +34,17 @@ void random_generate_enemy()
   cout << "Coming soon";
 }
 
-0.0
+3
 Then allow for up to 3 save game states and can choose which to load
 
-1
+4
 In game book - copy of early rig veda and gathas, and shanameh
 
-2
+5
 Key rebinding
 ESC key opens save menu, or F1 key is save
 
-3
+6
 Locale including
 * Farsi
 * Sanskrit
@@ -29,18 +53,18 @@ Locale including
 * English
 * German
 
-4
+7
 * fix shoot() delay with clock() in <ctime>
 
-5
+8
 create fireball()
 fireball() sfx
 
-6
+9
 Draw items to buffer
 trigger event - on pickup of items, pushback
 
-7
+10
 enemies grant xp on death
 death counter variable
 player class member xp
@@ -51,7 +75,7 @@ levelup()
 }
 
 
-8
+11
 * Skills assigned numbers e.g. numbers 1 = shoot(), 2 = fireball()
 * change skills with check skills() which changes input SPACE_BAR to new skill selected
 on Windows and Unix like OS
@@ -59,19 +83,10 @@ on Windows and Unix like OS
 * Specific scroll item drop with rand() drawn to buffer
 * scroll item adds new skill
 
-
-
-10
-new function job()
-switch case (different jobs = different symbols)
-player_pointer_object->player_symbol = 'R'; - Rishi - hand to hand combat
-player_pointer_object->player_symbol = 'P'; - Magus - ranged combat specialist
-update draw bugger with new player class symbol
-
-11
+12
 shoot() soundeffect
 
-12
+13
 Level editing mode
 
 14
@@ -79,7 +94,7 @@ Level editing mode
 * Curl official website to check for updates and if so prompt to Download in the main
 if not cout no updates available.
  
-13
+15
 World map option - places to visit
 * Home
 * Shop

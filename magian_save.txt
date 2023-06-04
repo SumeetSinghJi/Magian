@@ -1,17 +1,13 @@
 CHARACTER NAME: Arya
 STATS
-MAGIC: 1
-VITALITY: 1
-LITERACY: 1
-DIPLOMACY: 1
-SWIMMING: 1
-HERBOLOGY: 1
+Magic: 1
+Vitality: 1
+Literacy: 1
+Diplomacy: 1
+Swimming: 1
+Herbology: 1
 INVENTORY
 Potion
 Leather boots
-XP: 2
-SAVE UPDATE
-Host OS is: Windows
-Version: 0.2.2
-Date: 4/6/2023
-Unlocked levels: 2
+Leather boots
+Leather boots

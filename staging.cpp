@@ -945,7 +945,7 @@ void shoot(int width, int height, int x_pos, int y_pos, edirection direction, un
 }
 void check_items()
 {
-  
+  // read from the savefile NOT the pointer object!!!
   cout << "INVENTORY" <<endl;
   for (int i=0;i<inventory_vector.size(); i++)
   {
@@ -1019,11 +1019,13 @@ void item_store(vector<unique_ptr<item_class>>& inventory_vector)
 }
 void check_skills()
 {
+  // read from the savefile NOT the pointer object!!!
   cout << "SKILLS\n\n"
   "Change skill to\n";
 }
 void check_stats(unique_ptr<Player>& player_pointer_object)
 {
+  // read from the savefile NOT the pointer object!!!
   cout << "PLAYER\n"
   << "NAME: " << player_pointer_object->name << endl
   << "XP: " << player_pointer_object->xp << endl
@@ -1358,7 +1360,7 @@ void levelup(unique_ptr<Player>& player_pointer_object)
     player_pointer_object->vitality += 1;
   }
 }
-void startgame() 
+void newgame() 
 {
   choose_name();
   setup_player_header();
@@ -1391,7 +1393,36 @@ void startgame()
     cin.get();
   }
 }
-void newgame()
+void continuegame() 
+{
+  setup();
+  lives = 3;
+  if (os_variable == "Windows")
+  { 
+    while (!gameover) 
+    {
+      draw_level_1();
+      input();
+      logic();
+      Sleep(150);
+    }
+    cout << "Game Over. Your final score is: " << score << endl;
+    cin.get();
+  }
+  else
+  {
+    while (!gameover) 
+    {
+      draw_level_1();
+      POSIXinput();
+      logic();
+      Sleep(150);
+    }
+    cout << "Game Over. Your final score is: " << score << endl;
+    cin.get();
+  }
+}
+void startgame()
 {
     savefile_object.open("magian_save.txt", ios::in);
     if (savefile_object.is_open())
@@ -1416,7 +1447,7 @@ void newgame()
             filesystem::remove("magian_save.txt");
             cout << "Press ENTER to continue.." << endl;
             cin.get();
-            startgame();
+            newgame();
           }
           else
           {
@@ -1425,13 +1456,13 @@ void newgame()
           }
           break;
         case 2:
-          startgame();
+          continuegame();
           break;
       }
     }
     else
     {
-      startgame();
+      newgame();
     }
 }
 void menu() 
@@ -1452,7 +1483,7 @@ void menu()
   case 0:
     exit(1);
   case 1:
-    newgame();
+    startgame();
     break;
   case 2:
     save_load_game();
