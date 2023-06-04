@@ -9,3 +9,9 @@ HERBOLOGY: 1
 INVENTORY
 Potion
 Leather boots
+XP: 2
+SAVE UPDATE
+Host OS is: Windows
+Version: 0.2.2
+Date: 4/6/2023
+Unlocked levels: 2

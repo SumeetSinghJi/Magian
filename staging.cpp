@@ -240,18 +240,19 @@ edirection direction;
 void check_stats(const unique_ptr<Player>& player_pointer_object);
 void menu();
 void l2startgame();
-void check_stats();
+void check_stats(unique_ptr<Player>& player_pointer_object);
+void levelup(unique_ptr<Player>& player_pointer_object);
 void item_store(vector<unique_ptr<item_class>>& inventory_vector);
 void check_items();
 void check_skills();
 void xp();
 void shoot(int width, int height, int x_pos, int y_pos, edirection direction, unique_ptr<Player> &player_pointer_object);
-// POINTERS
+// GLOBAL POINTERS
 vector<unique_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<enemy_class>> l2enemies_vector;
 unique_ptr<Player> player_pointer_object = make_unique<Player>();
-// VARIABLES
+// GLOBAL VARIABLES
 int magic = 1;;
 int vitality = 1;
 int literacy = 1;
@@ -866,7 +867,7 @@ void l2startgame()
     cin.get();
   }
 }
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction, std::unique_ptr<Player>& player_pointer_object)
+void shoot(int width, int height, int x_pos, int y_pos, edirection direction, unique_ptr<Player>& player_pointer_object)
 {
     // Calculate the target position based on the direction
     int targetX = x_pos;
@@ -1021,7 +1022,7 @@ void check_skills()
   cout << "SKILLS\n\n"
   "Change skill to\n";
 }
-void check_stats(const unique_ptr<Player>& player_pointer_object)
+void check_stats(unique_ptr<Player>& player_pointer_object)
 {
   cout << "PLAYER\n"
   << "NAME: " << player_pointer_object->name << endl
@@ -1069,12 +1070,12 @@ void setup_player()
   savefile_object.open("magian_save.txt", ios::app);
     if(savefile_object.is_open())
     {
-        savefile_object << "MAGIC: " << magic << endl;
-        savefile_object << "VITALITY: " << vitality << endl;
-        savefile_object << "LITERACY: " << literacy << endl;
-        savefile_object << "DIPLOMACY: " << diplomacy << endl;
-        savefile_object << "SWIMMING: " << swimming << endl;
-        savefile_object << "HERBOLOGY: " << herbology << endl;
+        savefile_object << "Magic: " << magic << endl;
+        savefile_object << "Vitality: " << vitality << endl;
+        savefile_object << "Literacy: " << literacy << endl;
+        savefile_object << "Diplomacy: " << diplomacy << endl;
+        savefile_object << "Swimming: " << swimming << endl;
+        savefile_object << "Herbology: " << herbology << endl;
         savefile_object.close();
     }
     else
@@ -1334,6 +1335,27 @@ void xp()
   else
   {
     cerr << "Error: Couldn't write xp to savefile";
+  }
+}
+void levelup(unique_ptr<Player>& player_pointer_object)
+{
+  if (player_pointer_object->xp > 3) // level 1
+  {
+    cout << "Your experience and knowledge gained throughout life increases your capability";
+    player_pointer_object->magic += 1;
+    player_pointer_object->vitality += 1;
+  }
+  else if (player_pointer_object->xp > 6) // level 2
+  {
+    cout << "Your experience and knowledge gained throughout life increases your capability";
+    player_pointer_object->magic += 1;
+    player_pointer_object->vitality += 1;
+  }
+  else if (player_pointer_object->xp > 9) // level 3
+  {
+    cout << "Your experience and knowledge gained throughout life increases your capability";
+    player_pointer_object->magic += 1;
+    player_pointer_object->vitality += 1;
   }
 }
 void startgame() 
