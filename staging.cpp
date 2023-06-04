@@ -320,6 +320,14 @@ void random_generate_enemy()
 {
   cout << "Coming soon";
 }
+void random_generate_items()
+{
+  cout << "Coming soon";
+}
+void random_generate_money()
+{
+  cout << "Coming soon";
+}
 void setup() 
 {
   if (music_variable == false)

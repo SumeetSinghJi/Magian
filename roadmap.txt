@@ -2,8 +2,7 @@ ROADMAP
 
 BIGGEST ISSUE - when continuing game, doesn't read from existing savefile and writes stats etc., twice!.
 
-Setup function ALSO in continuegame() writes inventory to file twice, but an if exists then dont clause.
-for potion and leather boots.
+
 
 * For check_stats()
 * check_skills()
@@ -24,15 +23,17 @@ if (savefile.object("magian_save.txt" ,ios::in)
  }
 
 
+1.5
+Setup function ALSO in continuegame() writes inventory to file twice, but an if exists then dont clause.
+for potion and leather boots.
+
+
+
 2.
 void random_generate_obstacle()
-{
-  cout << "Coming soon";
-}
 void random_generate_enemy()
-{
-  cout << "Coming soon";
-}
+void random_generate_items()
+void random_generate_money()
 
 3
 Then allow for up to 3 save game states and can choose which to load
