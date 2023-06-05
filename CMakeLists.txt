@@ -45,7 +45,7 @@ if(WIN32)
     set_target_properties(magian PROPERTIES OUTPUT_NAME magian)
 elseif(UNIX)
     # Linux-specific configurations
-    set_target_properties(magian PROPERTIES OUTPUT_NAME magian_linux)
+    set_target_properties(magian PROPERTIES OUTPUT_NAME magian)
 else()
     message(FATAL_ERROR "Unsupported operating system: ${CMAKE_SYSTEM_NAME}")
 endif()
