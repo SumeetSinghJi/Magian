@@ -173,6 +173,14 @@ magian/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\magian.dir\build.make CMakeFiles/magian.dir/build
 .PHONY : magian/fast
 
+magian.obj: magian.rc.obj
+.PHONY : magian.obj
+
+# target to build an object file
+magian.rc.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\magian.dir\build.make CMakeFiles/magian.dir/magian.rc.obj
+.PHONY : magian.rc.obj
+
 staging.obj: staging.cpp.obj
 .PHONY : staging.obj
 
@@ -210,6 +218,7 @@ help:
 	@echo ... list_install_components
 	@echo ... rebuild_cache
 	@echo ... magian
+	@echo ... magian.obj
 	@echo ... staging.obj
 	@echo ... staging.i
 	@echo ... staging.s

@@ -80,12 +80,12 @@ clean: CMakeFiles/magian.dir/clean
 CMakeFiles/magian.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\magian.dir\build.make CMakeFiles/magian.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\magian.dir\build.make CMakeFiles/magian.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Sumeet\Documents\Magian\build\CMakeFiles --progress-num=1,2 "Built target magian"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Sumeet\Documents\Magian\build\CMakeFiles --progress-num=1,2,3 "Built target magian"
 .PHONY : CMakeFiles/magian.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/magian.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Sumeet\Documents\Magian\build\CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Sumeet\Documents\Magian\build\CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/magian.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Sumeet\Documents\Magian\build\CMakeFiles 0
 .PHONY : CMakeFiles/magian.dir/rule

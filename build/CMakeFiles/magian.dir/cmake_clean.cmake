@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/magian.dir/magian.rc.obj"
   "CMakeFiles/magian.dir/staging.cpp.obj"
   "CMakeFiles/magian.dir/staging.cpp.obj.d"
   "libmagian.dll.a"
@@ -8,6 +9,6 @@ file(REMOVE_RECURSE
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang CXX)
+foreach(lang CXX RC)
   include(CMakeFiles/magian.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

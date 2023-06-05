@@ -1,0 +1,17 @@
+CHARACTER NAME: Arya
+STATS
+Magic: 1
+Vitality: 1
+Literacy: 1
+Diplomacy: 1
+Swimming: 1
+Herbology: 1
+INVENTORY
+Potion
+Leather boots
+XP: 0
+SAVE UPDATE
+Host OS is: 
+Version: 0.2.2
+Date: 5/6/2023
+Unlocked levels: 2

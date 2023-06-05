@@ -16,7 +16,8 @@
 			"add_executable",
 			"install",
 			"target_link_libraries",
-			"include_directories"
+			"include_directories",
+			"target_sources"
 		],
 		"files" : 
 		[
@@ -30,25 +31,31 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 37,
+				"line" : 38,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 55,
+				"line" : 68,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 40,
+				"line" : 41,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 34,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 53,
 				"parent" : 0
 			}
 		]
@@ -73,6 +80,20 @@
 			"sourceIndexes" : 
 			[
 				0
+			]
+		},
+		{
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/Sumeet/Documents/Magian/headers"
+				}
+			],
+			"language" : "RC",
+			"sourceIndexes" : 
+			[
+				7
 			]
 		}
 	],
@@ -128,7 +149,8 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				7
 			]
 		},
 		{
@@ -140,6 +162,13 @@
 				3,
 				4,
 				5
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				6
 			]
 		}
 	],
@@ -175,6 +204,17 @@
 			"backtrace" : 1,
 			"path" : "headers/save_game.h",
 			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "images/icons/fire.ico",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 5,
+			"compileGroupIndex" : 1,
+			"path" : "build/magian.rc",
+			"sourceGroupIndex" : 0
 		}
 	],
 	"type" : "EXECUTABLE"
