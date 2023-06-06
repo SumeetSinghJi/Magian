@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Magian
+Icon=@CMAKE_INSTALL_PREFIX@/fire.png
+Exec=@CMAKE_INSTALL_PREFIX@/magian
+Terminal=false

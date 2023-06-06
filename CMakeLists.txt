@@ -18,21 +18,38 @@ if(WIN32)
     collect_files_with_extensions(images "/*.png" "/*.jpg")
     collect_files_with_extensions(sound/music "/*.wav" "/*.mp3")
     list(APPEND SOURCES staging.cpp ${HEADER_FILES})
+    # sound library set
     set(LINK_LIBRARIES winmm)
+    # icon file set
     set(RESOURCE_FILES images/icons/fire.ico)  # Add this line to include the .ico file
-elseif(UNIX)
-    # UNIX-specific configurations
-    if(APPLE)
-        # macOS-specific configurations
-        set(UNIX_DESKTOP_DIR "$ENV{HOME}/Desktop")
-    else()
-        # Linux-specific configurations
-        set(UNIX_DESKTOP_DIR "$ENV{HOME}/bin")
-    endif()
+elseif(APPLE)
+    # macOS-specific configurations
+    set(UNIX_DESKTOP_DIR "$ENV{HOME}/Desktop")
     collect_files_with_extensions(assets "/*.docx" "/*.pdf")
     collect_files_with_extensions(images "/*.png" "/*.jpg")
     collect_files_with_extensions(sound "/*.wav" "/*.mp3")
     list(APPEND SOURCES staging.cpp ${HEADER_FILES})
+    find_library(APPLE_MEDIA_PLAYER_FRAMEWORK AppleMediaPlayers)
+    # sound library set
+    set(LINK_LIBRARIES ${APPLE_MEDIA_PLAYER_FRAMEWORK})
+    # icon file set
+    set(ICON_FILE ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/fire.icns)
+elseif(UNIX)
+    # Linux-specific configurations
+    set(UNIX_DESKTOP_DIR "$ENV{HOME}/bin")
+    collect_files_with_extensions(assets "/*.docx" "/*.pdf")
+    collect_files_with_extensions(images "/*.png" "/*.jpg")
+    collect_files_with_extensions(sound "/*.wav" "/*.mp3")
+    list(APPEND SOURCES staging.cpp ${HEADER_FILES})
+    # sound library set
+    set(LINK_LIBRARIES asound)
+    # icon file set
+    set(ICON_FILE ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/fire.png)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/magian.desktop.in
+        ${CMAKE_CURRENT_BINARY_DIR}/magian.desktop
+        @ONLY
+    )
 else()
     message(FATAL_ERROR "Unsupported operating system: ${CMAKE_SYSTEM_NAME}")
 endif()
@@ -73,10 +90,37 @@ if(WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:magian>" "${WINDOWS_DESKTOP_DIR}/magian.exe"
         COMMENT "Copying executable to desktop directory"
     )
-elseif(UNIX)
-    # UNIX-specific configurations
+elseif(APPLE)
+    # macOS-specific configurations
+    set_target_properties(magian PROPERTIES MACOSX_BUNDLE TRUE)
+    set_target_properties(magian PROPERTIES OUTPUT_NAME "Magian")
+
+    # Create the Info.plist file
+    set(INFO_PLIST_FILE ${CMAKE_CURRENT_BINARY_DIR}/Info.plist)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in
+        ${INFO_PLIST_FILE}
+        @ONLY
+    )
+    set_target_properties(magian PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${INFO_PLIST_FILE})
+
+    # Copy the icon file to the bundle
+    set(ICON_DESTINATION_DIR ${CMAKE_CURRENT_BINARY_DIR}/Magian.app/Contents/Resources)
+    file(COPY ${ICON_FILE} DESTINATION ${ICON_DESTINATION_DIR})
+    
+    # INSTALLATION
+    add_custom_command(TARGET magian POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "$<TARGET_BUNDLE_DIR:magian>" "${UNIX_DESKTOP_DIR}/Magian.app"
+        COMMENT "Copying app bundle to desktop directory"
+    )
+else()
+    # Linux-specific configurations
     set_target_properties(magian PROPERTIES OUTPUT_NAME magian)
 
+    # Copy the icon file to the installation directory
+    install(FILES ${ICON_FILE} DESTINATION ${UNIX_DESKTOP_DIR})
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/magian.desktop DESTINATION ${UNIX_DESKTOP_DIR})
+    
     # INSTALLATION
     add_custom_command(TARGET magian POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:magian>" "${UNIX_DESKTOP_DIR}/magian"
