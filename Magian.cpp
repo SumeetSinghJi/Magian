@@ -9,10 +9,11 @@
 #include <memory>
 #include <fstream>
 #include <filesystem>
-#include <headers/save_game.h>
-#include <headers/game_settings.h>
-#include <headers/level_select.h>
-#include <headers/get_objective.h>
+#include "headers/save_game.h"
+#include "headers/game_settings.h"
+#include "headers/get_objective.h"
+#include "headers/get_items.h"
+#include "headers/get_skills.h"
 using namespace std;
 // CLASSES
 class Player
@@ -260,7 +261,6 @@ int diplomacy = 1;
 int swimming = 1;
 int herbology = 1;
 string version = "0.2.2";
-string os_variable = "";
 bool music_variable = true; 
 bool gameover = false;
 // level 1 map
@@ -850,7 +850,7 @@ void l2startgame()
   l2setup();
   lives = 3;
   
-  if (os_variable == "Windows")
+  if (host_OS_name_variable == "Windows")
   { 
     while (!gameover) 
     {
@@ -1376,7 +1376,7 @@ void newgame()
   item_store_header();
   setup();
   lives = 3;
-  if (os_variable == "Windows")
+  if (host_OS_name_variable == "Windows")
   { 
     while (!gameover) 
     {
@@ -1405,7 +1405,7 @@ void continuegame()
 {
   setup();
   lives = 3;
-  if (os_variable == "Windows")
+  if (host_OS_name_variable == "Windows")
   { 
     while (!gameover) 
     {
@@ -1475,7 +1475,6 @@ void startgame()
 }
 void menu() 
 {
-  os_variable = find_host_os();
   if (music_variable == false)
   {
     PlaySoundW(NULL, NULL, 0);
@@ -1484,6 +1483,7 @@ void menu()
   {
     PlaySoundW(L"sound//music//Cyber_Attack_by_JuliusH.wav", NULL, SND_FILENAME | SND_ASYNC);
   }
+  find_host_os(host_OS_name_variable);
   welcome();
   int menu_variable = cin_valid_input();
   switch (menu_variable)
@@ -1497,7 +1497,7 @@ void menu()
     save_load_game();
     break;
   case 3:
-    level_select();
+    level_select(host_OS_name_variable);
     break;
   case 4:
     help();

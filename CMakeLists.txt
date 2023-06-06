@@ -5,19 +5,23 @@ project(Magian)
 file(GLOB_RECURSE HEADER_FILES headers/*.h)
 
 # ADDING ASSETS
-function(collect_files_with_extensions dir extensions)
-    file(GLOB_RECURSE FILES "${dir}/*${extensions}")
-    list(APPEND SOURCES ${FILES})
+function(collect_files_with_extensions dir)
+    set(extension_list ${ARGN})
+    foreach(extension ${extension_list})
+        file(GLOB files "${dir}/*.${extension}")
+        list(APPEND SOURCES ${files})
+    endforeach()
 endfunction()
+
 
 # OS Specific
 if(WIN32)
     # Windows-specific configurations
     set(WINDOWS_DESKTOP_DIR "$ENV{USERPROFILE}/Desktop")
-    collect_files_with_extensions(assets "/*.docx" "/*.pdf")
-    collect_files_with_extensions(images "/*.png" "/*.jpg")
-    collect_files_with_extensions(sound/music "/*.wav" "/*.mp3")
-    list(APPEND SOURCES staging.cpp ${HEADER_FILES})
+    collect_files_with_extensions(assets "pdf")
+    collect_files_with_extensions(images "png")
+    collect_files_with_extensions(sound/music "wav")
+    list(APPEND SOURCES magian.cpp ${HEADER_FILES})
     # sound library set
     set(LINK_LIBRARIES winmm)
     # icon file set
@@ -25,11 +29,10 @@ if(WIN32)
 elseif(APPLE)
     # macOS-specific configurations
     set(UNIX_DESKTOP_DIR "$ENV{HOME}/Desktop")
-    collect_files_with_extensions(assets "/*.docx" "/*.pdf")
-    collect_files_with_extensions(images "/*.png" "/*.jpg")
-    collect_files_with_extensions(sound "/*.wav" "/*.mp3")
-    list(APPEND SOURCES staging.cpp ${HEADER_FILES})
-    find_library(APPLE_MEDIA_PLAYER_FRAMEWORK AppleMediaPlayers)
+    collect_files_with_extensions(assets "pdf")
+    collect_files_with_extensions(images "png")
+    collect_files_with_extensions(sound/music "wav")
+    list(APPEND SOURCES magian.cpp ${HEADER_FILES})
     # sound library set
     set(LINK_LIBRARIES ${APPLE_MEDIA_PLAYER_FRAMEWORK})
     # icon file set
@@ -37,10 +40,10 @@ elseif(APPLE)
 elseif(UNIX)
     # Linux-specific configurations
     set(UNIX_DESKTOP_DIR "$ENV{HOME}/bin")
-    collect_files_with_extensions(assets "/*.docx" "/*.pdf")
-    collect_files_with_extensions(images "/*.png" "/*.jpg")
-    collect_files_with_extensions(sound "/*.wav" "/*.mp3")
-    list(APPEND SOURCES staging.cpp ${HEADER_FILES})
+    collect_files_with_extensions(assets "pdf")
+    collect_files_with_extensions(images "png")
+    collect_files_with_extensions(sound/music "wav")
+    list(APPEND SOURCES magian.cpp ${HEADER_FILES})
     # sound library set
     set(LINK_LIBRARIES asound)
     # icon file set
@@ -92,7 +95,6 @@ if(WIN32)
     )
 elseif(APPLE)
     # macOS-specific configurations
-    set_target_properties(magian PROPERTIES MACOSX_BUNDLE TRUE)
     set_target_properties(magian PROPERTIES OUTPUT_NAME "Magian")
 
     # Create the Info.plist file

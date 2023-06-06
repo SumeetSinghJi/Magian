@@ -1,8 +1,0 @@
-[
-{
-  "directory": "C:/Users/Sumeet/Documents/Magian/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/magian.dir/includes_CXX.rsp -g -o CMakeFiles\\magian.dir\\staging.cpp.obj -c C:\\Users\\Sumeet\\Documents\\Magian\\staging.cpp",
-  "file": "C:/Users/Sumeet/Documents/Magian/staging.cpp",
-  "output": "CMakeFiles/magian.dir/staging.cpp.obj"
-}
-]

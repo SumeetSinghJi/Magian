@@ -23,12 +23,10 @@ extern int difficulty;
 extern int score;
 extern bool gameover;
 // for level select function END
-
 extern int level_select_variable;
 extern string version;
 extern fstream savefile_object;
 string host_OS_name_variable = "";
-//added function declaration for void menu(); for the save load function  
 void menu();
 string get_datetime() 
 {
@@ -40,7 +38,6 @@ string get_datetime()
   std::string datetime_variable = std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
   return datetime_variable;
 }
-// for debugging purposes
 string find_host_os(string &host_OS_name_variable)
 {   
     #ifdef __WIN32
@@ -54,22 +51,7 @@ string find_host_os(string &host_OS_name_variable)
     #endif
     return host_OS_name_variable; 
 }
-/* void write_inventory_title_in_save()
-{
-    //if already exists the word Inventory then Dont do below. Call in every win condition?
-    savefile_object.open("magian_save.txt", ios::app);
-    if (savefile_object.is_open())
-    {
-        savefile_object << "Inventory" << endl;
-    }
-    else
-    {
-        cerr << "Error: failed to create save file!" << endl;
-        return;
-    }    
-} */
-// This function should be called in win condition
-void update_savefile_level()
+void update_savefile_level() // This function should be called in win condition
 {
     // open file to read the contents first
     savefile_object.open("magian_save.txt", ios::in);
@@ -130,8 +112,7 @@ void update_savefile_level()
         return;
     }
 }
-// This code is read in the bonus level select mode to see available levels
-void match_savefile_level() 
+void match_savefile_level() // This code is read in the bonus level select mode to see available levels
 {
     savefile_object.open("magian_save.txt", ios::in); //read file contents
     if(savefile_object.is_open())
@@ -183,8 +164,7 @@ void match_savefile_level()
     }
     savefile_object.close();
 }
-// Function for finding save files and deleting
-void save_load_game()
+void save_load_game() // // Function for finding save files and deleting
 {
     cout << "Checking to see if any saves exist" << endl;
     string filename = "magian_save.txt";
@@ -211,34 +191,6 @@ void save_load_game()
         menu();
     }
 }
-/* - If match from save file output to screen.
-
-ifstream savefile_object("magian_save.txt");
-  if (savefile_object.is_open())
-  {
-    string line;
-    string name_savefile_variable_match = "CHARACTER NAME: ";
-    while (getline(savefile_object, line))
-    {
-      size_t found = line.find(name_savefile_variable_match);
-      // If found doesnt equal "no position" or "not found". (If found is true)
-      if (found != string::npos)
-      {
-        // Match found, extract the word after "CHARACTER NAME: "
-        string character_name = line.substr(found + name_savefile_variable_match.length());
-        cout << "Character Name: " << character_name << endl;
-        break;
-      }
-    }
-    savefile_object.close();
-  }
-  else
-  {
-    cerr << "Error: failed to open save file and read Characters name" << endl;
-    return;
-  }
-
-*/
 void level_select(string host_OS_name_variable)
 {
   match_savefile_level();

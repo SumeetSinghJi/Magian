@@ -9,9 +9,5 @@ Herbology: 1
 INVENTORY
 Potion
 Leather boots
-XP: 0
-SAVE UPDATE
-Host OS is: 
-Version: 0.2.2
-Date: 5/6/2023
-Unlocked levels: 2
+Leather boots
+Leather boots
