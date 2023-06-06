@@ -21,7 +21,7 @@ class Player
   public:
     string name = "";
     int magic = 0;
-    int vitality = 0;
+    int health = 0;
     int literacy = 0;
     int diplomacy = 0;
     int swimming = 0;
@@ -34,7 +34,7 @@ public:
     string enemy_name;
     string enemy_description;
     int damage;
-    int health;
+    int enemy_hp;
     int speed;
     int xpgain;
     int enemy_x_pos;
@@ -229,7 +229,7 @@ class Obstacle
     char obstacle_symbol;
     string obstacle_name = "";
     string obstacle_description = "";
-    int obstacle_vitality = 0;
+    int obstacle_hp = 0;
 };
 fstream savefile_object;
 enum edirection 
@@ -255,7 +255,7 @@ vector<shared_ptr<enemy_class>> l2enemies_vector;
 unique_ptr<Player> player_pointer_object = make_unique<Player>();
 // GLOBAL VARIABLES
 int magic = 1;
-int vitality = 1;
+int health = 1;
 int literacy = 1;
 int diplomacy = 1;
 int swimming = 1;
@@ -361,7 +361,7 @@ void setup()
   // level 1 setup enemy
   auto level_1_enemy_pointer = make_shared<enemy_class>();
   level_1_enemy_pointer->enemy_name="Fire";
-  level_1_enemy_pointer->health = 1;
+  level_1_enemy_pointer->enemy_hp = 1;
   level_1_enemy_pointer->xpgain = 1;
   level_1_enemy_pointer->enemy_description="A large moving flame 2 meters high burning everything it touches.";
   level_1_enemy_pointer->enemy_x_pos = rand() % width;
@@ -374,7 +374,7 @@ void setup()
   // level 2 setup enemy
   auto level_2_enemy_pointer = make_shared<enemy_class>();
   level_2_enemy_pointer->enemy_name="Flying Rakashaa";
-  level_2_enemy_pointer->health = 3;
+  level_2_enemy_pointer->enemy_hp = 3;
   level_1_enemy_pointer->xpgain = 2;
   level_2_enemy_pointer->enemy_description="A flying demon with powerfull magic.";
   level_2_enemy_pointer->enemy_x_pos = rand() % width;
@@ -429,7 +429,7 @@ void l2setup()
   // level 3 setup enemy
   auto level_3_enemy_pointer = make_shared<enemy_class>();
   level_3_enemy_pointer->enemy_name="Stalking Rakashaa";
-  level_3_enemy_pointer->health = 3;
+  level_3_enemy_pointer->enemy_hp = 3;
   level_3_enemy_pointer->xpgain = 1;
   level_3_enemy_pointer->enemy_description="A white large furry humanoid with sharp nails, bare arms and legs despite a furry body"
   "It's legs move exceedingly fast but stride is slow giving it the impression at any moment it could outrace and catch you."
@@ -898,9 +898,9 @@ void shoot(int width, int height, int x_pos, int y_pos, edirection direction, un
             for (const auto& enemy : enemies_vector) {
                 if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) {
                     hitEnemy = true;
-                    enemy->health--;
+                    enemy->enemy_hp--;
                     // If enemy's health is 0 or less, set the enemy's alive property to false
-                    if (enemy->health <= 0) {
+                    if (enemy->enemy_hp <= 0) {
                         player_pointer_object->xp += enemy->xpgain;
                         enemy->alive = false;
                     }
@@ -1040,8 +1040,8 @@ void check_stats(unique_ptr<Player>& player_pointer_object)
   << "PERSONALITY\n"
   << "Magic: " << player_pointer_object->magic << endl
   << "(Damage dealt modifier to spells, gained from defeating enemies)\n"
-  << "Vitality: " << player_pointer_object->vitality << endl
-  << "(Vitality is your life value. Increasing helps you stay alive. Gained from experience)\n"
+  << "Health: " << player_pointer_object->health << endl
+  << "(health is your life value. Increasing helps you stay alive. Gained from experience)\n"
   << "Literacy: " << player_pointer_object->literacy << endl
   << "(Higher literacy equals better spells gained from scrolls and diciphering foreign objects\n"
   << "gained from constantly reading)\n"
@@ -1071,7 +1071,7 @@ void setup_player_header()
 void setup_player()
 {
   player_pointer_object->magic = magic;
-  player_pointer_object->vitality = vitality;
+  player_pointer_object->health = health;
   player_pointer_object->literacy = literacy;
   player_pointer_object->diplomacy = diplomacy;
   player_pointer_object->swimming = swimming;
@@ -1081,7 +1081,7 @@ void setup_player()
     if(savefile_object.is_open())
     {
         savefile_object << "Magic: " << magic << endl;
-        savefile_object << "Vitality: " << vitality << endl;
+        savefile_object << "Health: " << health << endl;
         savefile_object << "Literacy: " << literacy << endl;
         savefile_object << "Diplomacy: " << diplomacy << endl;
         savefile_object << "Swimming: " << swimming << endl;
@@ -1353,19 +1353,19 @@ void levelup(unique_ptr<Player>& player_pointer_object)
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
     player_pointer_object->magic += 1;
-    player_pointer_object->vitality += 1;
+    player_pointer_object->health += 1;
   }
   else if (player_pointer_object->xp > 6) // level 2
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
     player_pointer_object->magic += 1;
-    player_pointer_object->vitality += 1;
+    player_pointer_object->health += 1;
   }
   else if (player_pointer_object->xp > 9) // level 3
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
     player_pointer_object->magic += 1;
-    player_pointer_object->vitality += 1;
+    player_pointer_object->health += 1;
   }
 }
 void newgame() 
