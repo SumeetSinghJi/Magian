@@ -402,8 +402,19 @@ The files included in the game are below
 
 GAME
 * magian.exe - Start to play on Windows.
-* magian.app - Start to play on MacOS.
-* magian - Start to play on Linux/Unix.
+* magian.app - Start to play on MacOS. // Pending release
+* magian - Start to play on Linux/Unix. // Pending release
+
+SOURCE FILES
+* magian.cpp - the main games source code.
+
+HEADERS
+under folder (headers)
+* game_settings.h - In game settings
+* save_game.h - logic for saving and loading game
+* get_skills.h - logic for activating skills
+* get_objective.h - logic for checking objective
+* get_items.h - logic for using items
 
 DOCUMENTS
 * readme.txt - the file you are reading right now is the readme.txt file it's a guide on playing.
@@ -416,28 +427,10 @@ ASSETS
 * assets (folder) - directory
 * assets/books (folder) - contains ingame books
 
-SOURCE FILES
-* magian.cpp - the main games source code.
-
-HEADERS
-under folder (headers)
-* game_settings.h - In game settings
-* save_game.h - logic for saving and loading game
-* level_select.h - logic for bonus level select mode
-* get_skills.h - logic for activating skills
-* get_objective.h - logic for checking objective
-* get_items.h - logic for using items
-* get_datetime.h - logic for general datetime use
-
 DEVELOPMENT
-* .vscode (folder) - contains the configuration files for editing the code in VScode with 
-minggw c++ compiler on Windows 11.
-* staging.cpp - testing changes to main source code. (Will be missing in final release)
-* staging.exe - for testing. (Will be missing in final release)
-* logic_test.cpp - For testing core game logic (Will be missing in final release)
-* logic_test.exe - for testing. (Will be missing in final release)
-* CMakeLists.txt - For building executables.
-* linux.toolchain.cmake - used by CMake for building Linux executables.
+* CMakeLists.txt - for Cmake
+* magian.manifest.in - for Cmake Manifest custom XML to load icon .ico
+* build (folder) - for cmake
 
 
 

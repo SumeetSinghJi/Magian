@@ -1,7 +1,3 @@
 C:/Users/Sumeet/Documents/Magian/build/CMakeFiles/magian.dir
 C:/Users/Sumeet/Documents/Magian/build/CMakeFiles/edit_cache.dir
 C:/Users/Sumeet/Documents/Magian/build/CMakeFiles/rebuild_cache.dir
-C:/Users/Sumeet/Documents/Magian/build/CMakeFiles/list_install_components.dir
-C:/Users/Sumeet/Documents/Magian/build/CMakeFiles/install.dir
-C:/Users/Sumeet/Documents/Magian/build/CMakeFiles/install/local.dir
-C:/Users/Sumeet/Documents/Magian/build/CMakeFiles/install/strip.dir

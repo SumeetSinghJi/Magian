@@ -6,8 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-2f58d38f2b6f4eef8d06.json",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.19"
@@ -40,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "magian::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-magian-Debug-a694f5bf7f3603b0445e.json",
+					"jsonFile" : "target-magian-Debug-5372be856ad5cb099922.json",
 					"name" : "magian",
 					"projectIndex" : 0
 				}

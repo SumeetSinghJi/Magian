@@ -14,7 +14,6 @@
 		"commands" : 
 		[
 			"add_executable",
-			"install",
 			"target_link_libraries",
 			"include_directories",
 			"target_sources"
@@ -31,13 +30,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 38,
+				"line" : 44,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 68,
+				"line" : 47,
 				"parent" : 0
 			},
 			{
@@ -49,13 +48,13 @@
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 35,
+				"line" : 59,
 				"parent" : 0
 			},
 			{
-				"command" : 4,
+				"command" : 3,
 				"file" : 0,
-				"line" : 53,
+				"line" : 69,
 				"parent" : 0
 			}
 		]
@@ -72,7 +71,7 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 4,
+					"backtrace" : 3,
 					"path" : "C:/Users/Sumeet/Documents/Magian/headers"
 				}
 			],
@@ -86,7 +85,7 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 4,
+					"backtrace" : 3,
 					"path" : "C:/Users/Sumeet/Documents/Magian/headers"
 				}
 			],
@@ -98,20 +97,6 @@
 		}
 	],
 	"id" : "magian::@6890427a1f51a3e7e1df",
-	"install" : 
-	{
-		"destinations" : 
-		[
-			{
-				"backtrace" : 2,
-				"path" : "C:/Users/Sumeet/desktop"
-			}
-		],
-		"prefix" : 
-		{
-			"path" : "C:/Program Files (x86)/Magian"
-		}
-	},
 	"link" : 
 	{
 		"commandFragments" : 
@@ -125,7 +110,7 @@
 				"role" : "flags"
 			},
 			{
-				"backtrace" : 3,
+				"backtrace" : 2,
 				"fragment" : "-lwinmm",
 				"role" : "libraries"
 			},
@@ -168,7 +153,8 @@
 			"name" : "",
 			"sourceIndexes" : 
 			[
-				6
+				6,
+				8
 			]
 		}
 	],
@@ -211,10 +197,15 @@
 			"sourceGroupIndex" : 2
 		},
 		{
-			"backtrace" : 5,
+			"backtrace" : 4,
 			"compileGroupIndex" : 1,
 			"path" : "build/magian.rc",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
+			"path" : "build/magian.manifest",
+			"sourceGroupIndex" : 2
 		}
 	],
 	"type" : "EXECUTABLE"

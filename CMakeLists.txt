@@ -13,16 +13,22 @@ endfunction()
 # OS Specific
 if(WIN32)
     # Windows-specific configurations
-    set(WINDOWS_DESKTOP_DIR "$ENV{USERPROFILE}/desktop")
+    set(WINDOWS_DESKTOP_DIR "$ENV{USERPROFILE}/Desktop")
     collect_files_with_extensions(assets "/*.docx" "/*.pdf")
     collect_files_with_extensions(images "/*.png" "/*.jpg")
-    collect_files_with_extensions(sound "/*.wav" "/*.mp3")
+    collect_files_with_extensions(sound/music "/*.wav" "/*.mp3")
     list(APPEND SOURCES staging.cpp ${HEADER_FILES})
     set(LINK_LIBRARIES winmm)
     set(RESOURCE_FILES images/icons/fire.ico)  # Add this line to include the .ico file
 elseif(UNIX)
-    # Linux-specific configurations
-    set(LINUX_DESKTOP_DIR "$ENV{HOME}/bin")
+    # UNIX-specific configurations
+    if(APPLE)
+        # macOS-specific configurations
+        set(UNIX_DESKTOP_DIR "$ENV{HOME}/Desktop")
+    else()
+        # Linux-specific configurations
+        set(UNIX_DESKTOP_DIR "$ENV{HOME}/bin")
+    endif()
     collect_files_with_extensions(assets "/*.docx" "/*.pdf")
     collect_files_with_extensions(images "/*.png" "/*.jpg")
     collect_files_with_extensions(sound "/*.wav" "/*.mp3")
@@ -52,20 +58,28 @@ if(WIN32)
     # Add the resource file to the target
     target_sources(magian PRIVATE ${RESOURCE_FILE})
 
-    # Disable manifest generation
-    if (MSVC)
-        set_target_properties(magian PROPERTIES LINK_FLAGS "/MANIFEST:NO")
-    endif()
-elseif(UNIX)
-    # Linux-specific configurations
-    set_target_properties(magian PROPERTIES OUTPUT_NAME magian)
-else()
-    message(FATAL_ERROR "Unsupported operating system: ${CMAKE_SYSTEM_NAME}")
-endif()
+    # Configure the manifest file with the icon reference
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/magian.manifest.in
+        ${CMAKE_CURRENT_BINARY_DIR}/magian.manifest
+        @ONLY
+    )
+    
+    # Add the manifest file as a source to the target
+    target_sources(magian PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/magian.manifest)
 
-# INSTALLATION
-if(WIN32)
-    install(TARGETS magian DESTINATION ${WINDOWS_DESKTOP_DIR})
+    # INSTALLATION
+    add_custom_command(TARGET magian POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:magian>" "${WINDOWS_DESKTOP_DIR}/magian.exe"
+        COMMENT "Copying executable to desktop directory"
+    )
 elseif(UNIX)
-    install(TARGETS magian DESTINATION ${LINUX_DESKTOP_DIR})
+    # UNIX-specific configurations
+    set_target_properties(magian PROPERTIES OUTPUT_NAME magian)
+
+    # INSTALLATION
+    add_custom_command(TARGET magian POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:magian>" "${UNIX_DESKTOP_DIR}/magian"
+        COMMENT "Copying executable to desktop directory"
+    )
 endif()

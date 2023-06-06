@@ -1,20 +1,7 @@
 ROADMAP
 
-
-
 Cmake roadmap
 1. debug linker not playing audio
-3. cmake builds to build/magian.exe, it should be in the instlattion file, 
-set to desktop but not working
-first debug why it doesnt deploy to desktop, then once working, test 
-creating a new folder structure here and moving file to c:/games/magian
-b. then test creating a desktop shortcut of magian.exe to desktop
-c. then test linking a .ico file
-
-
-
-
-_______________________________________________________________
 
 a.
 when continuing game, doesn't read from existing savefile and writes stats etc., twice!.
