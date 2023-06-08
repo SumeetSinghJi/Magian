@@ -1,5 +1,8 @@
 ROADMAP
 
+0
+If player contacts obstacle they stop in logic()
+
 Cmake roadmap
 1. debug linker not playing audio
 
@@ -38,10 +41,10 @@ for potion and leather boots.
 
 
 2.
-void random_generate_obstacle()
 void random_generate_enemy()
+  * Create enemies as subclasses, and make shared pointers instead of unique
 void random_generate_items()
-void random_generate_money()
+
 
 3
 Then allow for up to 3 save game states and can choose which to load

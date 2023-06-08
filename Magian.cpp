@@ -223,13 +223,58 @@ public:
     player_speed++;
   }
 };
-class Obstacle
+// Forward declaration
+class Obstacle_class;
+// Global variables
+// level 1 map
+const int width = 20;
+const int height = 20;
+char buffer[height][width];
+// level 2 map
+const int l2width = 40;
+const int l2height = 40;
+char l2buffer[l2height][l2width];
+int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
+// Classes
+class Obstacle_class
 {
   public:
     char obstacle_symbol;
     string obstacle_name = "";
     string obstacle_description = "";
     int obstacle_hp = 0;
+    int obstacle_x_pos;
+    int obstacle_y_pos;
+    Obstacle_class(char symbol, string name, string description, int hp)
+        : obstacle_symbol(symbol), obstacle_name(name), obstacle_description(description), obstacle_hp(hp)
+    {
+      if(map_size==1)
+      {
+        obstacle_x_pos = rand() % width;
+        obstacle_y_pos = rand() % height;
+      }
+      if(map_size==2)
+      {
+        obstacle_x_pos = rand() % l2width;
+        obstacle_y_pos = rand() % l2height;
+      }
+    }
+};
+class rock_obstacle_subclass : public Obstacle_class
+{
+public:
+    rock_obstacle_subclass()
+        : Obstacle_class('O', "Rock", "A strong rock that blocks line of sight but can be destroyed or climbed", 3)
+    {
+    }
+};
+class tree_obstacle_subclass : public Obstacle_class
+{
+public:
+    tree_obstacle_subclass()
+        : Obstacle_class('T', "Tree", "A large tree that blocks line of sight. Can be burnt down.", 1)
+    {
+    }
 };
 fstream savefile_object;
 enum edirection 
@@ -252,6 +297,7 @@ void shoot(int width, int height, int x_pos, int y_pos, edirection direction, un
 vector<unique_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<enemy_class>> l2enemies_vector;
+vector<shared_ptr<Obstacle_class>> obstacles_vector;
 unique_ptr<Player> player_pointer_object = make_unique<Player>();
 // GLOBAL VARIABLES
 int magic = 1;
@@ -263,14 +309,6 @@ int herbology = 1;
 string version = "0.2.2";
 bool music_variable = true; 
 bool gameover = false;
-// level 1 map
-const int width = 20;
-const int height = 20;
-char buffer[height][width];
-// level 2 map
-const int l2width = 40;
-const int l2height = 40;
-char l2buffer[l2height][l2width];
 int moneyx, moneyy; // money draw() position
 int score = 0;
 int money = 0;
@@ -281,6 +319,7 @@ int language=1; // language 1 = english
 int player_speed=1;
 string name = "";
 int level=11;
+int max_obstacle_objects = 0;
 int level_select_variable=1; // for bonus level select
 clock_t lastShootTime; // shoot() time management variables
 const int shootInterval = 1000; // 1 second in milliseconds
@@ -312,9 +351,47 @@ int cin_valid_input()
     cin.ignore();
     return input_variable;
 }
-void random_generate_obstacle()
+void random_generate_obstacle(int map_size, int& max_obstacle_objects, vector<shared_ptr<Obstacle_class>>& obstacles_vector)
 {
-  cout << "Coming soon";
+  if(map_size==1) // small
+  {
+    max_obstacle_objects += 5;
+    max_obstacle_objects += rand() % 5;
+  }
+  else if(map_size==2) // medium
+  {
+    max_obstacle_objects += 10;
+    max_obstacle_objects += rand() % 5;
+  }
+  else if(map_size==3) // large
+  {
+    max_obstacle_objects += 15;
+    max_obstacle_objects += rand() % 5;
+  }
+  else if(map_size==4) // extra-large
+  {
+    max_obstacle_objects += 20;
+    max_obstacle_objects += rand() % 5;
+  }
+  else if(map_size==5) // giant
+  {
+    max_obstacle_objects += 25;
+    max_obstacle_objects += rand() % 5;
+  }
+  for (int i = 0; i < max_obstacle_objects; i++)
+  {
+    int obstacleType = rand() % 2;\
+    if (obstacleType == 0) // rock
+    {
+      shared_ptr<rock_obstacle_subclass> rock_obstacle = make_shared<rock_obstacle_subclass>();
+      obstacles_vector.push_back(rock_obstacle);
+    }
+    else // tree
+    {
+      shared_ptr<tree_obstacle_subclass> tree_obstacle = make_shared<tree_obstacle_subclass>();
+      obstacles_vector.push_back(tree_obstacle);
+    }
+  }
 }
 void random_generate_enemy()
 {
@@ -338,6 +415,7 @@ void setup()
   {
     PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
   }
+  map_size=1;
   // reset the level variables
   score=0;
   gameover = false;
@@ -390,6 +468,8 @@ void setup()
   inventory_vector.push_back(make_unique<leather_boots_item_subclass>());
   item_store(inventory_vector);
 
+  random_generate_obstacle(map_size, max_obstacle_objects, obstacles_vector);
+
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
   for (int i = 0; i < height; i++)
   {  
@@ -409,6 +489,7 @@ void l2setup()
   {
     PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
   }
+  map_size=2;
   // reset the level variables
   score=0;
   gameover = false;
@@ -479,21 +560,39 @@ void draw_level_1()
       {
         buffer[y][x] = '$';
       }
-      else 
+      else
       {
-        // Initialize to empty space
-        buffer[y][x] = ' ';
+        buffer[y][x] = ' '; // Initialize to empty space
 
-        // Draw all enemies if any exists at this position
-        for (const auto& enemy : enemies_vector) 
+        // Check if an obstacle or enemy exists at the current position
+        bool obstacleOrEnemyFound = false;
+        
+        // Check obstacles
+        for (const auto& obstacle : obstacles_vector)
         {
-          if (enemy->alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos) 
+          if (x == obstacle->obstacle_x_pos && y == obstacle->obstacle_y_pos)
           {
-            buffer[y][x] = enemy->enemy_symbol;
+            buffer[y][x] = obstacle->obstacle_symbol;
+            obstacleOrEnemyFound = true;
+            break;
+          }
+        }
+        
+        // Check enemies if no obstacle is found
+        if (!obstacleOrEnemyFound)
+        {
+          for (const auto& enemy : enemies_vector)
+          {
+            if (enemy->alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos)
+            {
+              buffer[y][x] = enemy->enemy_symbol;
+              obstacleOrEnemyFound = true;
+              break;
+            }
           }
         }
       }
-    } 
+    }
   }
 
   // Draw bottom wall
