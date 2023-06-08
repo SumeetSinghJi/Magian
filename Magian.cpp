@@ -28,6 +28,59 @@ class Player
     int herbology = 0;
     int xp = 0;
 };
+// Forward declaration
+class Obstacle_class;
+// Global variables
+// level 1 map
+const int width = 20;
+const int height = 20;
+char buffer[height][width];
+// level 2 map
+const int l2width = 40;
+const int l2height = 40;
+char l2buffer[l2height][l2width];
+int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
+// Classes
+class Obstacle_class
+{
+  public:
+    char obstacle_symbol;
+    string obstacle_name = "";
+    string obstacle_description = "";
+    int obstacle_hp = 0;
+    int obstacle_x_pos;
+    int obstacle_y_pos;
+    Obstacle_class(char symbol, string name, string description, int hp)
+        : obstacle_symbol(symbol), obstacle_name(name), obstacle_description(description), obstacle_hp(hp)
+    {
+      if(map_size==1)
+      {
+        obstacle_x_pos = rand() % width;
+        obstacle_y_pos = rand() % height;
+      }
+      if(map_size==2)
+      {
+        obstacle_x_pos = rand() % l2width;
+        obstacle_y_pos = rand() % l2height;
+      }
+    }
+};
+class rock_obstacle_subclass : public Obstacle_class
+{
+public:
+    rock_obstacle_subclass()
+        : Obstacle_class('O', "Rock", "A strong rock that blocks line of sight but can be destroyed or climbed", 3)
+    {
+    }
+};
+class tree_obstacle_subclass : public Obstacle_class
+{
+public:
+    tree_obstacle_subclass()
+        : Obstacle_class('T', "Tree", "A large tree that blocks line of sight. Can be burnt down.", 1)
+    {
+    }
+};
 class enemy_class 
 {
 public:
@@ -179,6 +232,81 @@ public:
         }
     }
 };
+class fire_enemy_subclass : public enemy_class
+{
+  public:
+    fire_enemy_subclass()
+    {
+      enemy_name="Fire";
+      enemy_hp = 1;
+      xpgain = 1;
+      enemy_description="A large moving flame 2 meters high burning everything it touches.";
+      if(map_size==1)
+      {
+        enemy_x_pos = rand() % width;
+        enemy_y_pos = rand() % height;
+      }
+      if(map_size==2)
+      {
+        enemy_x_pos = rand() % l2width;
+        enemy_y_pos = rand() % l2height;
+      }
+      alive = true;
+      enemy_pause = 0;
+      enemy_symbol = 'F';
+    }
+};
+class flying_enemy_subclass : public enemy_class
+{
+  public:
+    flying_enemy_subclass()
+    {
+      enemy_name="Flying Rakashaa";
+      enemy_hp = 3;
+      xpgain = 2;
+      enemy_description="A flying demon with powerfull magic.";
+      if(map_size==1)
+      {
+        enemy_x_pos = rand() % width;
+        enemy_y_pos = rand() % height;
+      }
+      if(map_size==2)
+      {
+        enemy_x_pos = rand() % l2width;
+        enemy_y_pos = rand() % l2height;
+      }
+      alive = true;
+      enemy_pause = 0;
+      enemy_symbol = '^';
+    }
+};
+class stalker_enemy_subclass : public enemy_class
+{
+  public:
+    stalker_enemy_subclass()
+    {
+      enemy_name="Stalking Rakashaa";
+      enemy_hp = 3;
+      xpgain = 1;
+      enemy_description="A white large furry humanoid with sharp nails, bare arms and legs despite a furry body"
+                        "It's legs move exceedingly fast but stride is slow giving it the impression at any moment"
+                        "it could outrace and catch you."
+                        "The uncertanty of the humanoids actions cause you deep fear.";
+      if(map_size==1)
+      {
+        enemy_x_pos = rand() % width;
+        enemy_y_pos = rand() % height;
+      }
+      if(map_size==2)
+      {
+        enemy_x_pos = rand() % l2width;
+        enemy_y_pos = rand() % l2height;
+      }
+      alive = true;
+      enemy_pause = 0;
+      enemy_symbol = '&';
+    }
+};
 class item_class 
 {
 public:
@@ -186,27 +314,34 @@ public:
   string description;
   int cost;
   int effect;
-  item_class(string name, string description)
+  int item_x_pos;
+  int item_y_pos;
+  char item_symbol;
+  item_class(string name, string description, char item_symbol)
   {
     this->name = name;
     this->description = description;
+    this->item_symbol = item_symbol;
+    if(map_size==1)
+      {
+        item_x_pos = rand() % width;
+        item_y_pos = rand() % height;
+      }
+      if(map_size==2)
+      {
+        item_x_pos = rand() % l2width;
+        item_y_pos = rand() % l2height;
+      }
   }
   virtual void use(int& value)
   {
-    /*
-    This section deliberately left blank
-    This is Virtual function that makes this item_class polymorphic.
-    This virtual function will be overwritten by the subclass e.g. potion_item_subclass
 
-    the use function for subclasses will be used in check_item() index dynamic cast
-    use for that item for that subclass items effect
-    */
   }
 };
 class potion_item_subclass : public item_class
 {
 public:
-  potion_item_subclass() : item_class("Potion", "When used increases players life by 1 by regenerating their body.") {}
+  potion_item_subclass() : item_class("Potion", "When used increases players life by 1 by regenerating their body.", 'p') {}
   void use(int& lives)
   {
     cout << "You used a Potion. 1 life gained" << endl;
@@ -216,65 +351,12 @@ public:
 class leather_boots_item_subclass : public item_class
 {
 public:
-  leather_boots_item_subclass() : item_class("Leather boots", "When used increases players speed by 1 by cushioning their steps.") {}
+  leather_boots_item_subclass() : item_class("Leather boots", "When used increases players speed by 1 by cushioning their steps.", 'b') {}
   void use(int& player_speed)
   {
     cout << "You wore leather boots. Speed permanently increased by 1" << endl;
     player_speed++;
   }
-};
-// Forward declaration
-class Obstacle_class;
-// Global variables
-// level 1 map
-const int width = 20;
-const int height = 20;
-char buffer[height][width];
-// level 2 map
-const int l2width = 40;
-const int l2height = 40;
-char l2buffer[l2height][l2width];
-int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
-// Classes
-class Obstacle_class
-{
-  public:
-    char obstacle_symbol;
-    string obstacle_name = "";
-    string obstacle_description = "";
-    int obstacle_hp = 0;
-    int obstacle_x_pos;
-    int obstacle_y_pos;
-    Obstacle_class(char symbol, string name, string description, int hp)
-        : obstacle_symbol(symbol), obstacle_name(name), obstacle_description(description), obstacle_hp(hp)
-    {
-      if(map_size==1)
-      {
-        obstacle_x_pos = rand() % width;
-        obstacle_y_pos = rand() % height;
-      }
-      if(map_size==2)
-      {
-        obstacle_x_pos = rand() % l2width;
-        obstacle_y_pos = rand() % l2height;
-      }
-    }
-};
-class rock_obstacle_subclass : public Obstacle_class
-{
-public:
-    rock_obstacle_subclass()
-        : Obstacle_class('O', "Rock", "A strong rock that blocks line of sight but can be destroyed or climbed", 3)
-    {
-    }
-};
-class tree_obstacle_subclass : public Obstacle_class
-{
-public:
-    tree_obstacle_subclass()
-        : Obstacle_class('T', "Tree", "A large tree that blocks line of sight. Can be burnt down.", 1)
-    {
-    }
 };
 fstream savefile_object;
 enum edirection 
@@ -283,22 +365,22 @@ enum edirection
 };
 edirection direction;
 // FUNCTION PROTOTYPE/DECLARATION
-void check_stats(unique_ptr<Player>& player_pointer_object);
+void check_stats(shared_ptr<Player>& player_pointer_object);
 void menu();
 void l2startgame();
-void check_stats(unique_ptr<Player>& player_pointer_object);
-void levelup(unique_ptr<Player>& player_pointer_object);
-void item_store(vector<unique_ptr<item_class>>& inventory_vector);
+void check_stats(shared_ptr<Player>& player_pointer_object);
+void levelup(shared_ptr<Player>& player_pointer_object);
+void item_store(vector<shared_ptr<item_class>>& inventory_vector);
 void check_items();
 void check_skills();
 void xp();
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction, unique_ptr<Player> &player_pointer_object);
+void shoot(int width, int height, int x_pos, int y_pos, edirection direction, shared_ptr<Player> &player_pointer_object);
 // GLOBAL POINTERS
-vector<unique_ptr<item_class>> inventory_vector;
+vector<shared_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<enemy_class>> l2enemies_vector;
 vector<shared_ptr<Obstacle_class>> obstacles_vector;
-unique_ptr<Player> player_pointer_object = make_unique<Player>();
+shared_ptr<Player> player_pointer_object = make_shared<Player>();
 // GLOBAL VARIABLES
 int magic = 1;
 int health = 1;
@@ -320,6 +402,9 @@ int player_speed=1;
 string name = "";
 int level=11;
 int max_obstacle_objects = 0;
+int max_enemy_objects = 0;
+int max_item_objects = 0;
+int max_money_objects = 0;
 int level_select_variable=1; // for bonus level select
 clock_t lastShootTime; // shoot() time management variables
 const int shootInterval = 1000; // 1 second in milliseconds
@@ -351,7 +436,7 @@ int cin_valid_input()
     cin.ignore();
     return input_variable;
 }
-void random_generate_obstacle(int map_size, int& max_obstacle_objects, vector<shared_ptr<Obstacle_class>>& obstacles_vector)
+void random_generate_obstacle(int map_size, int& max_obstacle_objects, vector<shared_ptr<Obstacle_class>> &obstacles_vector)
 {
   if(map_size==1) // small
   {
@@ -393,17 +478,89 @@ void random_generate_obstacle(int map_size, int& max_obstacle_objects, vector<sh
     }
   }
 }
-void random_generate_enemy()
+void random_generate_enemy(int map_size, int& max_enemy_objects, vector<shared_ptr<enemy_class>> &enemies_vector)
 {
-  cout << "Coming soon";
+  if(map_size==1) // small
+  {
+    max_enemy_objects += 1;
+    max_enemy_objects += rand() % 1;
+  }
+  else if(map_size==2) // medium
+  {
+    max_enemy_objects += 2;
+    max_enemy_objects += rand() % 2;
+  }
+  else if(map_size==3) // large
+  {
+    max_enemy_objects += 3;
+    max_enemy_objects += rand() % 3;
+  }
+  else if(map_size==4) // extra-large
+  {
+    max_enemy_objects += 4;
+    max_enemy_objects += rand() % 4;
+  }
+  else if(map_size==5) // giant
+  {
+    max_enemy_objects += 5;
+    max_enemy_objects += rand() % 5;
+  }
+  for (int i = 0; i < max_enemy_objects; i++)
+  {
+    int enemy_type_variable = rand() % 2;
+    if (enemy_type_variable == 0) // xxx
+    {
+      shared_ptr<stalker_enemy_subclass> stalker_enemy = make_shared<stalker_enemy_subclass>();
+      enemies_vector.push_back(stalker_enemy);
+    }
+    else // xxx
+    {
+      shared_ptr<stalker_enemy_subclass> stalker_enemy = make_shared<stalker_enemy_subclass>();
+      enemies_vector.push_back(stalker_enemy);
+    }
+  }
 }
-void random_generate_items()
+void random_generate_items(int map_size, int& max_item_objects, vector<shared_ptr<item_class>> &inventory_vector)
 {
-  cout << "Coming soon";
-}
-void random_generate_money()
-{
-  cout << "Coming soon";
+  if(map_size==1) // small
+  {
+    max_item_objects += 5;
+    max_item_objects += rand() % 5;
+  }
+  else if(map_size==2) // medium
+  {
+    max_item_objects += 10;
+    max_item_objects += rand() % 5;
+  }
+  else if(map_size==3) // large
+  {
+    max_item_objects += 15;
+    max_item_objects += rand() % 5;
+  }
+  else if(map_size==4) // extra-large
+  {
+    max_item_objects += 20;
+    max_item_objects += rand() % 5;
+  }
+  else if(map_size==5) // giant
+  {
+    max_item_objects += 25;
+    max_item_objects += rand() % 5;
+  }
+  for (int i = 0; i < max_item_objects; i++)
+  {
+    int item_type_variable = rand() % 2;
+    if (item_type_variable == 0) // potion
+    {
+      shared_ptr<potion_item_subclass> leather_boots_item = make_shared<potion_item_subclass>();
+      inventory_vector.push_back(make_shared<potion_item_subclass>());
+    }
+    else // leather boots
+    {
+      shared_ptr<leather_boots_item_subclass> leather_boots_item = make_shared<leather_boots_item_subclass>();
+      inventory_vector.push_back(make_shared<leather_boots_item_subclass>());
+    }
+  }
 }
 void setup() 
 {
@@ -433,9 +590,7 @@ void setup()
   inventory_vector.clear();
   enemies_vector.clear();
 
-  // setup obstacles
-  // generate a random number of obstacles
-
+  
   // level 1 setup enemy
   auto level_1_enemy_pointer = make_shared<enemy_class>();
   level_1_enemy_pointer->enemy_name="Fire";
@@ -461,13 +616,16 @@ void setup()
   level_2_enemy_pointer->enemy_pause = 0;
   level_2_enemy_pointer->enemy_symbol = '^';
   enemies_vector.push_back(level_2_enemy_pointer);
+  
 
   // Adding starting items to players inventory vector
-  inventory_vector.push_back(make_unique<potion_item_subclass>());
+  inventory_vector.push_back(make_shared<potion_item_subclass>());
   item_store(inventory_vector);
-  inventory_vector.push_back(make_unique<leather_boots_item_subclass>());
+  inventory_vector.push_back(make_shared<leather_boots_item_subclass>());
   item_store(inventory_vector);
 
+  // random_generate_enemy(map_size, max_enemy_objects, enemies_vector);
+  // random_generate_items(map_size, max_item_objects, inventory_vector);
   random_generate_obstacle(map_size, max_obstacle_objects, obstacles_vector);
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
@@ -506,21 +664,6 @@ void l2setup()
   // to refresh vectors for new game and level select
   inventory_vector.clear();
   l2enemies_vector.clear();
-
-  // level 3 setup enemy
-  auto level_3_enemy_pointer = make_shared<enemy_class>();
-  level_3_enemy_pointer->enemy_name="Stalking Rakashaa";
-  level_3_enemy_pointer->enemy_hp = 3;
-  level_3_enemy_pointer->xpgain = 1;
-  level_3_enemy_pointer->enemy_description="A white large furry humanoid with sharp nails, bare arms and legs despite a furry body"
-  "It's legs move exceedingly fast but stride is slow giving it the impression at any moment it could outrace and catch you."
-  "The uncertanty of the humanoids actions cause you deep fear.";
-  level_3_enemy_pointer->enemy_x_pos = rand() % width;
-  level_3_enemy_pointer->enemy_y_pos = rand() % height;
-  level_3_enemy_pointer->alive = true;
-  level_3_enemy_pointer->enemy_pause = 0;
-  level_3_enemy_pointer->enemy_symbol = '&';
-  l2enemies_vector.push_back(level_3_enemy_pointer);
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
   for (int i = 0; i < l2height; i++)
@@ -565,7 +708,7 @@ void draw_level_1()
         buffer[y][x] = ' '; // Initialize to empty space
 
         // Check if an obstacle or enemy exists at the current position
-        bool obstacleOrEnemyFound = false;
+        bool obstacle_item_or_enemy_found = false;
         
         // Check obstacles
         for (const auto& obstacle : obstacles_vector)
@@ -573,23 +716,35 @@ void draw_level_1()
           if (x == obstacle->obstacle_x_pos && y == obstacle->obstacle_y_pos)
           {
             buffer[y][x] = obstacle->obstacle_symbol;
-            obstacleOrEnemyFound = true;
+            obstacle_item_or_enemy_found = true;
             break;
           }
         }
         
         // Check enemies if no obstacle is found
-        if (!obstacleOrEnemyFound)
+        if (!obstacle_item_or_enemy_found)
         {
           for (const auto& enemy : enemies_vector)
           {
             if (enemy->alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos)
             {
               buffer[y][x] = enemy->enemy_symbol;
-              obstacleOrEnemyFound = true;
+              obstacle_item_or_enemy_found = true;
               break;
             }
           }
+        }
+        if (!obstacle_item_or_enemy_found)
+        {
+          for (const auto& item : inventory_vector)
+        {
+          if (x == item->item_x_pos && y == item->item_y_pos)
+          {
+            buffer[y][x] = item->item_symbol;
+            obstacle_item_or_enemy_found = true;
+            break;
+          }
+        }
         }
       }
     }
@@ -974,7 +1129,7 @@ void l2startgame()
     cin.get();
   }
 }
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction, unique_ptr<Player>& player_pointer_object)
+void shoot(int width, int height, int x_pos, int y_pos, edirection direction, shared_ptr<Player>& player_pointer_object)
 {
     // Calculate the target position based on the direction
     int targetX = x_pos;
@@ -1067,7 +1222,7 @@ void check_items()
   if (item_select_variable >= 0 && item_select_variable < inventory_vector.size())
   {
     cout << "Using item: " << inventory_vector[item_select_variable]->name << endl;
-    unique_ptr<item_class>& item = inventory_vector[item_select_variable];
+    shared_ptr<item_class>& item = inventory_vector[item_select_variable];
     if (inventory_vector[item_select_variable]->name == "Potion")
     {
       potion_item_subclass* potion = dynamic_cast<potion_item_subclass*>(item.get());
@@ -1104,7 +1259,7 @@ void item_store_header()
     cerr << "Error: Couldn't write header txt INVENTORY to savefile";
   }
 }
-void item_store(vector<unique_ptr<item_class>>& inventory_vector)
+void item_store(vector<shared_ptr<item_class>>& inventory_vector)
 {
     // Accessing last Element of inventory vector
     int inventory_last_index_variable = inventory_vector.size() - 1;
@@ -1130,7 +1285,7 @@ void check_skills()
   cout << "SKILLS\n\n"
   "Change skill to\n";
 }
-void check_stats(unique_ptr<Player>& player_pointer_object)
+void check_stats(shared_ptr<Player>& player_pointer_object)
 {
   // read from the savefile NOT the pointer object!!!
   cout << "PLAYER\n"
@@ -1446,7 +1601,7 @@ void xp()
     cerr << "Error: Couldn't write xp to savefile";
   }
 }
-void levelup(unique_ptr<Player>& player_pointer_object)
+void levelup(shared_ptr<Player>& player_pointer_object)
 {
   if (player_pointer_object->xp > 3) // level 1
   {

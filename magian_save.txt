@@ -1,17 +1,5 @@
-CHARACTER NAME: Arya
-STATS
-Magic: 1
-Health: 1
-Literacy: 1
-Diplomacy: 1
-Swimming: 1
-Herbology: 1
-INVENTORY
-Potion
-Leather boots
-XP: 0
-SAVE UPDATE
-Host OS is: Windows
+Updating save file
+Computers Operating system is: Windows
 Version: 0.2.2
 Date: 8/6/2023
 Unlocked levels: 2

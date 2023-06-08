@@ -3,6 +3,15 @@ ROADMAP
 0
 If player contacts obstacle they stop in logic()
 
+0.1
+Seg fault in setup with // random_generate_enemy(map_size, max_enemy_objects, enemies_vector);
+
+0.2
+Level 2 crashes seg fault also.
+
+0.3
+Inventory broken
+
 Cmake roadmap
 1. debug linker not playing audio
 
