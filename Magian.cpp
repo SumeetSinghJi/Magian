@@ -378,6 +378,7 @@ void item_store(vector<shared_ptr<item_class>>& inventory_vector);
 void check_items();
 void check_skills();
 void xp();
+void save();
 void shoot(int width, int height, int x_pos, int y_pos, edirection direction, shared_ptr<Player> &player_pointer_object);
 // GLOBAL POINTERS
 vector<shared_ptr<item_class>> inventory_vector;
@@ -869,6 +870,9 @@ void input()
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break; 
+        case 59:
+            save();
+            break;
         case 'q':
             exit(0);
             break;
@@ -920,6 +924,16 @@ void POSIXinput()
             break;
         }
     }
+}
+void save()
+{
+  cout << "Game Saved";
+  savefile_object.open("magian_save.txt", ios::app);
+  if(savefile_object.is_open())
+  {
+    cout << "Comming soon";
+  }
+  cin.get();
 }
 void logic() 
 {
