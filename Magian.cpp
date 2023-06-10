@@ -19,13 +19,14 @@ using namespace std;
 class Player
 {
   public:
-    string name = "";
-    int magic = 0;
-    int health = 0;
-    int literacy = 0;
-    int diplomacy = 0;
-    int swimming = 0;
-    int herbology = 0;
+    string player_name = "";
+    int player_magic = 0;
+    int player_health = 0;
+    int player_literacy = 0;
+    int player_diplomacy = 0;
+    int player_swimming = 0;
+    int player_herbology = 0;
+    int player_speed = 0;
     int xp = 0;
 };
 // Forward declaration
@@ -356,10 +357,10 @@ class leather_boots_item_subclass : public item_class
 {
 public:
   leather_boots_item_subclass() : item_class("Leather boots", "When used increases players speed by 1 by cushioning their steps.", 'b') {}
-  void use(int& player_speed)
+  void use(shared_ptr<Player>& player_pointer_object)
   {
     cout << "You wore leather boots. Speed permanently increased by 1" << endl;
-    player_speed++;
+    player_pointer_object->player_speed++;
   }
 };
 fstream savefile_object;
@@ -387,12 +388,6 @@ vector<shared_ptr<enemy_class>> l2enemies_vector;
 vector<shared_ptr<Obstacle_class>> obstacles_vector;
 shared_ptr<Player> player_pointer_object = make_shared<Player>();
 // GLOBAL VARIABLES
-int magic = 1;
-int health = 1;
-int literacy = 1;
-int diplomacy = 1;
-int swimming = 1;
-int herbology = 1;
 string version = "0.2.2";
 bool music_variable = true; 
 bool gameover = false;
@@ -405,7 +400,6 @@ int difficulty=3;
 int won_game = false;
 int language=1; // language 1 = english
 int player_speed=1;
-string name = "";
 int level=1;
 int max_obstacle_objects = 0;
 int max_enemy_objects = 0;
@@ -1190,7 +1184,7 @@ void check_items()
     else if (inventory_vector[item_select_variable]->item_name == "Leather boots")
     {
       leather_boots_item_subclass* boots = dynamic_cast<leather_boots_item_subclass*>(item.get());
-      boots->use(player_speed);
+      boots->use(player_pointer_object);
       inventory_vector.erase(inventory_vector.begin() + item_select_variable);
       cout << "Press ENTER to continue...";
       cin.get();
@@ -1244,33 +1238,14 @@ void check_skills()
 void check_stats(shared_ptr<Player>& player_pointer_object)
 {
   // read from the savefile NOT the pointer object!!!
-  cout << "PLAYER\n"
-  << "NAME: " << player_pointer_object->name << endl
-  << "XP: " << player_pointer_object->xp << endl
-  << "PERSONALITY\n"
-  << "Magic: " << player_pointer_object->magic << endl
-  << "(Damage dealt modifier to spells, gained from defeating enemies)\n"
-  << "Health: " << player_pointer_object->health << endl
-  << "(health is your life value. Increasing helps you stay alive. Gained from experience)\n"
-  << "Literacy: " << player_pointer_object->literacy << endl
-  << "(Higher literacy equals better spells gained from scrolls and diciphering foreign objects\n"
-  << "gained from constantly reading)\n"
-  << "Diplomacy: " << player_pointer_object->diplomacy << endl
-  << "(High diplomacy grants better price haggling, reduces enemy aggression\n"
-  << "and grants more speech options and outcomes. Gained from trainers)\n"
-  << "Swimming: " << player_pointer_object->swimming << endl
-  << "(High scores grant better chance to survive swimming through long water stretches without"
-  << "surfacing. Gained by constantly swimming)"
-  << "Herbology: " << player_pointer_object->herbology << endl
-  << "(High herbology grants better chance at identfying herbs for medicine. Gained by eating new things)";
-  
+  cout << "PLAYER\n";
 }
 void setup_player_header()
 {
   savefile_object.open("magian_save.txt", ios::app);
   if(savefile_object.is_open())
   {
-    savefile_object << "STATS" << endl;
+    savefile_object << "AVATAR" << endl;
     savefile_object.close();
   }
   else
@@ -1280,22 +1255,27 @@ void setup_player_header()
 }
 void setup_player()
 {
-  player_pointer_object->magic = magic;
-  player_pointer_object->health = health;
-  player_pointer_object->literacy = literacy;
-  player_pointer_object->diplomacy = diplomacy;
-  player_pointer_object->swimming = swimming;
-  player_pointer_object->herbology = herbology;
-
+  int player_magic = 1;
+  int player_health = 1;
+  int player_literacy = 1;
+  int player_diplomacy = 1;
+  int player_swimming = 1;
+  int player_herbology = 1;
+  player_pointer_object->player_magic = player_magic;
+  player_pointer_object->player_health = player_health;
+  player_pointer_object->player_literacy = player_literacy;
+  player_pointer_object->player_diplomacy = player_diplomacy;
+  player_pointer_object->player_swimming = player_swimming;
+  player_pointer_object->player_herbology = player_herbology;
   savefile_object.open("magian_save.txt", ios::app);
     if(savefile_object.is_open())
     {
-        savefile_object << "Magic: " << magic << endl;
-        savefile_object << "Health: " << health << endl;
-        savefile_object << "Literacy: " << literacy << endl;
-        savefile_object << "Diplomacy: " << diplomacy << endl;
-        savefile_object << "Swimming: " << swimming << endl;
-        savefile_object << "Herbology: " << herbology << endl;
+        savefile_object << "Magic: " << player_magic << endl;
+        savefile_object << "Health: " << player_health << endl;
+        savefile_object << "Literacy: " << player_literacy << endl;
+        savefile_object << "Diplomacy: " << player_diplomacy << endl;
+        savefile_object << "Swimming: " << player_swimming << endl;
+        savefile_object << "Herbology: " << player_herbology << endl;
         savefile_object.close();
     }
     else
@@ -1507,21 +1487,22 @@ void help()
   cin.get();
   menu();
 }
-void choose_name()
+void choose_player_name()
 {
+  string player_name = "";
   bool name_correct_variable = false;
     while (name_correct_variable == false)
     {        
         cout << "Enter your characters name: ";
-        getline(cin, name);
-        if (name == "q" || name == "Q")
+        getline(cin, player_name);
+        if (player_name == "q" || player_name == "Q")
         {
             menu();
             return;
         }
-        else if (name.length() <= 30)
+        else if (player_name.length() <= 30)
         {
-            player_pointer_object->name = name;
+            player_pointer_object->player_name = player_name;
             
             name_correct_variable = true;
         }
@@ -1531,11 +1512,11 @@ void choose_name()
             "Enter a new name again or enter q to quit: ";
         }
     }
-    cout << "Your name is: " << name << endl;
+    cout << "Your name is: " << player_name << endl;
     savefile_object.open("magian_save.txt", ios::app);
     if (savefile_object.is_open())
     {
-        savefile_object << "CHARACTER NAME: " << name << endl;
+        savefile_object << "NAME: " << player_name << endl;
         savefile_object.close();
     }
     else
@@ -1562,26 +1543,26 @@ void levelup(shared_ptr<Player>& player_pointer_object)
   if (player_pointer_object->xp > 3) // level 1
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
-    player_pointer_object->magic += 1;
-    player_pointer_object->health += 1;
+    player_pointer_object->player_magic += 1;
+    player_pointer_object->player_health += 1;
   }
   else if (player_pointer_object->xp > 6) // level 2
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
-    player_pointer_object->magic += 1;
-    player_pointer_object->health += 1;
+    player_pointer_object->player_magic += 1;
+    player_pointer_object->player_health += 1;
   }
   else if (player_pointer_object->xp > 9) // level 3
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
-    player_pointer_object->magic += 1;
-    player_pointer_object->health += 1;
+    player_pointer_object->player_magic += 1;
+    player_pointer_object->player_health += 1;
   }
 }
 void newgame()
 {
-  choose_name();
   setup_player_header();
+  choose_player_name();
   setup_player();
   item_store_header();
   setup();
