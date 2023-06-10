@@ -9,6 +9,7 @@
 #include <memory>
 #include <fstream>
 #include <filesystem>
+#include <chrono>
 #include "headers/save_game.h"
 #include "headers/game_settings.h"
 #include "headers/get_objective.h"
@@ -396,6 +397,8 @@ int won_game = false;
 int language=1; // language 1 = english
 int level=1;
 int level_select_variable=1; // for bonus level select
+bool shoot_skill_cooldown = false;  // Flag to track the cooldown state
+chrono::steady_clock::time_point lastShootTime;  // Track the last shoot time
 void clear_screen()
 {
 #ifdef _WIN32
@@ -864,7 +867,15 @@ void input()
         case ' ':
             if (direction != STOP)
             {
-                shoot_fireball();
+                chrono::steady_clock::time_point currentTime = chrono::steady_clock::now();
+                chrono::duration<double> elapsedSeconds = currentTime - lastShootTime;
+                if (elapsedSeconds.count() >= 2.0) {
+                    // The shoot skill is off cooldown
+                    shoot_fireball();
+                } else {
+                    // The shoot skill is on cooldown
+                    cout << "The shoot skill is on cooldown. Please wait for " << (2.0 - elapsedSeconds.count()) << " seconds." << endl;
+                }
             }
             break;
         case 'e':
@@ -1117,6 +1128,13 @@ void l2startgame()
 }
 void shoot_fireball()
 {
+
+    if (shoot_skill_cooldown) 
+    {
+        cout << "Your too tired to shoot again.";
+        return;
+    }
+
     // The bullet STARTS from the players current position
     int targetX = player_pointer_object->player_x_pos;
     int targetY = player_pointer_object->player_y_pos;
@@ -1178,6 +1196,11 @@ void shoot_fireball()
             break;
         }
     }
+    // shoot skill cooldown
+    shoot_skill_cooldown = true;
+    lastShootTime = chrono::steady_clock::now();
+    // reset shoot skill cooldown
+    shoot_skill_cooldown = false;
 }
 
 void check_items()
