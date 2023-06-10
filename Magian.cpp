@@ -393,12 +393,12 @@ bool gameover = false;
 int moneyx, moneyy; // money draw() position
 int score = 0;
 int money = 0;
-int x_pos, y_pos; // player draw() position
+int x_pos; 
+int y_pos;
 int lives = 3;
 int difficulty=3;
 int won_game = false;
 int language=1; // language 1 = english
-int player_speed=1;
 int level=1;
 int max_obstacle_objects = 0;
 int max_enemy_objects = 0;
