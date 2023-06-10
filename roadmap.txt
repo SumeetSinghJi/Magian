@@ -1,7 +1,16 @@
 ROADMAP
 
+* continue game needs to read from savefile the level and draw that level.
+* change lives to vitality
+* lives need to print to savefile and loaded on newgame() or continue()
+* new save button
+* enemy_collission() not working to reduce lives
+
 0
 If player contacts obstacle they stop in logic()
+
+0.0.1
+Random '#' in draw = door. Keep that position permenant.
 
 0.1
 Seg fault in setup with // random_generate_enemy(map_size, max_enemy_objects, enemies_vector);

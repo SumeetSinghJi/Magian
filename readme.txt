@@ -597,7 +597,7 @@ ________________________________________________________________________________
 
 
 Achievement | Criteria | Award
-Yamastan (Deaths door) | bool gameover = true; | Nothing
+Yamastan (Deaths house) | bool won_game = true; | Nothing
 Magha (Gifted) | skills = 20; | XXXXXX
 Rishi (Nomad) | steps = 10000; | XXXXXX
 Aesthetic | gold = 10000; | XXXXXX

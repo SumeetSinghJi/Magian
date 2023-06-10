@@ -92,6 +92,7 @@ public:
     int xpgain;
     int enemy_x_pos;
     int enemy_y_pos;
+    int enemy_melle_damage;
     bool alive;
     int enemy_pause;
     char enemy_symbol;
@@ -224,10 +225,10 @@ public:
         enemy_pause--;
       }
     }
-    void check_collision(int player_x, int player_y, int& player_lives) 
+    void check_collision(int player_x, int player_y, int& lives) 
     {
         if (enemy_x_pos == player_x && enemy_y_pos == player_y) {
-            player_lives--;
+            lives-=enemy_melle_damage;
             enemy_pause = 5; // Pause for 5 ticks
         }
     }
@@ -240,6 +241,7 @@ class fire_enemy_subclass : public enemy_class
       enemy_name="Fire";
       enemy_hp = 1;
       xpgain = 1;
+      enemy_melle_damage = 1;
       enemy_description="A large moving flame 2 meters high burning everything it touches.";
       if(map_size==1)
       {
@@ -264,6 +266,7 @@ class flying_enemy_subclass : public enemy_class
       enemy_name="Flying Rakashaa";
       enemy_hp = 3;
       xpgain = 2;
+      enemy_melle_damage = 2;
       enemy_description="A flying demon with powerfull magic.";
       if(map_size==1)
       {
@@ -288,6 +291,7 @@ class stalker_enemy_subclass : public enemy_class
       enemy_name="Stalking Rakashaa";
       enemy_hp = 3;
       xpgain = 1;
+      enemy_melle_damage = 3;
       enemy_description="A white large furry humanoid with sharp nails, bare arms and legs despite a furry body"
                         "It's legs move exceedingly fast but stride is slow giving it the impression at any moment"
                         "it could outrace and catch you."
@@ -397,10 +401,11 @@ int money = 0;
 int x_pos, y_pos; // player draw() position
 int lives = 3;
 int difficulty=3;
+int won_game = false;
 int language=1; // language 1 = english
 int player_speed=1;
 string name = "";
-int level=11;
+int level=1;
 int max_obstacle_objects = 0;
 int max_enemy_objects = 0;
 int max_item_objects = 0;
@@ -674,96 +679,51 @@ void l2setup()
     }
   }
 }
-void draw_level_1() 
+void draw_level_1()
 {
-  // Draw top wall  
-  for (int top_wall = 0; top_wall < width; top_wall++) {
-    buffer[0][top_wall] = '#';
-  }
-
-  // draw middle section
-  //loop through y axis 19 times down
-  for (int y = 1; y < height-1; y++) 
-  {
-    // loop through x axis 19 times across
-    for (int x = 0; x < width; x++) 
-    {
-      // draw side wall
-      if (x == 0 || x == width - 1) 
-      {
-        buffer[y][x] = '#';
-      }
-      //draw player
-      else if (x == x_pos && y == y_pos) 
-      {
-        buffer[y][x] = 'P';
-      }
-      //draw money
-      else if (x == moneyx && y == moneyy) 
-      {
-        buffer[y][x] = '$';
-      }
+  // Initialize the buffer with wall boundaries and empty spaces
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      // Draw wall boundaries
+      if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
+        buffer[y][x] = '#'; // draw all 4 walls
       else
-      {
-        buffer[y][x] = ' '; // Initialize to empty space
-
-        // Check if an obstacle or enemy exists at the current position
-        bool obstacle_item_or_enemy_found = false;
-        
-        // Check obstacles
-        for (const auto& obstacle : obstacles_vector)
-        {
-          if (x == obstacle->obstacle_x_pos && y == obstacle->obstacle_y_pos)
-          {
-            buffer[y][x] = obstacle->obstacle_symbol;
-            obstacle_item_or_enemy_found = true;
-            break;
-          }
-        }
-        
-        // Check enemies if no obstacle is found
-        if (!obstacle_item_or_enemy_found)
-        {
-          for (const auto& enemy : enemies_vector)
-          {
-            if (enemy->alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos)
-            {
-              buffer[y][x] = enemy->enemy_symbol;
-              obstacle_item_or_enemy_found = true;
-              break;
-            }
-          }
-        }
-        if (!obstacle_item_or_enemy_found)
-        {
-          for (const auto& item : inventory_vector)
-        {
-          if (x == item->item_x_pos && y == item->item_y_pos)
-          {
-            buffer[y][x] = item->item_symbol;
-            obstacle_item_or_enemy_found = true;
-            break;
-          }
-        }
-        }
-      }
+        buffer[y][x] = ' '; // fill empty spaces with blank
     }
   }
 
-  // Draw bottom wall
-  for (int bottom_wall = 0; bottom_wall < width; bottom_wall++) {
-    buffer[height-1][bottom_wall] = '#';
+  // Draw player
+  buffer[y_pos][x_pos] = 'P';
+
+  // Draw money
+  buffer[moneyy][moneyx] = '$';
+
+  // Draw obstacles
+  for (const auto& obstacle : obstacles_vector)
+    buffer[obstacle->obstacle_y_pos][obstacle->obstacle_x_pos] = obstacle->obstacle_symbol;
+
+  // Draw enemies
+  for (const auto& enemy : enemies_vector) {
+    if (enemy->alive)
+      buffer[enemy->enemy_y_pos][enemy->enemy_x_pos] = enemy->enemy_symbol;
   }
 
+  // Draw items
+  for (const auto& item : inventory_vector)
+    buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
+
+  // Clear the console screen
   system("cls");
-  for (int y = 0; y < height; y++) 
-  {
+
+  // Print the buffer
+  for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       cout << buffer[y][x];
     }
     cout << endl;
   }
-  // print the current score and lives beneath the array
+
+  // Print the current score and lives beneath the array
   string score_str = "Current Score: " + to_string(score);
   string lives_str = "Current Lives: " + to_string(lives);
   cout << score_str << endl;
@@ -963,55 +923,55 @@ void POSIXinput()
 }
 void logic() 
 {
+
+  // Defining new positions as the last position of avatar. 
+  // For collission detection, if a avatar collides with a object then they're
+  // position is set to previous position.
+  int previous_x_pos = x_pos;
+  int previous_y_pos = y_pos;
+
+
   // Calculate the proposed new position based on direction
-  int new_x_pos = x_pos;
-  int new_y_pos = y_pos;
   switch (direction) 
   {
     case UP:
-        new_y_pos--;
+        y_pos--;
         break;
     case DOWN:
-        new_y_pos++;
+        y_pos++;
         break;
     case LEFT:
-        new_x_pos--;
+        x_pos--;
         break;
     case RIGHT:
-        new_x_pos++;
+        x_pos++;
         break;
   }
 
-  // Check if the new player position is within the bounds of the game map
-  if (new_x_pos >= 1 && new_x_pos < width - 1 && new_y_pos >= 1 && new_y_pos < height - 1) 
-  {
-    // If the new position is within the bounds, update player's position
-    x_pos = new_x_pos;
-    y_pos = new_y_pos;
-  } else 
-  {
+  // Collission
+    for (const auto& enemy : enemies_vector) 
+    {
+      if (enemy->alive && x_pos == enemy->enemy_x_pos && y_pos == enemy->enemy_y_pos) 
+      {
+        // If collided, decrement player lives and reset player position
+        // ADD ME - if enemies algorithm lookup is an x e.g. "flying rakashaa" then deal it's damage
+        x_pos = previous_x_pos;
+        y_pos = previous_y_pos;
+        // deal enemy melle damage to player
+        enemy->check_collision(x_pos, y_pos, lives);
+        break;
+      }
+    }
 
-  }
-  if (new_x_pos >= 1 && new_x_pos < l2width - 1 && new_y_pos >= 1 && new_y_pos < l2height - 1) 
-  {
-    // If the new position is within the bounds, update player's position
-    x_pos = new_x_pos;
-    y_pos = new_y_pos;
-  } else 
-  {
 
-  }
     
-
     // Check if player has run out of lives and end the game if true
-    if (lives == 0) 
+    if (lives <= 0) 
     {
         cout << "You died!" << endl;
+        gameover = true;
         menu();
-    } else 
-    {
-
-    }
+    } else {  }
 
     // Level 1 score - Check if player picked up money and update score and money location if true
     if (x_pos == moneyx && y_pos == moneyy) 
@@ -1020,10 +980,7 @@ void logic()
         money++;
         moneyx = rand() % width-1;
         moneyy = rand() % height-1;
-    } else 
-    {
-
-    }
+    } else {  }
 
     // Level 2 score - Check if player picked up money and update score and money location if true
     if (x_pos == moneyx && y_pos == moneyy) 
@@ -1032,10 +989,7 @@ void logic()
         money++;
         moneyx = rand() % l2width-1;
         moneyy = rand() % l2height-1;
-    } else 
-    {
-
-    }
+    } else {  }
 
 
     // Level 1 - win logic 
@@ -1047,10 +1001,7 @@ void logic()
     xp();
     update_savefile_level();
     l2startgame();
-    } else 
-    {
-
-    }
+    } else {  }
 
     // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
     if (score >= 10) 
@@ -1060,10 +1011,7 @@ void logic()
     level_select_variable=3;
     update_savefile_level();
     draw_level_3();
-    } else 
-    {
-
-    }
+    } else {  }
 
    // Level 3 - win logic - specific enemy dies
     if (score >= 20) 
@@ -1073,31 +1021,25 @@ void logic()
       level_select_variable=4;
       update_savefile_level();
       draw_level_4();
-    } else 
+    } else {  }
+
+    // Level 3 - win logic - specific enemy dies
+    if (level = 12) 
     {
-
-    }
-
-    // If enemy is killed, experience granted to player
-    // vector<shared_ptr<enemy_class>> l2enemies_vector;
+      won_game = true;
+      cout << "You have become the greatest of magicians. The ultimate scholar on the worlds"
+              "greatest languages and spells. Now the greatest challenge lies ahead to make your own game"
+              "and spread the joy of language";
+    } else {  }
 
     // Fire enemy will move slow
     enemies_vector[0]->random_slow_movement(width, height);
     // Flying Rakshaa enemy will move fast
     enemies_vector[1]->random_fast_movement(width, height);
-    // Check for enemy collision
-    for (const auto& enemy : enemies_vector) {
-        if (enemy->alive) {
-            enemy->check_collision(x_pos, y_pos, lives);
-        }
-    }
     if (level==2) {
     // Stalking Rakshaa enemy will hunt player slowly
     l2enemies_vector[0]->random_slow_chasing(x_pos, y_pos, l2width, l2height);
-    } else 
-    {
-
-    }
+    } else {  }
 }
 void l2startgame() 
 {
@@ -1622,7 +1564,7 @@ void levelup(shared_ptr<Player>& player_pointer_object)
     player_pointer_object->health += 1;
   }
 }
-void newgame() 
+void newgame()
 {
   choose_name();
   setup_player_header();
@@ -1630,13 +1572,25 @@ void newgame()
   item_store_header();
   setup();
   lives = 3;
+
+  // Clear the console screen initially
+  system("cls");
+
+  // Print the static elements that don't change during gameplay
+  draw_level_1();
+  
+  // Start the game loop
   if (host_OS_name_variable == "Windows")
   { 
-    while (!gameover) 
+    while (!gameover)
     {
-      draw_level_1();
+      // Update the dynamic elements and player input
       input();
       logic();
+
+      // Print the updated game state without clearing the screen
+      draw_level_1();
+
       Sleep(150);
     }
     cout << "Game Over. Your final score is: " << score << endl;
@@ -1644,11 +1598,15 @@ void newgame()
   }
   else
   {
-    while (!gameover) 
+    while (!gameover)
     {
-      draw_level_1();
+      // Update the dynamic elements and player input
       POSIXinput();
       logic();
+
+      // Print the updated game state without clearing the screen
+      draw_level_1();
+
       Sleep(150);
     }
     cout << "Game Over. Your final score is: " << score << endl;
@@ -1659,13 +1617,25 @@ void continuegame()
 {
   setup();
   lives = 3;
+
+  // Clear the console screen initially
+  system("cls");
+
+  // Print the static elements that don't change during gameplay
+  draw_level_1();
+  
+  // Start the game loop
   if (host_OS_name_variable == "Windows")
   { 
-    while (!gameover) 
+    while (!gameover)
     {
-      draw_level_1();
+      // Update the dynamic elements and player input
       input();
       logic();
+
+      // Print the updated game state without clearing the screen
+      draw_level_1();
+
       Sleep(150);
     }
     cout << "Game Over. Your final score is: " << score << endl;
@@ -1673,11 +1643,15 @@ void continuegame()
   }
   else
   {
-    while (!gameover) 
+    while (!gameover)
     {
-      draw_level_1();
+      // Update the dynamic elements and player input
       POSIXinput();
       logic();
+
+      // Print the updated game state without clearing the screen
+      draw_level_1();
+
       Sleep(150);
     }
     cout << "Game Over. Your final score is: " << score << endl;
