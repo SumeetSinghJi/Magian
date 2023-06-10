@@ -1,16 +1,17 @@
 ROADMAP
 
+
+
+# initalise_settings() use the pointer for everything
 * item store not working for second item - consider algorithm
+* algorith item_pickup_logic() - item_store()
 * build save()
 * l2gamestart - add load_player()
 * collission_logic() not stopping player
-* enemy_collission() not working to reduce lives
 * add collission for obstacle
 * change lives to vitality
 * lives need to print to savefile and loaded on newgame() or continue()
 * add money member to player everywhere
-
-* when obstacle not drawing to field problem is fixed, then make subclasses for enemies
 * then fix random_enemies_vector
 * then add item symbols, and same item_generation steps
 
@@ -27,40 +28,9 @@ void map - initialise settings members
 * check_skills = show available skills()
 *    selecting a skill updates active_skill member
 
-
-
-0.0.1
-Random '#' in draw = door. Keep that position permenant.
-
-0.1
-Seg fault in setup with // random_generate_enemy(map_size, max_enemy_objects, enemies_vector);
-
-0.2
-Level 2 crashes seg fault also.
-
-0.3
-Inventory broken
-
 Cmake roadmap
 1. debug linker not playing audio
 
-* For check_stats()
-* check_skills()
-* check_items()
-
-They should not read from the objects, they should read from SAVEFILE.
-savefile_object.open("magian_save.txt", ios::in);
-if(savefile_object.is_open())
-{
-  cout << "skills";
-}
-savefile.object.close()
-else {}
-
-
-2.
-void random_generate_enemy()
-void random_generate_items()
 
 4
 In game book - copy of early rig veda and gathas, and shanameh
@@ -77,10 +47,6 @@ Locale including
 8
 create fireball()
 fireball() sfx
-
-9
-Draw items to buffer
-trigger event - on pickup of items, pushback
 
 10
 enemies grant xp on death

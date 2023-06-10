@@ -35,6 +35,11 @@ class Player
 };
 // Forward declaration
 class Obstacle_class;
+enum edirection 
+{
+  STOP = 0, UP, DOWN, LEFT, RIGHT
+};
+edirection direction;
 // Global variables
 // level 1 map
 const int width = 20;
@@ -46,14 +51,22 @@ const int l2height = 40;
 char l2buffer[l2height][l2width];
 int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
 // Classes
-/*
 class level_class
 {
   public:
-    const int l2width;
-    const int l2height;
+    int level=1;
+    int level_select_variable=1; // for bonus level select
+    int width;
+    int height;
     vector<vector<char>> l2buffer;
-};*/
+};
+class settings_class
+{
+  public:
+    int difficulty;
+    int won_game;
+    int language; // language 1 = english
+};
 class Obstacle_class
 {
   public:
@@ -394,11 +407,6 @@ public:
   }
 };
 fstream savefile_object;
-enum edirection 
-{
-  STOP = 0, UP, DOWN, LEFT, RIGHT
-};
-edirection direction;
 // FUNCTION PROTOTYPE/DECLARATION
 void menu();
 void l2startgame();
@@ -411,7 +419,8 @@ void shoot_fireball();
 vector<shared_ptr<item_class>> items_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 shared_ptr<Player> player_pointer_object = make_shared<Player>();
-// shared_ptr<level_class> level_pointer_object = make_shared<level_class>();
+shared_ptr<level_class> level_pointer_object = make_shared<level_class>();
+shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
 vector<shared_ptr<Obstacle_class>> obstacles_vector;
 string version = "0.2.2";
 bool music_variable = true; 
@@ -590,14 +599,42 @@ void random_generate_items()
     }
   }
 }
-/*
 void initialise_level()
 {
-    const int l2width = 40;
-    const int l2height = 40;
-    char l2buffer[l2height][l2width];
-    level_pointer_object->l2buffer[][]=l2buffer[l2height][l2width];
-} */
+    const int width = 40;
+    const int height = 40;
+    char buffer[height][width];
+    // Assuming you want to copy the contents of l2buffer into level_pointer_object->l2buffer
+    for (int i = 0; i < l2height; i++)
+    {
+        for (int j = 0; j < l2width; j++)
+        {
+            level_pointer_object->l2buffer[i][j] = l2buffer[i][j];
+        }
+    }
+} 
+void initialise_setings()
+{
+    int difficulty=3;
+    int won_game = false;
+    int language=1; // language 1 = english
+    settings_pointer_object->difficulty=difficulty;
+    settings_pointer_object->won_game=won_game;
+    settings_pointer_object->language=language;
+    savefile_object.open("magian_save.txt", ios::app);
+    if(savefile_object.is_open())
+    {
+        savefile_object << "Difficulty: " << difficulty << endl;
+        savefile_object << "won_game: " << won_game << endl;
+        savefile_object << "language: " << language << endl;
+        savefile_object.close();
+    }
+    else
+    {
+        cerr << "Error: Settings not saved to save file" << endl;
+        return;
+    }
+} 
 void setup() 
 {
   if (music_variable == false)
@@ -1413,7 +1450,7 @@ void setup_player_header()
     cerr << "Error: Couldn't write header txt AVATAR to savefile";
   }
 }
-void setup_player()
+void initialise_player()
 {
   int player_magic = 1;
   int player_health = 1;
@@ -1730,7 +1767,7 @@ void newgame()
 {
   setup_player_header();
   choose_player_name();
-  setup_player();
+  initialise_player();
   item_store_header();
   setup();
   lives = 3;
