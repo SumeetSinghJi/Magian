@@ -314,16 +314,16 @@ class stalker_enemy_subclass : public enemy_class
 class item_class 
 {
 public:
-  string name;
+  string item_name;
   string description;
   int cost;
   int effect;
   int item_x_pos;
   int item_y_pos;
   char item_symbol;
-  item_class(string name, string description, char item_symbol)
+  item_class(string item_name, string description, char item_symbol)
   {
-    this->name = name;
+    this->item_name = item_name;
     this->description = description;
     this->item_symbol = item_symbol;
     if(map_size==1)
@@ -1167,7 +1167,7 @@ void check_items()
   cout << "INVENTORY" <<endl;
   for (int i=0;i<inventory_vector.size(); i++)
   {
-    cout << i << ": " << inventory_vector[i]->name << endl;
+    cout << i << ": " << inventory_vector[i]->item_name << endl;
   }
 
   // using an item
@@ -1177,9 +1177,9 @@ void check_items()
 
   if (item_select_variable >= 0 && item_select_variable < inventory_vector.size())
   {
-    cout << "Using item: " << inventory_vector[item_select_variable]->name << endl;
+    cout << "Using item: " << inventory_vector[item_select_variable]->item_name << endl;
     shared_ptr<item_class>& item = inventory_vector[item_select_variable];
-    if (inventory_vector[item_select_variable]->name == "Potion")
+    if (inventory_vector[item_select_variable]->item_name == "Potion")
     {
       potion_item_subclass* potion = dynamic_cast<potion_item_subclass*>(item.get());
       potion->use(lives);
@@ -1187,7 +1187,7 @@ void check_items()
       cout << "Press ENTER to continue...";
       cin.get();
     }
-    else if (inventory_vector[item_select_variable]->name == "Leather boots")
+    else if (inventory_vector[item_select_variable]->item_name == "Leather boots")
     {
       leather_boots_item_subclass* boots = dynamic_cast<leather_boots_item_subclass*>(item.get());
       boots->use(player_speed);
@@ -1221,7 +1221,7 @@ void item_store(vector<shared_ptr<item_class>>& inventory_vector)
     int inventory_last_index_variable = inventory_vector.size() - 1;
     // accessing last item
     item_class* inventory_last_element_variable = inventory_vector[inventory_last_index_variable].get();
-    string item_store_variable = inventory_last_element_variable->name;
+    string item_store_variable = inventory_last_element_variable->item_name;
     // Storing last item to savegame file
     savefile_object.open("magian_save.txt", ios::app);
     if(savefile_object.is_open())
