@@ -1,9 +1,7 @@
 ROADMAP
 
-* shoot not working
 * item store not working for second item - consider algorithm
 * build save()
-* logic() - level 1 win = save()
 * l2gamestart - add load_player()
 * collission_logic() not stopping player
 * enemy_collission() not working to reduce lives
@@ -12,13 +10,13 @@ ROADMAP
 * lives need to print to savefile and loaded on newgame() or continue()
 
 
-consider breaking up logic() to
-* logic()
-*   win_logic()
-*   collision_logic()
-*   item_pickup_logic()
-*   levelup_logic()
-*   enemy_movement_logic() - consider algorith
+* player_object member active_skill = shoot()
+* write skills_header()
+* write skills to file ???
+* check_skills = show available skills()
+*    selecting a skill updates active_skill member
+
+
 
 0.0.1
 Random '#' in draw = door. Keep that position permenant.

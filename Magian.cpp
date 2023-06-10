@@ -375,17 +375,15 @@ edirection direction;
 void menu();
 void l2startgame();
 void check_stats();
-void levelup(shared_ptr<Player>& player_pointer_object);
 void item_store();
 void check_items();
 void check_skills();
 void save();
-void shoot();
+void shoot_fireball();
 vector<shared_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
-vector<shared_ptr<enemy_class>> l2enemies_vector;
-vector<shared_ptr<Obstacle_class>> obstacles_vector;
 shared_ptr<Player> player_pointer_object = make_shared<Player>();
+vector<shared_ptr<Obstacle_class>> obstacles_vector;
 string version = "0.2.2";
 bool music_variable = true; 
 bool gameover = false;
@@ -656,7 +654,7 @@ void l2setup()
 
   // to refresh vectors for new game and level select
   inventory_vector.clear();
-  l2enemies_vector.clear();
+  enemies_vector.clear();
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
   for (int i = 0; i < l2height; i++)
@@ -752,7 +750,7 @@ void draw_level_2()
         l2buffer[y][x] = ' ';
 
         // Draw all enemies if any exists at this position
-        for (const auto& enemy : l2enemies_vector) 
+        for (const auto& enemy : enemies_vector) 
         {
           if (enemy->alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos) 
           {
@@ -865,7 +863,9 @@ void input()
             break;
         case ' ':
             if (direction != STOP)
-                shoot();
+            {
+                shoot_fireball();
+            }
             break;
         case 'e':
             direction = STOP;
@@ -906,8 +906,23 @@ void POSIXinput()
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break; 
+        case 'c':
+            check_stats();
+            cout << "Press ENTER button to Return to game" << endl;
+            cin.get();
+            break; 
+        case 59:
+            save();
+            break;
         case 'q':
             exit(0);
+            break;
+        case ' ':
+            if (direction != STOP)
+                shoot_fireball();
+            break;
+        case 'e':
+            direction = STOP;
             break;
         }
     }
@@ -943,9 +958,110 @@ void collision_logic()
       }
     }
 }
+void win_logic()
+{
+// Check if player has run out of lives and end the game if true
+    if (lives <= 0) 
+    {
+        cout << "You died!" << endl;
+        gameover = true;
+        menu();
+    } else {  }
+
+// Level 1 - win logic 
+    if (score >= 1) 
+    {
+    level = 2;
+    cout << "You win the level";
+    level_select_variable=2;
+    update_savefile_level();
+    save();
+    l2startgame();
+    } else {  }
+
+    // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
+    if (score >= 10) 
+    {
+    level = 3;
+    cout << "You win the level";
+    level_select_variable=3;
+    update_savefile_level();
+    save();
+    } else {  }
+
+   // Level 3 - win logic - e.g. specific enemy dies
+    if (score >= 20) 
+    {
+      level = 4;
+      cout << "You win the level";
+      level_select_variable=4;
+      update_savefile_level();
+      save();
+    } else {  }
+
+    // Win game logic
+    if (level = 12) 
+    {
+      won_game = true;
+      cout << "You have become the greatest of magicians. The ultimate scholar on the worlds"
+              "greatest languages and spells. Now the greatest challenge lies ahead to make your own game"
+              "and spread the joy of language";
+    } else {  }
+
+}
+void levelup_logic()
+{
+if (player_pointer_object->player_xp > 3) // level 1
+  {
+    cout << "Your experience and knowledge gained throughout life increases your capability";
+    player_pointer_object->player_magic += 1;
+    player_pointer_object->player_health += 1;
+  }
+  else if (player_pointer_object->player_xp > 6) // level 2
+  {
+    cout << "Your experience and knowledge gained throughout life increases your capability";
+    player_pointer_object->player_magic += 1;
+    player_pointer_object->player_health += 1;
+  }
+  else if (player_pointer_object->player_xp > 9) // level 3
+  {
+    cout << "Your experience and knowledge gained throughout life increases your capability";
+    player_pointer_object->player_magic += 1;
+    player_pointer_object->player_health += 1;
+  }
+}
+void enemy_ai_logic()
+{
+    // Fire enemy will move slow
+    enemies_vector[0]->random_slow_movement();
+    // Flying Rakshaa enemy will move fast
+    enemies_vector[1]->random_fast_movement();
+    // Stalking Rakshaa enemy will hunt player slowly
+    // enemies_vector[0]->random_slow_chasing(player_pointer_object);
+}
+void item_pickup_logic()
+{
+// Level 1 score - Check if player picked up money and update score and money location if true
+    if (player_pointer_object->player_x_pos == moneyx && player_pointer_object->player_y_pos == moneyy) 
+    {
+        score++;
+        money++;
+        moneyx = rand() % width-1;
+        moneyy = rand() % height-1;
+    } else {  }
+
+    // Level 2 score - Check if player picked up money and update score and money location if true
+    if (player_pointer_object->player_x_pos == moneyx && player_pointer_object->player_y_pos == moneyy) 
+    {
+        score++;
+        money++;
+        moneyx = rand() % l2width-1;
+        moneyy = rand() % l2height-1;
+    } else {  }
+}
 void logic() 
 {
-  // Calculate the proposed new position based on direction
+  // New direction in buffer updated called after input() in startgame() loop
   switch (direction) 
   {
     case UP:
@@ -963,83 +1079,11 @@ void logic()
   }
 
     collision_logic();
+    enemy_ai_logic();
+    win_logic();
+    levelup_logic();
+    item_pickup_logic();
 
-
-    
-    // Check if player has run out of lives and end the game if true
-    if (lives <= 0) 
-    {
-        cout << "You died!" << endl;
-        gameover = true;
-        menu();
-    } else {  }
-
-    // Level 1 score - Check if player picked up money and update score and money location if true
-    if (player_pointer_object->player_x_pos == moneyx && player_pointer_object->player_y_pos == moneyy) 
-    {
-        score++;
-        money++;
-        moneyx = rand() % width-1;
-        moneyy = rand() % height-1;
-    } else {  }
-
-    // Level 2 score - Check if player picked up money and update score and money location if true
-    if (player_pointer_object->player_x_pos == moneyx && player_pointer_object->player_y_pos == moneyy) 
-    {
-        score++;
-        money++;
-        moneyx = rand() % l2width-1;
-        moneyy = rand() % l2height-1;
-    } else {  }
-
-
-    // Level 1 - win logic 
-    if (score >= 1) 
-    {
-    level = 2;
-    cout << "You win the level";
-    level_select_variable=2;
-    update_savefile_level();
-    l2startgame();
-    } else {  }
-
-    // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
-    if (score >= 10) 
-    {
-    level = 3;
-    cout << "You win the level";
-    level_select_variable=3;
-    update_savefile_level();
-    draw_level_3();
-    } else {  }
-
-   // Level 3 - win logic - specific enemy dies
-    if (score >= 20) 
-    {
-      level = 4;
-      cout << "You win the level";
-      level_select_variable=4;
-      update_savefile_level();
-      draw_level_4();
-    } else {  }
-
-    // Level 3 - win logic - specific enemy dies
-    if (level = 12) 
-    {
-      won_game = true;
-      cout << "You have become the greatest of magicians. The ultimate scholar on the worlds"
-              "greatest languages and spells. Now the greatest challenge lies ahead to make your own game"
-              "and spread the joy of language";
-    } else {  }
-
-    // Fire enemy will move slow
-    enemies_vector[0]->random_slow_movement();
-    // Flying Rakshaa enemy will move fast
-    enemies_vector[1]->random_fast_movement();
-    if (level==2) {
-    // Stalking Rakshaa enemy will hunt player slowly
-    l2enemies_vector[0]->random_slow_chasing(player_pointer_object);
-    } else {  }
 }
 void l2startgame() 
 {
@@ -1071,13 +1115,15 @@ void l2startgame()
     cin.get();
   }
 }
-void shoot()
+void shoot_fireball()
 {
-    int targetX = 0;
-    int targetY = 0;
+    // The bullet STARTS from the players current position
+    int targetX = player_pointer_object->player_x_pos;
+    int targetY = player_pointer_object->player_y_pos;
 
-    while (true)
+    while (true) 
     {
+        // Move the target position based on the player's direction
         if (direction == UP)
             targetY--;
         else if (direction == DOWN)
@@ -1088,15 +1134,18 @@ void shoot()
             targetX++;
 
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height)
+        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
         {
-            // look for any enemy in bullets direction
-            for (const auto& enemy : enemies_vector)
+            // Check if there is an enemy at the target position
+            bool hitEnemy = false;
+            for (const auto& enemy : enemies_vector) 
             {
-                if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos)
+                if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) 
                 {
+                    hitEnemy = true;
                     enemy->enemy_hp--;
-                    if (enemy->enemy_hp <= 0)
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (enemy->enemy_hp <= 0) 
                     {
                         player_pointer_object->player_xp += enemy->enemy_xp;
                         enemy->alive = false;
@@ -1105,17 +1154,32 @@ void shoot()
                 }
             }
 
-            if (buffer[targetY][targetX] == '#')
+            // Clear the bullet from the previous position
+            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+
+            // Draw the bullet at the target position
+            buffer[targetY][targetX] = '*';
+            draw_level_1();
+
+            // Sleep after drawing the bullet
+            Sleep(50);
+
+            // Clear the bullet from the current position
+            buffer[targetY][targetX] = ' ';
+
+            // Check if the target position hit a wall
+            if (buffer[targetY][targetX] == '#') 
             {
                 break;
             }
-        }
-        else // if out of bounds
+        } 
+        else 
         {
             break;
         }
     }
 }
+
 void check_items()
 {
   // read from the savefile NOT the pointer object!!!
@@ -1569,27 +1633,6 @@ void choose_player_name()
         cerr << "Error: failed to write character name to file" << endl;
         return;
     }
-}
-void levelup()
-{
-  if (player_pointer_object->player_xp > 3) // level 1
-  {
-    cout << "Your experience and knowledge gained throughout life increases your capability";
-    player_pointer_object->player_magic += 1;
-    player_pointer_object->player_health += 1;
-  }
-  else if (player_pointer_object->player_xp > 6) // level 2
-  {
-    cout << "Your experience and knowledge gained throughout life increases your capability";
-    player_pointer_object->player_magic += 1;
-    player_pointer_object->player_health += 1;
-  }
-  else if (player_pointer_object->player_xp > 9) // level 3
-  {
-    cout << "Your experience and knowledge gained throughout life increases your capability";
-    player_pointer_object->player_magic += 1;
-    player_pointer_object->player_health += 1;
-  }
 }
 void newgame()
 {
