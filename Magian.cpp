@@ -27,7 +27,7 @@ class Player
     int player_swimming = 0;
     int player_herbology = 0;
     int player_speed = 0;
-    int xp = 0;
+    int player_xp = 0;
 };
 // Forward declaration
 class Obstacle_class;
@@ -378,7 +378,6 @@ void levelup(shared_ptr<Player>& player_pointer_object);
 void item_store(vector<shared_ptr<item_class>>& inventory_vector);
 void check_items();
 void check_skills();
-void xp();
 void save();
 void shoot(int width, int height, int x_pos, int y_pos, edirection direction, shared_ptr<Player> &player_pointer_object);
 // GLOBAL POINTERS
@@ -1006,7 +1005,6 @@ void logic()
     level = 2;
     cout << "You win the level";
     level_select_variable=2;
-    xp();
     update_savefile_level();
     l2startgame();
     } else {  }
@@ -1105,7 +1103,7 @@ void shoot(int width, int height, int x_pos, int y_pos, edirection direction, sh
                     enemy->enemy_hp--;
                     // If enemy's health is 0 or less, set the enemy's alive property to false
                     if (enemy->enemy_hp <= 0) {
-                        player_pointer_object->xp += enemy->xpgain;
+                        player_pointer_object->player_xp += enemy->xpgain;
                         enemy->alive = false;
                     }
                     break;
@@ -1261,17 +1259,24 @@ void setup_player()
   int player_diplomacy = 1;
   int player_swimming = 1;
   int player_herbology = 1;
+  int player_xp = 1;
+  int player_speed = 1;
   player_pointer_object->player_magic = player_magic;
   player_pointer_object->player_health = player_health;
+  player_pointer_object->player_xp = player_xp;
+  player_pointer_object->player_speed = player_speed;
   player_pointer_object->player_literacy = player_literacy;
   player_pointer_object->player_diplomacy = player_diplomacy;
   player_pointer_object->player_swimming = player_swimming;
   player_pointer_object->player_herbology = player_herbology;
+  
   savefile_object.open("magian_save.txt", ios::app);
     if(savefile_object.is_open())
     {
         savefile_object << "Magic: " << player_magic << endl;
         savefile_object << "Health: " << player_health << endl;
+        savefile_object << "XP: " << player_speed << endl;
+        savefile_object << "Speed: " << player_speed << endl;
         savefile_object << "Literacy: " << player_literacy << endl;
         savefile_object << "Diplomacy: " << player_diplomacy << endl;
         savefile_object << "Swimming: " << player_swimming << endl;
@@ -1525,34 +1530,21 @@ void choose_player_name()
         return;
     }
 }
-void xp()
-{
-  savefile_object.open("magian_save.txt", ios::app);
-  if(savefile_object.is_open())
-  {
-    savefile_object << "XP: " << player_pointer_object->xp<< endl;
-    savefile_object.close();
-  }
-  else
-  {
-    cerr << "Error: Couldn't write xp to savefile";
-  }
-}
 void levelup(shared_ptr<Player>& player_pointer_object)
 {
-  if (player_pointer_object->xp > 3) // level 1
+  if (player_pointer_object->player_xp > 3) // level 1
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
     player_pointer_object->player_magic += 1;
     player_pointer_object->player_health += 1;
   }
-  else if (player_pointer_object->xp > 6) // level 2
+  else if (player_pointer_object->player_xp > 6) // level 2
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
     player_pointer_object->player_magic += 1;
     player_pointer_object->player_health += 1;
   }
-  else if (player_pointer_object->xp > 9) // level 3
+  else if (player_pointer_object->player_xp > 9) // level 3
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
     player_pointer_object->player_magic += 1;
