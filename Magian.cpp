@@ -872,6 +872,7 @@ void input()
                 if (elapsedSeconds.count() >= 2.0) {
                     // The shoot skill is off cooldown
                     shoot_fireball();
+                    // Update the last shoot time
                 } else {
                     // The shoot skill is on cooldown
                     cout << "The shoot skill is on cooldown. Please wait for " << (2.0 - elapsedSeconds.count()) << " seconds." << endl;
@@ -1202,7 +1203,6 @@ void shoot_fireball()
     // reset shoot skill cooldown
     shoot_skill_cooldown = false;
 }
-
 void check_items()
 {
   // read from the savefile NOT the pointer object!!!

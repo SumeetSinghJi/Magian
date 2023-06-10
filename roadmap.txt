@@ -9,6 +9,12 @@ ROADMAP
 * change lives to vitality
 * lives need to print to savefile and loaded on newgame() or continue()
 
+Class for Map
+void map - initialise map members
+
+Class for Settings
+void map - initialise settings members
+
 
 * player_object member active_skill = shoot()
 * write skills_header()
