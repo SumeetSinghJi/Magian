@@ -1,5 +1,5 @@
 AVATAR
-NAME: 1
+NAME: Arya
 Magic: 1
 Health: 1
 XP: 1
@@ -11,3 +11,8 @@ Herbology: 1
 INVENTORY
 Potion
 Leather boots
+SAVE UPDATE
+Host OS is: Windows
+Version: 0.2.2
+Date: 10/6/2023
+Unlocked levels: 2

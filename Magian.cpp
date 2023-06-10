@@ -1235,8 +1235,51 @@ void check_skills()
 }
 void check_stats(shared_ptr<Player>& player_pointer_object)
 {
-  // read from the savefile NOT the pointer object!!!
-  cout << "PLAYER\n";
+  cout << "STATS\n";
+  savefile_object.open("magian_save.txt", ios::in);
+    if (savefile_object.is_open())
+    {
+      string line;
+      while (getline(savefile_object, line))
+      {
+        if (line.find("Name: ") != string::npos)
+          player_pointer_object->player_magic = stoi(line.substr(6));
+        else if (line.find("Magic: ") != string::npos)
+          player_pointer_object->player_magic = stoi(line.substr(7));
+        else if (line.find("XP: ") != string::npos)
+          player_pointer_object->player_health = stoi(line.substr(4));
+        else if (line.find("Speed: ") != string::npos)
+          player_pointer_object->player_health = stoi(line.substr(7));
+        else if (line.find("Health: ") != string::npos)
+          player_pointer_object->player_health = stoi(line.substr(8));
+        else if (line.find("Literacy: ") != string::npos)
+          player_pointer_object->player_literacy = stoi(line.substr(10));
+        else if (line.find("Diplomacy: ") != string::npos)
+          player_pointer_object->player_diplomacy = stoi(line.substr(11));
+        else if (line.find("Swimming: ") != string::npos)
+          player_pointer_object->player_swimming = stoi(line.substr(10));
+        else if (line.find("Herbology: ") != string::npos)
+          player_pointer_object->player_herbology = stoi(line.substr(11));
+      }
+        savefile_object.close();
+
+        // Print the stats
+        cout << "Player Stats:" << endl;
+        cout << "Name: " << player_pointer_object->player_name << endl;
+        cout << "Magic: " << player_pointer_object->player_magic << endl;
+        cout << "XP: " << player_pointer_object->player_xp << endl;
+        cout << "Speed: " << player_pointer_object->player_speed << endl;
+        cout << "Health: " << player_pointer_object->player_health << endl;
+        cout << "Literacy: " << player_pointer_object->player_literacy << endl;
+        cout << "Diplomacy: " << player_pointer_object->player_diplomacy << endl;
+        cout << "Swimming: " << player_pointer_object->player_swimming << endl;
+        cout << "Herbology: " << player_pointer_object->player_herbology << endl;
+        
+    }
+    else
+    {
+        cerr << "Error: Unable to open save file." << endl;
+    }
 }
 void setup_player_header()
 {
