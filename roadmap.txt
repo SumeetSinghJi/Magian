@@ -58,27 +58,12 @@ savefile.object.close()
 else {}
 
 
-1.5
-Setup function ALSO in continuegame() writes inventory to file twice, but an if exists then dont clause.
-for potion and leather boots.
-
-
-
 2.
 void random_generate_enemy()
-  * Create enemies as subclasses, and make shared pointers instead of unique
 void random_generate_items()
-
-
-3
-Then allow for up to 3 save game states and can choose which to load
 
 4
 In game book - copy of early rig veda and gathas, and shanameh
-
-5
-Key rebinding
-ESC key opens save menu, or F1 key is save
 
 6
 Locale including
@@ -88,9 +73,6 @@ Locale including
 * Chinese
 * English
 * German
-
-7
-* fix shoot() delay with clock() in <ctime>
 
 8
 create fireball()

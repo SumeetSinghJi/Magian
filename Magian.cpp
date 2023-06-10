@@ -10,6 +10,7 @@
 #include <fstream>
 #include <filesystem>
 #include <chrono>
+#include <algorithm>
 #include "headers/save_game.h"
 #include "headers/game_settings.h"
 #include "headers/get_objective.h"
@@ -45,6 +46,14 @@ const int l2height = 40;
 char l2buffer[l2height][l2width];
 int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
 // Classes
+/*
+class level_class
+{
+  public:
+    const int l2width;
+    const int l2height;
+    vector<vector<char>> l2buffer;
+};*/
 class Obstacle_class
 {
   public:
@@ -231,11 +240,20 @@ public:
         enemy_pause--;
       }
     }
-    void enemy_check_collision(shared_ptr<Player> &player_pointer_object, int& lives) 
+    void enemy_check_collision(shared_ptr<Player> &player_pointer_object) 
     {
         if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) {
             lives-=enemy_melle_damage;
             enemy_pause = 3; // Pause for 3 ticks
+            /*
+            // Update player position after collision
+    player_pointer_object->player_x_pos = previous_x_pos;
+    player_pointer_object->player_y_pos = previous_y_pos;
+    direction = STOP;
+    */
+    cout << "You bumped into the monster";
+    cin.get();
+    
         }
     }
 };
@@ -390,9 +408,10 @@ void check_items();
 void check_skills();
 void save();
 void shoot_fireball();
-vector<shared_ptr<item_class>> inventory_vector;
+vector<shared_ptr<item_class>> items_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 shared_ptr<Player> player_pointer_object = make_shared<Player>();
+// shared_ptr<level_class> level_pointer_object = make_shared<level_class>();
 vector<shared_ptr<Obstacle_class>> obstacles_vector;
 string version = "0.2.2";
 bool music_variable = true; 
@@ -562,15 +581,23 @@ void random_generate_items()
     if (item_type_variable == 0) // potion
     {
       shared_ptr<potion_item_subclass> leather_boots_item = make_shared<potion_item_subclass>();
-      inventory_vector.push_back(make_shared<potion_item_subclass>());
+      items_vector.push_back(make_shared<potion_item_subclass>());
     }
     else // leather boots
     {
       shared_ptr<leather_boots_item_subclass> leather_boots_item = make_shared<leather_boots_item_subclass>();
-      inventory_vector.push_back(make_shared<leather_boots_item_subclass>());
+      items_vector.push_back(make_shared<leather_boots_item_subclass>());
     }
   }
 }
+/*
+void initialise_level()
+{
+    const int l2width = 40;
+    const int l2height = 40;
+    char l2buffer[l2height][l2width];
+    level_pointer_object->l2buffer[][]=l2buffer[l2height][l2width];
+} */
 void setup() 
 {
   if (music_variable == false)
@@ -596,7 +623,7 @@ void setup()
   player_pointer_object->player_y_pos = height / 2;
 
   // to refresh vectors for new game and level select
-  inventory_vector.clear();
+  items_vector.clear();
   enemies_vector.clear();
 
   shared_ptr<fire_enemy_subclass> fire_enemy = make_shared<fire_enemy_subclass>();
@@ -606,9 +633,9 @@ void setup()
   
 
   // Adding starting items to players inventory vector
-  inventory_vector.push_back(make_shared<potion_item_subclass>());
+  items_vector.push_back(make_shared<potion_item_subclass>());
   item_store();
-  inventory_vector.push_back(make_shared<leather_boots_item_subclass>());
+  items_vector.push_back(make_shared<leather_boots_item_subclass>());
   item_store();
 
   // random_generate_enemy();
@@ -649,7 +676,7 @@ void l2setup()
   player_pointer_object->player_y_pos = l2height / 2;
 
   // to refresh vectors for new game and level select
-  inventory_vector.clear();
+  items_vector.clear();
   enemies_vector.clear();
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
@@ -699,7 +726,7 @@ void draw_level_1()
   }
 
   // Draw items
-  for (const auto& item : inventory_vector)
+  for (const auto& item : items_vector)
     buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
 
   // Clear the console screen
@@ -862,6 +889,9 @@ void input()
         case 59:
             save();
             break;
+        case 27: // escape key
+            menu();
+            break;
         case 'q':
             exit(0);
             break;
@@ -924,7 +954,7 @@ void POSIXinput()
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break; 
-        case 59:
+        case 59: // F1 key
             save();
             break;
         case 'q':
@@ -962,14 +992,7 @@ for (const auto& enemy : enemies_vector)
   if (enemy->alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos)
   {
     // Deal melee damage to the player
-    enemy->enemy_check_collision(player_pointer_object, lives);
-    cout << "You struck the enemy";
-    cin.get();
-
-    // Update player position after collision
-    player_pointer_object->player_x_pos = previous_x_pos;
-    player_pointer_object->player_y_pos = previous_y_pos;
-
+    enemy->enemy_check_collision(player_pointer_object);
     break; // Exit the loop after the collision is detected
   }
 }
@@ -987,6 +1010,17 @@ for (const auto& enemy : enemies_vector)
       obstacle->obstacle_check_collision(player_pointer_object);
     }
   }
+
+  // item collision
+  for(const auto item : items_vector)
+  {
+    if (player_pointer_object->player_x_pos == item->item_x_pos && player_pointer_object->player_y_pos == item->item_y_pos) 
+    {
+        item->item_check_collision(player_pointer_object);
+    } else {  }
+  }
+
+
 }
 void win_logic()
 {
@@ -1242,9 +1276,9 @@ void check_items()
 {
   // read from the savefile NOT the pointer object!!!
   cout << "INVENTORY" <<endl;
-  for (int i=0;i<inventory_vector.size(); i++)
+  for (int i=0;i<items_vector.size(); i++)
   {
-    cout << i << ": " << inventory_vector[i]->item_name << endl;
+    cout << i << ": " << items_vector[i]->item_name << endl;
   }
 
   // using an item
@@ -1252,27 +1286,27 @@ void check_items()
   cout << "Select item you wish to use: " << endl;
   cin >> item_select_variable;
 
-  if (item_select_variable >= 0 && item_select_variable < inventory_vector.size())
+  if (item_select_variable >= 0 && item_select_variable < items_vector.size())
   {
-    cout << "Using item: " << inventory_vector[item_select_variable]->item_name << endl;
-    shared_ptr<item_class>& item = inventory_vector[item_select_variable];
-    if (inventory_vector[item_select_variable]->item_name == "Potion")
+    cout << "Using item: " << items_vector[item_select_variable]->item_name << endl;
+    shared_ptr<item_class>& item = items_vector[item_select_variable];
+    if (items_vector[item_select_variable]->item_name == "Potion")
     {
       potion_item_subclass* potion = dynamic_cast<potion_item_subclass*>(item.get());
       potion->use(lives);
-      inventory_vector.erase(inventory_vector.begin() + item_select_variable);
+      items_vector.erase(items_vector.begin() + item_select_variable);
       cout << "Press ENTER to continue...";
       cin.get();
     }
-    else if (inventory_vector[item_select_variable]->item_name == "Leather boots")
+    else if (items_vector[item_select_variable]->item_name == "Leather boots")
     {
       leather_boots_item_subclass* boots = dynamic_cast<leather_boots_item_subclass*>(item.get());
       boots->use(player_pointer_object);
-      inventory_vector.erase(inventory_vector.begin() + item_select_variable);
+      items_vector.erase(items_vector.begin() + item_select_variable);
       cout << "Press ENTER to continue...";
       cin.get();
     }
-    inventory_vector.erase(inventory_vector.begin() + item_select_variable);
+    items_vector.erase(items_vector.begin() + item_select_variable);
   }
   else
   {
@@ -1295,9 +1329,9 @@ void item_store_header()
 void item_store()
 {
     // Accessing last Element of inventory vector
-    int inventory_last_index_variable = inventory_vector.size() - 1;
+    int inventory_last_index_variable = items_vector.size() - 1;
     // accessing last item
-    item_class* inventory_last_element_variable = inventory_vector[inventory_last_index_variable].get();
+    item_class* inventory_last_element_variable = items_vector[inventory_last_index_variable].get();
     string item_store_variable = inventory_last_element_variable->item_name;
     // Storing last item to savegame file
     savefile_object.open("magian_save.txt", ios::app);
