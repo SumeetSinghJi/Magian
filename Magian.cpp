@@ -377,18 +377,16 @@ void menu();
 void l2startgame();
 void check_stats(shared_ptr<Player>& player_pointer_object);
 void levelup(shared_ptr<Player>& player_pointer_object);
-void item_store(vector<shared_ptr<item_class>>& inventory_vector);
+void item_store();
 void check_items();
 void check_skills();
 void save();
 void shoot();
-// GLOBAL POINTERS
 vector<shared_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<enemy_class>> l2enemies_vector;
 vector<shared_ptr<Obstacle_class>> obstacles_vector;
 shared_ptr<Player> player_pointer_object = make_shared<Player>();
-// GLOBAL VARIABLES
 string version = "0.2.2";
 bool music_variable = true; 
 bool gameover = false;
@@ -616,9 +614,9 @@ void setup()
 
   // Adding starting items to players inventory vector
   inventory_vector.push_back(make_shared<potion_item_subclass>());
-  item_store(inventory_vector);
+  item_store();
   inventory_vector.push_back(make_shared<leather_boots_item_subclass>());
-  item_store(inventory_vector);
+  item_store();
 
   // random_generate_enemy();
   // random_generate_items();
@@ -1174,7 +1172,7 @@ void item_store_header()
     cerr << "Error: Couldn't write header txt INVENTORY to savefile";
   }
 }
-void item_store(vector<shared_ptr<item_class>>& inventory_vector)
+void item_store()
 {
     // Accessing last Element of inventory vector
     int inventory_last_index_variable = inventory_vector.size() - 1;
@@ -1210,7 +1208,7 @@ void check_stats(shared_ptr<Player>& player_pointer_object)
       while (getline(savefile_object, line))
       {
         if (line.find("Name: ") != string::npos)
-          player_pointer_object->player_magic = stoi(line.substr(6));
+          player_pointer_object->player_name = stoi(line.substr(6));
         else if (line.find("Magic: ") != string::npos)
           player_pointer_object->player_magic = stoi(line.substr(7));
         else if (line.find("XP: ") != string::npos)
@@ -1757,7 +1755,7 @@ void menu()
     save_load_game();
     break;
   case 3:
-    level_select(host_OS_name_variable);
+    level_select();
     break;
   case 4:
     help();

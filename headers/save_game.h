@@ -191,7 +191,7 @@ void save_load_game() // // Function for finding save files and deleting
         menu();
     }
 }
-void level_select(string host_OS_name_variable)
+void level_select()
 {
   match_savefile_level();
   cout << "Choose any level you've unlocked \n"; 
