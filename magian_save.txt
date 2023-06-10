@@ -1,5 +1,5 @@
 AVATAR
-NAME: Arya
+NAME: Sumeet
 Magic: 1
 Health: 1
 XP: 1
@@ -12,7 +12,7 @@ INVENTORY
 Potion
 Leather boots
 SAVE UPDATE
-Host OS is: Windows
+Host OS is: WindowsWindows
 Version: 0.2.2
 Date: 10/6/2023
 Unlocked levels: 2

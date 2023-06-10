@@ -1332,6 +1332,40 @@ void setup_player()
         return;
     }
 }
+void load_player(shared_ptr<Player>& player_pointer_object)
+{
+  savefile_object.open("magian_save.txt", ios::in);
+    if (savefile_object.is_open())
+    {
+      string line;
+      while (getline(savefile_object, line))
+      {
+        if (line.find("Name: ") != string::npos)
+          player_pointer_object->player_magic = stoi(line.substr(6));
+        else if (line.find("Magic: ") != string::npos)
+          player_pointer_object->player_magic = stoi(line.substr(7));
+        else if (line.find("XP: ") != string::npos)
+          player_pointer_object->player_health = stoi(line.substr(4));
+        else if (line.find("Speed: ") != string::npos)
+          player_pointer_object->player_health = stoi(line.substr(7));
+        else if (line.find("Health: ") != string::npos)
+          player_pointer_object->player_health = stoi(line.substr(8));
+        else if (line.find("Literacy: ") != string::npos)
+          player_pointer_object->player_literacy = stoi(line.substr(10));
+        else if (line.find("Diplomacy: ") != string::npos)
+          player_pointer_object->player_diplomacy = stoi(line.substr(11));
+        else if (line.find("Swimming: ") != string::npos)
+          player_pointer_object->player_swimming = stoi(line.substr(10));
+        else if (line.find("Herbology: ") != string::npos)
+          player_pointer_object->player_herbology = stoi(line.substr(11));
+      }
+        savefile_object.close();
+    }
+    else
+    {
+        cerr << "Error: Unable to open save file." << endl;
+    }
+}
 void library()
 {
   cout << "Choose a unlocked book to read\n\n"
@@ -1645,6 +1679,7 @@ void newgame()
 }
 void continuegame() 
 {
+  load_player(player_pointer_object);
   setup();
   lives = 3;
 
