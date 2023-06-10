@@ -100,7 +100,7 @@ public:
     int enemy_pause;
     char enemy_symbol;
     // Add random movement logic as part of the enemy_class
-    void random_slow_movement(int width, int height) 
+    void random_slow_movement() 
     {
         if (alive && enemy_pause == 0) {
             int random_direction = rand() % 4;
@@ -130,7 +130,7 @@ public:
             enemy_pause--;
         }
     }
-    void random_fast_movement(int width, int height) 
+    void random_fast_movement() 
     {
         if (alive && enemy_pause == 0) 
         {
@@ -178,7 +178,7 @@ public:
             enemy_pause--;
         }
     }
-    void random_slow_chasing(shared_ptr<Player> &player_pointer_object, int width, int height) 
+    void random_slow_chasing(shared_ptr<Player> &player_pointer_object) 
     {
       // Move the enemy only if the random number is less than 4 (40% chance)
       if (alive && enemy_pause == 0)
@@ -203,7 +203,7 @@ public:
         enemy_pause--;
       }
     }
-    void l2random_slow_chasing(shared_ptr<Player> &player_pointer_object, int l2width, int l2height) 
+    void l2random_slow_chasing(shared_ptr<Player> &player_pointer_object) 
     {
       // Move the enemy only if the random number is less than 4 (40% chance)
       if (alive && enemy_pause == 0)
@@ -228,7 +228,7 @@ public:
         enemy_pause--;
       }
     }
-    void check_collision(shared_ptr<Player> &player_pointer_object, int& lives) 
+    void check_collision(shared_ptr<Player> &player_pointer_object) 
     {
         if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) {
             lives-=enemy_melle_damage;
@@ -372,10 +372,9 @@ enum edirection
 };
 edirection direction;
 // FUNCTION PROTOTYPE/DECLARATION
-void check_stats(shared_ptr<Player>& player_pointer_object);
 void menu();
 void l2startgame();
-void check_stats(shared_ptr<Player>& player_pointer_object);
+void check_stats();
 void levelup(shared_ptr<Player>& player_pointer_object);
 void item_store();
 void check_items();
@@ -854,7 +853,7 @@ void input()
             cin.get();
             break; 
         case 'c':
-            check_stats(player_pointer_object);
+            check_stats();
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break; 
@@ -923,16 +922,29 @@ void save()
   }
   cin.get();
 }
-void logic() 
+void collision_logic()
 {
-
   // Defining new positions as the last position of avatar. 
   // For collission detection, if a avatar collides with a object then they're
   // position is set to previous position.
   int previous_x_pos = player_pointer_object->player_x_pos;
   int previous_y_pos = player_pointer_object->player_y_pos;
 
-
+    for (const auto& enemy : enemies_vector) 
+    {
+      if (enemy->alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos) 
+      {
+        // Reset player position to last position before collison
+        player_pointer_object->player_x_pos = previous_x_pos;
+        player_pointer_object->player_y_pos = previous_y_pos;
+        // deal enemy melle damage to player
+        enemy->check_collision(player_pointer_object);
+        break;
+      }
+    }
+}
+void logic() 
+{
   // Calculate the proposed new position based on direction
   switch (direction) 
   {
@@ -950,20 +962,7 @@ void logic()
         break;
   }
 
-  // Collission
-    for (const auto& enemy : enemies_vector) 
-    {
-      if (enemy->alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos) 
-      {
-        // If collided, decrement player lives and reset player position
-        // ADD ME - if enemies algorithm lookup is an x e.g. "flying rakashaa" then deal it's damage
-        player_pointer_object->player_x_pos = previous_x_pos;
-        player_pointer_object->player_y_pos = previous_y_pos;
-        // deal enemy melle damage to player
-        enemy->check_collision(player_pointer_object, lives);
-        break;
-      }
-    }
+    collision_logic();
 
 
     
@@ -1034,12 +1033,12 @@ void logic()
     } else {  }
 
     // Fire enemy will move slow
-    enemies_vector[0]->random_slow_movement(width, height);
+    enemies_vector[0]->random_slow_movement();
     // Flying Rakshaa enemy will move fast
-    enemies_vector[1]->random_fast_movement(width, height);
+    enemies_vector[1]->random_fast_movement();
     if (level==2) {
     // Stalking Rakshaa enemy will hunt player slowly
-    l2enemies_vector[0]->random_slow_chasing(player_pointer_object, l2width, l2height);
+    l2enemies_vector[0]->random_slow_chasing(player_pointer_object);
     } else {  }
 }
 void l2startgame() 
@@ -1074,9 +1073,8 @@ void l2startgame()
 }
 void shoot()
 {
-    // Calculate the target position based on the direction
-    int targetX = player_pointer_object->player_x_pos;
-    int targetY = player_pointer_object->player_y_pos;
+    int targetX = 0;
+    int targetY = 0;
 
     while (true)
     {
@@ -1092,7 +1090,7 @@ void shoot()
         // Check if the target position is within the bounds of the game map
         if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height)
         {
-            // If player hits enemy
+            // look for any enemy in bullets direction
             for (const auto& enemy : enemies_vector)
             {
                 if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos)
@@ -1198,7 +1196,7 @@ void check_skills()
   cout << "SKILLS\n\n"
   "Change skill to\n";
 }
-void check_stats(shared_ptr<Player>& player_pointer_object)
+void check_stats()
 {
   cout << "STATS\n";
   savefile_object.open("magian_save.txt", ios::in);
@@ -1572,7 +1570,7 @@ void choose_player_name()
         return;
     }
 }
-void levelup(shared_ptr<Player>& player_pointer_object)
+void levelup()
 {
   if (player_pointer_object->player_xp > 3) // level 1
   {

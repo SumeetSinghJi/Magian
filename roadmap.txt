@@ -1,10 +1,24 @@
 ROADMAP
 
-* change lives to vitality
-* lives need to print to savefile and loaded on newgame() or continue()
-* fix save()
+* shoot not working
+* item store not working for second item - consider algorithm
+* build save()
+* logic() - level 1 win = save()
+* l2gamestart - add load_player()
+* collission_logic() not stopping player
 * enemy_collission() not working to reduce lives
 * add collission for obstacle
+* change lives to vitality
+* lives need to print to savefile and loaded on newgame() or continue()
+
+
+consider breaking up logic() to
+* logic()
+*   win_logic()
+*   collision_logic()
+*   item_pickup_logic()
+*   levelup_logic()
+*   enemy_movement_logic() - consider algorith
 
 0.0.1
 Random '#' in draw = door. Keep that position permenant.
