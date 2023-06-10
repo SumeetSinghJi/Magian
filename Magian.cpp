@@ -28,6 +28,8 @@ class Player
     int player_herbology = 0;
     int player_speed = 0;
     int player_xp = 0;
+    int player_x_pos; 
+    int player_y_pos;
 };
 // Forward declaration
 class Obstacle_class;
@@ -90,7 +92,7 @@ public:
     int damage;
     int enemy_hp;
     int speed;
-    int xpgain;
+    int enemy_xp;
     int enemy_x_pos;
     int enemy_y_pos;
     int enemy_melle_damage;
@@ -176,7 +178,7 @@ public:
             enemy_pause--;
         }
     }
-    void random_slow_chasing(int x_pos, int y_pos, int width, int height) 
+    void random_slow_chasing(shared_ptr<Player> &player_pointer_object, int width, int height) 
     {
       // Move the enemy only if the random number is less than 4 (40% chance)
       if (alive && enemy_pause == 0)
@@ -186,13 +188,13 @@ public:
         if (rand() % 10 < 4) 
         {
             // Move towards player
-            if (enemy_x_pos < x_pos && enemy_x_pos < width - 2)
+            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < width - 2)
                 enemy_x_pos++;
-            else if (enemy_x_pos > x_pos && enemy_x_pos > 1)
+            else if (enemy_x_pos > player_pointer_object->player_x_pos && enemy_x_pos > 1)
                 enemy_x_pos--;
-            if (enemy_y_pos < y_pos && enemy_y_pos < height - 2)
+            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < height - 2)
                 enemy_y_pos++;
-            else if (enemy_y_pos > y_pos && enemy_y_pos > 1)
+            else if (enemy_y_pos > player_pointer_object->player_y_pos && enemy_y_pos > 1)
                 enemy_y_pos--;
         }
       }
@@ -201,7 +203,7 @@ public:
         enemy_pause--;
       }
     }
-    void l2random_slow_chasing(int x_pos, int y_pos, int l2width, int l2height) 
+    void l2random_slow_chasing(shared_ptr<Player> &player_pointer_object, int l2width, int l2height) 
     {
       // Move the enemy only if the random number is less than 4 (40% chance)
       if (alive && enemy_pause == 0)
@@ -211,13 +213,13 @@ public:
         if (rand() % 10 < 4) 
         {
             // Move towards player
-            if (enemy_x_pos < x_pos && enemy_x_pos < l2width - 2)
+            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < l2width - 2)
                 enemy_x_pos++;
-            else if (enemy_x_pos > x_pos && enemy_x_pos > 1)
+            else if (enemy_x_pos > player_pointer_object->player_x_pos && enemy_x_pos > 1)
                 enemy_x_pos--;
-            if (enemy_y_pos < y_pos && enemy_y_pos < l2height - 2)
+            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < l2height - 2)
                 enemy_y_pos++;
-            else if (enemy_y_pos > y_pos && enemy_y_pos > 1)
+            else if (enemy_y_pos > player_pointer_object->player_y_pos && enemy_y_pos > 1)
                 enemy_y_pos--;
         }
       }
@@ -226,9 +228,9 @@ public:
         enemy_pause--;
       }
     }
-    void check_collision(int player_x, int player_y, int& lives) 
+    void check_collision(shared_ptr<Player> &player_pointer_object, int& lives) 
     {
-        if (enemy_x_pos == player_x && enemy_y_pos == player_y) {
+        if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) {
             lives-=enemy_melle_damage;
             enemy_pause = 5; // Pause for 5 ticks
         }
@@ -241,7 +243,7 @@ class fire_enemy_subclass : public enemy_class
     {
       enemy_name="Fire";
       enemy_hp = 1;
-      xpgain = 1;
+      enemy_xp = 1;
       enemy_melle_damage = 1;
       enemy_description="A large moving flame 2 meters high burning everything it touches.";
       if(map_size==1)
@@ -266,7 +268,7 @@ class flying_enemy_subclass : public enemy_class
     {
       enemy_name="Flying Rakashaa";
       enemy_hp = 3;
-      xpgain = 2;
+      enemy_xp = 2;
       enemy_melle_damage = 2;
       enemy_description="A flying demon with powerfull magic.";
       if(map_size==1)
@@ -291,7 +293,7 @@ class stalker_enemy_subclass : public enemy_class
     {
       enemy_name="Stalking Rakashaa";
       enemy_hp = 3;
-      xpgain = 1;
+      enemy_xp = 1;
       enemy_melle_damage = 3;
       enemy_description="A white large furry humanoid with sharp nails, bare arms and legs despite a furry body"
                         "It's legs move exceedingly fast but stride is slow giving it the impression at any moment"
@@ -379,7 +381,7 @@ void item_store(vector<shared_ptr<item_class>>& inventory_vector);
 void check_items();
 void check_skills();
 void save();
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction, shared_ptr<Player> &player_pointer_object);
+void shoot();
 // GLOBAL POINTERS
 vector<shared_ptr<item_class>> inventory_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
@@ -393,20 +395,12 @@ bool gameover = false;
 int moneyx, moneyy; // money draw() position
 int score = 0;
 int money = 0;
-int x_pos; 
-int y_pos;
 int lives = 3;
 int difficulty=3;
 int won_game = false;
 int language=1; // language 1 = english
 int level=1;
-int max_obstacle_objects = 0;
-int max_enemy_objects = 0;
-int max_item_objects = 0;
-int max_money_objects = 0;
 int level_select_variable=1; // for bonus level select
-clock_t lastShootTime; // shoot() time management variables
-const int shootInterval = 1000; // 1 second in milliseconds
 void clear_screen()
 {
 #ifdef _WIN32
@@ -435,8 +429,9 @@ int cin_valid_input()
     cin.ignore();
     return input_variable;
 }
-void random_generate_obstacle(int map_size, int& max_obstacle_objects, vector<shared_ptr<Obstacle_class>> &obstacles_vector)
+void random_generate_obstacle()
 {
+  int max_obstacle_objects = 0;
   if(map_size==1) // small
   {
     max_obstacle_objects += 5;
@@ -477,8 +472,9 @@ void random_generate_obstacle(int map_size, int& max_obstacle_objects, vector<sh
     }
   }
 }
-void random_generate_enemy(int map_size, int& max_enemy_objects, vector<shared_ptr<enemy_class>> &enemies_vector)
+void random_generate_enemy()
 {
+  int max_enemy_objects = 0;
   if(map_size==1) // small
   {
     max_enemy_objects += 1;
@@ -519,8 +515,9 @@ void random_generate_enemy(int map_size, int& max_enemy_objects, vector<shared_p
     }
   }
 }
-void random_generate_items(int map_size, int& max_item_objects, vector<shared_ptr<item_class>> &inventory_vector)
+void random_generate_items()
 {
+  int max_item_objects = 0;
   if(map_size==1) // small
   {
     max_item_objects += 5;
@@ -582,8 +579,8 @@ void setup()
 
   // setting position of player
   direction = STOP;
-  x_pos = width / 2;
-  y_pos = height / 2;
+  player_pointer_object->player_x_pos = width / 2;
+  player_pointer_object->player_y_pos = height / 2;
 
   // to refresh vectors for new game and level select
   inventory_vector.clear();
@@ -594,7 +591,7 @@ void setup()
   auto level_1_enemy_pointer = make_shared<enemy_class>();
   level_1_enemy_pointer->enemy_name="Fire";
   level_1_enemy_pointer->enemy_hp = 1;
-  level_1_enemy_pointer->xpgain = 1;
+  level_1_enemy_pointer->enemy_xp = 1;
   level_1_enemy_pointer->enemy_description="A large moving flame 2 meters high burning everything it touches.";
   level_1_enemy_pointer->enemy_x_pos = rand() % width;
   level_1_enemy_pointer->enemy_y_pos = rand() % height;
@@ -607,7 +604,7 @@ void setup()
   auto level_2_enemy_pointer = make_shared<enemy_class>();
   level_2_enemy_pointer->enemy_name="Flying Rakashaa";
   level_2_enemy_pointer->enemy_hp = 3;
-  level_1_enemy_pointer->xpgain = 2;
+  level_1_enemy_pointer->enemy_xp = 2;
   level_2_enemy_pointer->enemy_description="A flying demon with powerfull magic.";
   level_2_enemy_pointer->enemy_x_pos = rand() % width;
   level_2_enemy_pointer->enemy_y_pos = rand() % height;
@@ -623,9 +620,9 @@ void setup()
   inventory_vector.push_back(make_shared<leather_boots_item_subclass>());
   item_store(inventory_vector);
 
-  // random_generate_enemy(map_size, max_enemy_objects, enemies_vector);
-  // random_generate_items(map_size, max_item_objects, inventory_vector);
-  random_generate_obstacle(map_size, max_obstacle_objects, obstacles_vector);
+  // random_generate_enemy();
+  // random_generate_items();
+  random_generate_obstacle();
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
   for (int i = 0; i < height; i++)
@@ -657,8 +654,8 @@ void l2setup()
 
   // setting position of player
   direction = STOP;
-  x_pos = l2width / 2;
-  y_pos = l2height / 2;
+  player_pointer_object->player_x_pos = l2width / 2;
+  player_pointer_object->player_y_pos = l2height / 2;
 
   // to refresh vectors for new game and level select
   inventory_vector.clear();
@@ -687,7 +684,7 @@ void draw_level_1()
   }
 
   // Draw player
-  buffer[y_pos][x_pos] = 'P';
+  buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = 'P';
 
   // Draw money
   buffer[moneyy][moneyx] = '$';
@@ -743,7 +740,7 @@ void draw_level_2()
         l2buffer[y][x] = '#';
       }
       //draw player
-      else if (x == x_pos && y == y_pos) 
+      else if (x == player_pointer_object->player_x_pos && y == player_pointer_object->player_y_pos) 
       {
         l2buffer[y][x] = 'P';
       }
@@ -870,8 +867,8 @@ void input()
             exit(0);
             break;
         case ' ':
-            if (direction != STOP) // Add this condition to skip shoot command if direction is STOP
-                shoot(width, height, x_pos, y_pos, direction, player_pointer_object);
+            if (direction != STOP)
+                shoot();
             break;
         case 'e':
             direction = STOP;
@@ -924,7 +921,7 @@ void save()
   savefile_object.open("magian_save.txt", ios::app);
   if(savefile_object.is_open())
   {
-    cout << "Comming soon";
+    cout << "Write all Player objects members to file";
   }
   cin.get();
 }
@@ -934,38 +931,38 @@ void logic()
   // Defining new positions as the last position of avatar. 
   // For collission detection, if a avatar collides with a object then they're
   // position is set to previous position.
-  int previous_x_pos = x_pos;
-  int previous_y_pos = y_pos;
+  int previous_x_pos = player_pointer_object->player_x_pos;
+  int previous_y_pos = player_pointer_object->player_y_pos;
 
 
   // Calculate the proposed new position based on direction
   switch (direction) 
   {
     case UP:
-        y_pos--;
+        player_pointer_object->player_y_pos--;
         break;
     case DOWN:
-        y_pos++;
+        player_pointer_object->player_y_pos++;
         break;
     case LEFT:
-        x_pos--;
+        player_pointer_object->player_x_pos--;
         break;
     case RIGHT:
-        x_pos++;
+        player_pointer_object->player_x_pos++;
         break;
   }
 
   // Collission
     for (const auto& enemy : enemies_vector) 
     {
-      if (enemy->alive && x_pos == enemy->enemy_x_pos && y_pos == enemy->enemy_y_pos) 
+      if (enemy->alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos) 
       {
         // If collided, decrement player lives and reset player position
         // ADD ME - if enemies algorithm lookup is an x e.g. "flying rakashaa" then deal it's damage
-        x_pos = previous_x_pos;
-        y_pos = previous_y_pos;
+        player_pointer_object->player_x_pos = previous_x_pos;
+        player_pointer_object->player_y_pos = previous_y_pos;
         // deal enemy melle damage to player
-        enemy->check_collision(x_pos, y_pos, lives);
+        enemy->check_collision(player_pointer_object, lives);
         break;
       }
     }
@@ -981,7 +978,7 @@ void logic()
     } else {  }
 
     // Level 1 score - Check if player picked up money and update score and money location if true
-    if (x_pos == moneyx && y_pos == moneyy) 
+    if (player_pointer_object->player_x_pos == moneyx && player_pointer_object->player_y_pos == moneyy) 
     {
         score++;
         money++;
@@ -990,7 +987,7 @@ void logic()
     } else {  }
 
     // Level 2 score - Check if player picked up money and update score and money location if true
-    if (x_pos == moneyx && y_pos == moneyy) 
+    if (player_pointer_object->player_x_pos == moneyx && player_pointer_object->player_y_pos == moneyy) 
     {
         score++;
         money++;
@@ -1044,7 +1041,7 @@ void logic()
     enemies_vector[1]->random_fast_movement(width, height);
     if (level==2) {
     // Stalking Rakshaa enemy will hunt player slowly
-    l2enemies_vector[0]->random_slow_chasing(x_pos, y_pos, l2width, l2height);
+    l2enemies_vector[0]->random_slow_chasing(player_pointer_object, l2width, l2height);
     } else {  }
 }
 void l2startgame() 
@@ -1077,13 +1074,14 @@ void l2startgame()
     cin.get();
   }
 }
-void shoot(int width, int height, int x_pos, int y_pos, edirection direction, shared_ptr<Player>& player_pointer_object)
+void shoot()
 {
     // Calculate the target position based on the direction
-    int targetX = x_pos;
-    int targetY = y_pos;
+    int targetX = player_pointer_object->player_x_pos;
+    int targetY = player_pointer_object->player_y_pos;
 
-    while (true) {
+    while (true)
+    {
         if (direction == UP)
             targetY--;
         else if (direction == DOWN)
@@ -1094,61 +1092,30 @@ void shoot(int width, int height, int x_pos, int y_pos, edirection direction, sh
             targetX++;
 
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) {
-            // Check if there is an enemy at the target position
-            bool hitEnemy = false;
-            for (const auto& enemy : enemies_vector) {
-                if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) {
-                    hitEnemy = true;
+        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height)
+        {
+            // If player hits enemy
+            for (const auto& enemy : enemies_vector)
+            {
+                if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos)
+                {
                     enemy->enemy_hp--;
-                    // If enemy's health is 0 or less, set the enemy's alive property to false
-                    if (enemy->enemy_hp <= 0) {
-                        player_pointer_object->player_xp += enemy->xpgain;
+                    if (enemy->enemy_hp <= 0)
+                    {
+                        player_pointer_object->player_xp += enemy->enemy_xp;
                         enemy->alive = false;
                     }
                     break;
                 }
             }
 
-            if (hitEnemy) {
-                // Clear the bullet from the previous position
-                buffer[y_pos][x_pos] = ' ';
-
-                // Draw the bullet at the target position
-                buffer[targetY][targetX] = '*';
-                draw_level_1();
-
-                // Sleep after drawing the bullet
-                Sleep(50);
-
-                // Clear the bullet from the current position
-                buffer[targetY][targetX] = ' ';
-
-                // Update the player position to the new target position
-                x_pos = targetX;
-                y_pos = targetY;
-            } else if (buffer[targetY][targetX] == '#') {
-                // Check if the bullet hit a wall
+            if (buffer[targetY][targetX] == '#')
+            {
                 break;
-            } else {
-                // Clear the bullet from the previous position
-                buffer[y_pos][x_pos] = ' ';
-
-                // Draw the bullet at the target position
-                buffer[targetY][targetX] = '*';
-                draw_level_1();
-
-                // Sleep after drawing the bullet
-                Sleep(50);
-
-                // Clear the bullet from the current position
-                buffer[targetY][targetX] = ' ';
-
-                // Update the player position to the new target position
-                x_pos = targetX;
-                y_pos = targetY;
             }
-        } else {
+        }
+        else // if out of bounds
+        {
             break;
         }
     }

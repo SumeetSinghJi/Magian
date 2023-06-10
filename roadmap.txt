@@ -1,13 +1,10 @@
 ROADMAP
 
-* continue game needs to read from savefile the level and draw that level.
 * change lives to vitality
 * lives need to print to savefile and loaded on newgame() or continue()
-* new save button
+* fix save()
 * enemy_collission() not working to reduce lives
-
-0
-If player contacts obstacle they stop in logic()
+* add collission for obstacle
 
 0.0.1
 Random '#' in draw = door. Keep that position permenant.
@@ -24,32 +21,18 @@ Inventory broken
 Cmake roadmap
 1. debug linker not playing audio
 
-a.
-when continuing game, doesn't read from existing savefile and writes stats etc., twice!.
-
-b.
-change lives to vitality
-* in all mentions
-* in settings
-
-
 * For check_stats()
 * check_skills()
 * check_items()
 
 They should not read from the objects, they should read from SAVEFILE.
-if (savefile.object("magian_save.txt" ,ios::in)
+savefile_object.open("magian_save.txt", ios::in);
+if(savefile_object.is_open())
 {
-  savefile.object.exsts
-  {
-    read xx from there
-  }
+  cout << "skills";
 }
- exists then (read from there)
- else
- {
-  read from pointer object
- }
+savefile.object.close()
+else {}
 
 
 1.5
