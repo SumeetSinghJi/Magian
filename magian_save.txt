@@ -1,5 +1,5 @@
 AVATAR
-NAME: Sumeet
+NAME: a
 Magic: 1
 Health: 1
 XP: 1
@@ -9,30 +9,6 @@ Diplomacy: 1
 Swimming: 1
 Herbology: 1
 INVENTORY
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
 Potion
 Leather boots
 Potion

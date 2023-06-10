@@ -8,6 +8,11 @@ ROADMAP
 * add collission for obstacle
 * change lives to vitality
 * lives need to print to savefile and loaded on newgame() or continue()
+* add money member to player everywhere
+
+* when obstacle not drawing to field problem is fixed, then make subclasses for enemies
+* then fix random_enemies_vector
+* then add item symbols, and same item_generation steps
 
 Class for Map
 void map - initialise map members

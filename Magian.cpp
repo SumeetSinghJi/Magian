@@ -54,35 +54,37 @@ class Obstacle_class
     int obstacle_hp = 0;
     int obstacle_x_pos;
     int obstacle_y_pos;
-    Obstacle_class(char symbol, string name, string description, int hp)
+    bool obstacle_alive;
+
+    Obstacle_class(char symbol, string name, string description, int hp, bool obstacle_alive)
         : obstacle_symbol(symbol), obstacle_name(name), obstacle_description(description), obstacle_hp(hp)
     {
-      if(map_size==1)
-      {
-        obstacle_x_pos = rand() % width;
-        obstacle_y_pos = rand() % height;
-      }
-      if(map_size==2)
-      {
-        obstacle_x_pos = rand() % l2width;
-        obstacle_y_pos = rand() % l2height;
-      }
+    }
+    void obstacle_check_collision(shared_ptr<Player> &player_pointer_object) 
+    {
+        if (obstacle_x_pos == player_pointer_object->player_x_pos && obstacle_y_pos == player_pointer_object->player_y_pos) {
+            obstacle_alive=false;
+        }
     }
 };
 class rock_obstacle_subclass : public Obstacle_class
 {
 public:
     rock_obstacle_subclass()
-        : Obstacle_class('O', "Rock", "A strong rock that blocks line of sight but can be destroyed or climbed", 3)
+        : Obstacle_class('O', "Rock", "A strong rock that blocks line of sight but can be destroyed or climbed", 3, true)
     {
+        obstacle_x_pos = rand() % width;
+        obstacle_y_pos = rand() % height;
     }
 };
 class tree_obstacle_subclass : public Obstacle_class
 {
 public:
     tree_obstacle_subclass()
-        : Obstacle_class('T', "Tree", "A large tree that blocks line of sight. Can be burnt down.", 1)
+        : Obstacle_class('T', "Tree", "A large tree that blocks line of sight. Can be burnt down.", 1, true)
     {
+        obstacle_x_pos = rand() % width;
+        obstacle_y_pos = rand() % height;
     }
 };
 class enemy_class 
@@ -229,11 +231,11 @@ public:
         enemy_pause--;
       }
     }
-    void check_collision(shared_ptr<Player> &player_pointer_object) 
+    void enemy_check_collision(shared_ptr<Player> &player_pointer_object, int& lives) 
     {
         if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) {
             lives-=enemy_melle_damage;
-            enemy_pause = 5; // Pause for 5 ticks
+            enemy_pause = 3; // Pause for 3 ticks
         }
     }
 };
@@ -325,6 +327,7 @@ public:
   int item_x_pos;
   int item_y_pos;
   char item_symbol;
+  bool item_alive;
   item_class(string item_name, string description, char item_symbol)
   {
     this->item_name = item_name;
@@ -344,6 +347,12 @@ public:
   virtual void use(int& value)
   {
 
+  }
+  void item_check_collision(shared_ptr<Player> &player_pointer_object) 
+  {
+        if (item_x_pos == player_pointer_object->player_x_pos && item_y_pos == player_pointer_object->player_y_pos) {
+            item_alive=false;
+        }
   }
 };
 class potion_item_subclass : public item_class
@@ -455,18 +464,24 @@ void random_generate_obstacle()
     max_obstacle_objects += 25;
     max_obstacle_objects += rand() % 5;
   }
+
+  // Generate a random obstacle by randomly selecting obstacle subclass
   for (int i = 0; i < max_obstacle_objects; i++)
   {
-    int obstacleType = rand() % 2;\
+    int obstacleType = rand() % 2;
     if (obstacleType == 0) // rock
     {
       shared_ptr<rock_obstacle_subclass> rock_obstacle = make_shared<rock_obstacle_subclass>();
       obstacles_vector.push_back(rock_obstacle);
+      rock_obstacle->obstacle_x_pos = rand() % width;
+      rock_obstacle->obstacle_y_pos = rand() % height;
     }
     else // tree
     {
       shared_ptr<tree_obstacle_subclass> tree_obstacle = make_shared<tree_obstacle_subclass>();
       obstacles_vector.push_back(tree_obstacle);
+      tree_obstacle->obstacle_x_pos = rand() % width;
+      tree_obstacle->obstacle_y_pos = rand() % height;
     }
   }
 }
@@ -584,32 +599,10 @@ void setup()
   inventory_vector.clear();
   enemies_vector.clear();
 
-  
-  // level 1 setup enemy
-  auto level_1_enemy_pointer = make_shared<enemy_class>();
-  level_1_enemy_pointer->enemy_name="Fire";
-  level_1_enemy_pointer->enemy_hp = 1;
-  level_1_enemy_pointer->enemy_xp = 1;
-  level_1_enemy_pointer->enemy_description="A large moving flame 2 meters high burning everything it touches.";
-  level_1_enemy_pointer->enemy_x_pos = rand() % width;
-  level_1_enemy_pointer->enemy_y_pos = rand() % height;
-  level_1_enemy_pointer->alive = true;
-  level_1_enemy_pointer->enemy_pause = 0;
-  level_1_enemy_pointer->enemy_symbol = '*';
-  enemies_vector.push_back(level_1_enemy_pointer);
-
-  // level 2 setup enemy
-  auto level_2_enemy_pointer = make_shared<enemy_class>();
-  level_2_enemy_pointer->enemy_name="Flying Rakashaa";
-  level_2_enemy_pointer->enemy_hp = 3;
-  level_1_enemy_pointer->enemy_xp = 2;
-  level_2_enemy_pointer->enemy_description="A flying demon with powerfull magic.";
-  level_2_enemy_pointer->enemy_x_pos = rand() % width;
-  level_2_enemy_pointer->enemy_y_pos = rand() % height;
-  level_2_enemy_pointer->alive = true;
-  level_2_enemy_pointer->enemy_pause = 0;
-  level_2_enemy_pointer->enemy_symbol = '^';
-  enemies_vector.push_back(level_2_enemy_pointer);
+  shared_ptr<fire_enemy_subclass> fire_enemy = make_shared<fire_enemy_subclass>();
+  enemies_vector.push_back(fire_enemy);
+  shared_ptr<flying_enemy_subclass> flying_enemy = make_shared<flying_enemy_subclass>();
+  enemies_vector.push_back(flying_enemy);
   
 
   // Adding starting items to players inventory vector
@@ -689,12 +682,20 @@ void draw_level_1()
 
   // Draw obstacles
   for (const auto& obstacle : obstacles_vector)
-    buffer[obstacle->obstacle_y_pos][obstacle->obstacle_x_pos] = obstacle->obstacle_symbol;
+  {
+    if (obstacle->obstacle_alive)
+    {
+      buffer[obstacle->obstacle_y_pos][obstacle->obstacle_x_pos] = obstacle->obstacle_symbol;
+    }
+  }
 
   // Draw enemies
-  for (const auto& enemy : enemies_vector) {
-    if (enemy->alive)
+  for (const auto& enemy : enemies_vector) 
+  {
+    if (enemy->alive) 
+    {
       buffer[enemy->enemy_y_pos][enemy->enemy_x_pos] = enemy->enemy_symbol;
+    }
   }
 
   // Draw items
@@ -951,24 +952,41 @@ void save()
 }
 void collision_logic()
 {
-  // Defining new positions as the last position of avatar. 
-  // For collission detection, if a avatar collides with a object then they're
-  // position is set to previous position.
+  // Store the player's previous positions for collision detection
   int previous_x_pos = player_pointer_object->player_x_pos;
   int previous_y_pos = player_pointer_object->player_y_pos;
 
-    for (const auto& enemy : enemies_vector) 
+  // Check collision with enemies
+for (const auto& enemy : enemies_vector)
+{
+  if (enemy->alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos)
+  {
+    // Deal melee damage to the player
+    enemy->enemy_check_collision(player_pointer_object, lives);
+    cout << "You struck the enemy";
+    cin.get();
+
+    // Update player position after collision
+    player_pointer_object->player_x_pos = previous_x_pos;
+    player_pointer_object->player_y_pos = previous_y_pos;
+
+    break; // Exit the loop after the collision is detected
+  }
+}
+
+  // Check collision with obstacles
+  for (const auto& obstacle : obstacles_vector)
+  {
+    if (obstacle->obstacle_alive && player_pointer_object->player_x_pos == obstacle->obstacle_x_pos && player_pointer_object->player_y_pos == obstacle->obstacle_y_pos)
     {
-      if (enemy->alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos) 
-      {
-        // Reset player position to last position before collison
-        player_pointer_object->player_x_pos = previous_x_pos;
-        player_pointer_object->player_y_pos = previous_y_pos;
-        // deal enemy melle damage to player
-        enemy->check_collision(player_pointer_object);
-        break;
-      }
+      // Reset player position to last position before collision
+      player_pointer_object->player_x_pos = previous_x_pos;
+      player_pointer_object->player_y_pos = previous_y_pos;
+
+      // Perform obstacle collision logic
+      obstacle->obstacle_check_collision(player_pointer_object);
     }
+  }
 }
 void win_logic()
 {
@@ -1168,6 +1186,23 @@ void shoot_fireball()
                     {
                         player_pointer_object->player_xp += enemy->enemy_xp;
                         enemy->alive = false;
+                    }
+                    break;
+                }
+            }
+
+            // Check if there is an obstacle at the target position
+            bool hit_obstacle = false;
+            for (const auto& obstacle : obstacles_vector) 
+            {
+                if (obstacle->obstacle_alive && targetX == obstacle->obstacle_x_pos && targetY == obstacle->obstacle_y_pos) 
+                {
+                    hit_obstacle = true;
+                    obstacle->obstacle_hp--;
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (obstacle->obstacle_hp <= 0) 
+                    {
+                        obstacle->obstacle_alive = false;
                     }
                     break;
                 }
