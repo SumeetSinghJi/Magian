@@ -34,7 +34,7 @@ class player_class
     int player_y_pos;
 };
 // Forward declaration
-class Obstacle_class;
+class obstacle_class;
 enum edirection 
 {
   STOP = 0, UP, DOWN, LEFT, RIGHT
@@ -67,7 +67,7 @@ class settings_class
     int won_game;
     int language; // language 1 = english
 };
-class Obstacle_class
+class obstacle_class
 {
   public:
     char obstacle_symbol;
@@ -77,11 +77,6 @@ class Obstacle_class
     int obstacle_x_pos;
     int obstacle_y_pos;
     bool obstacle_alive;
-
-    Obstacle_class(char symbol, string name, string description, int hp, bool obstacle_alive)
-        : obstacle_symbol(symbol), obstacle_name(name), obstacle_description(description), obstacle_hp(hp)
-    {
-    }
     void obstacle_check_collision(shared_ptr<player_class> &player_pointer_object) 
     {
         if (obstacle_x_pos == player_pointer_object->player_x_pos && obstacle_y_pos == player_pointer_object->player_y_pos) {
@@ -90,24 +85,32 @@ class Obstacle_class
         }
     }
 };
-class rock_obstacle_subclass : public Obstacle_class
+class rock_obstacle_subclass : public obstacle_class
 {
 public:
     rock_obstacle_subclass()
-        : Obstacle_class('O', "Rock", "A strong rock that blocks line of sight but can be destroyed or climbed", 3, true)
     {
+        obstacle_symbol = 'R';
+        obstacle_name = "Rock";
+        obstacle_description = "A strong rock that blocks line of sight but can be destroyed or climbed";
+        obstacle_hp = 1;
         obstacle_x_pos = rand() % width;
         obstacle_y_pos = rand() % height;
+        bool obstacle_alive = true;
     }
 };
-class tree_obstacle_subclass : public Obstacle_class
+class tree_obstacle_subclass : public obstacle_class
 {
 public:
     tree_obstacle_subclass()
-        : Obstacle_class('T', "Tree", "A large tree that blocks line of sight. Can be burnt down.", 1, true)
     {
+        obstacle_symbol = 'T';
+        obstacle_name = "Tree";
+        obstacle_description = "A large tree that blocks line of sight. Can be burnt down";
+        obstacle_hp = 1;
         obstacle_x_pos = rand() % width;
         obstacle_y_pos = rand() % height;
+        bool obstacle_alive = true;
     }
 };
 class enemy_class 
@@ -412,12 +415,13 @@ void check_items();
 void check_skills();
 void save();
 void shoot_fireball();
-vector<shared_ptr<item_class>> items_vector;
+vector<shared_ptr<obstacle_class>> obstacles_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
+vector<shared_ptr<item_class>> items_vector;
 shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
 shared_ptr<level_class> level_pointer_object = make_shared<level_class>();
 shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
-vector<shared_ptr<Obstacle_class>> obstacles_vector;
+
 string version = "0.2.2";
 bool music_variable = true; 
 bool gameover = false;

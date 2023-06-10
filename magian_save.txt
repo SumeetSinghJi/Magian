@@ -1,5 +1,7 @@
 Updating save file
-Computers Operating system is: WindowsWindows
+Computers Operating system is: Windows
 Version: 0.2.2
 Date: 11/6/2023
 Unlocked levels: 2
+Potion
+Leather boots
