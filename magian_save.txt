@@ -1,14 +1,14 @@
-Updating save file
-Computers Operating system is: WindowsWindows
-Version: 0.2.2
-Date: 10/6/2023
-Unlocked levels: 2
-Potion
-Leather boots
-Potion
-Leather boots
-Potion
-Leather boots
+AVATAR
+NAME: Ara
+Magic: 1
+Health: 1
+XP: 1
+Speed: 1
+Literacy: 1
+Diplomacy: 1
+Swimming: 1
+Herbology: 1
+INVENTORY
 Potion
 Leather boots
 Potion

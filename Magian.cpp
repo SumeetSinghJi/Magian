@@ -18,7 +18,7 @@
 #include "headers/get_skills.h"
 using namespace std;
 // CLASSES
-class Player
+class player_class
 {
   public:
     string player_name = "";
@@ -82,7 +82,7 @@ class Obstacle_class
         : obstacle_symbol(symbol), obstacle_name(name), obstacle_description(description), obstacle_hp(hp)
     {
     }
-    void obstacle_check_collision(shared_ptr<Player> &player_pointer_object) 
+    void obstacle_check_collision(shared_ptr<player_class> &player_pointer_object) 
     {
         if (obstacle_x_pos == player_pointer_object->player_x_pos && obstacle_y_pos == player_pointer_object->player_y_pos) {
             obstacle_alive=false;
@@ -203,7 +203,7 @@ public:
             enemy_pause--;
         }
     }
-    void random_slow_chasing(shared_ptr<Player> &player_pointer_object) 
+    void random_slow_chasing(shared_ptr<player_class> &player_pointer_object) 
     {
       // Move the enemy only if the random number is less than 4 (40% chance)
       if (alive && enemy_pause == 0)
@@ -228,7 +228,7 @@ public:
         enemy_pause--;
       }
     }
-    void l2random_slow_chasing(shared_ptr<Player> &player_pointer_object) 
+    void l2random_slow_chasing(shared_ptr<player_class> &player_pointer_object) 
     {
       // Move the enemy only if the random number is less than 4 (40% chance)
       if (alive && enemy_pause == 0)
@@ -253,7 +253,7 @@ public:
         enemy_pause--;
       }
     }
-    void enemy_check_collision(shared_ptr<Player> &player_pointer_object) 
+    void enemy_check_collision(shared_ptr<player_class> &player_pointer_object) 
     {
         if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) {
             lives-=enemy_melle_damage;
@@ -379,7 +379,7 @@ public:
   {
 
   }
-  void item_check_collision(shared_ptr<Player> &player_pointer_object) 
+  void item_check_collision(shared_ptr<player_class> &player_pointer_object) 
   {
         if (item_x_pos == player_pointer_object->player_x_pos && item_y_pos == player_pointer_object->player_y_pos) {
             item_alive=false;
@@ -400,7 +400,7 @@ class leather_boots_item_subclass : public item_class
 {
 public:
   leather_boots_item_subclass() : item_class("Leather boots", "When used increases players speed by 1 by cushioning their steps.", 'b') {}
-  void use(shared_ptr<Player>& player_pointer_object)
+  void use(shared_ptr<player_class>& player_pointer_object)
   {
     cout << "You wore leather boots. Speed permanently increased by 1" << endl;
     player_pointer_object->player_speed++;
@@ -418,7 +418,7 @@ void save();
 void shoot_fireball();
 vector<shared_ptr<item_class>> items_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
-shared_ptr<Player> player_pointer_object = make_shared<Player>();
+shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
 shared_ptr<level_class> level_pointer_object = make_shared<level_class>();
 shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
 vector<shared_ptr<Obstacle_class>> obstacles_vector;
@@ -1488,7 +1488,7 @@ void initialise_player()
         return;
     }
 }
-void load_player(shared_ptr<Player>& player_pointer_object)
+void load_player(shared_ptr<player_class>& player_pointer_object)
 {
   savefile_object.open("magian_save.txt", ios::in);
     if (savefile_object.is_open())
