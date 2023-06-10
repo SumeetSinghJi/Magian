@@ -124,7 +124,7 @@ public:
     int enemy_xp;
     int enemy_x_pos;
     int enemy_y_pos;
-    int enemy_melle_damage;
+    int enemy_melee_damage;
     bool enemy_alive;
     int enemy_pause;
     char enemy_symbol;
@@ -260,7 +260,7 @@ public:
     void enemy_check_collision(shared_ptr<player_class> &player_pointer_object) 
     {
         if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) {
-            lives-=enemy_melle_damage;
+            lives-=enemy_melee_damage;
             enemy_pause = 3; // Pause for 3 ticks
             cout << "You bumped into the monster";
             cin.get();
@@ -275,7 +275,7 @@ class fire_enemy_subclass : public enemy_class
       enemy_name="Fire";
       enemy_hp = 1;
       enemy_xp = 1;
-      enemy_melle_damage = 1;
+      enemy_melee_damage = 1;
       enemy_description="A large moving flame 2 meters high burning everything it touches.";
       if(map_size==1)
       {
@@ -300,7 +300,7 @@ class flying_enemy_subclass : public enemy_class
       enemy_name="Flying Rakashaa";
       enemy_hp = 3;
       enemy_xp = 2;
-      enemy_melle_damage = 2;
+      enemy_melee_damage = 2;
       enemy_description="A flying demon with powerfull magic.";
       if(map_size==1)
       {
@@ -325,7 +325,7 @@ class stalker_enemy_subclass : public enemy_class
       enemy_name="Stalking Rakashaa";
       enemy_hp = 3;
       enemy_xp = 1;
-      enemy_melle_damage = 3;
+      enemy_melee_damage = 3;
       enemy_description="A white large furry humanoid with sharp nails, bare arms and legs despite a furry body"
                         "It's legs move exceedingly fast but stride is slow giving it the impression at any moment"
                         "it could outrace and catch you."
@@ -501,15 +501,11 @@ void random_generate_obstacle()
     {
       shared_ptr<rock_obstacle_subclass> rock_obstacle = make_shared<rock_obstacle_subclass>();
       obstacles_vector.push_back(rock_obstacle);
-      rock_obstacle->obstacle_x_pos = rand() % width;
-      rock_obstacle->obstacle_y_pos = rand() % height;
     }
     else // tree
     {
       shared_ptr<tree_obstacle_subclass> tree_obstacle = make_shared<tree_obstacle_subclass>();
       obstacles_vector.push_back(tree_obstacle);
-      tree_obstacle->obstacle_x_pos = rand() % width;
-      tree_obstacle->obstacle_y_pos = rand() % height;
     }
   }
 }
