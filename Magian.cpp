@@ -85,7 +85,8 @@ class Obstacle_class
     void obstacle_check_collision(shared_ptr<player_class> &player_pointer_object) 
     {
         if (obstacle_x_pos == player_pointer_object->player_x_pos && obstacle_y_pos == player_pointer_object->player_y_pos) {
-            obstacle_alive=false;
+            cout << "You ran into the obstacle";
+            cin.get();
         }
     }
 };
@@ -121,13 +122,13 @@ public:
     int enemy_x_pos;
     int enemy_y_pos;
     int enemy_melle_damage;
-    bool alive;
+    bool enemy_alive;
     int enemy_pause;
     char enemy_symbol;
     // Add random movement logic as part of the enemy_class
     void random_slow_movement() 
     {
-        if (alive && enemy_pause == 0) {
+        if (enemy_alive && enemy_pause == 0) {
             int random_direction = rand() % 4;
             switch (random_direction) {
             case 0: // Up
@@ -157,7 +158,7 @@ public:
     }
     void random_fast_movement() 
     {
-        if (alive && enemy_pause == 0) 
+        if (enemy_alive && enemy_pause == 0) 
         {
             // Generate a random number between 0 and 9
             int random_num = rand() % 10;
@@ -206,7 +207,7 @@ public:
     void random_slow_chasing(shared_ptr<player_class> &player_pointer_object) 
     {
       // Move the enemy only if the random number is less than 4 (40% chance)
-      if (alive && enemy_pause == 0)
+      if (enemy_alive && enemy_pause == 0)
       {
         // Generate a random number between 0 and 9
         int random_num = rand() % 10;
@@ -231,7 +232,7 @@ public:
     void l2random_slow_chasing(shared_ptr<player_class> &player_pointer_object) 
     {
       // Move the enemy only if the random number is less than 4 (40% chance)
-      if (alive && enemy_pause == 0)
+      if (enemy_alive && enemy_pause == 0)
       {
         // Generate a random number between 0 and 9
         int random_num = rand() % 10;
@@ -258,15 +259,8 @@ public:
         if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) {
             lives-=enemy_melle_damage;
             enemy_pause = 3; // Pause for 3 ticks
-            /*
-            // Update player position after collision
-    player_pointer_object->player_x_pos = previous_x_pos;
-    player_pointer_object->player_y_pos = previous_y_pos;
-    direction = STOP;
-    */
-    cout << "You bumped into the monster";
-    cin.get();
-    
+            cout << "You bumped into the monster";
+            cin.get();
         }
     }
 };
@@ -290,7 +284,7 @@ class fire_enemy_subclass : public enemy_class
         enemy_x_pos = rand() % l2width;
         enemy_y_pos = rand() % l2height;
       }
-      alive = true;
+      enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = 'F';
     }
@@ -315,7 +309,7 @@ class flying_enemy_subclass : public enemy_class
         enemy_x_pos = rand() % l2width;
         enemy_y_pos = rand() % l2height;
       }
-      alive = true;
+      enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '^';
     }
@@ -343,7 +337,7 @@ class stalker_enemy_subclass : public enemy_class
         enemy_x_pos = rand() % l2width;
         enemy_y_pos = rand() % l2height;
       }
-      alive = true;
+      enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '&';
     }
@@ -383,6 +377,8 @@ public:
   {
         if (item_x_pos == player_pointer_object->player_x_pos && item_y_pos == player_pointer_object->player_y_pos) {
             item_alive=false;
+            cout << "You picked up the item";
+            cin.get();
         }
   }
 };
@@ -756,15 +752,20 @@ void draw_level_1()
   // Draw enemies
   for (const auto& enemy : enemies_vector) 
   {
-    if (enemy->alive) 
+    if (enemy->enemy_alive) 
     {
       buffer[enemy->enemy_y_pos][enemy->enemy_x_pos] = enemy->enemy_symbol;
     }
   }
 
   // Draw items
-  for (const auto& item : items_vector)
-    buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
+  for (const auto& item : items_vector) 
+  {
+    if (item->item_alive) 
+    {
+      buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
+    }
+  }
 
   // Clear the console screen
   system("cls");
@@ -820,7 +821,7 @@ void draw_level_2()
         // Draw all enemies if any exists at this position
         for (const auto& enemy : enemies_vector) 
         {
-          if (enemy->alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos) 
+          if (enemy->enemy_alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos) 
           {
             l2buffer[y][x] = enemy->enemy_symbol;
           }
@@ -1026,12 +1027,11 @@ void collision_logic()
   // Check collision with enemies
 for (const auto& enemy : enemies_vector)
 {
-  if (enemy->alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos)
+  if (enemy->enemy_alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos)
   {
     // Deal melee damage to the player
     enemy->enemy_check_collision(player_pointer_object);
-    break; // Exit the loop after the collision is detected
-  }
+  } else {  }
 }
 
   // Check collision with obstacles
@@ -1045,7 +1045,7 @@ for (const auto& enemy : enemies_vector)
 
       // Perform obstacle collision logic
       obstacle->obstacle_check_collision(player_pointer_object);
-    }
+    } else {  }
   }
 
   // item collision
@@ -1248,7 +1248,7 @@ void shoot_fireball()
             bool hitEnemy = false;
             for (const auto& enemy : enemies_vector) 
             {
-                if (enemy->alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) 
+                if (enemy->enemy_alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) 
                 {
                     hitEnemy = true;
                     enemy->enemy_hp--;
@@ -1256,7 +1256,7 @@ void shoot_fireball()
                     if (enemy->enemy_hp <= 0) 
                     {
                         player_pointer_object->player_xp += enemy->enemy_xp;
-                        enemy->alive = false;
+                        enemy->enemy_alive = false;
                     }
                     break;
                 }
