@@ -25,10 +25,13 @@ learning magic, the art of mages to harness and control magic powers.
 Author: Sumeet Singh
 Email: kurta.kursi@gmail.com
 website: www.sumeet-singh.com/magian - TBD
+
+
+
 _________________________________________________________________________________________________
 
                                     
-                                            Requirements
+                                            REQUIREMENTS
 
 _________________________________________________________________________________________________
 
@@ -46,6 +49,8 @@ Memory: TBD MB RAM
 Graphics: none
 DirectX: none
 Storage: TBD GB available space
+
+Notes: Basically bigger then Doom but that's due to extra assets; music, books etc.,
 
 
 
@@ -314,15 +319,13 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________   
 
 
-* This character represents you P or स - This is you, stay safe and collect objectives.
-* Money/Scrolls can look like this $ or ₹ - If you find one you get a point
-* Enemies can look like this E or क - If you touch them you lose a life
-* Obstacles can look like this # - If you touch them you lose a life
+* This character represents you P or स - This is you, stay safe and follow objectives.
+* Money or Scrolls can look like this $ or ₹ - Use to buy or learn more skills
+* Enemies can look like this E or क - They will hurt you so evade them.
+* Obstacles can look like this 'T' for Tree or '#' for walls.
 
 Difficulty can be adjusted within game settings. Story mode grants 99 lives to experience a
 narrative driven game without constraints.
-
-
 
 
 _________________________________________________________________________________________________ 
@@ -343,6 +346,7 @@ To move use the keyboard buttons to walk
 'L' = Check level objective to see goals to complete level for example collect 10 scrolls.
 'I' = Check inventory and use items you found.
 'X' = Check and use skills you gained.
+'ESC' = Return to Main Menu
 
 
 _________________________________________________________________________________________________ 
@@ -374,6 +378,7 @@ without surfacing. Gained by constantly swimming
 Herbology: High herbology grants better chance at identfying herbs for medicine. Gained by eating
 new things
 
+
 _________________________________________________________________________________________________
 
 
@@ -386,20 +391,15 @@ The files included in the game are below
 
 
 GAME
-* magian.exe - Start to play on Windows.
-* magian.app - Start to play on MacOS. // Pending release
-* magian - Start to play on Linux/Unix. // Pending release
+* magian.exe - For Windows
+* magian.app - For Apple MacOS
+* magian - For Linux
 
 SOURCE FILES
-* magian.cpp - the main games source code.
+* magian.cpp - the main source code.
 
 HEADERS
-under folder (headers)
-* game_settings.h - In game settings
 * save_game.h - logic for saving and loading game
-* get_skills.h - logic for activating skills
-* get_objective.h - logic for checking objective
-* get_items.h - logic for using items
 
 DOCUMENTS
 * readme.txt - the file you are reading right now is the readme.txt file it's a guide on playing.
@@ -434,8 +434,8 @@ Main menu
 * 5. Settings
     * 4.1. Difficulty switch = more or less lives
     * 4.2. Change console output language e.g. Japanese
-* 6. Soundtrack - browse in game music
-* 7. Quit
+* 6. Library - browse real books ingame
+* 7. Soundtrack - browse in game music
 
 
 _________________________________________________________________________________________________
@@ -446,83 +446,17 @@ ________________________________________________________________________________
 Main logic of game follows running c++ functions in sequence
 
 void menu() 
-1.0. startgame()
-1.1. setup()
-1.2. gameover = false; // reset the gameover flag to false
-1.3. while (!gameover)
-1.4. draw_level_1()
-1.5. input()
-1.6. logic()
-1.7. Sleep(150)
+1. startgame() - loadplayer() (for continuing games) or initiatenewplayer() (for new games)
+2. setup()
+3. while (!gameover)
+4. draw_level_1()
+5. input()
+6. logic()
+7. Sleep(150)
 
 on logic() win condition, a new l2startgame() and subsequent draw_level_2() for each level
 will repeat with same loop logic.
 
-_________________________________________________________________________________________________
-
-                                        PROGRAMMING LOGIC
-_________________________________________________________________________________________________
-
-Code conforms to minimum version C++17
-
-Player
-* represented by character 'P'
-* To move use the keyboard buttons to walk 'W' = UP,'S' = Down,'A' = Left,'D' = RIGHT
-* Has 3 lives, but can set less in settings(), difficulty switch
-* Moves with keyboard input in logic()
-
-Enemies
-* represented by characters such as 'E'
-* enemies_vector is a vector of pointer enemy objects initialised through pushback of
-pointer enemy objects
-in setup()
-* Are pointer objects in an enemies vector
-* have a speed they move on the x,y plane
-* are spawned in draw()
-* logic() dictates speed, damage
-
-Game world
-* represented by draw()
-* Surrounded by character '#' walls that hurt player causing lives--;
-* in draw() spawns (P), money ($), enemy (E)
-* Every level has unique objectives required to win to progress to next level
-* levels get increasingly difficult with harder enemies but better items, money and Skill
-opportunities to compensate.
-
-Money
-* represented by character '$'
-* score == money;
-* used in win conditions or to buy more items and train skills at trainers
-
-Win logic
-* follow the objectives in your log book by pressing "l" key by default.
-
-Save Load
-* header save_game.h called in source code magian.cpp main menu case
-to create save game file magian_save.txt 
-
-Level select
-* level select variable updated after every win and written to magian_save.txt file
-* level select option reads level_select_variable from file above
-
-Inventory
-* Inventory is a vector of pointer item objects initialised through pushback of item subclasses
-in setup()
-* item classes have subclasses of items e.g. potion_subclass
-* check_inventory keyboard input "i" gives option to loop through vector of inventory 
-and use subclass function use to use that subclasses effect e.g., potion_subclass increases lives++
-* inventory vector index item is then removed through vector.erase()
-
-Skills
-* Gained throughout the game
-* Activated with SPACE_BAR
-* Have various effects, damage enemies, heal etc.,
-
-Soundtrack
-* In game soundtrack option
-
-Library
-* In game copy right free books
 
 _________________________________________________________________________________________________
 
@@ -545,8 +479,6 @@ direction burning the first thing it hits.
 Effect: 1 life damage on contact
 Range: single line in any direction
 Cooldown: 1 second
-
-
 
 
 _________________________________________________________________________________________________
