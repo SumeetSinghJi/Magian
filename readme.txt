@@ -12,34 +12,22 @@ ________________________________________________________________________________
 
 _________________________________________________________________________________________________
 
-
 DISCLAIMER: This game and the symbols, language, and references used represent the culture of
 the Indo-Iranian people known collectivly as Aryans. We do not condone any violence or hate.
 
-NOTE For GitHub source code binaries (e.g. .exe's) need to be recompiled and save file deleted
-before playing due to time constraints of author.
+A c++ text game-engine learning project set during ~1300 BCE (3300 Shahenshai) in Arianna
+(present day Afghanistan) before the rise of reformed Zoroastrian belief of the earlier Aryan
+divine pantheon of gods, goddess, and everything in between lies Agni the first school of
+learning magic, the art of mages to harness and control magic powers.
 
-Magian. A game of mages from the fictional school of Agni in Arianna. (known as
-present day Afghanistan). The story of the source of all Magic.
 
-Collect scrolls, herbs, skills and items to build your player and advance through the level.
+This is an free open source c++ game hosted on GitHub https://github.com/SumeetSinghJi/Magian
 
-This is an free c++ game hosted on GitHub free to download and play
-https://github.com/SumeetSinghJi/Magian 
 
-License: Free to download, modify, and share but not for commerical reasons,
-unless for reviewing, education or through creative modifing the soure code where likeness not
-linked to original story, setting, content or author such as using the source code to make an
-unrelated game.
-
-Stable release version 1.0 expected before December 2024.
-
-WE NEED YOUR HELP to build and test this game. Contact the author directly.
 
 Author: Sumeet Singh
 Email: kurta.kursi@gmail.com
-website: TBD
-
+website: www.sumeet-singh.com/magian - TBD
 _________________________________________________________________________________________________
 
                                     
@@ -680,9 +668,6 @@ ________________________________________________________________________________
                                             CREDITS
 
 _________________________________________________________________________________________________
-
-This game is given to the thankless Magi (Zoroastrian scholars) and Rishis (Vedic scholars) that
-kept the knowledge of science, and culture alive in some of the harshest environments. 
 
                                 Game developer 👨🏿‍💻- Sumeet Singh 
                                        Playtester 📜- You 
