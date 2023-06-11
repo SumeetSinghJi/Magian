@@ -1,11 +1,12 @@
 AVATAR
 NAME: Sumeet
-Magic: 3
+Magic: 1
 Health: 3
-XP: 3
+XP: 1
 Speed: 1
 Literacy: 1
 Diplomacy: 0
 Swimming: 0
 Herbology: 0
+Money: 0
 INVENTORY

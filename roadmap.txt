@@ -1,37 +1,24 @@
 ROADMAP
 
+* item delete after use
+* item store not working for second item - consider algorithm
+
+* build save()
 
 * items and obstacles are generating out of bounds. Fix this issue.
 
-# initalise_settings() use the pointer for everything
-* item store not working for second item - consider algorithm
-* algorith item_pickup_logic() - item_store()
-* build save()
-* l2gamestart - add load_player()
 * collission_logic() not stopping player
-* add collission for obstacle
 * change lives to vitality
-* lives need to print to savefile and loaded on newgame() or continue()
-* add money member to player everywhere
-* then fix random_enemies_vector
-* then add item symbols, and same item_generation steps
+* random_enemies()
+* random_items()
 
-Class for Map
-void map - initialise map members
-
-Class for Settings
-void map - initialise settings members
-
+* money should be it's own class, with generation, xpos, collision logic etc.,
 
 * player_object member active_skill = shoot()
 * write skills_header()
 * write skills to file ???
 * check_skills = show available skills()
 *    selecting a skill updates active_skill member
-
-Cmake roadmap
-1. debug linker not playing audio
-
 
 4
 In game book - copy of early rig veda and gathas, and shanameh
@@ -49,10 +36,15 @@ Locale including
 create fireball()
 fireball() sfx
 
+
+x
+Stairs class
+generate upstairs() and downstairs()
+draw stairs
+collision logic
+
 10
-enemies grant xp on death
 death counter variable
-player class member xp
 logic when xp reaches x do levelup()
 levelup()
 {

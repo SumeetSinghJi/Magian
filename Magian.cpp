@@ -34,6 +34,7 @@ class player_class
     int player_y_pos;
     int previous_x_pos;
     int previous_y_pos;
+    int player_money = 0;
 };
 // Forward declaration
 class obstacle_class;
@@ -118,22 +119,22 @@ public:
             int random_direction = rand() % 4;
             switch (random_direction) {
             case 0: // Up
-                if (enemy_y_pos > 1) {
+                if (enemy_y_pos > 1 && buffer[enemy_y_pos - 1][enemy_x_pos] != '#') {
                     enemy_y_pos--;
                 }
                 break;
             case 1: // Down
-                if (enemy_y_pos < height - 2) {
+                if (enemy_y_pos < height - 2 && buffer[enemy_y_pos + 1][enemy_x_pos] != '#') {
                     enemy_y_pos++;
                 }
                 break;
             case 2: // Left
-                if (enemy_x_pos > 1) {
+                if (enemy_x_pos > 1 && buffer[enemy_y_pos][enemy_x_pos - 1] != '#') {
                     enemy_x_pos--;
                 }
                 break;
             case 3: // Right
-                if (enemy_x_pos < width - 2) {
+                if (enemy_x_pos < width - 2 && buffer[enemy_y_pos][enemy_x_pos + 1] != '#') {
                     enemy_x_pos++;
                 }
                 break;
@@ -148,35 +149,35 @@ public:
         {
             // Generate a random number between 0 and 9
             int random_num = rand() % 10;
-            // Move the enemy only if the random number is less than 2 (20% chance)
-            if (random_num < 2) 
+            // Move the enemy only if the random number is less than 3 (30% chance)
+            if (random_num < 3) 
             {
                 int random_direction = rand() % 4;
                 switch (random_direction) 
                 {
                     case 0: // Up
-                        if (enemy_y_pos > 1) 
+                        if (enemy_y_pos > 1 && buffer[enemy_y_pos - 1][enemy_x_pos] != '#') 
                         {
                             enemy_y_pos--;
                             enemy_y_pos--;
                         }
                         break;
                     case 1: // Down
-                        if (enemy_y_pos < height - 2) 
+                        if (enemy_y_pos < height - 2 && buffer[enemy_y_pos + 1][enemy_x_pos] != '#') 
                         {
                             enemy_y_pos++;
                             enemy_y_pos++;
                         }
                         break;
                     case 2: // Left
-                        if (enemy_x_pos > 1) 
+                        if (enemy_x_pos > 1 && buffer[enemy_y_pos][enemy_x_pos - 1] != '#') 
                         {
                             enemy_x_pos--;
                             enemy_x_pos--;
                         }
                         break;
                     case 3: // Right
-                        if (enemy_x_pos < width - 2) 
+                        if (enemy_x_pos < width - 2 && buffer[enemy_y_pos][enemy_x_pos + 1] != '#') 
                         {
                             enemy_x_pos++;
                             enemy_x_pos++;
@@ -264,16 +265,8 @@ class fire_enemy_subclass : public enemy_class
       enemy_xp = 1;
       enemy_melee_damage = 1;
       enemy_description="A large moving flame 2 meters high burning everything it touches.";
-      if(map_size==1)
-      {
-        enemy_x_pos = rand() % width;
-        enemy_y_pos = rand() % height;
-      }
-      if(map_size==2)
-      {
-        enemy_x_pos = rand() % l2width;
-        enemy_y_pos = rand() % l2height;
-      }
+      enemy_x_pos = rand() % width;
+      enemy_y_pos = rand() % height;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = 'F';
@@ -289,16 +282,8 @@ class flying_enemy_subclass : public enemy_class
       enemy_xp = 2;
       enemy_melee_damage = 2;
       enemy_description="A flying demon with powerfull magic.";
-      if(map_size==1)
-      {
-        enemy_x_pos = rand() % width;
-        enemy_y_pos = rand() % height;
-      }
-      if(map_size==2)
-      {
-        enemy_x_pos = rand() % l2width;
-        enemy_y_pos = rand() % l2height;
-      }
+      enemy_x_pos = rand() % width;
+      enemy_y_pos = rand() % height;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '^';
@@ -428,7 +413,6 @@ bool music_variable = true;
 bool gameover = false;
 int moneyx, moneyy; // money draw() position
 int score = 0;
-int money = 0;
 int lives = 3;
 int difficulty=3;
 int won_game = false;
@@ -611,32 +595,26 @@ void setup()
   score=0;
   gameover = false;
 
-  // Below srand method needs to be executed at runtime hence run in a function vs global variable;
-  moneyx = rand() % width;
-  moneyy = rand() % height;
-
-  // setting position of player
-  direction = STOP;
-  player_pointer_object->player_x_pos = width / 2;
-  player_pointer_object->player_y_pos = height / 2;
-
   // to refresh vectors for new game and level select
   items_vector.clear();
   enemies_vector.clear();
 
-  shared_ptr<fire_enemy_subclass> fire_enemy = make_shared<fire_enemy_subclass>();
-  enemies_vector.push_back(fire_enemy);
-  shared_ptr<flying_enemy_subclass> flying_enemy = make_shared<flying_enemy_subclass>();
-  enemies_vector.push_back(flying_enemy);
-  
 
-  // Adding items to field
+  direction = STOP;
+  player_pointer_object->player_x_pos = width / 2;
+  player_pointer_object->player_y_pos = height / 2;
+
+  random_generate_obstacle();
+
+  enemies_vector.push_back(make_shared<fire_enemy_subclass>());
+  enemies_vector.push_back(make_shared<flying_enemy_subclass>());
+  
   items_vector.push_back(make_shared<potion_item_subclass>());
   items_vector.push_back(make_shared<leather_boots_item_subclass>());
 
-  // random_generate_enemy();
-  // random_generate_items();
-  random_generate_obstacle();
+  moneyx = rand() % width;
+  moneyy = rand() % height;
+  
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
   for (int i = 0; i < height; i++)
@@ -989,18 +967,7 @@ void save()
 {
     std::cout << "Saving Game..." << std::endl;
     cin.get();
-
-    // get new values
-    string player_name = player_pointer_object->player_name;
-    int player_magic = player_pointer_object->player_magic;
-    int player_health = player_pointer_object->player_health;
-    int player_xp = player_pointer_object->player_xp;
-    int player_speed = player_pointer_object->player_speed;
-    int player_literacy = player_pointer_object->player_literacy;
-    int player_diplomacy = player_pointer_object->player_diplomacy;
-    int player_swimming = player_pointer_object->player_swimming;
-    int player_herbology = player_pointer_object->player_herbology;
-
+  
     // search strings to match
     string name_match = "Name: ";
     string magic_match = "Magic: ";
@@ -1011,6 +978,7 @@ void save()
     string diplomacy_match = "Diplomacy: ";
     string swimming_match = "Swimming: ";
     string herbology_match = "Herbology: ";
+    string money_match = "Money: ";
 
     // test open file to read the contents first
     savefile_object.open("magian_save.txt", ios::app);
@@ -1021,40 +989,44 @@ void save()
       {
         if (line.find(name_match) != string::npos) // NAME
         {
-          savefile_object << name_match << player_name;
+          savefile_object << name_match << player_pointer_object->player_name;
         }
-        else if (line.find(magic_match) != string::npos) // MAGIC
+        if (line.find(magic_match) != string::npos) // MAGIC
         {
-          savefile_object << magic_match << player_magic;
+          savefile_object << magic_match << player_pointer_object->player_magic;
         }
-        else if (line.find(health_match) != string::npos) // HEALTH
+        if (line.find(health_match) != string::npos) // HEALTH
         {
-          savefile_object << health_match << player_health;
+          savefile_object << health_match << player_pointer_object->player_health;
         }
-        else if (line.find(xp_match) != string::npos) // XP
+        if (line.find(xp_match) != string::npos) // XP
         {
-          savefile_object << xp_match << player_xp;
+          savefile_object << xp_match << player_pointer_object->player_xp;
         }
-        else if (line.find(speed_match) != string::npos) // SPEED
+        if (line.find(speed_match) != string::npos) // SPEED
         {
-          savefile_object << speed_match << player_speed;
+          savefile_object << speed_match << player_pointer_object->player_speed;
         }
-        else if (line.find(literacy_match) != string::npos) // LITERACY
+        if (line.find(literacy_match) != string::npos) // LITERACY
         {
-          savefile_object << literacy_match << player_literacy;
+          savefile_object << literacy_match << player_pointer_object->player_literacy;
         }
-        else if (line.find(diplomacy_match) != string::npos) // DIPLOMACY
+        if (line.find(diplomacy_match) != string::npos) // DIPLOMACY
         {
-          savefile_object << diplomacy_match << player_diplomacy;
+          savefile_object << diplomacy_match << player_pointer_object->player_diplomacy;
         }
-        else if (line.find(swimming_match) != string::npos) // SWIMMING
+        if (line.find(swimming_match) != string::npos) // SWIMMING
         {
-          savefile_object << swimming_match << player_swimming;
+          savefile_object << swimming_match << player_pointer_object->player_swimming;
         }
-        else if (line.find(herbology_match) != string::npos) // HERBOLOGY
+        if (line.find(herbology_match) != string::npos) // HERBOLOGY
         {
-          savefile_object << herbology_match << player_herbology;
-        }   
+          savefile_object << herbology_match << player_pointer_object->player_herbology;
+        }  
+        if (line.find(money_match) != string::npos) // Money
+        {
+          savefile_object << money_match << player_pointer_object->player_money;
+        }    
       }
       savefile_object.close();
       std::cout << "Game Saved" << std::endl;
@@ -1107,7 +1079,7 @@ void win_logic()
     } else {  }
 
 // Level 1 - win logic 
-    if (score >= 1) 
+    if (score >= 3) 
     {
     level = 2;
     cout << "You win the level";
@@ -1153,19 +1125,19 @@ if (player_pointer_object->player_xp > 3) // level 1
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
     player_pointer_object->player_magic += 1;
-    player_pointer_object->player_health += 1;
+    player_pointer_object->player_health += 3;
   }
   else if (player_pointer_object->player_xp > 6) // level 2
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
     player_pointer_object->player_magic += 1;
-    player_pointer_object->player_health += 1;
+    player_pointer_object->player_health += 3;
   }
   else if (player_pointer_object->player_xp > 9) // level 3
   {
     cout << "Your experience and knowledge gained throughout life increases your capability";
     player_pointer_object->player_magic += 1;
-    player_pointer_object->player_health += 1;
+    player_pointer_object->player_health += 3;
   }
 }
 void enemy_ai_logic()
@@ -1177,13 +1149,13 @@ void enemy_ai_logic()
     // Stalking Rakshaa enemy will hunt player slowly
     // enemies_vector[0]->random_slow_chasing(player_pointer_object);
 }
-void item_pickup_logic()
+void money_pickup_logic()
 {
 // Level 1 score - Check if player picked up money and update score and money location if true
     if (player_pointer_object->player_x_pos == moneyx && player_pointer_object->player_y_pos == moneyy) 
     {
         score++;
-        money++;
+        player_pointer_object->player_money++;
         moneyx = rand() % width-1;
         moneyy = rand() % height-1;
     } else {  }
@@ -1192,27 +1164,32 @@ void item_pickup_logic()
     if (player_pointer_object->player_x_pos == moneyx && player_pointer_object->player_y_pos == moneyy) 
     {
         score++;
-        money++;
+        player_pointer_object->player_money++;
         moneyx = rand() % l2width-1;
         moneyy = rand() % l2height-1;
     } else {  }
 }
 void logic() 
 {
-  // New direction in buffer updated called after input() in startgame() loop
+  // New direction in buffer updated called after input() in startgame() loop.
+  // if condition prevents moving out of bounds #
   switch (direction) 
   {
     case UP:
-        player_pointer_object->player_y_pos--;
+        if (player_pointer_object->player_y_pos > 1 && buffer[player_pointer_object->player_y_pos - 1][player_pointer_object->player_x_pos] != '#') {
+        player_pointer_object->player_y_pos--; }
         break;
     case DOWN:
-        player_pointer_object->player_y_pos++;
+    if (player_pointer_object->player_y_pos < height - 2 && buffer[player_pointer_object->player_y_pos + 1][player_pointer_object->player_x_pos] != '#') {
+        player_pointer_object->player_y_pos++; }
         break;
     case LEFT:
-        player_pointer_object->player_x_pos--;
+    if (player_pointer_object->player_x_pos > 1 && buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos - 1] != '#') {
+        player_pointer_object->player_x_pos--; }
         break;
     case RIGHT:
-        player_pointer_object->player_x_pos++;
+    if (player_pointer_object->player_x_pos < width - 2 && buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos + 1] != '#') {
+        player_pointer_object->player_x_pos++; }
         break;
   }
 
@@ -1220,7 +1197,7 @@ void logic()
     enemy_ai_logic();
     win_logic();
     levelup_logic();
-    item_pickup_logic();
+    money_pickup_logic();
 
 }
 void l2startgame() 
@@ -1346,6 +1323,304 @@ void shoot_fireball()
     // reset shoot skill cooldown
     shoot_skill_cooldown = false;
 }
+void volcano()
+{
+  // skill to shoot in all 4 directions
+
+    if (shoot_skill_cooldown) 
+    {
+        cout << "Your too tired to shoot again.";
+        return;
+    }
+
+    // The bullet STARTS from the players current position
+    int targetX = player_pointer_object->player_x_pos;
+    int targetY = player_pointer_object->player_y_pos;
+
+    while (true) 
+    {
+        // Move the target position based on the player's direction
+            targetY--;
+        // Check if the target position is within the bounds of the game map
+        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        {
+            // Check if there is an enemy at the target position
+            bool hitEnemy = false;
+            for (const auto& enemy : enemies_vector) 
+            {
+                if (enemy->enemy_alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) 
+                {
+                    hitEnemy = true;
+                    enemy->enemy_hp--;
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (enemy->enemy_hp <= 0) 
+                    {
+                        player_pointer_object->player_xp += enemy->enemy_xp;
+                        enemy->enemy_alive = false;
+                    }
+                    break;
+                }
+            }
+
+            // Check if there is an obstacle at the target position
+            bool hit_obstacle = false;
+            for (const auto& obstacle : obstacles_vector) 
+            {
+                if (obstacle->obstacle_alive && targetX == obstacle->obstacle_x_pos && targetY == obstacle->obstacle_y_pos) 
+                {
+                    hit_obstacle = true;
+                    obstacle->obstacle_hp--;
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (obstacle->obstacle_hp <= 0) 
+                    {
+                        obstacle->obstacle_alive = false;
+                    }
+                    break;
+                }
+            }
+
+            // Clear the bullet from the previous position
+            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+
+            // Draw the bullet at the target position
+            buffer[targetY][targetX] = '*';
+            draw_level_1();
+
+            // Sleep after drawing the bullet
+            Sleep(50);
+
+            // Clear the bullet from the current position
+            buffer[targetY][targetX] = ' ';
+
+            // Check if the target position hit a wall
+            if (buffer[targetY][targetX] == '#') 
+            {
+                break;
+            }
+        } 
+        else 
+        {
+            break;
+        }
+    }
+
+    // left shoot side
+
+  while (true) 
+    {
+        // Move the target position based on the player's direction
+            targetX--;
+
+        // Check if the target position is within the bounds of the game map
+        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        {
+            // Check if there is an enemy at the target position
+            bool hitEnemy = false;
+            for (const auto& enemy : enemies_vector) 
+            {
+                if (enemy->enemy_alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) 
+                {
+                    hitEnemy = true;
+                    enemy->enemy_hp--;
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (enemy->enemy_hp <= 0) 
+                    {
+                        player_pointer_object->player_xp += enemy->enemy_xp;
+                        enemy->enemy_alive = false;
+                    }
+                    break;
+                }
+            }
+
+            // Check if there is an obstacle at the target position
+            bool hit_obstacle = false;
+            for (const auto& obstacle : obstacles_vector) 
+            {
+                if (obstacle->obstacle_alive && targetX == obstacle->obstacle_x_pos && targetY == obstacle->obstacle_y_pos) 
+                {
+                    hit_obstacle = true;
+                    obstacle->obstacle_hp--;
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (obstacle->obstacle_hp <= 0) 
+                    {
+                        obstacle->obstacle_alive = false;
+                    }
+                    break;
+                }
+            }
+
+            // Clear the bullet from the previous position
+            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+
+            // Draw the bullet at the target position
+            buffer[targetY][targetX] = '*';
+            draw_level_1();
+
+            // Sleep after drawing the bullet
+            Sleep(50);
+
+            // Clear the bullet from the current position
+            buffer[targetY][targetX] = ' ';
+
+            // Check if the target position hit a wall
+            if (buffer[targetY][targetX] == '#') 
+            {
+                break;
+            }
+        } 
+        else 
+        {
+            break;
+        }
+    }
+
+    // right shoot side
+
+    while (true) 
+    {
+        // Move the target position based on the player's direction
+            targetX++;
+
+        // Check if the target position is within the bounds of the game map
+        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        {
+            // Check if there is an enemy at the target position
+            bool hitEnemy = false;
+            for (const auto& enemy : enemies_vector) 
+            {
+                if (enemy->enemy_alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) 
+                {
+                    hitEnemy = true;
+                    enemy->enemy_hp--;
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (enemy->enemy_hp <= 0) 
+                    {
+                        player_pointer_object->player_xp += enemy->enemy_xp;
+                        enemy->enemy_alive = false;
+                    }
+                    break;
+                }
+            }
+
+            // Check if there is an obstacle at the target position
+            bool hit_obstacle = false;
+            for (const auto& obstacle : obstacles_vector) 
+            {
+                if (obstacle->obstacle_alive && targetX == obstacle->obstacle_x_pos && targetY == obstacle->obstacle_y_pos) 
+                {
+                    hit_obstacle = true;
+                    obstacle->obstacle_hp--;
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (obstacle->obstacle_hp <= 0) 
+                    {
+                        obstacle->obstacle_alive = false;
+                    }
+                    break;
+                }
+            }
+
+            // Clear the bullet from the previous position
+            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+
+            // Draw the bullet at the target position
+            buffer[targetY][targetX] = '*';
+            draw_level_1();
+
+            // Sleep after drawing the bullet
+            Sleep(50);
+
+            // Clear the bullet from the current position
+            buffer[targetY][targetX] = ' ';
+
+            // Check if the target position hit a wall
+            if (buffer[targetY][targetX] == '#') 
+            {
+                break;
+            }
+        } 
+        else 
+        {
+            break;
+        }
+    }
+
+    // down shoot side
+
+    while (true) 
+    {
+        // Move the target position based on the player's direction
+            targetY++;
+
+        // Check if the target position is within the bounds of the game map
+        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        {
+            // Check if there is an enemy at the target position
+            bool hitEnemy = false;
+            for (const auto& enemy : enemies_vector) 
+            {
+                if (enemy->enemy_alive && targetX == enemy->enemy_x_pos && targetY == enemy->enemy_y_pos) 
+                {
+                    hitEnemy = true;
+                    enemy->enemy_hp--;
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (enemy->enemy_hp <= 0) 
+                    {
+                        player_pointer_object->player_xp += enemy->enemy_xp;
+                        enemy->enemy_alive = false;
+                    }
+                    break;
+                }
+            }
+
+            // Check if there is an obstacle at the target position
+            bool hit_obstacle = false;
+            for (const auto& obstacle : obstacles_vector) 
+            {
+                if (obstacle->obstacle_alive && targetX == obstacle->obstacle_x_pos && targetY == obstacle->obstacle_y_pos) 
+                {
+                    hit_obstacle = true;
+                    obstacle->obstacle_hp--;
+                    // If enemy's health is 0 or less, set the enemy's alive property to false
+                    if (obstacle->obstacle_hp <= 0) 
+                    {
+                        obstacle->obstacle_alive = false;
+                    }
+                    break;
+                }
+            }
+
+            // Clear the bullet from the previous position
+            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+
+            // Draw the bullet at the target position
+            buffer[targetY][targetX] = '*';
+            draw_level_1();
+
+            // Sleep after drawing the bullet
+            Sleep(50);
+
+            // Clear the bullet from the current position
+            buffer[targetY][targetX] = ' ';
+
+            // Check if the target position hit a wall
+            if (buffer[targetY][targetX] == '#') 
+            {
+                break;
+            }
+        } 
+        else 
+        {
+            break;
+        }
+    }
+
+
+    // shoot skill cooldown
+    shoot_skill_cooldown = true;
+    lastShootTime = chrono::steady_clock::now();
+    // reset shoot skill cooldown
+    shoot_skill_cooldown = false;
+}
 void check_items()
 {
   // Read from the savefile
@@ -1385,7 +1660,6 @@ void check_items()
     cout << "Invalid item index option" << endl;
   }
 }
-
 void item_store_header()
 {
   savefile_object.open("magian_save.txt", ios::app);
@@ -1417,6 +1691,7 @@ void check_stats()
   int g;
   int h;
   int i;
+  int j;
 
   savefile_object.open("magian_save.txt", ios::in);
     if (savefile_object.is_open())
@@ -1450,6 +1725,9 @@ void check_stats()
           
         else if (line.find("Herbology: ") != string::npos)
           i = stoi(line.substr(11));
+
+        else if (line.find("Money: ") != string::npos)
+          j = stoi(line.substr(7));
       }
         savefile_object.close();
 
@@ -1464,6 +1742,7 @@ void check_stats()
         cout << "Diplomacy: " << g << endl;
         cout << "Swimming: " << h << endl;
         cout << "Herbology: " << i << endl;
+        cout << "Money: " << i << endl;
         
     }
     else
@@ -1494,6 +1773,7 @@ void initialise_player()
   int player_herbology = 0;
   int player_xp = 0;
   int player_speed = 1;
+  int player_money = 0;
   player_pointer_object->player_magic = player_magic;
   player_pointer_object->player_health = player_health;
   player_pointer_object->player_xp = player_xp;
@@ -1502,6 +1782,7 @@ void initialise_player()
   player_pointer_object->player_diplomacy = player_diplomacy;
   player_pointer_object->player_swimming = player_swimming;
   player_pointer_object->player_herbology = player_herbology;
+  player_pointer_object->player_money = player_money;
   
   savefile_object.open("magian_save.txt", ios::app);
     if(savefile_object.is_open())
@@ -1514,6 +1795,7 @@ void initialise_player()
         savefile_object << "Diplomacy: " << player_diplomacy << endl;
         savefile_object << "Swimming: " << player_swimming << endl;
         savefile_object << "Herbology: " << player_herbology << endl;
+        savefile_object << "Money: " << player_money << endl;
         savefile_object.close();
     }
     else
