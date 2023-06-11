@@ -394,10 +394,10 @@ class potion_item_subclass : public item_class
 {
 public:
   potion_item_subclass() : item_class("Potion", "When used increases players life by 1 by regenerating their body.", 'p') {}
-  void use(int& lives)
+  void use(shared_ptr<player_class>& player_pointer_object)
   {
     cout << "You used a Potion. 1 life gained" << endl;
-    lives++;
+    player_pointer_object->player_health++;
   }
 };
 class leather_boots_item_subclass : public item_class
@@ -1348,14 +1348,14 @@ void shoot_fireball()
 }
 void check_items()
 {
-  // read from the savefile NOT the pointer object!!!
-  cout << "INVENTORY" <<endl;
-  for (int i=0;i<items_vector.size(); i++)
+  // Read from the savefile
+  cout << "INVENTORY" << endl;
+  for (int i = 0; i < items_vector.size(); i++)
   {
     cout << i << ": " << items_vector[i]->item_name << endl;
   }
 
-  // using an item
+  // Using an item
   int item_select_variable;
   cout << "Select item you wish to use: " << endl;
   cin >> item_select_variable;
@@ -1363,30 +1363,29 @@ void check_items()
   if (item_select_variable >= 0 && item_select_variable < items_vector.size())
   {
     cout << "Using item: " << items_vector[item_select_variable]->item_name << endl;
-    shared_ptr<item_class>& item = items_vector[item_select_variable];
-    if (items_vector[item_select_variable]->item_name == "Potion")
+    
+    // Find the item by name and call its use() function
+    for (const auto& item : items_vector)
     {
-      potion_item_subclass* potion = dynamic_cast<potion_item_subclass*>(item.get());
-      potion->use(lives);
-      items_vector.erase(items_vector.begin() + item_select_variable);
-      cout << "Press ENTER to continue...";
-      cin.get();
+      if (item->item_name == items_vector[item_select_variable]->item_name)
+      {
+        item->use(lives);
+        break;
+      }
     }
-    else if (items_vector[item_select_variable]->item_name == "Leather boots")
-    {
-      leather_boots_item_subclass* boots = dynamic_cast<leather_boots_item_subclass*>(item.get());
-      boots->use(player_pointer_object);
-      items_vector.erase(items_vector.begin() + item_select_variable);
-      cout << "Press ENTER to continue...";
-      cin.get();
-    }
+    
+    // Remove the item from the items_vector
     items_vector.erase(items_vector.begin() + item_select_variable);
+
+    cout << "Press ENTER to continue...";
+    cin.get();
   }
   else
   {
     cout << "Invalid item index option" << endl;
   }
 }
+
 void item_store_header()
 {
   savefile_object.open("magian_save.txt", ios::app);
@@ -1409,6 +1408,16 @@ void check_skills()
 void check_stats()
 {
   cout << "STATS\n";
+  string a;
+  int b;
+  int c;
+  int d;
+  int e;
+  int f;
+  int g;
+  int h;
+  int i;
+
   savefile_object.open("magian_save.txt", ios::in);
     if (savefile_object.is_open())
     {
@@ -1416,37 +1425,45 @@ void check_stats()
       while (getline(savefile_object, line))
       {
         if (line.find("Name: ") != string::npos)
-          player_pointer_object->player_name = stoi(line.substr(6));
+          a = stoi(line.substr(6));
+
         else if (line.find("Magic: ") != string::npos)
-          player_pointer_object->player_magic = stoi(line.substr(7));
-        else if (line.find("XP: ") != string::npos)
-          player_pointer_object->player_health = stoi(line.substr(4));
-        else if (line.find("Speed: ") != string::npos)
-          player_pointer_object->player_health = stoi(line.substr(7));
+          b = stoi(line.substr(7));
+
         else if (line.find("Health: ") != string::npos)
-          player_pointer_object->player_health = stoi(line.substr(8));
+          c = stoi(line.substr(8));
+
+        else if (line.find("XP: ") != string::npos)
+          f = stoi(line.substr(4));
+
+        else if (line.find("Speed: ") != string::npos)
+          e = stoi(line.substr(7));
+
         else if (line.find("Literacy: ") != string::npos)
-          player_pointer_object->player_literacy = stoi(line.substr(10));
+          f = stoi(line.substr(10));
+
         else if (line.find("Diplomacy: ") != string::npos)
-          player_pointer_object->player_diplomacy = stoi(line.substr(11));
+          g = stoi(line.substr(11));
+
         else if (line.find("Swimming: ") != string::npos)
-          player_pointer_object->player_swimming = stoi(line.substr(10));
+          h = stoi(line.substr(10));
+          
         else if (line.find("Herbology: ") != string::npos)
-          player_pointer_object->player_herbology = stoi(line.substr(11));
+          i = stoi(line.substr(11));
       }
         savefile_object.close();
 
         // Print the stats
         cout << "Player Stats:" << endl;
-        cout << "Name: " << player_pointer_object->player_name << endl;
-        cout << "Magic: " << player_pointer_object->player_magic << endl;
-        cout << "XP: " << player_pointer_object->player_xp << endl;
-        cout << "Speed: " << player_pointer_object->player_speed << endl;
-        cout << "Health: " << player_pointer_object->player_health << endl;
-        cout << "Literacy: " << player_pointer_object->player_literacy << endl;
-        cout << "Diplomacy: " << player_pointer_object->player_diplomacy << endl;
-        cout << "Swimming: " << player_pointer_object->player_swimming << endl;
-        cout << "Herbology: " << player_pointer_object->player_herbology << endl;
+        cout << "Name: " << a << endl;
+        cout << "Magic: " << b << endl;
+        cout << "Health: " << c << endl;
+        cout << "XP: " << f << endl;
+        cout << "Speed: " << e << endl;
+        cout << "Literacy: " << f << endl;
+        cout << "Diplomacy: " << g << endl;
+        cout << "Swimming: " << h << endl;
+        cout << "Herbology: " << i << endl;
         
     }
     else
@@ -1470,11 +1487,11 @@ void setup_player_header()
 void initialise_player()
 {
   int player_magic = 1;
-  int player_health = 1;
+  int player_health = 3;
   int player_literacy = 1;
-  int player_diplomacy = 1;
-  int player_swimming = 1;
-  int player_herbology = 1;
+  int player_diplomacy = 0;
+  int player_swimming = 0;
+  int player_herbology = 0;
   int player_xp = 0;
   int player_speed = 1;
   player_pointer_object->player_magic = player_magic;
@@ -1514,15 +1531,15 @@ void load_player(shared_ptr<player_class>& player_pointer_object)
       while (getline(savefile_object, line))
       {
         if (line.find("Name: ") != string::npos)
-          player_pointer_object->player_magic = stoi(line.substr(6));
+          player_pointer_object->player_name = stoi(line.substr(6));
         else if (line.find("Magic: ") != string::npos)
           player_pointer_object->player_magic = stoi(line.substr(7));
-        else if (line.find("XP: ") != string::npos)
-          player_pointer_object->player_health = stoi(line.substr(4));
-        else if (line.find("Speed: ") != string::npos)
-          player_pointer_object->player_health = stoi(line.substr(7));
         else if (line.find("Health: ") != string::npos)
           player_pointer_object->player_health = stoi(line.substr(8));
+        else if (line.find("XP: ") != string::npos)
+          player_pointer_object->player_xp = stoi(line.substr(4));
+        else if (line.find("Speed: ") != string::npos)
+          player_pointer_object->player_speed = stoi(line.substr(7));
         else if (line.find("Literacy: ") != string::npos)
           player_pointer_object->player_literacy = stoi(line.substr(10));
         else if (line.find("Diplomacy: ") != string::npos)
