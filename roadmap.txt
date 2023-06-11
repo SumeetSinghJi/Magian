@@ -1,6 +1,7 @@
 ROADMAP
 
 
+* items and obstacles are generating out of bounds. Fix this issue.
 
 # initalise_settings() use the pointer for everything
 * item store not working for second item - consider algorithm

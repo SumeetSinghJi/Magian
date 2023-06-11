@@ -7,7 +7,6 @@ int cin_valid_input();
 void menu();
 void change_language(int& language);
 void toggle_music(bool &music_variable);
-// Function for changing in game settings
 void change_settings(int& lives, int& language) 
 {
   cout << "SETTINGS\n\n"
@@ -57,7 +56,6 @@ void change_settings(int& lives, int& language)
     break;
   }
 }
-
 void change_language(int& language) 
 {
   
@@ -89,7 +87,6 @@ void change_language(int& language)
       return;
   }
 }
-
 void toggle_music(bool &music_variable)
 {
   cout << "Turn Music ON or OFF\n"

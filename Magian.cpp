@@ -32,13 +32,12 @@ class player_class
     int player_xp = 0;
     int player_x_pos; 
     int player_y_pos;
+    int previous_x_pos;
+    int previous_y_pos;
 };
 // Forward declaration
 class obstacle_class;
-enum edirection 
-{
-  STOP = 0, UP, DOWN, LEFT, RIGHT
-};
+enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
 edirection direction;
 // Global variables
 // level 1 map
@@ -51,22 +50,6 @@ const int l2height = 40;
 char l2buffer[l2height][l2width];
 int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
 // Classes
-class level_class
-{
-  public:
-    int level=1;
-    int level_select_variable=1; // for bonus level select
-    int width;
-    int height;
-    vector<vector<char>> l2buffer;
-};
-class settings_class
-{
-  public:
-    int difficulty;
-    int won_game;
-    int language; // language 1 = english
-};
 class obstacle_class
 {
   public:
@@ -259,7 +242,11 @@ public:
     }
     void enemy_check_collision(shared_ptr<player_class> &player_pointer_object) 
     {
-        if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) {
+        if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) 
+        {
+          direction = STOP;
+          player_pointer_object->player_x_pos = player_pointer_object->previous_x_pos;
+          player_pointer_object->player_y_pos = player_pointer_object->previous_y_pos;
             lives-=enemy_melee_damage;
             enemy_pause = 3; // Pause for 3 ticks
             cout << "You bumped into the monster";
@@ -376,13 +363,31 @@ public:
   {
 
   }
-  void item_check_collision(shared_ptr<player_class> &player_pointer_object) 
+ void item_store()
   {
-        if (item_x_pos == player_pointer_object->player_x_pos && item_y_pos == player_pointer_object->player_y_pos) {
-            item_alive=false;
-            cout << "You picked up the item";
-            cin.get();
-        }
+    // Store the item name in the savegame file
+    savefile_object.open("magian_save.txt", ios::app);
+    if (savefile_object.is_open())
+    {
+        savefile_object << item_name << endl;
+        savefile_object.close();
+    }
+    else
+    {
+        cerr << "Error: Inventory not saved to save file" << endl;
+        return;
+    }
+  }
+  
+  void item_check_collision(shared_ptr<player_class>& player_pointer_object) 
+  {
+    if (item_x_pos == player_pointer_object->player_x_pos && item_y_pos == player_pointer_object->player_y_pos)
+    {
+        item_alive = false;
+        item_store(); // Store the item name in the save file
+        cout << "You picked up the item" << endl;
+        cin.get();
+    }
   }
 };
 class potion_item_subclass : public item_class
@@ -410,7 +415,6 @@ fstream savefile_object;
 void menu();
 void l2startgame();
 void check_stats();
-void item_store();
 void check_items();
 void check_skills();
 void save();
@@ -419,9 +423,6 @@ vector<shared_ptr<obstacle_class>> obstacles_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<item_class>> items_vector;
 shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
-shared_ptr<level_class> level_pointer_object = make_shared<level_class>();
-shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
-
 string version = "0.2.2";
 bool music_variable = true; 
 bool gameover = false;
@@ -595,42 +596,6 @@ void random_generate_items()
     }
   }
 }
-void initialise_level()
-{
-    const int width = 40;
-    const int height = 40;
-    char buffer[height][width];
-    // Assuming you want to copy the contents of l2buffer into level_pointer_object->l2buffer
-    for (int i = 0; i < l2height; i++)
-    {
-        for (int j = 0; j < l2width; j++)
-        {
-            level_pointer_object->l2buffer[i][j] = l2buffer[i][j];
-        }
-    }
-} 
-void initialise_setings()
-{
-    int difficulty=3;
-    int won_game = false;
-    int language=1; // language 1 = english
-    settings_pointer_object->difficulty=difficulty;
-    settings_pointer_object->won_game=won_game;
-    settings_pointer_object->language=language;
-    savefile_object.open("magian_save.txt", ios::app);
-    if(savefile_object.is_open())
-    {
-        savefile_object << "Difficulty: " << difficulty << endl;
-        savefile_object << "won_game: " << won_game << endl;
-        savefile_object << "language: " << language << endl;
-        savefile_object.close();
-    }
-    else
-    {
-        cerr << "Error: Settings not saved to save file" << endl;
-        return;
-    }
-} 
 void setup() 
 {
   if (music_variable == false)
@@ -665,11 +630,9 @@ void setup()
   enemies_vector.push_back(flying_enemy);
   
 
-  // Adding starting items to players inventory vector
+  // Adding items to field
   items_vector.push_back(make_shared<potion_item_subclass>());
-  item_store();
   items_vector.push_back(make_shared<leather_boots_item_subclass>());
-  item_store();
 
   // random_generate_enemy();
   // random_generate_items();
@@ -992,15 +955,29 @@ void POSIXinput()
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break; 
-        case 59: // F1 key
+        case 59:
             save();
+            break;
+        case 27: // escape key
+            menu();
             break;
         case 'q':
             exit(0);
             break;
         case ' ':
             if (direction != STOP)
-                shoot_fireball();
+            {
+                chrono::steady_clock::time_point currentTime = chrono::steady_clock::now();
+                chrono::duration<double> elapsedSeconds = currentTime - lastShootTime;
+                if (elapsedSeconds.count() >= 2.0) {
+                    // The shoot skill is off cooldown
+                    shoot_fireball();
+                    // Update the last shoot time
+                } else {
+                    // The shoot skill is on cooldown
+                    cout << "The shoot skill is on cooldown. Please wait for " << (2.0 - elapsedSeconds.count()) << " seconds." << endl;
+                }
+            }
             break;
         case 'e':
             direction = STOP;
@@ -1010,45 +987,107 @@ void POSIXinput()
 }
 void save()
 {
-  cout << "Game Saved";
-  savefile_object.open("magian_save.txt", ios::app);
-  if(savefile_object.is_open())
-  {
-    cout << "Write all Player objects members to file";
-  }
-  cin.get();
+    std::cout << "Saving Game..." << std::endl;
+    cin.get();
+
+    // get new values
+    string player_name = player_pointer_object->player_name;
+    int player_magic = player_pointer_object->player_magic;
+    int player_health = player_pointer_object->player_health;
+    int player_xp = player_pointer_object->player_xp;
+    int player_speed = player_pointer_object->player_speed;
+    int player_literacy = player_pointer_object->player_literacy;
+    int player_diplomacy = player_pointer_object->player_diplomacy;
+    int player_swimming = player_pointer_object->player_swimming;
+    int player_herbology = player_pointer_object->player_herbology;
+
+    // search strings to match
+    string name_match = "Name: ";
+    string magic_match = "Magic: ";
+    string health_match = "Health: ";
+    string xp_match = "XP: ";
+    string speed_match = "Speed: ";
+    string literacy_match = "Literacy: ";
+    string diplomacy_match = "Diplomacy: ";
+    string swimming_match = "Swimming: ";
+    string herbology_match = "Herbology: ";
+
+    // test open file to read the contents first
+    savefile_object.open("magian_save.txt", ios::app);
+    if (savefile_object.is_open())
+    {
+      string line;
+      while (getline(savefile_object, line))
+      {
+        if (line.find(name_match) != string::npos) // NAME
+        {
+          savefile_object << name_match << player_name;
+        }
+        else if (line.find(magic_match) != string::npos) // MAGIC
+        {
+          savefile_object << magic_match << player_magic;
+        }
+        else if (line.find(health_match) != string::npos) // HEALTH
+        {
+          savefile_object << health_match << player_health;
+        }
+        else if (line.find(xp_match) != string::npos) // XP
+        {
+          savefile_object << xp_match << player_xp;
+        }
+        else if (line.find(speed_match) != string::npos) // SPEED
+        {
+          savefile_object << speed_match << player_speed;
+        }
+        else if (line.find(literacy_match) != string::npos) // LITERACY
+        {
+          savefile_object << literacy_match << player_literacy;
+        }
+        else if (line.find(diplomacy_match) != string::npos) // DIPLOMACY
+        {
+          savefile_object << diplomacy_match << player_diplomacy;
+        }
+        else if (line.find(swimming_match) != string::npos) // SWIMMING
+        {
+          savefile_object << swimming_match << player_swimming;
+        }
+        else if (line.find(herbology_match) != string::npos) // HERBOLOGY
+        {
+          savefile_object << herbology_match << player_herbology;
+        }   
+      }
+      savefile_object.close();
+      std::cout << "Game Saved" << std::endl;
+      cin.get();
+    }
+    // test open file to read the contents first
+    else
+    {
+        cerr << "Error: failed to open magian_save.txt" << endl;
+        return;
+    }
 }
 void collision_logic()
 {
-  // Store the player's previous positions for collision detection
-  int previous_x_pos = player_pointer_object->player_x_pos;
-  int previous_y_pos = player_pointer_object->player_y_pos;
-
-  // Check collision with enemies
-for (const auto& enemy : enemies_vector)
-{
-  if (enemy->enemy_alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos)
+  // Enemies
+  for (const auto& enemy : enemies_vector)
   {
-    // Deal melee damage to the player
-    enemy->enemy_check_collision(player_pointer_object);
-  } else {  }
-}
+    if (enemy->enemy_alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos)
+    {
+      enemy->enemy_check_collision(player_pointer_object);
+    } else {  }
+  }
 
-  // Check collision with obstacles
+  // Obstacles
   for (const auto& obstacle : obstacles_vector)
   {
     if (obstacle->obstacle_alive && player_pointer_object->player_x_pos == obstacle->obstacle_x_pos && player_pointer_object->player_y_pos == obstacle->obstacle_y_pos)
     {
-      // Reset player position to last position before collision
-      player_pointer_object->player_x_pos = previous_x_pos;
-      player_pointer_object->player_y_pos = previous_y_pos;
-
-      // Perform obstacle collision logic
       obstacle->obstacle_check_collision(player_pointer_object);
     } else {  }
   }
 
-  // item collision
+  // Items
   for(const auto item : items_vector)
   {
     if (player_pointer_object->player_x_pos == item->item_x_pos && player_pointer_object->player_y_pos == item->item_y_pos) 
@@ -1056,8 +1095,6 @@ for (const auto& enemy : enemies_vector)
         item->item_check_collision(player_pointer_object);
     } else {  }
   }
-
-
 }
 void win_logic()
 {
@@ -1363,26 +1400,6 @@ void item_store_header()
     cerr << "Error: Couldn't write header txt INVENTORY to savefile";
   }
 }
-void item_store()
-{
-    // Accessing last Element of inventory vector
-    int inventory_last_index_variable = items_vector.size() - 1;
-    // accessing last item
-    item_class* inventory_last_element_variable = items_vector[inventory_last_index_variable].get();
-    string item_store_variable = inventory_last_element_variable->item_name;
-    // Storing last item to savegame file
-    savefile_object.open("magian_save.txt", ios::app);
-    if(savefile_object.is_open())
-    {
-        savefile_object << item_store_variable << endl;
-        savefile_object.close();
-    }
-    else
-    {
-        cerr << "Error: Inventory not saved to save file" << endl;
-        return;
-    }
-}
 void check_skills()
 {
   // read from the savefile NOT the pointer object!!!
@@ -1458,7 +1475,7 @@ void initialise_player()
   int player_diplomacy = 1;
   int player_swimming = 1;
   int player_herbology = 1;
-  int player_xp = 1;
+  int player_xp = 0;
   int player_speed = 1;
   player_pointer_object->player_magic = player_magic;
   player_pointer_object->player_health = player_health;
