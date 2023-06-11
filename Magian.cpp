@@ -1041,11 +1041,17 @@ void save()
 }
 void collision_logic()
 {
+  player_pointer_object->previous_x_pos = player_pointer_object->player_x_pos;
+  player_pointer_object->previous_y_pos = player_pointer_object->player_y_pos;
+
   // Enemies
   for (const auto& enemy : enemies_vector)
   {
     if (enemy->enemy_alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos)
     {
+      player_pointer_object->player_x_pos = player_pointer_object->previous_x_pos;
+      player_pointer_object->player_y_pos = player_pointer_object->previous_y_pos;
+
       enemy->enemy_check_collision(player_pointer_object);
     } else {  }
   }
@@ -1055,6 +1061,8 @@ void collision_logic()
   {
     if (obstacle->obstacle_alive && player_pointer_object->player_x_pos == obstacle->obstacle_x_pos && player_pointer_object->player_y_pos == obstacle->obstacle_y_pos)
     {
+      player_pointer_object->player_x_pos = player_pointer_object->previous_x_pos;
+      player_pointer_object->player_y_pos = player_pointer_object->previous_y_pos;
       obstacle->obstacle_check_collision(player_pointer_object);
     } else {  }
   }
@@ -1064,7 +1072,9 @@ void collision_logic()
   {
     if (player_pointer_object->player_x_pos == item->item_x_pos && player_pointer_object->player_y_pos == item->item_y_pos) 
     {
-        item->item_check_collision(player_pointer_object);
+      player_pointer_object->player_x_pos = player_pointer_object->previous_x_pos;
+      player_pointer_object->player_y_pos = player_pointer_object->previous_y_pos;
+      item->item_check_collision(player_pointer_object);
     } else {  }
   }
 }

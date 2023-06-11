@@ -21,9 +21,6 @@ divine pantheon of gods, goddess, and everything in between lies Agni the first 
 learning magic, the art of mages to harness and control magic powers.
 
 
-This is an free open source c++ game hosted on GitHub https://github.com/SumeetSinghJi/Magian
-
-
 
 Author: Sumeet Singh
 Email: kurta.kursi@gmail.com
