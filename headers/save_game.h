@@ -26,7 +26,6 @@ extern bool gameover;
 extern int level_select_variable;
 extern string version;
 extern fstream savefile_object;
-extern fstream loadfile_object;
 void menu();
 string find_host_os();
 string get_datetime() 
@@ -64,19 +63,20 @@ string get_datetime()
 void update_savefile_level() // This function should be called in win condition
 {
     // open file to read the contents first
-    loadfile_object.open("magian_save.txt", ios::in);
-    if (loadfile_object.is_open())
+    savefile_object.open("magian_save.txt", ios::in);
+    if (savefile_object.is_open())
     {
         string line;
         string level_select_variable_match = "Unlocked levels: ";
         bool match_found = false;
 
-        while (getline(loadfile_object, line))
+        while (getline(savefile_object, line))
         {
             if (line.find(level_select_variable_match) != string::npos)
             {
                 // level_select_variable already exists in the save file, overwrite it
                 savefile_object.close();
+                savefile_object.clear();
                 savefile_object.open("magian_save.txt", ios::out);
                 if (savefile_object.is_open())
                 {
@@ -86,6 +86,7 @@ void update_savefile_level() // This function should be called in win condition
                     savefile_object << "Date: " << get_datetime() << endl;
                     savefile_object << level_select_variable_match << level_select_variable << endl;
                     savefile_object.close();
+                    savefile_object.clear();
                     match_found = true;
                     break;
                 }
@@ -96,7 +97,8 @@ void update_savefile_level() // This function should be called in win condition
                 }
             }
         }
-        loadfile_object.close();
+        savefile_object.close();
+        savefile_object.clear();
 
         if (match_found)
         {
@@ -115,6 +117,7 @@ void update_savefile_level() // This function should be called in win condition
         savefile_object << "Date: " << get_datetime() << endl;
         savefile_object << "Unlocked levels: " << level_select_variable << endl;
         savefile_object.close();
+        savefile_object.clear();
     }
     else
     {
@@ -124,8 +127,8 @@ void update_savefile_level() // This function should be called in win condition
 }
 void match_savefile_level() // This code is read in the bonus level select mode to see available levels
 {
-    loadfile_object.open("magian_save.txt", ios::in); //read file contents
-    if(loadfile_object.is_open())
+    savefile_object.open("magian_save.txt", ios::in); //read file contents
+    if(savefile_object.is_open())
     {
         string savefile_contents_string_variable;
         string Level_one_match_variable = "Unlocked levels: 1";
@@ -135,7 +138,7 @@ void match_savefile_level() // This code is read in the bonus level select mode 
         string Level_five_match_variable = "Unlocked levels: 5";
         bool match_found_bool = false;
 
-        while(getline(loadfile_object, savefile_contents_string_variable)) 
+        while(getline(savefile_object, savefile_contents_string_variable)) 
         {
             
             // Run the command below to test if savefile.txt contents are being read
@@ -172,7 +175,8 @@ void match_savefile_level() // This code is read in the bonus level select mode 
             }    
         }
     }
-    loadfile_object.close();
+    savefile_object.close();
+    savefile_object.clear();
 }
 void save_load_game() // // Function for finding save files and deleting
 {

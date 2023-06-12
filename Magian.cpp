@@ -353,6 +353,7 @@ public:
     {
         savefile_object << item_name << endl;
         savefile_object.close();
+        savefile_object.clear();
     }
     else
     {
@@ -393,7 +394,6 @@ public:
   }
 };
 fstream savefile_object;
-fstream loadfile_object;
 // FUNCTION PROTOTYPE/DECLARATION
 void menu();
 void l2startgame();
@@ -1040,6 +1040,7 @@ void save()
         }    
       }
       savefile_object.close();
+      savefile_object.clear();
       std::cout << "Game Saved" << std::endl;
       cin.get();
     }
@@ -1689,6 +1690,7 @@ void item_store_header()
   {
     savefile_object << "INVENTORY" << endl;
     savefile_object.close();
+    savefile_object.clear();
   }
   else
   {
@@ -1703,60 +1705,6 @@ void check_skills()
 }
 void check_stats()
 {
-  /* If reading stats from savefile add the below
-  cout << "STATS\n";
-  string a;
-  int b;
-  int c;
-  int d;
-  int e;
-  int f;
-  int g;
-  int h;
-  int i;
-  int j;
-
-  savefile_object.open("magian_save.txt", ios::in);
-    if (savefile_object.is_open())
-    {
-      string line;
-      while (getline(savefile_object, line))
-      {
-        if (line.find("Name: ") != string::npos)
-          a = stoi(line.substr(6));
-
-        else if (line.find("Magic: ") != string::npos)
-          b = stoi(line.substr(7));
-
-        else if (line.find("Health: ") != string::npos)
-          c = stoi(line.substr(8));
-
-        else if (line.find("XP: ") != string::npos)
-          f = stoi(line.substr(4));
-
-        else if (line.find("Speed: ") != string::npos)
-          e = stoi(line.substr(7));
-
-        else if (line.find("Literacy: ") != string::npos)
-          f = stoi(line.substr(10));
-
-        else if (line.find("Diplomacy: ") != string::npos)
-          g = stoi(line.substr(11));
-
-        else if (line.find("Swimming: ") != string::npos)
-          h = stoi(line.substr(10));
-          
-        else if (line.find("Herbology: ") != string::npos)
-          i = stoi(line.substr(11));
-
-        else if (line.find("Money: ") != string::npos)
-          j = stoi(line.substr(7));
-      }
-        savefile_object.close();
-
-        */
-
-        // Print the stats
         cout << "Player Stats:" << endl;
         cout << "Name: " << player_pointer_object->player_name << endl;
         cout << "Magic: " << player_pointer_object->player_magic << endl;
@@ -1768,15 +1716,6 @@ void check_stats()
         cout << "Swimming: " << player_pointer_object->player_swimming << endl;
         cout << "Herbology: " << player_pointer_object->player_herbology << endl;
         cout << "Money: " << player_pointer_object->player_money << endl;
-
-    /*    
-    }
-    
-    else
-    {
-        cerr << "Error: Unable to open save file." << endl;
-    }
-    */
 }
 void check_objective()
 {
@@ -1808,6 +1747,7 @@ void setup_player_header()
   {
     savefile_object << "AVATAR" << endl;
     savefile_object.close();
+    savefile_object.clear();
   }
   else
   {
@@ -1848,6 +1788,7 @@ void initialise_player()
         savefile_object << "Herbology: " << player_herbology << endl;
         savefile_object << "Money: " << player_money << endl;
         savefile_object.close();
+        savefile_object.clear();
     }
     else
     {
@@ -1857,12 +1798,13 @@ void initialise_player()
 }
 void load_player()
 {
-    loadfile_object.open("magian_save.txt", ios::in);
-    if (loadfile_object.is_open())
+    fstream savefile_object;
+    savefile_object.open("magian_save.txt", ios::in);
+    if (savefile_object.is_open())
     {
         cout << "Loading save..." << endl;
         string line;
-        while (getline(loadfile_object, line))
+        while (getline(savefile_object, line))
         {    
             if (line.find("Name: ") != string::npos)
                 player_pointer_object->player_name = line.substr(6);
@@ -1884,7 +1826,8 @@ void load_player()
                 player_pointer_object->player_herbology = stoi(line.substr(11));
         }
 
-        loadfile_object.close();
+        savefile_object.close();
+        savefile_object.clear();
         cout << "Save loaded..." << endl;
     }
     else
@@ -2229,6 +2172,7 @@ void choose_player_name()
     {
         savefile_object << "NAME: " << player_name << endl;
         savefile_object.close();
+        savefile_object.clear();
     }
     else
     {
@@ -2353,6 +2297,7 @@ void startgame()
           if (choice_new_game_variable == 'Y' || choice_new_game_variable == 'y')
           {
             savefile_object.close();
+            savefile_object.clear();
             filesystem::remove("magian_save.txt");
             cout << "Press ENTER to continue.." << endl;
             cin.get();
