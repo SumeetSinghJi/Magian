@@ -2282,52 +2282,57 @@ void continuegame()
 void startgame()
 {
     fstream savefile_object;
-    savefile_object.open("magian_save.txt", ios::in);
-    if (savefile_object.is_open())
+    string filename = "magian_save.txt";
+    char choice_new_game_variable; 
+    cout << "Do you want to start a New Game, or load your existing save?\n"
+    "1. New Game\n"
+    "2. Continue Game\n"
+    "Enter an option (ENTER 0 to exit): ";
+    int continue_variable = cin_valid_input();
+    switch(continue_variable)
     {
-      char choice_new_game_variable; 
-      cout << "Do you want to start a New Game, or load your existing save?\n"
-      "1. New Game\n"
-      "2. Continue Game\n"
-      "Enter an option (ENTER 0 to exit): ";
-      int continue_variable = cin_valid_input();
-      switch(continue_variable)
+    case 0:
+      menu();
+      break;
+    case 1:
+      if(filesystem::exists(filename))
       {
-        case 0:
+        cout << "Starting new game will Erase old save file. Are you sure? type Y to erase, Or ENTER any other key to Exit: ";
+        cin >> choice_new_game_variable;
+        if (choice_new_game_variable == 'Y' || choice_new_game_variable == 'y')
+        {
+          filesystem::remove(filename);
+          newgame();
+          break;
+        }
+        else 
+        {
           menu();
           break;
-        case 1:
-          cout << "Starting new game will Erase old save file. Are you sure? type Y to erase, Or ENTER any other key to Exit: ";
-          cin >> choice_new_game_variable;
-          if (choice_new_game_variable == 'Y' || choice_new_game_variable == 'y')
-          {
-            savefile_object.close();
-            savefile_object.clear();
-            string filename = "magian_save.txt";
-            if(filesystem::exists(filename))
-            {
-              filesystem::remove(filename);
-            }
-            cout << "Press ENTER to continue.." << endl;
-            cin.get();
-            newgame();
-          }
-          else
-          {
-            menu();
-            break;
-          }
-          break;
-        case 2:
-          continuegame();
-          break;
+        }
+        break;
+      }
+      else
+      {
+        newgame();
+        break;
+      }
+      break;
+    case 2:
+      if(filesystem::exists(filename))
+      {
+        continuegame();
+        break;
+      }
+      else
+      {
+        cout << "Save file doesn't exist, starting a new game." << endl;
+        newgame();
+        break;
       }
     }
-    else
-    {
-      newgame();
-    }
 }
+
 void menu() 
 {
   if (music_variable == false)
