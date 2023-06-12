@@ -26,8 +26,8 @@ extern bool gameover;
 extern int level_select_variable;
 extern string version;
 extern fstream savefile_object;
-string host_OS_name_variable = "";
 void menu();
+string find_host_os();
 string get_datetime() 
 {
   time_t now = time(0);
@@ -38,19 +38,28 @@ string get_datetime()
   std::string datetime_variable = std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
   return datetime_variable;
 }
-string find_host_os(string &host_OS_name_variable)
-{   
-    #ifdef __WIN32
-        host_OS_name_variable += "Windows";
-    #elif __linux__
-        host_OS_name_variable += "Linux";
-    #elif __APPLE__
-        host_OS_name_variable += "MacOS";
-    #else
-        host_OS_name_variable += "Cannot detect";
-    #endif
-    return host_OS_name_variable; 
-}
+
+/* Load player match substring
+        if (line.find("Name: ") != string::npos)
+          player_pointer_object->player_name = line.substr(6);
+        else if (line.find("Magic: ") != string::npos)
+          player_pointer_object->player_magic = stoi(line.substr(7));
+        else if (line.find("Health: ") != string::npos)
+          player_pointer_object->player_health = stoi(line.substr(8));
+        else if (line.find("XP: ") != string::npos)
+          player_pointer_object->player_xp = stoi(line.substr(4));
+        else if (line.find("Speed: ") != string::npos)
+          player_pointer_object->player_speed = stoi(line.substr(7));
+        else if (line.find("Literacy: ") != string::npos)
+          player_pointer_object->player_literacy = stoi(line.substr(10));
+        else if (line.find("Diplomacy: ") != string::npos)
+          player_pointer_object->player_diplomacy = stoi(line.substr(11));
+        else if (line.find("Swimming: ") != string::npos)
+          player_pointer_object->player_swimming = stoi(line.substr(10));
+        else if (line.find("Herbology: ") != string::npos)
+          player_pointer_object->player_herbology = stoi(line.substr(11));
+          */
+
 void update_savefile_level() // This function should be called in win condition
 {
     // open file to read the contents first
@@ -71,7 +80,7 @@ void update_savefile_level() // This function should be called in win condition
                 if (savefile_object.is_open())
                 {
                     savefile_object << "Updating save file" << endl;
-                    savefile_object << "Computers Operating system is: " << host_OS_name_variable << endl;
+                    savefile_object << "Host OS is : " << find_host_os() << endl;
                     savefile_object << "Version: "<< version << endl;
                     savefile_object << "Date: " << get_datetime() << endl;
                     savefile_object << level_select_variable_match << level_select_variable << endl;
@@ -100,7 +109,7 @@ void update_savefile_level() // This function should be called in win condition
     if (savefile_object.is_open())
     {
         savefile_object << "SAVE UPDATE" << endl;
-        savefile_object << "Host OS is: " << host_OS_name_variable << endl;
+        savefile_object << "Host OS is: " << find_host_os() << endl;
         savefile_object << "Version: "<< version << endl;
         savefile_object << "Date: " << get_datetime() << endl;
         savefile_object << "Unlocked levels: " << level_select_variable << endl;
@@ -248,7 +257,7 @@ void level_select()
     case 1:
       setup();
       lives = 3;
-      if (host_OS_name_variable == "Windows")
+      if (find_host_os() == "Windows")
       { 
         while (!gameover) 
         {

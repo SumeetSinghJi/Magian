@@ -1,16 +1,17 @@
-#include <windows.h>
+#include <algorithm>
+#include <chrono>
 #include <conio.h>
-#include <unistd.h>
+#include <cstdio>
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-#include <string>
-#include <vector>
-#include <memory>
-#include <fstream>
 #include <filesystem>
-#include <chrono>
-#include <algorithm>
+#include <fstream>
+#include <memory>
+#include <string>
+#include <unistd.h>
+#include <vector>
+#include <windows.h>
 #include "headers/save_game.h"
 using namespace std;
 // CLASSES
@@ -317,17 +318,17 @@ class item_class
 {
 public:
   string item_name;
-  string description;
-  int cost;
-  int effect;
+  string item_description;
+  int item_cost;
+  int item_effect;
   int item_x_pos;
   int item_y_pos;
   char item_symbol;
   bool item_alive;
-  item_class(string item_name, string description, char item_symbol)
+  item_class(string item_name, string item_description, char item_symbol)
   {
     this->item_name = item_name;
-    this->description = description;
+    this->item_description = item_description;
     this->item_symbol = item_symbol;
     if(map_size==1)
       {
@@ -392,6 +393,7 @@ public:
   }
 };
 fstream savefile_object;
+fstream loadfile_object;
 // FUNCTION PROTOTYPE/DECLARATION
 void menu();
 void l2startgame();
@@ -407,7 +409,7 @@ vector<shared_ptr<obstacle_class>> obstacles_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<item_class>> items_vector;
 shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
-string version = "0.2.2";
+string version = "0.2.3";
 bool music_variable = true; 
 bool gameover = false;
 int moneyx, moneyy; // money draw() position
@@ -420,6 +422,18 @@ int level=1;
 int level_select_variable=1; // for bonus level select
 bool shoot_skill_cooldown = false;  // Flag to track the cooldown state
 chrono::steady_clock::time_point lastShootTime;  // Track the last shoot time
+string find_host_os()
+{   
+    #ifdef __WIN32
+        return "Windows";
+    #elif __linux__
+        return "Linux";
+    #elif __APPLE__
+        return "MacOS";
+    #else
+        return "Cannot detect";
+    #endif
+}
 void clear_screen()
 {
 #ifdef _WIN32
@@ -895,7 +909,7 @@ void POSIXinput()
 {
     if (_kbhit()) 
     {
-        switch (_getch()) 
+        switch (getchar()) 
         {
         case 'w':
             direction = UP;
@@ -1208,7 +1222,7 @@ void l2startgame()
   l2setup();
   lives = 3;
   
-  if (host_OS_name_variable == "Windows")
+  if (find_host_os() == "Windows")
   { 
     while (!gameover) 
     {
@@ -1662,6 +1676,7 @@ void check_items()
   {
     cout << "Invalid item index option" << endl;
   }
+  cout << "Press ENTER to return...";
 }
 void item_store_header()
 {
@@ -1684,6 +1699,7 @@ void check_skills()
 }
 void check_stats()
 {
+  /* If reading stats from savefile add the below
   cout << "STATS\n";
   string a;
   int b;
@@ -1734,24 +1750,29 @@ void check_stats()
       }
         savefile_object.close();
 
+        */
+
         // Print the stats
         cout << "Player Stats:" << endl;
-        cout << "Name: " << a << endl;
-        cout << "Magic: " << b << endl;
-        cout << "Health: " << c << endl;
-        cout << "XP: " << f << endl;
-        cout << "Speed: " << e << endl;
-        cout << "Literacy: " << f << endl;
-        cout << "Diplomacy: " << g << endl;
-        cout << "Swimming: " << h << endl;
-        cout << "Herbology: " << i << endl;
-        cout << "Money: " << i << endl;
-        
+        cout << "Name: " << player_pointer_object->player_name << endl;
+        cout << "Magic: " << player_pointer_object->player_magic << endl;
+        cout << "Health: " << player_pointer_object->player_health << endl;
+        cout << "XP: " << player_pointer_object->player_xp << endl;
+        cout << "Speed: " << player_pointer_object->player_speed << endl;
+        cout << "Literacy: " << player_pointer_object->player_literacy << endl;
+        cout << "Diplomacy: " << player_pointer_object->player_diplomacy << endl;
+        cout << "Swimming: " << player_pointer_object->player_swimming << endl;
+        cout << "Herbology: " << player_pointer_object->player_herbology << endl;
+        cout << "Money: " << player_pointer_object->player_money << endl;
+
+    /*    
     }
+    
     else
     {
         cerr << "Error: Unable to open save file." << endl;
     }
+    */
 }
 void check_objective()
 {
@@ -1830,34 +1851,37 @@ void initialise_player()
         return;
     }
 }
-void load_player(shared_ptr<player_class>& player_pointer_object)
+void load_player()
 {
-  savefile_object.open("magian_save.txt", ios::in);
-    if (savefile_object.is_open())
+    loadfile_object.open("magian_save.txt", ios::in);
+    if (loadfile_object.is_open())
     {
-      string line;
-      while (getline(savefile_object, line))
-      {
-        if (line.find("Name: ") != string::npos)
-          player_pointer_object->player_name = stoi(line.substr(6));
-        else if (line.find("Magic: ") != string::npos)
-          player_pointer_object->player_magic = stoi(line.substr(7));
-        else if (line.find("Health: ") != string::npos)
-          player_pointer_object->player_health = stoi(line.substr(8));
-        else if (line.find("XP: ") != string::npos)
-          player_pointer_object->player_xp = stoi(line.substr(4));
-        else if (line.find("Speed: ") != string::npos)
-          player_pointer_object->player_speed = stoi(line.substr(7));
-        else if (line.find("Literacy: ") != string::npos)
-          player_pointer_object->player_literacy = stoi(line.substr(10));
-        else if (line.find("Diplomacy: ") != string::npos)
-          player_pointer_object->player_diplomacy = stoi(line.substr(11));
-        else if (line.find("Swimming: ") != string::npos)
-          player_pointer_object->player_swimming = stoi(line.substr(10));
-        else if (line.find("Herbology: ") != string::npos)
-          player_pointer_object->player_herbology = stoi(line.substr(11));
-      }
-        savefile_object.close();
+        cout << "Loading save..." << endl;
+        string line;
+        while (getline(loadfile_object, line))
+        {    
+            if (line.find("Name: ") != string::npos)
+                player_pointer_object->player_name = line.substr(6);
+            if (line.find("Magic: ") != string::npos)
+                player_pointer_object->player_magic = stoi(line.substr(7));
+            if (line.find("Health: ") != string::npos)
+                player_pointer_object->player_health = stoi(line.substr(8));
+            if (line.find("XP: ") != string::npos)
+                player_pointer_object->player_xp = stoi(line.substr(4));
+            if (line.find("Speed: ") != string::npos)
+                player_pointer_object->player_speed = stoi(line.substr(7));
+            if (line.find("Literacy: ") != string::npos)
+                player_pointer_object->player_literacy = stoi(line.substr(10));
+            if (line.find("Diplomacy: ") != string::npos)
+                player_pointer_object->player_diplomacy = stoi(line.substr(11));
+            if (line.find("Swimming: ") != string::npos)
+                player_pointer_object->player_swimming = stoi(line.substr(10));
+            if (line.find("Herbology: ") != string::npos)
+                player_pointer_object->player_herbology = stoi(line.substr(11));
+        }
+
+        loadfile_object.close();
+        cout << "Save loaded..." << endl;
     }
     else
     {
@@ -2224,7 +2248,7 @@ void newgame()
   draw_level_1();
   
   // Start the game loop
-  if (host_OS_name_variable == "Windows")
+  if (find_host_os() == "Windows")
   { 
     while (!gameover)
     {
@@ -2259,7 +2283,7 @@ void newgame()
 }
 void continuegame() 
 {
-  load_player(player_pointer_object);
+  load_player();
   setup();
   lives = 3;
 
@@ -2270,7 +2294,7 @@ void continuegame()
   draw_level_1();
   
   // Start the game loop
-  if (host_OS_name_variable == "Windows")
+  if (find_host_os() == "Windows")
   { 
     while (!gameover)
     {
@@ -2356,7 +2380,6 @@ void menu()
   {
     PlaySoundW(L"sound//music//Cyber_Attack_by_JuliusH.wav", NULL, SND_FILENAME | SND_ASYNC);
   }
-  find_host_os(host_OS_name_variable);
   welcome();
   int menu_variable = cin_valid_input();
   switch (menu_variable)
