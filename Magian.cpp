@@ -54,8 +54,8 @@ class player_class
     int player_xp = 0;
     int player_x_pos; 
     int player_y_pos;
-    int previous_x_pos;
-    int previous_y_pos;
+    int player_previous_x_pos;
+    int player_previous_y_pos;
     int player_money = 0;
 };
 class obstacle_class
@@ -258,8 +258,8 @@ public:
         if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) 
         {
           direction = STOP;
-          player_pointer_object->player_x_pos = player_pointer_object->previous_x_pos;
-          player_pointer_object->player_y_pos = player_pointer_object->previous_y_pos;
+          player_pointer_object->player_x_pos = player_pointer_object->player_previous_x_pos;
+          player_pointer_object->player_y_pos = player_pointer_object->player_previous_y_pos;
             lives-=enemy_melee_damage;
             enemy_pause = 3; // Pause for 3 ticks
             cout << "You bumped into the monster";
@@ -1042,7 +1042,7 @@ void POSIXinput()
 }
 void save()
 {
-    std::cout << "Saving Game..." << std::endl;
+    cout << "Saving Game..." << endl;
     cin.get();
   
     // search strings to match
@@ -1056,10 +1056,10 @@ void save()
     string swimming_match = "Swimming: ";
     string herbology_match = "Herbology: ";
     string money_match = "Money: ";
-    string player_x_pos_match = "Money: ";
-    string player_y_pos_match = "Money: ";
-    string player_previous_x_pos_match = "Player_X_pos: ";
-    string player_previous_y_pos_match = "Player_X_pos: ";
+    string player_x_pos_match = "Player_X_pos: ";
+    string player_y_pos_match = "Player_X_pos: ";
+    string player_previous_x_pos_match = "Player_previous_X_pos: ";
+    string player_previous_y_pos_match = "Player_previous_Y_pos: ";
 
     // test open file to read the contents first
     fstream savefile_object;
@@ -1112,7 +1112,7 @@ void save()
       }
       savefile_object.close();
       savefile_object.clear();
-      std::cout << "Game Saved" << std::endl;
+      std::cout << "Game Saved" << endl;
       cin.get();
     }
     // test open file to read the contents first
@@ -1124,16 +1124,16 @@ void save()
 }
 void collision_logic()
 {
-  player_pointer_object->previous_x_pos = player_pointer_object->player_x_pos;
-  player_pointer_object->previous_y_pos = player_pointer_object->player_y_pos;
+  player_pointer_object->player_previous_x_pos = player_pointer_object->player_x_pos;
+  player_pointer_object->player_previous_y_pos = player_pointer_object->player_y_pos;
 
   // Enemies
   for (const auto& enemy : enemies_vector)
   {
     if (enemy->enemy_alive && player_pointer_object->player_x_pos == enemy->enemy_x_pos && player_pointer_object->player_y_pos == enemy->enemy_y_pos)
     {
-      player_pointer_object->player_x_pos = player_pointer_object->previous_x_pos;
-      player_pointer_object->player_y_pos = player_pointer_object->previous_y_pos;
+      player_pointer_object->player_x_pos = player_pointer_object->player_previous_x_pos;
+      player_pointer_object->player_y_pos = player_pointer_object->player_previous_y_pos;
 
       enemy->enemy_check_collision(player_pointer_object);
     } else {  }
@@ -1144,8 +1144,8 @@ void collision_logic()
   {
     if (obstacle->obstacle_alive && player_pointer_object->player_x_pos == obstacle->obstacle_x_pos && player_pointer_object->player_y_pos == obstacle->obstacle_y_pos)
     {
-      player_pointer_object->player_x_pos = player_pointer_object->previous_x_pos;
-      player_pointer_object->player_y_pos = player_pointer_object->previous_y_pos;
+      player_pointer_object->player_x_pos = player_pointer_object->player_previous_x_pos;
+      player_pointer_object->player_y_pos = player_pointer_object->player_previous_y_pos;
       obstacle->obstacle_check_collision(player_pointer_object);
     } else {  }
   }
@@ -1155,8 +1155,8 @@ void collision_logic()
   {
     if (player_pointer_object->player_x_pos == item->item_x_pos && player_pointer_object->player_y_pos == item->item_y_pos) 
     {
-      player_pointer_object->player_x_pos = player_pointer_object->previous_x_pos;
-      player_pointer_object->player_y_pos = player_pointer_object->previous_y_pos;
+      player_pointer_object->player_x_pos = player_pointer_object->player_previous_x_pos;
+      player_pointer_object->player_y_pos = player_pointer_object->player_previous_y_pos;
       item->item_check_collision(player_pointer_object);
     } else {  }
   }
