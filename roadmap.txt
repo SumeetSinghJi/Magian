@@ -1,5 +1,10 @@
 ROADMAP
 
+14
+* Official website
+* Curl official website to check for updates and if so prompt to Download in the main
+if not cout no updates available.
+
 1
 shoot() soundeffect
 die() soundeffect
@@ -94,20 +99,14 @@ draw_plains_village()
 draw_mountain_village()
 draw_enemy_camp()
 
+* level 1 and 2 are seperated by stairs as a dungeon.
+* however the main game is an actual environments above like Zelda 2.
 <
 Stairs class
 generate upstairs() and downstairs()
 draw stairs
 collision logic
 random_generate_npc()
-
-10
-death counter variable
-logic when xp reaches x do levelup()
-levelup()
-{
-    increases stats by x
-}
 
 11
 * Skills assigned numbers e.g. numbers 1 = shoot(), 2 = fireball()
@@ -119,8 +118,3 @@ on Windows and Unix like OS
 
 13
 Level editing mode
-
-14
-* Official website
-* Curl official website to check for updates and if so prompt to Download in the main
-if not cout no updates available.

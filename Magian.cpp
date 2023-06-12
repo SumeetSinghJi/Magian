@@ -15,28 +15,17 @@
 
 using namespace std;
 
-// GLOBAL VARIABLES
+// VARIABLES
 enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
 edirection direction;
 const int width = 20;
 const int height = 20;
 const int l2width = 40;
 const int l2height = 40;
-int moneyx, moneyy;
-int score = 0;
-int difficulty=3;
-int won_game = false;
-int language=1;
-int level=1;
-int level_select_variable=1;
 bool shoot_skill_cooldown = false;
 int lives = 3;
-int map_size = 0;
-string version = "0.2.3";
 char buffer[height][width];
 char l2buffer[l2height][l2width];
-bool music_variable = true;
-bool gameover = false;
 chrono::steady_clock::time_point lastShootTime;
 
 // CLASSES
@@ -426,16 +415,8 @@ public:
     this->item_name = item_name;
     this->item_description = item_description;
     this->item_symbol = item_symbol;
-    if(map_size==1)
-      {
-        item_x_pos = rand() % width;
-        item_y_pos = rand() % height;
-      }
-      if(map_size==2)
-      {
-        item_x_pos = rand() % l2width;
-        item_y_pos = rand() % l2height;
-      }
+    item_x_pos = rand() % width;
+    item_y_pos = rand() % height;
   }
   virtual void use(int& value)
   {
@@ -488,37 +469,45 @@ public:
     player_pointer_object->player_speed++;
   }
 };
+class money_class
+{
+  public:
+    int money_moneyx; 
+    int money_moneyy;
+};
 class settings_class
 {
   public:
-  string version = "0.2.3";
+    string settings_version = "0.2.3";
     bool settings_music_variable=true;;
     bool settings_gameover = false;
-    int won_game = false;
+    int settings_won_game = false;
     int settings_lives = 3;
     int settings_difficulty = 3;
     int settings_language = 1; // language 1 = english
     int settings_level = 1;
     int settings_level_select_variable = 1;
     int settings_score = 0;
-    int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
+    
 };
 class map_class
 {
   public:
     int width;
     int height;
+    int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
 };
 
-// GLOBAL POINTERS
+// POINTERS
 vector<shared_ptr<obstacle_class>> obstacles_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<item_class>> items_vector;
 shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
 shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
 shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
+shared_ptr<money_class> money_pointer_object = make_shared<money_class>();
 
-// FUNCTION PROTOTYPES
+// PROTOTYPES
 void menu();
 void l2startgame();
 void check_stats();
@@ -586,27 +575,27 @@ int cin_valid_input()
 void random_generate_obstacle()
 {
   int max_obstacle_objects = 0;
-  if(map_size==1) // small
+  if(map_pointer_object->map_size==1) // small
   {
     max_obstacle_objects += 5;
     max_obstacle_objects += rand() % 5;
   }
-  else if(map_size==2) // medium
+  else if(map_pointer_object->map_size==2) // medium
   {
     max_obstacle_objects += 10;
     max_obstacle_objects += rand() % 5;
   }
-  else if(map_size==3) // large
+  else if(map_pointer_object->map_size==3) // large
   {
     max_obstacle_objects += 15;
     max_obstacle_objects += rand() % 5;
   }
-  else if(map_size==4) // extra-large
+  else if(map_pointer_object->map_size==4) // extra-large
   {
     max_obstacle_objects += 20;
     max_obstacle_objects += rand() % 5;
   }
-  else if(map_size==5) // giant
+  else if(map_pointer_object->map_size==5) // giant
   {
     max_obstacle_objects += 25;
     max_obstacle_objects += rand() % 5;
@@ -631,27 +620,27 @@ void random_generate_obstacle()
 void random_generate_enemy()
 {
   int max_enemy_objects = 0;
-  if(map_size==1) // small
+  if(map_pointer_object->map_size==1) // small
   {
     max_enemy_objects += 1;
     max_enemy_objects += rand() % 1;
   }
-  else if(map_size==2) // medium
+  else if(map_pointer_object->map_size==2) // medium
   {
     max_enemy_objects += 2;
     max_enemy_objects += rand() % 2;
   }
-  else if(map_size==3) // large
+  else if(map_pointer_object->map_size==3) // large
   {
     max_enemy_objects += 3;
     max_enemy_objects += rand() % 3;
   }
-  else if(map_size==4) // extra-large
+  else if(map_pointer_object->map_size==4) // extra-large
   {
     max_enemy_objects += 4;
     max_enemy_objects += rand() % 4;
   }
-  else if(map_size==5) // giant
+  else if(map_pointer_object->map_size==5) // giant
   {
     max_enemy_objects += 5;
     max_enemy_objects += rand() % 5;
@@ -672,27 +661,27 @@ void random_generate_enemy()
 void random_generate_items()
 {
   int max_item_objects = 0;
-  if(map_size==1) // small
+  if(map_pointer_object->map_size==1) // small
   {
     max_item_objects += 5;
     max_item_objects += rand() % 5;
   }
-  else if(map_size==2) // medium
+  else if(map_pointer_object->map_size==2) // medium
   {
     max_item_objects += 10;
     max_item_objects += rand() % 5;
   }
-  else if(map_size==3) // large
+  else if(map_pointer_object->map_size==3) // large
   {
     max_item_objects += 15;
     max_item_objects += rand() % 5;
   }
-  else if(map_size==4) // extra-large
+  else if(map_pointer_object->map_size==4) // extra-large
   {
     max_item_objects += 20;
     max_item_objects += rand() % 5;
   }
-  else if(map_size==5) // giant
+  else if(map_pointer_object->map_size==5) // giant
   {
     max_item_objects += 25;
     max_item_objects += rand() % 5;
@@ -714,7 +703,7 @@ void random_generate_items()
 }
 void setup() 
 {
-  if (music_variable == false)
+  if (settings_pointer_object->settings_music_variable == false)
   {
     PlaySoundW(NULL, NULL, 0);
   }
@@ -722,10 +711,10 @@ void setup()
   {
     PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
   }
-  map_size=1;
+  map_pointer_object->map_size=1;
   // reset the level variables
-  score=0;
-  gameover = false;
+  settings_pointer_object->settings_score=0;
+  settings_pointer_object->settings_gameover = false;
 
   // to refresh vectors for new game and level select
   items_vector.clear();
@@ -744,8 +733,8 @@ void setup()
   items_vector.push_back(make_shared<potion_item_subclass>());
   items_vector.push_back(make_shared<leather_boots_item_subclass>());
 
-  moneyx = rand() % width;
-  moneyy = rand() % height;
+  money_pointer_object->money_moneyx = rand() % width;
+  money_pointer_object->money_moneyy = rand() % height;
   
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
@@ -759,7 +748,7 @@ void setup()
 }
 void l2setup() 
 {
-  if (music_variable == false)
+  if (settings_pointer_object->settings_music_variable == false)
   {
     PlaySoundW(NULL, NULL, 0);
   }
@@ -767,14 +756,14 @@ void l2setup()
   {
     PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
   }
-  map_size=2;
+  map_pointer_object->map_size=2;
   // reset the level variables
-  score=0;
-  gameover = false;
+  settings_pointer_object->settings_score=0;
+  settings_pointer_object->settings_gameover = false;
 
   // Below srand method needs to be executed at runtime hence run in a function vs global variable;
-  moneyx = rand() % l2width;
-  moneyy = rand() % l2height;
+  money_pointer_object->money_moneyx = rand() % l2width;
+  money_pointer_object->money_moneyy = rand() % l2height;
 
   // setting position of player
   direction = STOP;
@@ -811,7 +800,7 @@ void draw_level_1()
   buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = 'P';
 
   // Draw money
-  buffer[moneyy][moneyx] = '$';
+  buffer[money_pointer_object->money_moneyy][money_pointer_object->money_moneyx] = '$';
 
   // Draw obstacles
   for (const auto& obstacle : obstacles_vector)
@@ -852,7 +841,7 @@ void draw_level_1()
   }
 
   // Print the current score and lives beneath the array
-  string score_str = "Current Score: " + to_string(score);
+  string score_str = "Current Score: " + to_string(settings_pointer_object->settings_score);
   string lives_str = "Current Lives: " + to_string(lives);
   cout << score_str << endl;
   cout << lives_str << endl;
@@ -882,7 +871,7 @@ void draw_level_2()
         l2buffer[y][x] = 'P';
       }
       //draw money
-      else if (x == moneyx && y == moneyy) 
+      else if (x == money_pointer_object->money_moneyx && y == money_pointer_object->money_moneyy) 
       {
         l2buffer[y][x] = '$';
       }
@@ -917,7 +906,7 @@ void draw_level_2()
     cout << endl;
   }
   // print the current score and lives beneath the array
-  string score_str = "Current Score: " + to_string(score);
+  string score_str = "Current Score: " + to_string(settings_pointer_object->settings_score);
   string lives_str = "Current Lives: " + to_string(lives);
   cout << score_str << endl;
   cout << lives_str << endl;
@@ -1240,45 +1229,45 @@ void win_logic()
     if (lives <= 0) 
     {
         cout << "You died!" << endl;
-        gameover = true;
+        settings_pointer_object->settings_gameover = true;
         menu();
     } else {  }
 
 // Level 1 - win logic 
-    if (score >= 3) 
+    if (settings_pointer_object->settings_score >= 3) 
     {
-    level = 2;
+    settings_pointer_object->settings_level = 2;
     cout << "You win the level";
-    level_select_variable=2;
+    settings_pointer_object->settings_level_select_variable=2;
     update_savefile_level();
     save();
     l2startgame();
     } else {  }
 
     // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
-    if (score >= 10) 
+    if (settings_pointer_object->settings_score >= 10) 
     {
-    level = 3;
+    settings_pointer_object->settings_level = 3;
     cout << "You win the level";
-    level_select_variable=3;
+    settings_pointer_object->settings_level_select_variable=3;
     update_savefile_level();
     save();
     } else {  }
 
    // Level 3 - win logic - e.g. specific enemy dies
-    if (score >= 20) 
+    if (settings_pointer_object->settings_score >= 20) 
     {
-      level = 4;
+      settings_pointer_object->settings_level = 4;
       cout << "You win the level";
-      level_select_variable=4;
+      settings_pointer_object->settings_level_select_variable=4;
       update_savefile_level();
       save();
     } else {  }
 
     // Win game logic
-    if (level = 12) 
+    if (settings_pointer_object->settings_level = 12) 
     {
-      won_game = true;
+      settings_pointer_object->settings_won_game = true;
       cout << "You have become the greatest of magicians. The ultimate scholar on the worlds"
               "greatest languages and spells. Now the greatest challenge lies ahead to make your own game"
               "and spread the joy of language";
@@ -1316,21 +1305,21 @@ void enemy_ai_logic()
 void money_pickup_logic()
 {
 // Level 1 score - Check if player picked up money and update score and money location if true
-    if (player_pointer_object->player_x_pos == moneyx && player_pointer_object->player_y_pos == moneyy) 
+    if (player_pointer_object->player_x_pos == money_pointer_object->money_moneyx && player_pointer_object->player_y_pos == money_pointer_object->money_moneyy) 
     {
-        score++;
+        settings_pointer_object->settings_score++;
         player_pointer_object->player_money++;
-        moneyx = rand() % width-1;
-        moneyy = rand() % height-1;
+        money_pointer_object->money_moneyx = rand() % width-1;
+        money_pointer_object->money_moneyy = rand() % height-1;
     } else {  }
 
     // Level 2 score - Check if player picked up money and update score and money location if true
-    if (player_pointer_object->player_x_pos == moneyx && player_pointer_object->player_y_pos == moneyy) 
+    if (player_pointer_object->player_x_pos == money_pointer_object->money_moneyx && player_pointer_object->player_y_pos == money_pointer_object->money_moneyy) 
     {
-        score++;
+        settings_pointer_object->settings_score++;
         player_pointer_object->player_money++;
-        moneyx = rand() % l2width-1;
-        moneyy = rand() % l2height-1;
+        money_pointer_object->money_moneyx = rand() % l2width-1;
+        money_pointer_object->money_moneyy = rand() % l2height-1;
     } else {  }
 }
 void logic()
@@ -1349,26 +1338,26 @@ void l2startgame()
   
   if (find_host_os() == "Windows")
   { 
-    while (!gameover) 
+    while (!settings_pointer_object->settings_gameover) 
     {
       draw_level_2();
       input();
       logic();
       Sleep(150);
     }
-    cout << "Game Over. Your final score is: " << score << endl;
+    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
     cin.get();
   }
   else
   {
-    while (!gameover) 
+    while (!settings_pointer_object->settings_gameover) 
     {
       draw_level_2();
       POSIXinput();
       logic();
       Sleep(150);
     }
-    cout << "Game Over. Your final score is: " << score << endl;
+    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
     cin.get();
   }
 }
@@ -1840,19 +1829,19 @@ void check_stats()
 }
 void check_objective()
 {
-    if(level_select_variable==1) 
+    if(settings_pointer_object->settings_level_select_variable==1) 
     {
         cout << "Collect 10 scrolls to return back to the Magian school to study." << endl;
     }
-    else if(level_select_variable==2) 
+    else if(settings_pointer_object->settings_level_select_variable==2) 
     {
         cout << "Your home is on fire. You should search for survivors." << endl;
     }
-    else if(level_select_variable==3) 
+    else if(settings_pointer_object->settings_level_select_variable==3) 
     {
         cout << "Shikaar 'the hunt' is on for revenge, find the culprit responsible and put an end to their lives" << endl;
     }
-    else if(level_select_variable==4) 
+    else if(settings_pointer_object->settings_level_select_variable==4) 
     {
         cout << "You were captured and taken aboard a foreign ship. You must escape!" << endl;
     }
@@ -1961,19 +1950,19 @@ void load_player()
 void library()
 {
   cout << "Choose a unlocked book to read\n\n"
-  "1. Learn Sanskrit - Sumeet Singh\n"
+  "1. Learn Sanskrit - untitled\n"
   "2. Rig Veda - Vyasa\n"
-  "3. Puranas - Vyasa"
-  "4. Mahabharata - Vyasa" 
+  "3. Puranas - Vyasa\n"
+  "4. Mahabharata - Vyasa\n" 
   "5. Gathas - Zarasthura\n"
   "6. Code of the Nesilim - Hittite\n"
   "7. Diary of Merer - Merer\n"
-  "8. The Taking of Joppa - Egypt\n"
-  "9. Book of the Dead - Egypt\n"
-  "10. Code of Ur-Nammu - Summeria\n"
-  "11. Laws of Eshnunna - Akkadian\n"
-  "12. Code of Hammurabi - Akkadian\n"
-  "13. Epic of Gilgamesh - Akkadian\n"
+  "8. The Taking of Joppa - Misr\n"
+  "9. Book of the Dead - Misr\n"
+  "10. Code of Ur-Nammu - Summer\n"
+  "11. Laws of Eshnunna - Akkadia\n"
+  "12. Code of Hammurabi - Akkadia\n"
+  "13. Epic of Gilgamesh - Akkadia\n"
   "Select a book to read. ENTER 0 to exit: ";
   int book_variable = cin_valid_input();
   switch (book_variable)
@@ -2200,17 +2189,17 @@ void change_language()
   switch(language_variable) 
   {
   case 1:
-      language=1;
+      settings_pointer_object->settings_language = 1;
       cout << "English" <<endl;
       menu();
       break;
   case 2:
-      language=2;
+      settings_pointer_object->settings_language = 2;
       cout << "日本語" <<endl;
       menu();
       break;
   case 3:
-      language=3;
+      settings_pointer_object->settings_language = 3;
       cout << "हिंदुस्तानी" <<endl;
       menu();
       break;
@@ -2229,11 +2218,11 @@ void toggle_music()
   switch(toggle_music_variable)
   {
     case 1:
-      music_variable = true;
+      settings_pointer_object->settings_music_variable = true;
       menu();
       break;
     case 2:
-      music_variable = false;
+      settings_pointer_object->settings_music_variable = false;
       menu();
       break;
     default:
@@ -2269,7 +2258,7 @@ void level_select()
   match_savefile_level();
   cout << "Choose any level you've unlocked \n"; 
   // add a condition to show only levels that are below or equal to level_select
-  for (int i = 1; i <= level_select_variable; i++) {
+  for (int i = 1; i <= settings_pointer_object->settings_level_select_variable; i++) {
     switch (i) {
       case 1:
         cout << "1. Arianna Outskirts\n";
@@ -2323,26 +2312,26 @@ void level_select()
       lives = 3;
       if (find_host_os() == "Windows")
       { 
-        while (!gameover) 
+        while (!settings_pointer_object->settings_gameover) 
         {
           draw_level_1();
           input();
           logic();
           Sleep(150);
         }
-        cout << "Game Over. Your final score is: " << score << endl;
+        cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
         cin.get();
       }
       else
       {
-        while (!gameover) 
+        while (!settings_pointer_object->settings_gameover) 
         {
           draw_level_1();
           POSIXinput();
           logic();
           Sleep(150);
         }
-        cout << "Game Over. Your final score is: " << score << endl;
+        cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
         cin.get();
       }
       break;
@@ -2403,9 +2392,9 @@ void update_savefile_level()
                 {
                     savefile_object << "Updating save file" << endl;
                     savefile_object << "Host OS is : " << find_host_os() << endl;
-                    savefile_object << "Version: "<< version << endl;
+                    savefile_object << "Version: "<< settings_pointer_object->settings_version << endl;
                     savefile_object << "Date: " << get_datetime() << endl;
-                    savefile_object << level_select_variable_match << level_select_variable << endl;
+                    savefile_object << level_select_variable_match << settings_pointer_object->settings_level_select_variable << endl;
                     savefile_object.close();
                     savefile_object.clear();
                     match_found = true;
@@ -2434,9 +2423,9 @@ void update_savefile_level()
     {
         savefile_object << "SAVE UPDATE" << endl;
         savefile_object << "Host OS is: " << find_host_os() << endl;
-        savefile_object << "Version: "<< version << endl;
+        savefile_object << "Version: "<< settings_pointer_object->settings_version << endl;
         savefile_object << "Date: " << get_datetime() << endl;
-        savefile_object << "Unlocked levels: " << level_select_variable << endl;
+        savefile_object << "Unlocked levels: " << settings_pointer_object->settings_level_select_variable << endl;
         savefile_object.close();
         savefile_object.clear();
     }
@@ -2467,33 +2456,33 @@ void match_savefile_level()
             // cout << savefile_contents_string_variable << endl;
             if (savefile_contents_string_variable == Level_one_match_variable)
             {
-                cout << "Access to levels 1" << level_select_variable << endl;
+                cout << "Access to levels 1" << settings_pointer_object->settings_level_select_variable << endl;
                 match_found_bool = true;
-                level_select_variable=1;
+                settings_pointer_object->settings_level_select_variable=1;
             }
             else if (savefile_contents_string_variable == Level_two_match_variable)
             {
-                cout << "Access to levels 1, 2" << level_select_variable << endl;
+                cout << "Access to levels 1, 2" << settings_pointer_object->settings_level_select_variable << endl;
                 match_found_bool = true;
-                level_select_variable=2;
+                settings_pointer_object->settings_level_select_variable=2;
             }
             else if (savefile_contents_string_variable == Level_three_match_variable)
             {
-                cout << "Access to levels 1, 2, 3" << level_select_variable << endl;
+                cout << "Access to levels 1, 2, 3" << settings_pointer_object->settings_level_select_variable << endl;
                 match_found_bool = true;
-                level_select_variable=3;
+                settings_pointer_object->settings_level_select_variable=3;
             }
             else if (savefile_contents_string_variable == Level_four_match_variable)
             {
-                cout << "Access to levels 1, 2, 3, 4" << level_select_variable << endl;
+                cout << "Access to levels 1, 2, 3, 4" << settings_pointer_object->settings_level_select_variable << endl;
                 match_found_bool = true;
-                level_select_variable=4;
+                settings_pointer_object->settings_level_select_variable=4;
             }
             else if (savefile_contents_string_variable == Level_five_match_variable)
             {
-                cout << "Access to levels 1, 2, 3, 4, 5" << level_select_variable << endl;
+                cout << "Access to levels 1, 2, 3, 4, 5" << settings_pointer_object->settings_level_select_variable << endl;
                 match_found_bool = true;
-                level_select_variable=5;
+                settings_pointer_object->settings_level_select_variable=5;
             }    
         }
     }
@@ -2587,7 +2576,7 @@ void newgame()
   // Start the game loop
   if (find_host_os() == "Windows")
   { 
-    while (!gameover)
+    while (!settings_pointer_object->settings_gameover)
     {
       // Update the dynamic elements and player input
       input();
@@ -2598,12 +2587,12 @@ void newgame()
 
       Sleep(150);
     }
-    cout << "Game Over. Your final score is: " << score << endl;
+    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
     cin.get();
   }
   else
   {
-    while (!gameover)
+    while (!settings_pointer_object->settings_gameover)
     {
       // Update the dynamic elements and player input
       POSIXinput();
@@ -2614,7 +2603,7 @@ void newgame()
 
       Sleep(150);
     }
-    cout << "Game Over. Your final score is: " << score << endl;
+    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
     cin.get();
   }
 }
@@ -2633,7 +2622,7 @@ void continuegame()
   // Start the game loop
   if (find_host_os() == "Windows")
   { 
-    while (!gameover)
+    while (!settings_pointer_object->settings_gameover)
     {
       // Update the dynamic elements and player input
       input();
@@ -2644,12 +2633,12 @@ void continuegame()
 
       Sleep(150);
     }
-    cout << "Game Over. Your final score is: " << score << endl;
+    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
     cin.get();
   }
   else
   {
-    while (!gameover)
+    while (!settings_pointer_object->settings_gameover)
     {
       // Update the dynamic elements and player input
       POSIXinput();
@@ -2660,7 +2649,7 @@ void continuegame()
 
       Sleep(150);
     }
-    cout << "Game Over. Your final score is: " << score << endl;
+    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
     cin.get();
   }
 }
@@ -2720,7 +2709,7 @@ void startgame()
 }
 void menu() 
 {
-  if (music_variable == false)
+  if (settings_pointer_object->settings_music_variable == false)
   {
     PlaySoundW(NULL, NULL, 0);
   }
