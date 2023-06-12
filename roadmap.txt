@@ -1,15 +1,20 @@
 ROADMAP
 
-12
+1
 shoot() soundeffect
+die() soundeffect
 
-* windows handles to change colours
+2
+Learn Windows and POSIX/GNU handles to change colours
 * brown = player
 * red = enemies
 * yellow = walls
+* dark yellow = doors and stairs
 * green = tree
-* grey = walls
+* dark grey = walls
+* grey = background
 * blue = items
+* dark blue = water
 
 * include player_x_pos and y pos and previous in all saves and loads
 * All saves to savefile append with player_ to diffrentiate between enemies skills
@@ -69,12 +74,33 @@ Locale including
 create fireball()
 fireball() sfx
 
+9
+setup_world()
+setup_desert()
+setup_plains()
+setup_oasis()
+setup_city()
+setup_plains_village()
+setup_mountain_village()
+setup_enemy_camp()
+
+draw_world()
+draw_desert()
+draw_plains()
+draw_oasis()
+draw_city()
+draw_plains_village()
+draw_mountain_village()
+draw_enemy_camp()
+
+
 
 x
 Stairs class
 generate upstairs() and downstairs()
 draw stairs
 collision logic
+random_generate_npc()
 
 10
 death counter variable

@@ -58,6 +58,55 @@ class player_class
     int player_previous_y_pos;
     int player_money = 0;
 };
+class npc_class
+{
+  private:
+    string npc_name;
+    string npc_description;
+    int damage;
+    int npc_hp;
+    int speed;
+    int npc_xp;
+    int npc_x_pos;
+    int npc_y_pos;
+    int npc_melee_damage;
+    bool npc_alive;
+    int npc_pause;
+    char npc_symbol;
+
+
+    void npc_random_slow_movement() 
+    {
+        if (npc_alive && npc_pause == 0) {
+            int random_direction = rand() % 4;
+            switch (random_direction) {
+            case 0: // Up
+                if (npc_y_pos > 1 && buffer[npc_y_pos - 1][npc_x_pos] != '#') {
+                    npc_y_pos--;
+                }
+                break;
+            case 1: // Down
+                if (npc_y_pos < height - 2 && buffer[npc_y_pos + 1][npc_x_pos] != '#') {
+                    npc_y_pos++;
+                }
+                break;
+            case 2: // Left
+                if (npc_x_pos > 1 && buffer[npc_y_pos][npc_x_pos - 1] != '#') {
+                    npc_x_pos--;
+                }
+                break;
+            case 3: // Right
+                if (npc_x_pos < width - 2 && buffer[npc_y_pos][npc_x_pos + 1] != '#') {
+                    npc_x_pos++;
+                }
+                break;
+            }
+        } else if (npc_pause > 0) {
+            npc_pause--;
+        }
+    }
+
+};
 class obstacle_class
 {
   public:
@@ -469,7 +518,7 @@ shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
 shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
 shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 
-// FUNCTION PROTOTYPE/DECLARATION
+// FUNCTION PROTOTYPES
 void menu();
 void l2startgame();
 void check_stats();
@@ -1284,7 +1333,7 @@ void money_pickup_logic()
         moneyy = rand() % l2height-1;
     } else {  }
 }
-void logic() 
+void logic()
 {
     player_movement();
     collision_logic();
