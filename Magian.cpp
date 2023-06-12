@@ -119,7 +119,12 @@ public:
     bool enemy_alive;
     int enemy_pause;
     char enemy_symbol;
-    // Add random movement logic as part of the enemy_class
+    
+    virtual void enemy_movement() = 0;
+    
+      // polymrphic class to be overwritten by subclasses
+    
+
     void random_slow_movement() 
     {
         if (enemy_alive && enemy_pause == 0) {
@@ -223,14 +228,14 @@ public:
         enemy_pause--;
       }
     }
-    void l2random_slow_chasing(shared_ptr<player_class> &player_pointer_object) 
+    void random_fast_chasing(shared_ptr<player_class> &player_pointer_object) 
     {
-      // Move the enemy only if the random number is less than 4 (40% chance)
+      // Move the enemy only if the random number is less than 8 (80% chance)
       if (enemy_alive && enemy_pause == 0)
       {
         // Generate a random number between 0 and 9
         int random_num = rand() % 10;
-        if (rand() % 10 < 4) 
+        if (rand() % 10 < 8) 
         {
             // Move towards player
             if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < l2width - 2)
@@ -278,6 +283,10 @@ class fire_enemy_subclass : public enemy_class
       enemy_pause = 0;
       enemy_symbol = 'F';
     }
+    void enemy_movement() override
+    {
+      random_slow_movement();
+    }
 };
 class flying_enemy_subclass : public enemy_class
 {
@@ -295,9 +304,15 @@ class flying_enemy_subclass : public enemy_class
       enemy_pause = 0;
       enemy_symbol = '^';
     }
+    void enemy_movement() override
+    {
+      random_fast_movement();
+    }
 };
 class stalker_enemy_subclass : public enemy_class
 {
+  private:
+    shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
   public:
     stalker_enemy_subclass()
     {
@@ -309,19 +324,40 @@ class stalker_enemy_subclass : public enemy_class
                         "It's legs move exceedingly fast but stride is slow giving it the impression at any moment"
                         "it could outrace and catch you."
                         "The uncertanty of the humanoids actions cause you deep fear.";
-      if(map_size==1)
-      {
-        enemy_x_pos = rand() % width;
-        enemy_y_pos = rand() % height;
-      }
-      if(map_size==2)
-      {
-        enemy_x_pos = rand() % l2width;
-        enemy_y_pos = rand() % l2height;
-      }
+      enemy_x_pos = rand() % width;
+      enemy_y_pos = rand() % height;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '&';
+    }
+    void enemy_movement() override
+    {
+      random_slow_chasing(player_pointer_object);
+    }
+};
+class prime_stalker_enemy_subclass : public enemy_class
+{
+  private:
+    shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
+  public:
+    prime_stalker_enemy_subclass()
+    {
+      enemy_name="Prime Stalking Rakashaa";
+      enemy_hp = 10;
+      enemy_xp = 5;
+      enemy_melee_damage = 6;
+      enemy_description="A bloodied hulk of scars, stench and sharp fangs and claws gathers it's senses"
+      "and notices you. You feel that today you will die."
+      "The stalker pack leader";
+      enemy_x_pos = rand() % width;
+      enemy_y_pos = rand() % height;
+      enemy_alive = true;
+      enemy_pause = 0;
+      enemy_symbol = '@';
+    }
+    void enemy_movement() override
+    {
+      random_fast_chasing(player_pointer_object);
     }
 };
 class item_class 
@@ -329,6 +365,7 @@ class item_class
 public:
   string item_name;
   string item_description;
+  vector<shared_ptr<int>> collected_items_array;
   int item_cost;
   int item_effect;
   int item_x_pos;
@@ -371,7 +408,6 @@ public:
         return;
     }
   }
-  
   void item_check_collision(shared_ptr<player_class>& player_pointer_object) 
   {
     if (item_x_pos == player_pointer_object->player_x_pos && item_y_pos == player_pointer_object->player_y_pos)
@@ -576,13 +612,11 @@ void random_generate_enemy()
     int enemy_type_variable = rand() % 2;
     if (enemy_type_variable == 0) // xxx
     {
-      shared_ptr<stalker_enemy_subclass> stalker_enemy = make_shared<stalker_enemy_subclass>();
-      enemies_vector.push_back(stalker_enemy);
+      enemies_vector.push_back(make_shared<fire_enemy_subclass>());
     }
     else // xxx
     {
-      shared_ptr<stalker_enemy_subclass> stalker_enemy = make_shared<stalker_enemy_subclass>();
-      enemies_vector.push_back(stalker_enemy);
+      enemies_vector.push_back(make_shared<flying_enemy_subclass>());
     }
   }
 }
@@ -1201,12 +1235,10 @@ if (player_pointer_object->player_xp > 3) // level 1
 }
 void enemy_ai_logic()
 {
-    // Fire enemy will move slow
-    enemies_vector[0]->random_slow_movement();
-    // Flying Rakshaa enemy will move fast
-    enemies_vector[1]->random_fast_movement();
-    // Stalking Rakshaa enemy will hunt player slowly
-    // enemies_vector[0]->random_slow_chasing(player_pointer_object);
+  for(const auto& enemy : enemies_vector)
+  {
+  enemy->enemy_movement();
+  }
 }
 void money_pickup_logic()
 {
@@ -1230,8 +1262,8 @@ void money_pickup_logic()
 }
 void logic() 
 {
-  // New direction in buffer updated called after input() in startgame() loop.
-  // if condition prevents moving out of bounds #
+  // After input() new location in buffer[][] is saved
+  // if condition prevents moving out of wall boundary '#'
   switch (direction) 
   {
     case UP:
@@ -1251,12 +1283,11 @@ void logic()
         player_pointer_object->player_x_pos++; }
         break;
   }
-
     collision_logic();
     enemy_ai_logic();
-    win_logic();
-    levelup_logic();
     money_pickup_logic();
+    levelup_logic();
+    win_logic();
 
 }
 void l2startgame() 
@@ -2486,6 +2517,8 @@ void choose_player_name()
 }
 void newgame()
 {
+  cout << "Starting new game." << endl;
+  cin.get();
   setup_player_header();
   choose_player_name();
   initialise_player();
@@ -2602,7 +2635,7 @@ void startgame()
         if (choice_new_game_variable == 'Y' || choice_new_game_variable == 'y')
         {
           filesystem::remove(filename);
-          newgame();
+          cout << "Deleted saved game." << endl;
           break;
         }
         else 
@@ -2610,7 +2643,6 @@ void startgame()
           menu();
           break;
         }
-        break;
       }
       else
       {
@@ -2631,6 +2663,8 @@ void startgame()
         break;
       }
     }
+      
+    newgame();
 }
 void menu() 
 {

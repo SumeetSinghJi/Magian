@@ -14,7 +14,12 @@ ROADMAP
 * random_enemies()
 * random_items()
 
+* enemy_ai_logic() - add virtual skill polymorphic class to enemy class
+
 * money should be it's own class, with generation, xpos, collision logic etc.,
+
+* river obstacle that connects to each other from one side of map to another
+* lake obstacle, 4 pools in a square
 
 * fix save()
 
@@ -29,6 +34,16 @@ To read and extract text from a PDF file using C++, you can utilize a PDF
 parsing library such as Poppler or MuPDF. These libraries provide APIs
 to access and manipulate PDF documents.
 In game book - copy of early rig veda and gathas, and shanameh
+
+* Rakashaa beastiary
+* Realife Magic performed
+* Rituals
+* Sacrifices
+* Yugas /prayers
+* Yoga
+* Vedic maths
+* Sanskrit programming - Bonus
+
 
 6
 Locale including
