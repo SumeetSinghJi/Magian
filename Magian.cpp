@@ -345,9 +345,9 @@ public:
   {
 
   }
- void item_store()
+  void item_store()
   {
-    // Store the item name in the savegame file
+    fstream savefile_object;
     savefile_object.open("magian_save.txt", ios::app);
     if (savefile_object.is_open())
     {
@@ -393,7 +393,6 @@ public:
     player_pointer_object->player_speed++;
   }
 };
-fstream savefile_object;
 // FUNCTION PROTOTYPE/DECLARATION
 void menu();
 void l2startgame();
@@ -992,6 +991,7 @@ void save()
     string player_previous_y_pos_match = "Player_X_pos: ";
 
     // test open file to read the contents first
+    fstream savefile_object;
     savefile_object.open("magian_save.txt", ios::app);
     if (savefile_object.is_open())
     {
@@ -1685,6 +1685,7 @@ void check_items()
 }
 void item_store_header()
 {
+  fstream savefile_object;
   savefile_object.open("magian_save.txt", ios::app);
   if(savefile_object.is_open())
   {
@@ -1742,6 +1743,7 @@ void check_objective()
 }
 void setup_player_header()
 {
+  fstream savefile_object;
   savefile_object.open("magian_save.txt", ios::app);
   if(savefile_object.is_open())
   {
@@ -1774,7 +1776,8 @@ void initialise_player()
   player_pointer_object->player_swimming = player_swimming;
   player_pointer_object->player_herbology = player_herbology;
   player_pointer_object->player_money = player_money;
-  
+
+  fstream savefile_object;
   savefile_object.open("magian_save.txt", ios::app);
     if(savefile_object.is_open())
     {
@@ -2167,6 +2170,7 @@ void choose_player_name()
         }
     }
     cout << "Your name is: " << player_name << endl;
+    fstream savefile_object;
     savefile_object.open("magian_save.txt", ios::app);
     if (savefile_object.is_open())
     {
@@ -2277,6 +2281,7 @@ void continuegame()
 }
 void startgame()
 {
+    fstream savefile_object;
     savefile_object.open("magian_save.txt", ios::in);
     if (savefile_object.is_open())
     {
@@ -2298,7 +2303,11 @@ void startgame()
           {
             savefile_object.close();
             savefile_object.clear();
-            filesystem::remove("magian_save.txt");
+            string filename = "magian_save.txt";
+            if(filesystem::exists(filename))
+            {
+              filesystem::remove(filename);
+            }
             cout << "Press ENTER to continue.." << endl;
             cin.get();
             newgame();

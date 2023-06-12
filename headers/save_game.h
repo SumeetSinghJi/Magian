@@ -25,7 +25,6 @@ extern bool gameover;
 // for level select function END
 extern int level_select_variable;
 extern string version;
-extern fstream savefile_object;
 void menu();
 string find_host_os();
 string get_datetime() 
@@ -63,6 +62,7 @@ string get_datetime()
 void update_savefile_level() // This function should be called in win condition
 {
     // open file to read the contents first
+    fstream savefile_object;
     savefile_object.open("magian_save.txt", ios::in);
     if (savefile_object.is_open())
     {
@@ -127,6 +127,7 @@ void update_savefile_level() // This function should be called in win condition
 }
 void match_savefile_level() // This code is read in the bonus level select mode to see available levels
 {
+    fstream savefile_object;
     savefile_object.open("magian_save.txt", ios::in); //read file contents
     if(savefile_object.is_open())
     {
