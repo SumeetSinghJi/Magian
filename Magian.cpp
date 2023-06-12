@@ -1122,6 +1122,30 @@ void save()
         return;
     }
 }
+void player_movement()
+{
+  // After input() new location in buffer[][] is saved
+  // if condition prevents moving out of wall boundary '#'
+  switch (direction) 
+  {
+    case UP:
+        if (player_pointer_object->player_y_pos > 1 && buffer[player_pointer_object->player_y_pos - 1][player_pointer_object->player_x_pos] != '#') {
+        player_pointer_object->player_y_pos--; }
+        break;
+    case DOWN:
+    if (player_pointer_object->player_y_pos < height - 2 && buffer[player_pointer_object->player_y_pos + 1][player_pointer_object->player_x_pos] != '#') {
+        player_pointer_object->player_y_pos++; }
+        break;
+    case LEFT:
+    if (player_pointer_object->player_x_pos > 1 && buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos - 1] != '#') {
+        player_pointer_object->player_x_pos--; }
+        break;
+    case RIGHT:
+    if (player_pointer_object->player_x_pos < width - 2 && buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos + 1] != '#') {
+        player_pointer_object->player_x_pos++; }
+        break;
+  }
+}
 void collision_logic()
 {
   player_pointer_object->player_previous_x_pos = player_pointer_object->player_x_pos;
@@ -1262,33 +1286,12 @@ void money_pickup_logic()
 }
 void logic() 
 {
-  // After input() new location in buffer[][] is saved
-  // if condition prevents moving out of wall boundary '#'
-  switch (direction) 
-  {
-    case UP:
-        if (player_pointer_object->player_y_pos > 1 && buffer[player_pointer_object->player_y_pos - 1][player_pointer_object->player_x_pos] != '#') {
-        player_pointer_object->player_y_pos--; }
-        break;
-    case DOWN:
-    if (player_pointer_object->player_y_pos < height - 2 && buffer[player_pointer_object->player_y_pos + 1][player_pointer_object->player_x_pos] != '#') {
-        player_pointer_object->player_y_pos++; }
-        break;
-    case LEFT:
-    if (player_pointer_object->player_x_pos > 1 && buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos - 1] != '#') {
-        player_pointer_object->player_x_pos--; }
-        break;
-    case RIGHT:
-    if (player_pointer_object->player_x_pos < width - 2 && buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos + 1] != '#') {
-        player_pointer_object->player_x_pos++; }
-        break;
-  }
+    player_movement();
     collision_logic();
     enemy_ai_logic();
     money_pickup_logic();
     levelup_logic();
     win_logic();
-
 }
 void l2startgame() 
 {

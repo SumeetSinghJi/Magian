@@ -1,5 +1,5 @@
 AVATAR
-NAME: Sumeet
+NAME: Sum
 Magic: 1
 Health: 3
 XP: 1
@@ -10,3 +10,4 @@ Swimming: 0
 Herbology: 0
 Money: 0
 INVENTORY
+Potion

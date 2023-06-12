@@ -1,5 +1,16 @@
 ROADMAP
 
+12
+shoot() soundeffect
+
+* windows handles to change colours
+* brown = player
+* red = enemies
+* yellow = walls
+* green = tree
+* grey = walls
+* blue = items
+
 * include player_x_pos and y pos and previous in all saves and loads
 * All saves to savefile append with player_ to diffrentiate between enemies skills
 
@@ -82,8 +93,7 @@ on Windows and Unix like OS
 * Specific scroll item drop with rand() drawn to buffer
 * scroll item adds new skill
 
-12
-shoot() soundeffect
+
 
 13
 Level editing mode
