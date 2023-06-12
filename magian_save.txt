@@ -10,3 +10,4 @@ Swimming: 0
 Herbology: 0
 Money: 0
 INVENTORY
+Potion

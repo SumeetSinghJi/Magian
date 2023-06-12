@@ -12,8 +12,33 @@
 #include <unistd.h>
 #include <vector>
 #include <windows.h>
-#include "headers/save_game.h"
+
 using namespace std;
+
+// GLOBAL VARIABLES
+enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
+edirection direction;
+const int width = 20;
+const int height = 20;
+const int l2width = 40;
+const int l2height = 40;
+int moneyx, moneyy;
+int score = 0;
+int difficulty=3;
+int won_game = false;
+int language=1;
+int level=1;
+int level_select_variable=1;
+bool shoot_skill_cooldown = false;
+int lives = 3;
+int map_size = 0;
+string version = "0.2.3";
+char buffer[height][width];
+char l2buffer[l2height][l2width];
+bool music_variable = true;
+bool gameover = false;
+chrono::steady_clock::time_point lastShootTime;
+
 // CLASSES
 class player_class
 {
@@ -33,21 +58,6 @@ class player_class
     int previous_y_pos;
     int player_money = 0;
 };
-// Forward declaration
-class obstacle_class;
-enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
-edirection direction;
-// Global variables
-// level 1 map
-const int width = 20;
-const int height = 20;
-char buffer[height][width];
-// level 2 map
-const int l2width = 40;
-const int l2height = 40;
-char l2buffer[l2height][l2width];
-int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
-// Classes
 class obstacle_class
 {
   public:
@@ -402,10 +412,11 @@ class settings_class
     int won_game = false;
     int settings_lives = 3;
     int settings_difficulty = 3;
-    int settings_language = 1;
+    int settings_language = 1; // language 1 = english
     int settings_level = 1;
     int settings_level_select_variable = 1;
     int settings_score = 0;
+    int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
 };
 class map_class
 {
@@ -413,6 +424,15 @@ class map_class
     int width;
     int height;
 };
+
+// GLOBAL POINTERS
+vector<shared_ptr<obstacle_class>> obstacles_vector;
+vector<shared_ptr<enemy_class>> enemies_vector;
+vector<shared_ptr<item_class>> items_vector;
+shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
+shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
+shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
+
 // FUNCTION PROTOTYPE/DECLARATION
 void menu();
 void l2startgame();
@@ -424,25 +444,10 @@ void shoot_fireball();
 void change_language();
 void toggle_music();
 void check_objective();
-vector<shared_ptr<obstacle_class>> obstacles_vector;
-vector<shared_ptr<enemy_class>> enemies_vector;
-vector<shared_ptr<item_class>> items_vector;
-shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
-shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
-shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
-string version = "0.2.3";
-bool music_variable = true;
-bool gameover = false;
-int moneyx, moneyy; // money draw() position
-int score = 0;
-int lives = 3;
-int difficulty=3;
-int won_game = false;
-int language=1; // language 1 = english
-int level=1;
-int level_select_variable=1; // for bonus level select
-bool shoot_skill_cooldown = false;  // Flag to track the cooldown state
-chrono::steady_clock::time_point lastShootTime;  // Track the last shoot time
+void update_savefile_level();
+void match_savefile_level();
+
+// FUNCTIONS
 string find_host_os()
 {   
     #ifdef __WIN32
@@ -454,6 +459,16 @@ string find_host_os()
     #else
         return "Cannot detect";
     #endif
+}
+string get_datetime() 
+{
+  time_t now = time(0);
+  tm* ltm = localtime(&now);
+  int year = 1900 + ltm->tm_year;
+  int month = 1 + ltm->tm_mon;
+  int day = ltm->tm_mday;
+  std::string datetime_variable = std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
+  return datetime_variable;
 }
 void clear_screen()
 {
@@ -2165,6 +2180,269 @@ void help()
   cout << "Press ENTER to continue...";
   cin.get();
   menu();
+}
+void level_select()
+{
+  match_savefile_level();
+  cout << "Choose any level you've unlocked \n"; 
+  // add a condition to show only levels that are below or equal to level_select
+  for (int i = 1; i <= level_select_variable; i++) {
+    switch (i) {
+      case 1:
+        cout << "1. Arianna Outskirts\n";
+        break;
+      case 2:
+        cout << "2. Blazed home\n";
+        break;
+      case 3:
+        cout << "3. Hunt\n";
+        break;
+      case 4:
+        cout << "4. Captured aboard\n";
+        break;
+      case 5:
+        cout << "5. Capsize\n";
+        break;
+      case 6:
+        cout << "6. Underwater inferno\n";
+        break;
+      case 7:
+        cout << "7. Final spell\n";
+        break;
+      case 8:
+        cout << "8. Rakashaa planet\n";
+        break;
+      case 9:
+        cout << "9. Cosmic escape\n";
+        break;
+      case 10:
+        cout << "10. Nirvana\n";
+        break;
+      case 11:
+        cout << "11. Restoration\n";
+        break;
+      default:
+        break;
+    }
+  }
+  // ask the user for their choice
+  int level_select_choice_variable;
+  cout << "Enter your choice (Enter 0 to exit): ";
+  cin >> level_select_choice_variable;
+  // only include continue(), l2continue() etc., for cases below
+  switch (level_select_choice_variable)
+  {
+    case 0:
+      menu();
+      break;
+    case 1:
+      setup();
+      lives = 3;
+      if (find_host_os() == "Windows")
+      { 
+        while (!gameover) 
+        {
+          draw_level_1();
+          input();
+          logic();
+          Sleep(150);
+        }
+        cout << "Game Over. Your final score is: " << score << endl;
+        cin.get();
+      }
+      else
+      {
+        while (!gameover) 
+        {
+          draw_level_1();
+          POSIXinput();
+          logic();
+          Sleep(150);
+        }
+        cout << "Game Over. Your final score is: " << score << endl;
+        cin.get();
+      }
+      break;
+    case 2:
+      draw_level_2();
+      break;
+    case 3:
+      draw_level_3();
+      break;
+    case 4:
+      draw_level_4();
+      break;
+    case 5:
+      draw_level_5();
+      break;
+    case 6:
+      draw_level_6();
+      break;
+    case 7:
+      draw_level_7();
+      break;
+    case 8:
+      draw_level_8();
+      break;
+    case 9:
+      draw_level_9();
+      break;
+    case 10:
+      draw_level_10();
+      break;
+    case 11:
+      draw_level_11();
+      break;
+    default:
+      break;
+  }
+}
+void update_savefile_level() 
+{
+    // open file to read the contents first
+    fstream savefile_object;
+    savefile_object.open("magian_save.txt", ios::in);
+    if (savefile_object.is_open())
+    {
+        string line;
+        string level_select_variable_match = "Unlocked levels: ";
+        bool match_found = false;
+
+        while (getline(savefile_object, line))
+        {
+            if (line.find(level_select_variable_match) != string::npos)
+            {
+                // level_select_variable already exists in the save file, overwrite it
+                savefile_object.close();
+                savefile_object.clear();
+                savefile_object.open("magian_save.txt", ios::out);
+                if (savefile_object.is_open())
+                {
+                    savefile_object << "Updating save file" << endl;
+                    savefile_object << "Host OS is : " << find_host_os() << endl;
+                    savefile_object << "Version: "<< version << endl;
+                    savefile_object << "Date: " << get_datetime() << endl;
+                    savefile_object << level_select_variable_match << level_select_variable << endl;
+                    savefile_object.close();
+                    savefile_object.clear();
+                    match_found = true;
+                    break;
+                }
+                else
+                {
+                    cerr << "Error: failed to overwrite save file!" << endl;
+                    return;
+                }
+            }
+        }
+        savefile_object.close();
+        savefile_object.clear();
+
+        if (match_found)
+        {
+            // level_select_variable was found and overwritten, return
+            return;
+        }
+    }
+
+    // level_select_variable was not found in the save file, append it
+    savefile_object.open("magian_save.txt", ios::app);
+    if (savefile_object.is_open())
+    {
+        savefile_object << "SAVE UPDATE" << endl;
+        savefile_object << "Host OS is: " << find_host_os() << endl;
+        savefile_object << "Version: "<< version << endl;
+        savefile_object << "Date: " << get_datetime() << endl;
+        savefile_object << "Unlocked levels: " << level_select_variable << endl;
+        savefile_object.close();
+        savefile_object.clear();
+    }
+    else
+    {
+        cerr << "Error: failed to create save file!" << endl;
+        return;
+    }
+}
+void match_savefile_level()
+{
+    fstream savefile_object;
+    savefile_object.open("magian_save.txt", ios::in); //read file contents
+    if(savefile_object.is_open())
+    {
+        string savefile_contents_string_variable;
+        string Level_one_match_variable = "Unlocked levels: 1";
+        string Level_two_match_variable = "Unlocked levels: 2";
+        string Level_three_match_variable = "Unlocked levels: 3";
+        string Level_four_match_variable = "Unlocked levels: 4";
+        string Level_five_match_variable = "Unlocked levels: 5";
+        bool match_found_bool = false;
+
+        while(getline(savefile_object, savefile_contents_string_variable)) 
+        {
+            
+            // Run the command below to test if savefile.txt contents are being read
+            // cout << savefile_contents_string_variable << endl;
+            if (savefile_contents_string_variable == Level_one_match_variable)
+            {
+                cout << "Access to levels 1" << level_select_variable << endl;
+                match_found_bool = true;
+                level_select_variable=1;
+            }
+            else if (savefile_contents_string_variable == Level_two_match_variable)
+            {
+                cout << "Access to levels 1, 2" << level_select_variable << endl;
+                match_found_bool = true;
+                level_select_variable=2;
+            }
+            else if (savefile_contents_string_variable == Level_three_match_variable)
+            {
+                cout << "Access to levels 1, 2, 3" << level_select_variable << endl;
+                match_found_bool = true;
+                level_select_variable=3;
+            }
+            else if (savefile_contents_string_variable == Level_four_match_variable)
+            {
+                cout << "Access to levels 1, 2, 3, 4" << level_select_variable << endl;
+                match_found_bool = true;
+                level_select_variable=4;
+            }
+            else if (savefile_contents_string_variable == Level_five_match_variable)
+            {
+                cout << "Access to levels 1, 2, 3, 4, 5" << level_select_variable << endl;
+                match_found_bool = true;
+                level_select_variable=5;
+            }    
+        }
+    }
+    savefile_object.close();
+    savefile_object.clear();
+}
+void save_load_game()
+{
+    cout << "Checking to see if any saves exist" << endl;
+    string filename = "magian_save.txt";
+    if(filesystem::exists(filename))
+    {
+        cout << "Save file exists.\n\n" << filename << "\n\nDo you want to delete it? (y/n)";
+        char response;
+        cin >> response;
+        if(response=='y'||response=='Y')
+        {
+            filesystem::remove(filename);
+            cout << "Save game deleted" << endl;
+            menu();
+        }
+        else
+        {
+            cout << "Save game not deleted" << endl;
+            menu();
+        }
+    }
+    else
+    {
+        cout << "Save game doesn't exist." << endl;
+        menu();
+    }
 }
 void choose_player_name()
 {
