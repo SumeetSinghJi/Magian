@@ -37,28 +37,6 @@ string get_datetime()
   std::string datetime_variable = std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
   return datetime_variable;
 }
-
-/* Load player match substring
-        if (line.find("Name: ") != string::npos)
-          player_pointer_object->player_name = line.substr(6);
-        else if (line.find("Magic: ") != string::npos)
-          player_pointer_object->player_magic = stoi(line.substr(7));
-        else if (line.find("Health: ") != string::npos)
-          player_pointer_object->player_health = stoi(line.substr(8));
-        else if (line.find("XP: ") != string::npos)
-          player_pointer_object->player_xp = stoi(line.substr(4));
-        else if (line.find("Speed: ") != string::npos)
-          player_pointer_object->player_speed = stoi(line.substr(7));
-        else if (line.find("Literacy: ") != string::npos)
-          player_pointer_object->player_literacy = stoi(line.substr(10));
-        else if (line.find("Diplomacy: ") != string::npos)
-          player_pointer_object->player_diplomacy = stoi(line.substr(11));
-        else if (line.find("Swimming: ") != string::npos)
-          player_pointer_object->player_swimming = stoi(line.substr(10));
-        else if (line.find("Herbology: ") != string::npos)
-          player_pointer_object->player_herbology = stoi(line.substr(11));
-          */
-
 void update_savefile_level() // This function should be called in win condition
 {
     // open file to read the contents first

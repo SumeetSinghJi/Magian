@@ -393,6 +393,26 @@ public:
     player_pointer_object->player_speed++;
   }
 };
+class settings_class
+{
+  public:
+  string version = "0.2.3";
+    bool settings_music_variable=true;;
+    bool settings_gameover = false;
+    int won_game = false;
+    int settings_lives = 3;
+    int settings_difficulty = 3;
+    int settings_language = 1;
+    int settings_level = 1;
+    int settings_level_select_variable = 1;
+    int settings_score = 0;
+};
+class map_class
+{
+  public:
+    int width;
+    int height;
+};
 // FUNCTION PROTOTYPE/DECLARATION
 void menu();
 void l2startgame();
@@ -408,8 +428,10 @@ vector<shared_ptr<obstacle_class>> obstacles_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<item_class>> items_vector;
 shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
+shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
+shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 string version = "0.2.3";
-bool music_variable = true; 
+bool music_variable = true;
 bool gameover = false;
 int moneyx, moneyy; // money draw() position
 int score = 0;
@@ -2332,7 +2354,6 @@ void startgame()
       }
     }
 }
-
 void menu() 
 {
   if (music_variable == false)
