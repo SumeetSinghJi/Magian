@@ -34,6 +34,7 @@ Learn Windows and POSIX/GNU handles to change colours
 
 * money should be it's own class, with generation, xpos, collision logic etc.,
 
+* random_generate_rooms = for cities
 * river obstacle that connects to each other from one side of map to another
 * lake obstacle, 4 pools in a square
 
@@ -60,7 +61,6 @@ In game book - copy of early rig veda and gathas, and shanameh
 * Vedic maths
 * Sanskrit programming - Bonus
 
-
 6
 Locale including
 * Farsi
@@ -85,6 +85,7 @@ setup_mountain_village()
 setup_enemy_camp()
 
 draw_world()
+setup_shop()
 draw_desert()
 draw_plains()
 draw_oasis()
@@ -93,9 +94,7 @@ draw_plains_village()
 draw_mountain_village()
 draw_enemy_camp()
 
-
-
-x
+<
 Stairs class
 generate upstairs() and downstairs()
 draw stairs
@@ -110,7 +109,6 @@ levelup()
     increases stats by x
 }
 
-
 11
 * Skills assigned numbers e.g. numbers 1 = shoot(), 2 = fireball()
 * change skills with check skills() which changes input SPACE_BAR to new skill selected
@@ -119,8 +117,6 @@ on Windows and Unix like OS
 * Specific scroll item drop with rand() drawn to buffer
 * scroll item adds new skill
 
-
-
 13
 Level editing mode
 
@@ -128,9 +124,3 @@ Level editing mode
 * Official website
 * Curl official website to check for updates and if so prompt to Download in the main
 if not cout no updates available.
- 
-15
-World map option - places to visit
-* Home
-* Shop
-* World map

@@ -295,19 +295,37 @@ departed his domain.
 Urnavabha was another prominent rakasha with the power of controlling weather, thus causing draught
 and causing agricultural output to fail within kingdoms and collapse of nations.
 
-Thus begins the story of evil on Earth how the old Aryan pantheon was torn asunder by the 
-cataclysmic event known as the birth of duality, and the magician who spoke of this revelation. 
 Magus, Rishi, Sadhus and foreign scholars from Misr, Shang, Mycenae and beyond would  
 together would work in tandem to learn, document and react to the newfound threats 
 that faced this world. Putting aside differences in opinion it was a necessary reaction to the worldly 
 affairs. New weapons were forged from the hides and parts of the rakashha themselves to annihilate them. 
 New spells were conjured in order to control, and destroy them. New sciences in order to reveal 
-the very nature of their existence. 
+the very nature of their existence.
 
-During a reconnaissance of collecting herbs for the Nava (new) Agni school’s faculty staff a prospecting
-Magus on their way back to Nava (New) Agni sees a plume in the horizon of dark clouds. On closer
-approach the smell of burning wood caused the hurried student to run back to the school in haste...
+With the advent of evil. Evil themself came to be civilised. Rakasha themselves found order and 
+piousness in the divine pantheon of mortal men and the stars. Asuras and Devas were known as the
+class of celestial beings existing on other planets and dimensions that held power so vast that
+human minds would come to madness trying to understand it. Some Rakasha found honour serving
+Asuras and Devas that suited their personalities, others were cowards that looked for stronger
+beings to protect them from being hunted by others.
 
+Asuras and Deva's were long studied before Rakshasa arived. Great monuments were risen and fell as
+time passed on earth to their pantheon. Asuras and Deva's were said to use agents of mortal men
+to corrupt the other disbeliever into following them. In recent times rakshasa themselves would
+conduct the covert prostelization. Thus became a schism in cosmic order on Earth. New states would
+come to hate one another based on their religions divinity.
+
+Although the schism did exist between the two forms of divinity they were both said to be the same.
+Scholars on the topic could point out that merely worship of each other were akin to dialects in a 
+language tree. Using cultural artefacts they would piece together lexicons to show the juxtaposition
+of the two divinities were merely seperated by geographical dispersed believers who have come to 
+refer to the celestial beings in their own common language.
+
+Stories were thus told first from oral tradition passed along in campfires before literacy was widespread
+then to scrolls written in strict gramatical syntax as to never forget or make mistakes on the very
+nature of studied beings. Scrolls of knowledge became the lifeblood of Empires, and Arianna was a centre
+of fantastical schools of knowledge in science, religion, philosophy and culture. The best school
+of them all was Nava Agni. The new school of fire.
 
 
 
