@@ -1,9 +1,9 @@
 AVATAR
-Name: Arya
+NAME: Sumeet
 Magic: 1
 Health: 3
 XP: 1
-Speed: 2
+Speed: 1
 Literacy: 1
 Diplomacy: 0
 Swimming: 0

@@ -26,6 +26,7 @@ extern bool gameover;
 extern int level_select_variable;
 extern string version;
 extern fstream savefile_object;
+extern fstream loadfile_object;
 void menu();
 string find_host_os();
 string get_datetime() 
@@ -63,14 +64,14 @@ string get_datetime()
 void update_savefile_level() // This function should be called in win condition
 {
     // open file to read the contents first
-    savefile_object.open("magian_save.txt", ios::in);
-    if (savefile_object.is_open())
+    loadfile_object.open("magian_save.txt", ios::in);
+    if (loadfile_object.is_open())
     {
         string line;
         string level_select_variable_match = "Unlocked levels: ";
         bool match_found = false;
 
-        while (getline(savefile_object, line))
+        while (getline(loadfile_object, line))
         {
             if (line.find(level_select_variable_match) != string::npos)
             {
@@ -95,7 +96,7 @@ void update_savefile_level() // This function should be called in win condition
                 }
             }
         }
-        savefile_object.close();
+        loadfile_object.close();
 
         if (match_found)
         {
@@ -123,8 +124,8 @@ void update_savefile_level() // This function should be called in win condition
 }
 void match_savefile_level() // This code is read in the bonus level select mode to see available levels
 {
-    savefile_object.open("magian_save.txt", ios::in); //read file contents
-    if(savefile_object.is_open())
+    loadfile_object.open("magian_save.txt", ios::in); //read file contents
+    if(loadfile_object.is_open())
     {
         string savefile_contents_string_variable;
         string Level_one_match_variable = "Unlocked levels: 1";
@@ -134,7 +135,7 @@ void match_savefile_level() // This code is read in the bonus level select mode 
         string Level_five_match_variable = "Unlocked levels: 5";
         bool match_found_bool = false;
 
-        while(getline(savefile_object, savefile_contents_string_variable)) 
+        while(getline(loadfile_object, savefile_contents_string_variable)) 
         {
             
             // Run the command below to test if savefile.txt contents are being read
@@ -171,7 +172,7 @@ void match_savefile_level() // This code is read in the bonus level select mode 
             }    
         }
     }
-    savefile_object.close();
+    loadfile_object.close();
 }
 void save_load_game() // // Function for finding save files and deleting
 {

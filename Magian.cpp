@@ -986,6 +986,10 @@ void save()
     string swimming_match = "Swimming: ";
     string herbology_match = "Herbology: ";
     string money_match = "Money: ";
+    string player_x_pos_match = "Money: ";
+    string player_y_pos_match = "Money: ";
+    string player_previous_x_pos_match = "Player_X_pos: ";
+    string player_previous_y_pos_match = "Player_X_pos: ";
 
     // test open file to read the contents first
     savefile_object.open("magian_save.txt", ios::app);

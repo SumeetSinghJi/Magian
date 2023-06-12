@@ -1,18 +1,13 @@
 ROADMAP
 
-* load player isn't working
+* include player_x_pos and y pos and previous in all saves and loads
+* All saves to savefile append with player_ to diffrentiate between enemies skills
 
 * On Win compare items
 * item_store() needs to record a new copy of global vector of item names
 * on win condition compare previous inventory vector with new inventory vector
 
-* check items are adding to avatar
-
 * enemy ai movement, for loop, alogirth name search do x
-
-* build save()
-
-* items and obstacles are generating out of bounds. Fix this issue.
 
 * collission_logic() not stopping player
 * change lives to vitality
@@ -21,13 +16,18 @@ ROADMAP
 
 * money should be it's own class, with generation, xpos, collision logic etc.,
 
+* fix save()
+
 * player_object member active_skill = shoot()
 * write skills_header()
 * write skills to file ???
 * check_skills = show available skills()
 *    selecting a skill updates active_skill member
 
-4
+4 - PDF Parsing
+To read and extract text from a PDF file using C++, you can utilize a PDF
+parsing library such as Poppler or MuPDF. These libraries provide APIs
+to access and manipulate PDF documents.
 In game book - copy of early rig veda and gathas, and shanameh
 
 6
