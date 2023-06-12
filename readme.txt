@@ -327,6 +327,14 @@ nature of studied beings. Scrolls of knowledge became the lifeblood of Empires, 
 of fantastical schools of knowledge in science, religion, philosophy and culture. The best school
 of them all was Nava Agni. The new school of fire.
 
+Of Nava Agni itself. It would house just under a 100 Magus and Sadhus. It's Alumini consisted of
+Philosophers from all over the known world. Rishis, Gypsies and foreign travellers would number
+in hundreds living in camps selling trinkets and foreign goods from whatever they could find.
+The student body was double the size of both, of mixed heritages. The rich and poor would send
+their children to study. Some to become powerfull scholars when they graduate and for some
+a place to offboard extra mouths to feed. The place had no use for guards as no one dared to
+storm or betray an fortress of fire manipulators ready to burn alive transgressors.
+
 
 
 _________________________________________________________________________________________________ 
