@@ -638,7 +638,6 @@ void toggle_music();
 void check_objective();
 void update_savefile_level();
 void match_savefile_level();
-void draw_village();
 
 // FUNCTIONS
 string find_host_os()
@@ -958,6 +957,157 @@ void setup_town()
     }
   }
 }
+void setup_temple() 
+{
+  if (settings_pointer_object->settings_music_variable == false)
+  {
+    PlaySoundW(NULL, NULL, 0);
+  }
+  else
+  {
+    PlaySoundW(L"sound//music//shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
+  }
+  map_pointer_object->map_size=1;
+  // reset the level variables
+  settings_pointer_object->settings_score=0;
+  settings_pointer_object->settings_gameover = false;
+
+  // to refresh vectors for new game and level select
+  items_vector.clear();
+  npc_vector.clear();
+
+  direction = STOP;
+  player_pointer_object->player_x_pos = width / 2;
+  player_pointer_object->player_y_pos = height / 2;
+
+  random_generate_obstacle();
+
+  money_pointer_object->money_moneyx = rand() % width;
+  money_pointer_object->money_moneyy = rand() % height;
+
+  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
+  for (int i = 0; i < height; i++)
+  {  
+    for (int j = 0; j < width; j++)
+    {
+        buffer[i][j] = ' ';
+    }
+  }
+}
+void setup_desert() 
+{
+  if (settings_pointer_object->settings_music_variable == false)
+  {
+    PlaySoundW(NULL, NULL, 0);
+  }
+  else
+  {
+    PlaySoundW(L"sound//music//shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
+  }
+  map_pointer_object->map_size=1;
+  // reset the level variables
+  settings_pointer_object->settings_score=0;
+  settings_pointer_object->settings_gameover = false;
+
+  // to refresh vectors for new game and level select
+  items_vector.clear();
+  npc_vector.clear();
+
+  direction = STOP;
+  player_pointer_object->player_x_pos = width / 2;
+  player_pointer_object->player_y_pos = height / 2;
+
+  random_generate_obstacle();
+  random_generate_npc();
+
+  money_pointer_object->money_moneyx = rand() % width;
+  money_pointer_object->money_moneyy = rand() % height;
+
+  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
+  for (int i = 0; i < height; i++)
+  {  
+    for (int j = 0; j < width; j++)
+    {
+        buffer[i][j] = ' ';
+    }
+  }
+}
+void setup_nava_agni() 
+{
+  if (settings_pointer_object->settings_music_variable == false)
+  {
+    PlaySoundW(NULL, NULL, 0);
+  }
+  else
+  {
+    PlaySoundW(L"sound//music//shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
+  }
+  map_pointer_object->map_size=1;
+  // reset the level variables
+  settings_pointer_object->settings_score=0;
+  settings_pointer_object->settings_gameover = false;
+
+  // to refresh vectors for new game and level select
+  items_vector.clear();
+  npc_vector.clear();
+
+  direction = STOP;
+  player_pointer_object->player_x_pos = width / 2;
+  player_pointer_object->player_y_pos = height / 2;
+
+  random_generate_obstacle();
+  random_generate_npc();
+
+  money_pointer_object->money_moneyx = rand() % width;
+  money_pointer_object->money_moneyy = rand() % height;
+
+  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
+  for (int i = 0; i < height; i++)
+  {  
+    for (int j = 0; j < width; j++)
+    {
+        buffer[i][j] = ' ';
+    }
+  }
+}
+void setup_rift() 
+{
+  if (settings_pointer_object->settings_music_variable == false)
+  {
+    PlaySoundW(NULL, NULL, 0);
+  }
+  else
+  {
+    PlaySoundW(L"sound//music//shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
+  }
+  map_pointer_object->map_size=1;
+  // reset the level variables
+  settings_pointer_object->settings_score=0;
+  settings_pointer_object->settings_gameover = false;
+
+  // to refresh vectors for new game and level select
+  items_vector.clear();
+  npc_vector.clear();
+
+  direction = STOP;
+  player_pointer_object->player_x_pos = width / 2;
+  player_pointer_object->player_y_pos = height / 2;
+
+  random_generate_obstacle();
+  random_generate_npc();
+
+  money_pointer_object->money_moneyx = rand() % width;
+  money_pointer_object->money_moneyy = rand() % height;
+
+  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
+  for (int i = 0; i < height; i++)
+  {  
+    for (int j = 0; j < width; j++)
+    {
+        buffer[i][j] = ' ';
+    }
+  }
+}
 void l2setup() 
 {
   if (settings_pointer_object->settings_music_variable == false)
@@ -995,32 +1145,29 @@ void l2setup()
     }
   }
 }
-void destination()
-{
-  if(map_pointer_object->map_location=1)
-  {
-    cout << "You stumble upon a dark cave" << endl;
-    setup();
-    // draw_level_1();
-  }
-  else if(map_pointer_object->map_location=2) // small town
-  {
-    cout << "You enter a vibrant settlement" << endl;
-    setup_town();
-    draw_village();
-  }
-  else
-  {
-    cout << "You stumble upon the ruins of an ancient civilisation. There's nothing ahead" << endl;
-  }
-}
 void draw_world()
 {
   cout << "| |";
 }
-void draw_village()
+void draw_town()
 {
   cout << "Coming soon" << endl;
+}
+void draw_temple()
+{
+  cout << "Coming soon" << endl;
+}
+void draw_desert()
+{
+  cout << "Coming soon" << endl;
+}
+void draw_nava_agni()
+{
+  cout << "Coming soon" << endl;
+}
+void draw_rift()
+{
+
 }
 void draw_level_1()
 {
@@ -1186,6 +1333,49 @@ void draw_level_10()
 void draw_level_11()
 {
     cout << "Test" << endl;
+}
+void destination()
+{
+  if(map_pointer_object->map_location=1) // cave
+  {
+    cout << "You stumble upon a dark cave" << endl;
+    setup();
+    draw_level_1();
+  }
+  else if(map_pointer_object->map_location=2) // town
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_town();
+    draw_town();
+  }
+  else if(map_pointer_object->map_location=3) // Temple
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_temple();
+    draw_temple();
+  }
+  else if(map_pointer_object->map_location=4) // Desert
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_desert();
+    draw_desert();
+  }
+  else if(map_pointer_object->map_location=5) // Nava Agni
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_nava_agni();
+    draw_nava_agni();
+  }
+  else if(map_pointer_object->map_location=6) // Rift
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_rift();
+    draw_rift();
+  }
+  else
+  {
+    cout << "You stumble upon the ruins of an ancient civilisation. There's nothing ahead" << endl;
+  }
 }
 void input()
 {
