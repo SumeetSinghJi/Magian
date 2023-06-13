@@ -489,8 +489,12 @@ class settings_class
 class map_class
 {
   public:
-    int width;
-    int height;
+    static const int map_width = 20;
+    static const int map_height = 20;
+    static const int map_l2width = 40;
+    static const int map_l2height = 40;
+    char map_buffer[map_height][map_width];
+    char map_l2buffer[map_l2height][map_l2width];
     int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
 };
 
