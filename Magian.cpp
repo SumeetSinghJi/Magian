@@ -26,10 +26,10 @@ bool shoot_skill_cooldown = false;
 chrono::steady_clock::time_point lastShootTime;
 
 // CLASSES
-class skill
+class skill_class
 {
   public:
-    bool skill_fireball_cooldown = false;
+    bool skill_shoot_cooldown = false;
     chrono::steady_clock::time_point skill_last_shoot_time;
 };
 class player_class
@@ -52,20 +52,22 @@ class player_class
 };
 class npc_class
 {
-  private:
+  public:
+    char npc_symbol;
     string npc_name;
     string npc_description;
-    int damage;
     int npc_hp;
-    int speed;
+    int npc_speed;
     int npc_xp;
     int npc_x_pos;
     int npc_y_pos;
+    int npc_ranged_damage;
     int npc_melee_damage;
     bool npc_alive;
     int npc_pause;
-    char npc_symbol;
-
+    int npc_allignment;
+    
+    virtual void npc_movement() = 0;
 
     void npc_random_slow_movement() 
     {
@@ -97,7 +99,111 @@ class npc_class
             npc_pause--;
         }
     }
-
+    void npc_check_collision(shared_ptr<player_class> &player_pointer_object) 
+    {
+        if (npc_x_pos == player_pointer_object->player_x_pos && npc_y_pos == player_pointer_object->player_y_pos) 
+        {
+          direction = STOP;
+          player_pointer_object->player_x_pos = player_pointer_object->player_previous_x_pos;
+          player_pointer_object->player_y_pos = player_pointer_object->player_previous_y_pos;
+          player_pointer_object->player_health++;
+          npc_pause = 3; // Pause for 3 ticks
+          cout << "You became lost in conversation. You feel happy after the conversation";
+          cin.get();
+        }
+    }
+};
+class male_commoner_npc_subclass : public npc_class
+{
+public:
+    male_commoner_npc_subclass()
+    {
+        npc_symbol = 'm';
+        npc_name = "Male commoner";
+        npc_description = "A strong looking man from the civilisaion of Arianna. Brown Hair, eyes and bark skin.";
+        npc_speed = 1;
+        npc_xp = 1;
+        npc_x_pos = rand() % width;
+        npc_y_pos = rand() % height;
+        npc_ranged_damage = 0;
+        npc_melee_damage = 1;
+        npc_alive = true;
+        npc_pause = 0;
+        npc_allignment = 4;
+    }
+    void npc_movement() override
+    {
+      npc_random_slow_movement();
+    }
+};
+class female_commoner_npc_subclass : public npc_class
+{
+public:
+    female_commoner_npc_subclass()
+    {
+        npc_symbol = 'f';
+        npc_name = "female commoner";
+        npc_description = "A copper hued woman from the civilisation of Arianna. Elegant in fashion, quick to judge.";
+        npc_speed = 1;
+        npc_xp = 1;
+        npc_x_pos = rand() % width;
+        npc_y_pos = rand() % height;
+        npc_ranged_damage = 0;
+        npc_melee_damage = 1;
+        npc_alive = true;
+        npc_pause = 0;
+        npc_allignment = 4;
+    }
+    void npc_movement() override
+    {
+      npc_random_slow_movement();
+    }
+};
+class intersex_commoner_npc_subclass : public npc_class
+{
+public:
+    intersex_commoner_npc_subclass()
+    {
+        npc_symbol = 'h';
+        npc_name = "Hijra commoner";
+        npc_description = "A gracefull walking, Hijra a transgender from the civilisation of Arianna. At peace with the world. ";
+        npc_speed = 1;
+        npc_xp = 1;
+        npc_x_pos = rand() % width;
+        npc_y_pos = rand() % height;
+        npc_ranged_damage = 0;
+        npc_melee_damage = 1;
+        npc_alive = true;
+        npc_pause = 0;
+        npc_allignment = 4;
+    }
+    void npc_movement() override
+    {
+      npc_random_slow_movement();
+    }
+};
+class male_shopkeeper_npc_subclass : public npc_class
+{
+public:
+    male_shopkeeper_npc_subclass()
+    {
+        npc_symbol = 's';
+        npc_name = "Shopkeeper";
+        npc_description = "A dusk eyed pedler with flying coins in their hand, wrests their head in the palms whistling.";
+        npc_speed = 1;
+        npc_xp = 1;
+        npc_x_pos = rand() % width;
+        npc_y_pos = rand() % height;
+        npc_ranged_damage = 0;
+        npc_melee_damage = 1;
+        npc_alive = true;
+        npc_pause = 0;
+        npc_allignment = 4;
+    }
+    void npc_movement() override
+    {
+      npc_random_slow_movement();
+    }
 };
 class obstacle_class
 {
@@ -159,6 +265,7 @@ public:
     int enemy_melee_damage;
     bool enemy_alive;
     int enemy_pause;
+    int enemy_allignment; //1=aryan,2=good,3=neutral,4=bad,5=mleecha
     char enemy_symbol;
     
     virtual void enemy_movement() = 0;
@@ -323,6 +430,7 @@ class fire_enemy_subclass : public enemy_class
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = 'F';
+      enemy_allignment = 3;
     }
     void enemy_movement() override
     {
@@ -344,6 +452,7 @@ class flying_enemy_subclass : public enemy_class
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '^';
+      enemy_allignment = 5;
     }
     void enemy_movement() override
     {
@@ -370,6 +479,7 @@ class stalker_enemy_subclass : public enemy_class
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '&';
+      enemy_allignment = 5;
     }
     void enemy_movement() override
     {
@@ -395,6 +505,7 @@ class prime_stalker_enemy_subclass : public enemy_class
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '@';
+      enemy_allignment = 5;
     }
     void enemy_movement() override
     {
@@ -501,12 +612,14 @@ class map_class
     char map_buffer[map_height][map_width];
     char map_l2buffer[map_l2height][map_l2width];
     int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
+    int map_location =0; //1 cave, 2, town, 3 world map
 };
 
 // POINTERS
 vector<shared_ptr<obstacle_class>> obstacles_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<item_class>> items_vector;
+vector<shared_ptr<npc_class>> npc_vector;
 shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
 shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
 shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
@@ -525,6 +638,7 @@ void toggle_music();
 void check_objective();
 void update_savefile_level();
 void match_savefile_level();
+void draw_village();
 
 // FUNCTIONS
 string find_host_os()
@@ -609,8 +723,8 @@ void random_generate_obstacle()
   // Generate a random obstacle by randomly selecting obstacle subclass
   for (int i = 0; i < max_obstacle_objects; i++)
   {
-    int obstacleType = rand() % 2;
-    if (obstacleType == 0) // rock
+    int obstacle_type = rand() % 2;
+    if (obstacle_type == 0) // rock
     {
       shared_ptr<rock_obstacle_subclass> rock_obstacle = make_shared<rock_obstacle_subclass>();
       obstacles_vector.push_back(rock_obstacle);
@@ -619,6 +733,61 @@ void random_generate_obstacle()
     {
       shared_ptr<tree_obstacle_subclass> tree_obstacle = make_shared<tree_obstacle_subclass>();
       obstacles_vector.push_back(tree_obstacle);
+    }
+  }
+}
+void random_generate_npc()
+{
+  int max_npc_objects = 0;
+  if(map_pointer_object->map_size==1) // small
+  {
+    max_npc_objects += 5;
+    max_npc_objects += rand() % 5;
+  }
+  else if(map_pointer_object->map_size==2) // medium
+  {
+    max_npc_objects += 10;
+    max_npc_objects += rand() % 5;
+  }
+  else if(map_pointer_object->map_size==3) // large
+  {
+    max_npc_objects += 15;
+    max_npc_objects += rand() % 5;
+  }
+  else if(map_pointer_object->map_size==4) // extra-large
+  {
+    max_npc_objects += 20;
+    max_npc_objects += rand() % 5;
+  }
+  else if(map_pointer_object->map_size==5) // giant
+  {
+    max_npc_objects += 25;
+    max_npc_objects += rand() % 5;
+  }
+
+  // Generate a random npc by randomly selecting npc subclass
+  for (int i = 0; i < max_npc_objects; i++)
+  {
+    int npc_type = rand() % 3;
+    if (npc_type == 0) // male commoner
+    {
+      shared_ptr<male_commoner_npc_subclass> male_commoner_npc = make_shared<male_commoner_npc_subclass>();
+      npc_vector.push_back(male_commoner_npc);
+    }
+    else if (npc_type == 1)// female commoner
+    {
+      shared_ptr<female_commoner_npc_subclass> female_commoner_npc = make_shared<female_commoner_npc_subclass>();
+      npc_vector.push_back(female_commoner_npc);
+    }
+    else if (npc_type == 2)// hijra commoner
+    {
+      shared_ptr<intersex_commoner_npc_subclass> hijra_commoner_npc = make_shared<intersex_commoner_npc_subclass>();
+      npc_vector.push_back(hijra_commoner_npc);
+    }
+    else // Shopkeeper
+    {
+      shared_ptr<male_shopkeeper_npc_subclass> male_shopkeeper_npc = make_shared<male_shopkeeper_npc_subclass>();
+      npc_vector.push_back(male_shopkeeper_npc);
     }
   }
 }
@@ -751,6 +920,44 @@ void setup()
     }
   }
 }
+void setup_town() 
+{
+  if (settings_pointer_object->settings_music_variable == false)
+  {
+    PlaySoundW(NULL, NULL, 0);
+  }
+  else
+  {
+    PlaySoundW(L"sound//music//shima-uta_seige.wav", NULL, SND_FILENAME | SND_ASYNC);
+  }
+  map_pointer_object->map_size=1;
+  // reset the level variables
+  settings_pointer_object->settings_score=0;
+  settings_pointer_object->settings_gameover = false;
+
+  // to refresh vectors for new game and level select
+  items_vector.clear();
+  npc_vector.clear();
+
+  direction = STOP;
+  player_pointer_object->player_x_pos = width / 2;
+  player_pointer_object->player_y_pos = height / 2;
+
+  random_generate_obstacle();
+  random_generate_npc();
+
+  money_pointer_object->money_moneyx = rand() % width;
+  money_pointer_object->money_moneyy = rand() % height;
+
+  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
+  for (int i = 0; i < height; i++)
+  {  
+    for (int j = 0; j < width; j++)
+    {
+        buffer[i][j] = ' ';
+    }
+  }
+}
 void l2setup() 
 {
   if (settings_pointer_object->settings_music_variable == false)
@@ -787,6 +994,33 @@ void l2setup()
         map_pointer_object->map_l2buffer[i][j] = ' ';
     }
   }
+}
+void destination()
+{
+  if(map_pointer_object->map_location=1)
+  {
+    cout << "You stumble upon a dark cave" << endl;
+    setup();
+    // draw_level_1();
+  }
+  else if(map_pointer_object->map_location=2) // small town
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_town();
+    draw_village();
+  }
+  else
+  {
+    cout << "You stumble upon the ruins of an ancient civilisation. There's nothing ahead" << endl;
+  }
+}
+void draw_world()
+{
+  cout << "| |";
+}
+void draw_village()
+{
+  cout << "Coming soon" << endl;
 }
 void draw_level_1()
 {
@@ -1194,6 +1428,16 @@ void collision_logic()
   player_pointer_object->player_previous_x_pos = player_pointer_object->player_x_pos;
   player_pointer_object->player_previous_y_pos = player_pointer_object->player_y_pos;
 
+  // Obstacles
+  for (const auto& obstacle : obstacles_vector)
+  {
+    if (obstacle->obstacle_alive && player_pointer_object->player_x_pos == obstacle->obstacle_x_pos && player_pointer_object->player_y_pos == obstacle->obstacle_y_pos)
+    {
+      player_pointer_object->player_x_pos = player_pointer_object->player_previous_x_pos;
+      player_pointer_object->player_y_pos = player_pointer_object->player_previous_y_pos;
+      obstacle->obstacle_check_collision(player_pointer_object);
+    } else {  }
+  }
   // Enemies
   for (const auto& enemy : enemies_vector)
   {
@@ -1205,18 +1449,17 @@ void collision_logic()
       enemy->enemy_check_collision(player_pointer_object);
     } else {  }
   }
-
-  // Obstacles
-  for (const auto& obstacle : obstacles_vector)
+  // NPC
+  for (const auto& npc : npc_vector)
   {
-    if (obstacle->obstacle_alive && player_pointer_object->player_x_pos == obstacle->obstacle_x_pos && player_pointer_object->player_y_pos == obstacle->obstacle_y_pos)
+    if (npc->npc_alive && player_pointer_object->player_x_pos == npc->npc_x_pos && player_pointer_object->player_y_pos == npc->npc_y_pos)
     {
       player_pointer_object->player_x_pos = player_pointer_object->player_previous_x_pos;
       player_pointer_object->player_y_pos = player_pointer_object->player_previous_y_pos;
-      obstacle->obstacle_check_collision(player_pointer_object);
+
+      npc->npc_check_collision(player_pointer_object);
     } else {  }
   }
-
   // Items
   for(const auto item : items_vector)
   {
@@ -1307,6 +1550,13 @@ void enemy_ai_logic()
   enemy->enemy_movement();
   }
 }
+void npc_ai_logic()
+{
+  for(const auto& npc : npc_vector)
+  {
+  npc->npc_movement();
+  }
+}
 void money_pickup_logic()
 {
 // Level 1 score - Check if player picked up money and update score and money location if true
@@ -1332,6 +1582,7 @@ void logic()
     player_movement();
     collision_logic();
     enemy_ai_logic();
+    npc_ai_logic();
     money_pickup_logic();
     levelup_logic();
     win_logic();

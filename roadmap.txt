@@ -1,9 +1,34 @@
 ROADMAP
 
+
+draw_world_map()
+static map
+ ____
+|  1 |
+|    |
+|2   |
+|____|
+
+
+
+npc rand collision %2
+good convo health++
+bad convo health--
+mutal convo nothing
+child convo - gives random found item
+pet convo - gives bonus to luck
+shopkeeper convo - trade()
+
+// npc collission logic
+* run logic
+* Recieve quest from NPC, updates objective. Perform X task. Kill paedofile in cave;
+
+
+
+
+
 * skill class
-
 * make money a vector
-
 14
 * Official website
 * Curl official website to check for updates and if so prompt to Download in the main
@@ -58,14 +83,16 @@ parsing library such as Poppler or MuPDF. These libraries provide APIs
 to access and manipulate PDF documents.
 In game book - copy of early rig veda and gathas, and shanameh
 
+
+2nd Library for in game topics from Wikipedia
 * Rakashaa beastiary
-* Realife Magic performed
+* History
 * Rituals
 * Sacrifices
 * Yugas /prayers
 * Yoga
 * Vedic maths
-* Sanskrit programming - Bonus
+* Sanskrit programming - rakashaa world
 
 6
 Locale including
