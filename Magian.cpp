@@ -182,10 +182,10 @@ public:
       npc_random_slow_movement();
     }
 };
-class male_shopkeeper_npc_subclass : public npc_class
+class shopkeeper_npc_subclass : public npc_class
 {
 public:
-    male_shopkeeper_npc_subclass()
+    shopkeeper_npc_subclass()
     {
         npc_symbol = 's';
         npc_name = "Shopkeeper";
@@ -195,6 +195,75 @@ public:
         npc_x_pos = rand() % width;
         npc_y_pos = rand() % height;
         npc_ranged_damage = 0;
+        npc_melee_damage = 1;
+        npc_alive = true;
+        npc_pause = 0;
+        npc_allignment = 4;
+    }
+    void npc_movement() override
+    {
+      npc_random_slow_movement();
+    }
+};
+class rishi_npc_subclass : public npc_class
+{
+public:
+    rishi_npc_subclass()
+    {
+        npc_symbol = 'r';
+        npc_name = "Rishi";
+        npc_description = "A whittled husk of an proud person. An recluse monk of god Agni.";
+        npc_speed = 1;
+        npc_xp = 1;
+        npc_x_pos = rand() % width;
+        npc_y_pos = rand() % height;
+        npc_ranged_damage = 0;
+        npc_melee_damage = 1;
+        npc_alive = true;
+        npc_pause = 0;
+        npc_allignment = 4;
+    }
+    void npc_movement() override
+    {
+      npc_random_slow_movement();
+    }
+};
+class pundit_npc_subclass : public npc_class
+{
+public:
+    sadhu_npc_subclass()
+    {
+        npc_symbol = 'p';
+        npc_name = "Sadhu";
+        npc_description = "A priest dressed in yellow and red in devotion to the god of fire Agni.";
+        npc_speed = 1;
+        npc_xp = 1;
+        npc_x_pos = rand() % width;
+        npc_y_pos = rand() % height;
+        npc_ranged_damage = 0;
+        npc_melee_damage = 1;
+        npc_alive = true;
+        npc_pause = 0;
+        npc_allignment = 4;
+    }
+    void npc_movement() override
+    {
+      npc_random_slow_movement();
+    }
+};
+class magi_npc_subclass : public npc_class
+{
+public:
+    magi_npc_subclass()
+    {
+        npc_symbol = 'm';
+        npc_name = "Magi";
+        npc_description = "A powerfull violent inferno rages behind this persons eyes. A trained fire magician.";
+        npc_speed = 1;
+        npc_xp = 1;
+        npc_x_pos = rand() % width;
+        npc_y_pos = rand() % height;
+        npc_ranged_damage = 3;
         npc_melee_damage = 1;
         npc_alive = true;
         npc_pause = 0;
@@ -785,8 +854,8 @@ void random_generate_npc()
     }
     else // Shopkeeper
     {
-      shared_ptr<male_shopkeeper_npc_subclass> male_shopkeeper_npc = make_shared<male_shopkeeper_npc_subclass>();
-      npc_vector.push_back(male_shopkeeper_npc);
+      shared_ptr<shopkeeper_npc_subclass> shopkeeper_npc = make_shared<shopkeeper_npc_subclass>();
+      npc_vector.push_back(shopkeeper_npc);
     }
   }
 }
