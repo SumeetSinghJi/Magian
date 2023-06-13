@@ -23,7 +23,6 @@ const int height = 20;
 const int l2width = 40;
 const int l2height = 40;
 bool shoot_skill_cooldown = false;
-int lives = 3;
 char buffer[height][width];
 char l2buffer[l2height][l2width];
 chrono::steady_clock::time_point lastShootTime;
@@ -298,7 +297,7 @@ public:
           direction = STOP;
           player_pointer_object->player_x_pos = player_pointer_object->player_previous_x_pos;
           player_pointer_object->player_y_pos = player_pointer_object->player_previous_y_pos;
-            lives-=enemy_melee_damage;
+            player_pointer_object->player_health-=enemy_melee_damage;
             enemy_pause = 3; // Pause for 3 ticks
             cout << "You bumped into the monster";
             cin.get();
@@ -418,10 +417,7 @@ public:
     item_x_pos = rand() % width;
     item_y_pos = rand() % height;
   }
-  virtual void use(int& value)
-  {
-
-  }
+  virtual void use(shared_ptr<player_class>& player_pointer_object) = 0;
   void item_store()
   {
     fstream savefile_object;
@@ -453,7 +449,7 @@ class potion_item_subclass : public item_class
 {
 public:
   potion_item_subclass() : item_class("Potion", "When used increases players life by 1 by regenerating their body.", 'p') {}
-  void use(shared_ptr<player_class>& player_pointer_object)
+  void use(shared_ptr<player_class>& player_pointer_object) override
   {
     cout << "You used a Potion. 1 life gained" << endl;
     player_pointer_object->player_health++;
@@ -463,7 +459,7 @@ class leather_boots_item_subclass : public item_class
 {
 public:
   leather_boots_item_subclass() : item_class("Leather boots", "When used increases players speed by 1 by cushioning their steps.", 'b') {}
-  void use(shared_ptr<player_class>& player_pointer_object)
+  void use(shared_ptr<player_class>& player_pointer_object) override
   {
     cout << "You wore leather boots. Speed permanently increased by 1" << endl;
     player_pointer_object->player_speed++;
@@ -842,7 +838,7 @@ void draw_level_1()
 
   // Print the current score and lives beneath the array
   string score_str = "Current Score: " + to_string(settings_pointer_object->settings_score);
-  string lives_str = "Current Lives: " + to_string(lives);
+  string lives_str = "Current Health: " + to_string(player_pointer_object->player_health);
   cout << score_str << endl;
   cout << lives_str << endl;
 }
@@ -907,7 +903,7 @@ void draw_level_2()
   }
   // print the current score and lives beneath the array
   string score_str = "Current Score: " + to_string(settings_pointer_object->settings_score);
-  string lives_str = "Current Lives: " + to_string(lives);
+  string lives_str = "Current Health: " + to_string(player_pointer_object->player_health);
   cout << score_str << endl;
   cout << lives_str << endl;
 }
@@ -1226,7 +1222,7 @@ void collision_logic()
 void win_logic()
 {
 // Check if player has run out of lives and end the game if true
-    if (lives <= 0) 
+    if (player_pointer_object->player_health <= 0) 
     {
         cout << "You died!" << endl;
         settings_pointer_object->settings_gameover = true;
@@ -1334,7 +1330,7 @@ void logic()
 void l2startgame() 
 {
   l2setup();
-  lives = 3;
+  player_pointer_object->player_health = 3;
   
   if (find_host_os() == "Windows")
   { 
@@ -1775,7 +1771,7 @@ void check_items()
     {
       if (item->item_name == items_vector[item_select_variable]->item_name)
       {
-        item->use(lives);
+        item->use(player_pointer_object);
         break;
       }
     }
@@ -2149,19 +2145,19 @@ void change_settings()
   case 0:
     menu();
   case 1:
-    lives = 99;
+    player_pointer_object->player_health = 99;
     menu();
     break;
   case 2:
-    lives = 9;
+    player_pointer_object->player_health = 9;
     menu();
     break;
   case 3:
-    lives = 5;
+    player_pointer_object->player_health = 5;
     menu();
     break;
   case 4:
-    lives = 1;
+    player_pointer_object->player_health = 1;
     menu();
     break;
   case 5:
@@ -2309,7 +2305,7 @@ void level_select()
       break;
     case 1:
       setup();
-      lives = 3;
+      player_pointer_object->player_health = 3;
       if (find_host_os() == "Windows")
       { 
         while (!settings_pointer_object->settings_gameover) 
@@ -2565,7 +2561,7 @@ void newgame()
   initialise_player();
   item_store_header();
   setup();
-  lives = 3;
+  player_pointer_object->player_health = 3;
 
   // Clear the console screen initially
   system("cls");
@@ -2611,7 +2607,7 @@ void continuegame()
 {
   load_player();
   setup();
-  lives = 3;
+  player_pointer_object->player_health = 3;
 
   // Clear the console screen initially
   system("cls");
