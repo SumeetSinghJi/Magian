@@ -1,5 +1,9 @@
 ROADMAP
 
+* skill class
+
+* make money a vector
+
 14
 * Official website
 * Curl official website to check for updates and if so prompt to Download in the main

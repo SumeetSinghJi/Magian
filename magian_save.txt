@@ -10,3 +10,8 @@ Swimming: 0
 Herbology: 0
 Money: 0
 INVENTORY
+SAVE UPDATE
+Host OS is: Windows
+Version: 0.2.3
+Date: 13/6/2023
+Unlocked levels: 2

@@ -4,9 +4,9 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <unistd.h>
@@ -20,11 +20,8 @@ enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
 edirection direction;
 const int width = 20;
 const int height = 20;
-const int l2width = 40;
-const int l2height = 40;
 bool shoot_skill_cooldown = false;
 char buffer[height][width];
-char l2buffer[l2height][l2width];
 chrono::steady_clock::time_point lastShootTime;
 
 // CLASSES
@@ -275,11 +272,11 @@ public:
         if (rand() % 10 < 8) 
         {
             // Move towards player
-            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < l2width - 2)
+            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < width - 2)
                 enemy_x_pos++;
             else if (enemy_x_pos > player_pointer_object->player_x_pos && enemy_x_pos > 1)
                 enemy_x_pos--;
-            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < l2height - 2)
+            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < height - 2)
                 enemy_y_pos++;
             else if (enemy_y_pos > player_pointer_object->player_y_pos && enemy_y_pos > 1)
                 enemy_y_pos--;
@@ -484,6 +481,7 @@ class settings_class
     int settings_level = 1;
     int settings_level_select_variable = 1;
     int settings_score = 0;
+    int settings_kill_count=0;
     
 };
 class map_class
@@ -762,24 +760,24 @@ void l2setup()
   settings_pointer_object->settings_gameover = false;
 
   // Below srand method needs to be executed at runtime hence run in a function vs global variable;
-  money_pointer_object->money_moneyx = rand() % l2width;
-  money_pointer_object->money_moneyy = rand() % l2height;
+  money_pointer_object->money_moneyx = rand() % map_pointer_object->map_l2width;
+  money_pointer_object->money_moneyy = rand() % map_pointer_object->map_l2height;
 
   // setting position of player
   direction = STOP;
-  player_pointer_object->player_x_pos = l2width / 2;
-  player_pointer_object->player_y_pos = l2height / 2;
+  player_pointer_object->player_x_pos = map_pointer_object->map_l2width / 2;
+  player_pointer_object->player_y_pos = map_pointer_object->map_l2height / 2;
 
   // to refresh vectors for new game and level select
   items_vector.clear();
   enemies_vector.clear();
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
-  for (int i = 0; i < l2height; i++)
+  for (int i = 0; i < map_pointer_object->map_l2height; i++)
   {  
-    for (int j = 0; j < l2width; j++)
+    for (int j = 0; j < map_pointer_object->map_l2width; j++)
     {
-        l2buffer[i][j] = ' ';
+        map_pointer_object->map_l2buffer[i][j] = ' ';
     }
   }
 }
@@ -849,43 +847,43 @@ void draw_level_1()
 void draw_level_2()
 {
     // Draw top wall  
-  for (int top_wall = 0; top_wall < l2width; top_wall++) {
-    l2buffer[0][top_wall] = '#';
+  for (int top_wall = 0; top_wall < map_pointer_object->map_l2width; top_wall++) {
+    map_pointer_object->map_l2buffer[0][top_wall] = '#';
   }
 
   // draw middle section
   //loop through y axis 19 times down
-  for (int y = 1; y < l2height-1; y++) 
+  for (int y = 1; y < map_pointer_object->map_l2height-1; y++) 
   {
     // loop through x axis 19 times across
-    for (int x = 0; x < l2width; x++) 
+    for (int x = 0; x < map_pointer_object->map_l2width; x++) 
     {
       // draw side wall
-      if (x == 0 || x == l2width - 1) 
+      if (x == 0 || x == map_pointer_object->map_l2width - 1) 
       {
-        l2buffer[y][x] = '#';
+        map_pointer_object->map_l2buffer[y][x] = '#';
       }
       //draw player
       else if (x == player_pointer_object->player_x_pos && y == player_pointer_object->player_y_pos) 
       {
-        l2buffer[y][x] = 'P';
+        map_pointer_object->map_l2buffer[y][x] = 'P';
       }
       //draw money
       else if (x == money_pointer_object->money_moneyx && y == money_pointer_object->money_moneyy) 
       {
-        l2buffer[y][x] = '$';
+        map_pointer_object->map_l2buffer[y][x] = '$';
       }
       else 
       {
         // Initialize to empty space
-        l2buffer[y][x] = ' ';
+        map_pointer_object->map_l2buffer[y][x] = ' ';
 
         // Draw all enemies if any exists at this position
         for (const auto& enemy : enemies_vector) 
         {
           if (enemy->enemy_alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos) 
           {
-            l2buffer[y][x] = enemy->enemy_symbol;
+            map_pointer_object->map_l2buffer[y][x] = enemy->enemy_symbol;
           }
         }
       }
@@ -893,15 +891,15 @@ void draw_level_2()
   }
 
   // Draw bottom wall
-  for (int bottom_wall = 0; bottom_wall < l2width; bottom_wall++) {
-    l2buffer[height-1][bottom_wall] = '#';
+  for (int bottom_wall = 0; bottom_wall < map_pointer_object->map_l2width; bottom_wall++) {
+    map_pointer_object->map_l2buffer[height-1][bottom_wall] = '#';
   }
 
   system("cls");
-  for (int y = 0; y < l2height; y++) 
+  for (int y = 0; y < map_pointer_object->map_l2height; y++) 
   {
-    for (int x = 0; x < l2width; x++) {
-      cout << l2buffer[y][x];
+    for (int x = 0; x < map_pointer_object->map_l2width; x++) {
+      cout << map_pointer_object->map_l2buffer[y][x];
     }
     cout << endl;
   }
@@ -1225,7 +1223,7 @@ void collision_logic()
 }
 void win_logic()
 {
-// Check if player has run out of lives and end the game if true
+    // Check if player has run out of lives and end the game if true
     if (player_pointer_object->player_health <= 0) 
     {
         cout << "You died!" << endl;
@@ -1233,11 +1231,11 @@ void win_logic()
         menu();
     } else {  }
 
-// Level 1 - win logic 
+    // Level 1 - win logic 
     if (settings_pointer_object->settings_score >= 3) 
     {
     settings_pointer_object->settings_level = 2;
-    cout << "You win the level";
+    cout << "You collected all Scrolls. Now advance to Agni.";
     settings_pointer_object->settings_level_select_variable=2;
     update_savefile_level();
     save();
@@ -1245,10 +1243,10 @@ void win_logic()
     } else {  }
 
     // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
-    if (settings_pointer_object->settings_score >= 10) 
+    if (settings_pointer_object->settings_kill_count >= 1) 
     {
     settings_pointer_object->settings_level = 3;
-    cout << "You win the level";
+    cout << "Agni's demise was slain. Find the source of the chaotic celestical invasion.";
     settings_pointer_object->settings_level_select_variable=3;
     update_savefile_level();
     save();
@@ -1318,8 +1316,8 @@ void money_pickup_logic()
     {
         settings_pointer_object->settings_score++;
         player_pointer_object->player_money++;
-        money_pointer_object->money_moneyx = rand() % l2width-1;
-        money_pointer_object->money_moneyy = rand() % l2height-1;
+        money_pointer_object->money_moneyx = rand() % map_pointer_object->map_l2width-1;
+        money_pointer_object->money_moneyy = rand() % map_pointer_object->map_l2height-1;
     } else {  }
 }
 void logic()
