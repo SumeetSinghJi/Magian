@@ -1,3 +1,4 @@
+// This code for testing map_class
 #include <algorithm>
 #include <chrono>
 #include <conio.h>
@@ -18,23 +19,28 @@ using namespace std;
 // VARIABLES
 enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
 edirection direction;
-const int width = 20;
-const int height = 20;
-char buffer[height][width];
-
 bool shoot_skill_cooldown = false;
 chrono::steady_clock::time_point lastShootTime;
 
+// FORWARD DECLARATION
+class map_class;
+
 // CLASSES
-class skill
+class map_class
 {
   public:
-    bool skill_fireball_cooldown = false;
-    chrono::steady_clock::time_point skill_last_shoot_time;
+    static const int map_width = 20;
+    static const int map_height = 20;
+    static const int map_l2width = 40;
+    static const int map_l2height = 40;
+    char map_buffer[map_height][map_width];
+    char map_l2buffer[map_l2height][map_l2width];
+    int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
 };
 class player_class
 {
   public:
+    shared_ptr<map_class> map_pointer_object;
     string player_name = "";
     int player_magic = 0;
     int player_health = 0;
@@ -53,6 +59,7 @@ class player_class
 class npc_class
 {
   private:
+    shared_ptr<map_class> map_pointer_object;
     string npc_name;
     string npc_description;
     int damage;
@@ -67,28 +74,28 @@ class npc_class
     char npc_symbol;
 
 
-    void npc_random_slow_movement() 
+    void npc_random_slow_movement(shared_ptr<map_class> map_pointer_object) 
     {
         if (npc_alive && npc_pause == 0) {
             int random_direction = rand() % 4;
             switch (random_direction) {
             case 0: // Up
-                if (npc_y_pos > 1 && buffer[npc_y_pos - 1][npc_x_pos] != '#') {
+                if (npc_y_pos > 1 && map_pointer_object->map_buffer[npc_y_pos - 1][npc_x_pos] != '#') {
                     npc_y_pos--;
                 }
                 break;
             case 1: // Down
-                if (npc_y_pos < height - 2 && buffer[npc_y_pos + 1][npc_x_pos] != '#') {
+                if (npc_y_pos < map_pointer_object->map_height - 2 && map_pointer_object->map_buffer[npc_y_pos + 1][npc_x_pos] != '#') {
                     npc_y_pos++;
                 }
                 break;
             case 2: // Left
-                if (npc_x_pos > 1 && buffer[npc_y_pos][npc_x_pos - 1] != '#') {
+                if (npc_x_pos > 1 && map_pointer_object->map_buffer[npc_y_pos][npc_x_pos - 1] != '#') {
                     npc_x_pos--;
                 }
                 break;
             case 3: // Right
-                if (npc_x_pos < width - 2 && buffer[npc_y_pos][npc_x_pos + 1] != '#') {
+                if (npc_x_pos < map_pointer_object->map_width - 2 && map_pointer_object->map_buffer[npc_y_pos][npc_x_pos + 1] != '#') {
                     npc_x_pos++;
                 }
                 break;
@@ -102,6 +109,8 @@ class npc_class
 class obstacle_class
 {
   public:
+    shared_ptr<player_class> player_pointer_object;
+    shared_ptr<map_class> map_pointer_object;
     char obstacle_symbol;
     string obstacle_name = "";
     string obstacle_description = "";
@@ -109,6 +118,11 @@ class obstacle_class
     int obstacle_x_pos;
     int obstacle_y_pos;
     bool obstacle_alive;
+    obstacle_class(shared_ptr<map_class> map_pointer_object)
+        : map_pointer_object(map_pointer_object), obstacle_symbol('\0'),obstacle_name(""), obstacle_description(""), obstacle_hp(0),
+          obstacle_x_pos(0), obstacle_y_pos(0), obstacle_alive(false)
+    {
+    }
     void obstacle_check_collision(shared_ptr<player_class> &player_pointer_object) 
     {
         if (obstacle_x_pos == player_pointer_object->player_x_pos && obstacle_y_pos == player_pointer_object->player_y_pos) {
@@ -120,39 +134,42 @@ class obstacle_class
 class rock_obstacle_subclass : public obstacle_class
 {
 public:
-    rock_obstacle_subclass()
+    rock_obstacle_subclass(shared_ptr<map_class> map_pointer_object)
+        : obstacle_class(map_pointer_object) // Call the base class constructor
     {
         obstacle_symbol = 'R';
         obstacle_name = "Rock";
         obstacle_description = "A strong rock that blocks line of sight but can be destroyed or climbed";
         obstacle_hp = 1;
-        obstacle_x_pos = rand() % width;
-        obstacle_y_pos = rand() % height;
-        bool obstacle_alive = true;
+        obstacle_x_pos = rand() % map_pointer_object->map_width;
+        obstacle_y_pos = rand() % map_pointer_object->map_height;
+        obstacle_alive = true;
     }
 };
 class tree_obstacle_subclass : public obstacle_class
 {
 public:
-    tree_obstacle_subclass()
+    tree_obstacle_subclass(shared_ptr<map_class> map_pointer_object)
+        : obstacle_class(map_pointer_object) // Call the base class constructor
     {
         obstacle_symbol = 'T';
         obstacle_name = "Tree";
         obstacle_description = "A large tree that blocks line of sight. Can be burnt down";
         obstacle_hp = 1;
-        obstacle_x_pos = rand() % width;
-        obstacle_y_pos = rand() % height;
-        bool obstacle_alive = true;
+        obstacle_x_pos = rand() % map_pointer_object->map_width;
+        obstacle_y_pos = rand() % map_pointer_object->map_height;
+        obstacle_alive = true;
     }
 };
 class enemy_class 
 {
 public:
+    shared_ptr<map_class> map_pointer_object;
+    shared_ptr<player_class> player_pointer_object;
     string enemy_name;
     string enemy_description;
-    int damage;
     int enemy_hp;
-    int speed;
+    int enemy_speed;
     int enemy_xp;
     int enemy_x_pos;
     int enemy_y_pos;
@@ -160,34 +177,37 @@ public:
     bool enemy_alive;
     int enemy_pause;
     char enemy_symbol;
+    enemy_class(shared_ptr<map_class> map_pointer_object) : map_pointer_object(map_pointer_object),
+    enemy_name(""),enemy_description(""),enemy_speed(0),enemy_xp(0),enemy_x_pos(0),
+    enemy_y_pos(0),enemy_melee_damage(0),enemy_alive(true),enemy_pause(0), enemy_symbol('\0'){}
     
     virtual void enemy_movement() = 0;
     
       // polymrphic class to be overwritten by subclasses
     
 
-    void random_slow_movement() 
+    void random_slow_movement(shared_ptr<map_class> map_pointer_object) 
     {
         if (enemy_alive && enemy_pause == 0) {
             int random_direction = rand() % 4;
             switch (random_direction) {
             case 0: // Up
-                if (enemy_y_pos > 1 && buffer[enemy_y_pos - 1][enemy_x_pos] != '#') {
+                if (enemy_y_pos > 1 && map_pointer_object->map_buffer[enemy_y_pos - 1][enemy_x_pos] != '#') {
                     enemy_y_pos--;
                 }
                 break;
             case 1: // Down
-                if (enemy_y_pos < height - 2 && buffer[enemy_y_pos + 1][enemy_x_pos] != '#') {
+                if (enemy_y_pos < map_pointer_object->map_height - 2 && map_pointer_object->map_buffer[enemy_y_pos + 1][enemy_x_pos] != '#') {
                     enemy_y_pos++;
                 }
                 break;
             case 2: // Left
-                if (enemy_x_pos > 1 && buffer[enemy_y_pos][enemy_x_pos - 1] != '#') {
+                if (enemy_x_pos > 1 && map_pointer_object->map_buffer[enemy_y_pos][enemy_x_pos - 1] != '#') {
                     enemy_x_pos--;
                 }
                 break;
             case 3: // Right
-                if (enemy_x_pos < width - 2 && buffer[enemy_y_pos][enemy_x_pos + 1] != '#') {
+                if (enemy_x_pos < map_pointer_object->map_width - 2 && map_pointer_object->map_buffer[enemy_y_pos][enemy_x_pos + 1] != '#') {
                     enemy_x_pos++;
                 }
                 break;
@@ -196,7 +216,7 @@ public:
             enemy_pause--;
         }
     }
-    void random_fast_movement() 
+    void random_fast_movement(shared_ptr<map_class> map_pointer_object) 
     {
         if (enemy_alive && enemy_pause == 0) 
         {
@@ -209,28 +229,28 @@ public:
                 switch (random_direction) 
                 {
                     case 0: // Up
-                        if (enemy_y_pos > 1 && buffer[enemy_y_pos - 1][enemy_x_pos] != '#') 
+                        if (enemy_y_pos > 1 && map_pointer_object->map_buffer[enemy_y_pos - 1][enemy_x_pos] != '#') 
                         {
                             enemy_y_pos--;
                             enemy_y_pos--;
                         }
                         break;
                     case 1: // Down
-                        if (enemy_y_pos < height - 2 && buffer[enemy_y_pos + 1][enemy_x_pos] != '#') 
+                        if (enemy_y_pos < map_pointer_object->map_height - 2 && map_pointer_object->map_buffer[enemy_y_pos + 1][enemy_x_pos] != '#') 
                         {
                             enemy_y_pos++;
                             enemy_y_pos++;
                         }
                         break;
                     case 2: // Left
-                        if (enemy_x_pos > 1 && buffer[enemy_y_pos][enemy_x_pos - 1] != '#') 
+                        if (enemy_x_pos > 1 && map_pointer_object->map_buffer[enemy_y_pos][enemy_x_pos - 1] != '#') 
                         {
                             enemy_x_pos--;
                             enemy_x_pos--;
                         }
                         break;
                     case 3: // Right
-                        if (enemy_x_pos < width - 2 && buffer[enemy_y_pos][enemy_x_pos + 1] != '#') 
+                        if (enemy_x_pos < map_pointer_object->map_width - 2 && map_pointer_object->map_buffer[enemy_y_pos][enemy_x_pos + 1] != '#') 
                         {
                             enemy_x_pos++;
                             enemy_x_pos++;
@@ -244,7 +264,7 @@ public:
             enemy_pause--;
         }
     }
-    void random_slow_chasing(shared_ptr<player_class> &player_pointer_object) 
+    void random_slow_chasing(shared_ptr<player_class> player_pointer_object, shared_ptr<map_class> map_pointer_object) 
     {
       // Move the enemy only if the random number is less than 4 (40% chance)
       if (enemy_alive && enemy_pause == 0)
@@ -254,11 +274,11 @@ public:
         if (rand() % 10 < 4) 
         {
             // Move towards player
-            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < width - 2)
+            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < map_pointer_object->map_width - 2)
                 enemy_x_pos++;
             else if (enemy_x_pos > player_pointer_object->player_x_pos && enemy_x_pos > 1)
                 enemy_x_pos--;
-            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < height - 2)
+            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < map_pointer_object->map_height - 2)
                 enemy_y_pos++;
             else if (enemy_y_pos > player_pointer_object->player_y_pos && enemy_y_pos > 1)
                 enemy_y_pos--;
@@ -269,7 +289,7 @@ public:
         enemy_pause--;
       }
     }
-    void random_fast_chasing(shared_ptr<player_class> &player_pointer_object) 
+    void random_fast_chasing(shared_ptr<player_class> player_pointer_object, shared_ptr<map_class> map_pointer_object) 
     {
       // Move the enemy only if the random number is less than 8 (80% chance)
       if (enemy_alive && enemy_pause == 0)
@@ -279,11 +299,11 @@ public:
         if (rand() % 10 < 8) 
         {
             // Move towards player
-            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < width - 2)
+            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < map_pointer_object->map_width - 2)
                 enemy_x_pos++;
             else if (enemy_x_pos > player_pointer_object->player_x_pos && enemy_x_pos > 1)
                 enemy_x_pos--;
-            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < height - 2)
+            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < map_pointer_object->map_height - 2)
                 enemy_y_pos++;
             else if (enemy_y_pos > player_pointer_object->player_y_pos && enemy_y_pos > 1)
                 enemy_y_pos--;
@@ -294,7 +314,7 @@ public:
         enemy_pause--;
       }
     }
-    void enemy_check_collision(shared_ptr<player_class> &player_pointer_object) 
+    void enemy_check_collision(shared_ptr<player_class> player_pointer_object) 
     {
         if (enemy_x_pos == player_pointer_object->player_x_pos && enemy_y_pos == player_pointer_object->player_y_pos) 
         {
@@ -311,51 +331,51 @@ public:
 class fire_enemy_subclass : public enemy_class
 {
   public:
-    fire_enemy_subclass()
+    fire_enemy_subclass(shared_ptr<map_class> map_pointer_object) : enemy_class(map_pointer_object)
     {
       enemy_name="Fire";
-      enemy_hp = 1;
-      enemy_xp = 1;
-      enemy_melee_damage = 1;
       enemy_description="A large moving flame 2 meters high burning everything it touches.";
-      enemy_x_pos = rand() % width;
-      enemy_y_pos = rand() % height;
+      enemy_hp = 1;
+      enemy_speed = 1;
+      enemy_xp = 1;
+      enemy_x_pos = rand() % map_pointer_object->map_width;
+      enemy_y_pos = rand() % map_pointer_object->map_height;
+      enemy_melee_damage = 1;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = 'F';
     }
     void enemy_movement() override
     {
-      random_slow_movement();
+      random_slow_movement(map_pointer_object);
     }
 };
 class flying_enemy_subclass : public enemy_class
 {
   public:
-    flying_enemy_subclass()
+    flying_enemy_subclass(shared_ptr<map_class> map_pointer_object) : enemy_class(map_pointer_object)
     {
       enemy_name="Flying Rakashaa";
-      enemy_hp = 3;
-      enemy_xp = 2;
-      enemy_melee_damage = 2;
       enemy_description="A flying demon with powerfull magic.";
-      enemy_x_pos = rand() % width;
-      enemy_y_pos = rand() % height;
+      enemy_hp = 3;
+      enemy_speed = 1;
+      enemy_xp = 2;
+      enemy_x_pos = rand() % map_pointer_object->map_width;
+      enemy_y_pos = rand() % map_pointer_object->map_height;
+      enemy_melee_damage = 2;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '^';
     }
     void enemy_movement() override
     {
-      random_fast_movement();
+      random_fast_movement(map_pointer_object);
     }
 };
 class stalker_enemy_subclass : public enemy_class
 {
-  private:
-    shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
   public:
-    stalker_enemy_subclass()
+    stalker_enemy_subclass(shared_ptr<map_class> map_pointer_object) : enemy_class(map_pointer_object)
     {
       enemy_name="Stalking Rakashaa";
       enemy_hp = 3;
@@ -365,23 +385,21 @@ class stalker_enemy_subclass : public enemy_class
                         "It's legs move exceedingly fast but stride is slow giving it the impression at any moment"
                         "it could outrace and catch you."
                         "The uncertanty of the humanoids actions cause you deep fear.";
-      enemy_x_pos = rand() % width;
-      enemy_y_pos = rand() % height;
+      enemy_x_pos = rand() % map_pointer_object->map_width;
+      enemy_y_pos = rand() % map_pointer_object->map_height;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '&';
     }
     void enemy_movement() override
     {
-      random_slow_chasing(player_pointer_object);
+      random_slow_chasing(player_pointer_object, map_pointer_object);
     }
 };
 class prime_stalker_enemy_subclass : public enemy_class
 {
-  private:
-    shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
   public:
-    prime_stalker_enemy_subclass()
+    prime_stalker_enemy_subclass(shared_ptr<map_class> map_pointer_object) : enemy_class(map_pointer_object)
     {
       enemy_name="Prime Stalking Rakashaa";
       enemy_hp = 10;
@@ -390,20 +408,22 @@ class prime_stalker_enemy_subclass : public enemy_class
       enemy_description="A bloodied hulk of scars, stench and sharp fangs and claws gathers it's senses"
       "and notices you. You feel that today you will die."
       "The stalker pack leader";
-      enemy_x_pos = rand() % width;
-      enemy_y_pos = rand() % height;
+      enemy_x_pos = rand() % map_pointer_object->map_width;
+      enemy_y_pos = rand() % map_pointer_object->map_height;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '@';
     }
     void enemy_movement() override
     {
-      random_fast_chasing(player_pointer_object);
+      random_fast_chasing(player_pointer_object, map_pointer_object);
     }
 };
 class item_class 
 {
 public:
+  shared_ptr<player_class> player_pointer_object;
+  shared_ptr<map_class> map_pointer_object;
   string item_name;
   string item_description;
   vector<shared_ptr<int>> collected_items_array;
@@ -413,13 +433,13 @@ public:
   int item_y_pos;
   char item_symbol;
   bool item_alive;
-  item_class(string item_name, string item_description, char item_symbol)
+  item_class(string item_name, string item_description, char item_symbol, shared_ptr<map_class> &map_pointer_object)
   {
     this->item_name = item_name;
     this->item_description = item_description;
     this->item_symbol = item_symbol;
-    item_x_pos = rand() % width;
-    item_y_pos = rand() % height;
+    item_x_pos = rand() % map_pointer_object->map_width;
+    item_y_pos = rand() % map_pointer_object->map_height;
   }
   virtual void use(shared_ptr<player_class>& player_pointer_object) = 0;
   void item_store()
@@ -452,7 +472,9 @@ public:
 class potion_item_subclass : public item_class
 {
 public:
-  potion_item_subclass() : item_class("Potion", "When used increases players life by 1 by regenerating their body.", 'p') {}
+  shared_ptr<player_class> player_pointer_object;
+  shared_ptr<map_class> map_pointer_object;
+  potion_item_subclass() : item_class("Potion", "When used increases players life by 1 by regenerating their body.", 'p', map_pointer_object) {}
   void use(shared_ptr<player_class>& player_pointer_object) override
   {
     cout << "You used a Potion. 1 life gained" << endl;
@@ -462,7 +484,9 @@ public:
 class leather_boots_item_subclass : public item_class
 {
 public:
-  leather_boots_item_subclass() : item_class("Leather boots", "When used increases players speed by 1 by cushioning their steps.", 'b') {}
+  shared_ptr<player_class> player_pointer_object;
+  shared_ptr<map_class> map_pointer_object;
+  leather_boots_item_subclass() : item_class("Leather boots", "When used increases players speed by 1 by cushioning their steps.", 'b', map_pointer_object) {}
   void use(shared_ptr<player_class>& player_pointer_object) override
   {
     cout << "You wore leather boots. Speed permanently increased by 1" << endl;
@@ -490,17 +514,6 @@ class settings_class
     int settings_score = 0;
     int settings_kill_count=0;
     
-};
-class map_class
-{
-  public:
-    static const int map_width = 20;
-    static const int map_height = 20;
-    static const int map_l2width = 40;
-    static const int map_l2height = 40;
-    char map_buffer[map_height][map_width];
-    char map_l2buffer[map_l2height][map_l2width];
-    int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
 };
 
 // POINTERS
@@ -612,12 +625,12 @@ void random_generate_obstacle()
     int obstacleType = rand() % 2;
     if (obstacleType == 0) // rock
     {
-      shared_ptr<rock_obstacle_subclass> rock_obstacle = make_shared<rock_obstacle_subclass>();
+      shared_ptr<rock_obstacle_subclass> rock_obstacle = make_shared<rock_obstacle_subclass>(map_pointer_object);
       obstacles_vector.push_back(rock_obstacle);
     }
     else // tree
     {
-      shared_ptr<tree_obstacle_subclass> tree_obstacle = make_shared<tree_obstacle_subclass>();
+      shared_ptr<tree_obstacle_subclass> tree_obstacle = make_shared<tree_obstacle_subclass>(map_pointer_object);
       obstacles_vector.push_back(tree_obstacle);
     }
   }
@@ -655,11 +668,13 @@ void random_generate_enemy()
     int enemy_type_variable = rand() % 2;
     if (enemy_type_variable == 0) // xxx
     {
-      enemies_vector.push_back(make_shared<fire_enemy_subclass>());
+      shared_ptr<fire_enemy_subclass> fire_enemy = make_shared<fire_enemy_subclass>(map_pointer_object);
+      enemies_vector.push_back(fire_enemy);
     }
     else // xxx
     {
-      enemies_vector.push_back(make_shared<flying_enemy_subclass>());
+      shared_ptr<flying_enemy_subclass> flying_enemy = make_shared<flying_enemy_subclass>(map_pointer_object);
+      enemies_vector.push_back(flying_enemy);
     }
   }
 }
@@ -727,8 +742,8 @@ void setup()
 
 
   direction = STOP;
-  player_pointer_object->player_x_pos = width / 2;
-  player_pointer_object->player_y_pos = height / 2;
+  player_pointer_object->player_x_pos = map_pointer_object->map_width / 2;
+  player_pointer_object->player_y_pos = map_pointer_object->map_height / 2;
 
   random_generate_obstacle();
 
@@ -738,16 +753,16 @@ void setup()
   items_vector.push_back(make_shared<potion_item_subclass>());
   items_vector.push_back(make_shared<leather_boots_item_subclass>());
 
-  money_pointer_object->money_moneyx = rand() % width;
-  money_pointer_object->money_moneyy = rand() % height;
+  money_pointer_object->money_moneyx = rand() % map_pointer_object->map_width;
+  money_pointer_object->money_moneyy = rand() % map_pointer_object->map_height;
   
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
-  for (int i = 0; i < height; i++)
+  for (int i = 0; i < map_pointer_object->map_height; i++)
   {  
-    for (int j = 0; j < width; j++)
+    for (int j = 0; j < map_pointer_object->map_width; j++)
     {
-        buffer[i][j] = ' ';
+        map_pointer_object->map_buffer[i][j] = ' ';
     }
   }
 }
@@ -791,28 +806,28 @@ void l2setup()
 void draw_level_1()
 {
   // Initialize the buffer with wall boundaries and empty spaces
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
+  for (int y = 0; y < map_pointer_object->map_height; y++) {
+    for (int x = 0; x < map_pointer_object->map_width; x++) {
       // Draw wall boundaries
-      if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
-        buffer[y][x] = '#'; // draw all 4 walls
+      if (x == 0 || x == map_pointer_object->map_width - 1 || y == 0 || y == map_pointer_object->map_height - 1)
+        map_pointer_object->map_buffer[y][x] = '#'; // draw all 4 walls
       else
-        buffer[y][x] = ' '; // fill empty spaces with blank
+        map_pointer_object->map_buffer[y][x] = ' '; // fill empty spaces with blank
     }
   }
 
   // Draw player
-  buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = 'P';
+  map_pointer_object->map_buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = 'P';
 
   // Draw money
-  buffer[money_pointer_object->money_moneyy][money_pointer_object->money_moneyx] = '$';
+  map_pointer_object->map_buffer[money_pointer_object->money_moneyy][money_pointer_object->money_moneyx] = '$';
 
   // Draw obstacles
   for (const auto& obstacle : obstacles_vector)
   {
     if (obstacle->obstacle_alive)
     {
-      buffer[obstacle->obstacle_y_pos][obstacle->obstacle_x_pos] = obstacle->obstacle_symbol;
+      map_pointer_object->map_buffer[obstacle->obstacle_y_pos][obstacle->obstacle_x_pos] = obstacle->obstacle_symbol;
     }
   }
 
@@ -821,7 +836,7 @@ void draw_level_1()
   {
     if (enemy->enemy_alive) 
     {
-      buffer[enemy->enemy_y_pos][enemy->enemy_x_pos] = enemy->enemy_symbol;
+      map_pointer_object->map_buffer[enemy->enemy_y_pos][enemy->enemy_x_pos] = enemy->enemy_symbol;
     }
   }
 
@@ -830,7 +845,7 @@ void draw_level_1()
   {
     if (item->item_alive) 
     {
-      buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
+      map_pointer_object->map_buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
     }
   }
 
@@ -838,9 +853,9 @@ void draw_level_1()
   system("cls");
 
   // Print the buffer
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
-      cout << buffer[y][x];
+  for (int y = 0; y < map_pointer_object->map_height; y++) {
+    for (int x = 0; x < map_pointer_object->map_width; x++) {
+      cout << map_pointer_object->map_buffer[y][x];
     }
     cout << endl;
   }
@@ -899,7 +914,7 @@ void draw_level_2()
 
   // Draw bottom wall
   for (int bottom_wall = 0; bottom_wall < map_pointer_object->map_l2width; bottom_wall++) {
-    map_pointer_object->map_l2buffer[height-1][bottom_wall] = '#';
+    map_pointer_object->map_l2buffer[map_pointer_object->map_l2height-1][bottom_wall] = '#';
   }
 
   system("cls");
@@ -1172,19 +1187,19 @@ void player_movement()
   switch (direction) 
   {
     case UP:
-        if (player_pointer_object->player_y_pos > 1 && buffer[player_pointer_object->player_y_pos - 1][player_pointer_object->player_x_pos] != '#') {
+        if (player_pointer_object->player_y_pos > 1 && map_pointer_object->map_buffer[player_pointer_object->player_y_pos - 1][player_pointer_object->player_x_pos] != '#') {
         player_pointer_object->player_y_pos--; }
         break;
     case DOWN:
-    if (player_pointer_object->player_y_pos < height - 2 && buffer[player_pointer_object->player_y_pos + 1][player_pointer_object->player_x_pos] != '#') {
+    if (player_pointer_object->player_y_pos < map_pointer_object->map_height - 2 && map_pointer_object->map_buffer[player_pointer_object->player_y_pos + 1][player_pointer_object->player_x_pos] != '#') {
         player_pointer_object->player_y_pos++; }
         break;
     case LEFT:
-    if (player_pointer_object->player_x_pos > 1 && buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos - 1] != '#') {
+    if (player_pointer_object->player_x_pos > 1 && map_pointer_object->map_buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos - 1] != '#') {
         player_pointer_object->player_x_pos--; }
         break;
     case RIGHT:
-    if (player_pointer_object->player_x_pos < width - 2 && buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos + 1] != '#') {
+    if (player_pointer_object->player_x_pos < map_pointer_object->map_width - 2 && map_pointer_object->map_buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos + 1] != '#') {
         player_pointer_object->player_x_pos++; }
         break;
   }
@@ -1314,8 +1329,8 @@ void money_pickup_logic()
     {
         settings_pointer_object->settings_score++;
         player_pointer_object->player_money++;
-        money_pointer_object->money_moneyx = rand() % width-1;
-        money_pointer_object->money_moneyy = rand() % height-1;
+        money_pointer_object->money_moneyx = rand() % map_pointer_object->map_width-1;
+        money_pointer_object->money_moneyy = rand() % map_pointer_object->map_height-1;
     } else {  }
 
     // Level 2 score - Check if player picked up money and update score and money location if true
@@ -1392,7 +1407,7 @@ void shoot_fireball()
             targetX++;
 
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        if (targetX >= 0 && targetX < map_pointer_object->map_width && targetY >= 0 && targetY < map_pointer_object->map_height) 
         {
             // Check if there is an enemy at the target position
             bool hitEnemy = false;
@@ -1430,20 +1445,20 @@ void shoot_fireball()
             }
 
             // Clear the bullet from the previous position
-            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+            map_pointer_object->map_buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
 
             // Draw the bullet at the target position
-            buffer[targetY][targetX] = '*';
+            map_pointer_object->map_buffer[targetY][targetX] = '*';
             draw_level_1();
 
             // Sleep after drawing the bullet
             Sleep(50);
 
             // Clear the bullet from the current position
-            buffer[targetY][targetX] = ' ';
+            map_pointer_object->map_buffer[targetY][targetX] = ' ';
 
             // Check if the target position hit a wall
-            if (buffer[targetY][targetX] == '#') 
+            if (map_pointer_object->map_buffer[targetY][targetX] == '#') 
             {
                 break;
             }
@@ -1478,7 +1493,7 @@ void volcano()
         // Move the target position based on the player's direction
             targetY--;
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        if (targetX >= 0 && targetX < map_pointer_object->map_width && targetY >= 0 && targetY < map_pointer_object->map_height) 
         {
             // Check if there is an enemy at the target position
             bool hitEnemy = false;
@@ -1516,20 +1531,20 @@ void volcano()
             }
 
             // Clear the bullet from the previous position
-            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+            map_pointer_object->map_buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
 
             // Draw the bullet at the target position
-            buffer[targetY][targetX] = '*';
+            map_pointer_object->map_buffer[targetY][targetX] = '*';
             draw_level_1();
 
             // Sleep after drawing the bullet
             Sleep(50);
 
             // Clear the bullet from the current position
-            buffer[targetY][targetX] = ' ';
+            map_pointer_object->map_buffer[targetY][targetX] = ' ';
 
             // Check if the target position hit a wall
-            if (buffer[targetY][targetX] == '#') 
+            if (map_pointer_object->map_buffer[targetY][targetX] == '#') 
             {
                 break;
             }
@@ -1548,7 +1563,7 @@ void volcano()
             targetX--;
 
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        if (targetX >= 0 && targetX < map_pointer_object->map_width && targetY >= 0 && targetY < map_pointer_object->map_height) 
         {
             // Check if there is an enemy at the target position
             bool hitEnemy = false;
@@ -1586,20 +1601,20 @@ void volcano()
             }
 
             // Clear the bullet from the previous position
-            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+            map_pointer_object->map_buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
 
             // Draw the bullet at the target position
-            buffer[targetY][targetX] = '*';
+            map_pointer_object->map_buffer[targetY][targetX] = '*';
             draw_level_1();
 
             // Sleep after drawing the bullet
             Sleep(50);
 
             // Clear the bullet from the current position
-            buffer[targetY][targetX] = ' ';
+            map_pointer_object->map_buffer[targetY][targetX] = ' ';
 
             // Check if the target position hit a wall
-            if (buffer[targetY][targetX] == '#') 
+            if (map_pointer_object->map_buffer[targetY][targetX] == '#') 
             {
                 break;
             }
@@ -1618,7 +1633,7 @@ void volcano()
             targetX++;
 
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        if (targetX >= 0 && targetX < map_pointer_object->map_width && targetY >= 0 && targetY < map_pointer_object->map_height) 
         {
             // Check if there is an enemy at the target position
             bool hitEnemy = false;
@@ -1656,20 +1671,20 @@ void volcano()
             }
 
             // Clear the bullet from the previous position
-            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+            map_pointer_object->map_buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
 
             // Draw the bullet at the target position
-            buffer[targetY][targetX] = '*';
+            map_pointer_object->map_buffer[targetY][targetX] = '*';
             draw_level_1();
 
             // Sleep after drawing the bullet
             Sleep(50);
 
             // Clear the bullet from the current position
-            buffer[targetY][targetX] = ' ';
+            map_pointer_object->map_buffer[targetY][targetX] = ' ';
 
             // Check if the target position hit a wall
-            if (buffer[targetY][targetX] == '#') 
+            if (map_pointer_object->map_buffer[targetY][targetX] == '#') 
             {
                 break;
             }
@@ -1688,7 +1703,7 @@ void volcano()
             targetY++;
 
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        if (targetX >= 0 && targetX < map_pointer_object->map_width && targetY >= 0 && targetY < map_pointer_object->map_height) 
         {
             // Check if there is an enemy at the target position
             bool hitEnemy = false;
@@ -1726,20 +1741,20 @@ void volcano()
             }
 
             // Clear the bullet from the previous position
-            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+            map_pointer_object->map_buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
 
             // Draw the bullet at the target position
-            buffer[targetY][targetX] = '*';
+            map_pointer_object->map_buffer[targetY][targetX] = '*';
             draw_level_1();
 
             // Sleep after drawing the bullet
             Sleep(50);
 
             // Clear the bullet from the current position
-            buffer[targetY][targetX] = ' ';
+            map_pointer_object->map_buffer[targetY][targetX] = ' ';
 
             // Check if the target position hit a wall
-            if (buffer[targetY][targetX] == '#') 
+            if (map_pointer_object->map_buffer[targetY][targetX] == '#') 
             {
                 break;
             }
