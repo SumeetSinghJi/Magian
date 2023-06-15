@@ -88,7 +88,7 @@ To the north was the barren wastelands that the ancestors of Aryans arrived from
 harsh climate was unsuitable for agriculture and fire causing their ancestors to migrate
 to warmer Plains south. 
  
-Shah Pitaji was married when he was 16 to an onlooker in his Zoorkaneh building. The sport
+Shah Pitaji was married when he was 16 to an onlooker in his Zoorkaneh. The sport
 represented the prowess of Aryan martial arts were practitioners would wield weapons such
 as wooden and metal practice clubs, bows a d shields to use in exercise to practice
 battle. Pitajj met his wife Sharmila who was also if similar age watching him practice
@@ -327,7 +327,17 @@ nature of studied beings. Scrolls of knowledge became the lifeblood of Empires, 
 of fantastical schools of knowledge in science, religion, philosophy and culture. The best school
 of them all was Nava Agni. The new school of fire.
 
-Of Nava Agni itself. It would house just under a 100 Magus and Sadhus. It's Alumini consisted of
+In centre of Nava agni existed the Bagh a traditional Aryan garden of agricultural crops, herbal
+plants and decorative flowering plants. Freshwater from dug sources sprang fresh water introduced
+with barbs and loaches.
+The Bagh was populated with local wildlife from pigeons (rock doves), caracels, bovine, goats,
+chickens, peacock, various fish and insects.The Bagh's main attraction was a lone orphaned Rhino
+named Jagannath. Jagannath's parents were poached for food and ivory. Before his adoption into
+Nava Agni his handlers carved an equsitie statue of the galaxy with surya (sun) a diety of
+the realm in the centre preventing his poaching due to the unique recognisable pattern by
+authorities.
+
+Of the inhabitants. It would house just under a 100 Magus and Sadhus. It's Alumini consisted of
 Philosophers from all over the known world. Rishis, Gypsies and foreign travellers would number
 in hundreds living in camps selling trinkets and foreign goods from whatever they could find.
 The student body was double the size of both, of mixed heritages. The rich and poor would send
@@ -335,6 +345,68 @@ their children to study. Some to become powerfull scholars when they graduate an
 a place to offboard extra mouths to feed. The place had no use for guards as no one dared to
 storm or betray an fortress of fire manipulators ready to burn alive transgressors.
 
+What of the leadership of Nava agni? Magians who excelled at tasks of courage, justice, and 
+piety who reached the highest ranks of all other magian were deemed Mobed. Mobed's held the
+highest ranks amongst all magi. Nava Agni's head Mobed named Porus was a tall spcimen amongst
+Aryans. The tales of his rise to lead the priesthood is riddled with tales of conjuring 
+fires to drench floods, causing ice covered mountaintops to melt allowing the kingdom to
+create new traderoutes. His spells could warm the Earth to sprout seedlines feeding thousands.
+His charity led him to adopt orphans of all the zoorkaneh (gymanisms) whose parents were called
+to wars and passed. He was surronded by those same orphans now children of Porus. They 
+together formed the first circle of magi. The leading political board of magic on Earth.
+
+Porus vice was his lost youth. His aging cracked face of dark veins across his brown face
+were similar to the canyons between mountains. His colour resembled the dark yellow hued
+sands of the surrounding deserts. His voice was cracked and spoke softly yet none dared
+to challange him. Though not many could recall seeing the Mobed casting a spell of recent
+his legacy was never challenged. Those that did would face the dire wrath of the Circle.
+
+Together Shah Pitaji and Mobed Porus ruled the citizens of Porus and accepted refugees amongst
+the land. No matter the hardships faced by the citizens they had in their hearts faith that
+their rulers would protect them. At times of war, from the early beginings of the state
+adults in villages centred on Zoorkaneh's would be paid stipident to train and conscript for
+warfare and local authority protection. Arianna's realm was protected by more protected forces
+known as immortals. Legendary warrios seeped in mythology said to date back to being childrens
+of the first gods that birthed with each other on Eath producing thus offspring.
+
+Though a picture of safe guarded kingdom with apt leadership can be portrayed preventing
+the Rakashha and surrounding evils, the evil that existed within humans caused it's
+greatest suffering. It was unfortunate for thus Arianna was the source of all magic practition.
+Rogue Magians spread their own corrupted beliefs amongst the realm. Rogue Magians were generally
+ignored posing only threat to their locality or questioning the morales of conservative folk at best.
+The worst of rogue Magians instead of working towards good would make pacts with Rakashaa.
+This was reserved as the worst of sins committed against the circle, as Magians were Arianna's
+and the world for that matter's best defence against the vile creatures.
+
+A rogue magian by the name of Zarah was unfortunatly a cause of dread amongst the land that
+stretched from Misr to Aryavarta. Her story was the sadest spread orally for literature
+about her story was forbidden to prevent uprisings in the kingdom. A daughter of a torturous
+father who sexually abused Zarah as a child forced her to run away where she was captured,
+held captive, abused, tortured and forced to become a prostitute. Her story as a Mage came
+many decades later of rape, abuse, torture and hate. A Magian would visit her as a client
+and often teach her magic. Zarah craving power she lacked latched onto the Magian and saw
+in him happiness. After many unknown cycles of the earth eventually the client stopped
+comming. Zarah dying to learn the truth of his dissapearance learnt he was asked by the circle
+to return to be assigned a task to question a bandit some distance away. The clientelle
+was attacked at swordpoint and slain.
+
+Zarah with all the rage in her heart cried out with the hatred of the world in her cell.
+Hearing the howling amongst the void an unknown Asura heard and travelled through
+Nirvana reaching the wailing woman. Asura AAhsakar the divinity of the extradimensional
+planet disimilar to Earth appeared amongst the wailing woman. AAhsakar was a powerfull 
+manipulator of physics in his own planet who cast a spell in their own tongue and technique
+looking for extradimensional demons themselves to study. Before Zarah's eyes a mist of 
+AAhsakar hesitated in front of her. The two stood in awe and fear each in their primitive
+thought patterns considering each other as a Rakashaa.
+
+Zarah contemplating fleeing wished nothing more then dying herself pictured her death with
+the creature in front of her. She hesitated before speaking in blunt simple sylables words.
+De-vi. A-su-ra. Ra-ka-sh-aa. Ma. Pa...? finishing each word with the tonal inflection of a
+sentence. AAhsakar responded mirroring the same expressions and matching the same short
+sylable words to back to Zahra. Each saw each other as a mist through the haze of the boundary
+of Nirvana. AAhsakar in his world had heard of stories of a world of nāraṅgī to kapila
+coloured uniform creatures that had yet mastered the arts of vimāna (space voyaging ships)
+yet were a favoured by powerfull divinity. Their planet was known as pṛthvī (Earth).
 
 
 _________________________________________________________________________________________________ 

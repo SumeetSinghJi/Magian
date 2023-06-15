@@ -6,12 +6,12 @@
             "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
+                "-I${fileDirname}",
                 "-g",
                 "${file}",
+                "-lwinmm", // This linker to connect playsound() to windows sound player
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-I${fileDirname}",
-                "-lwinmm" // This linker to connect playsound() to windows sound player
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"          
             ],
             "options": {
                 "cwd": "${fileDirname}"

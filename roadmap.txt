@@ -1,44 +1,7 @@
 ROADMAP
 
 
-draw_world_map()
-static map
- ____
-|  1 |
-|    |
-|2   |
-|____|
-
-
-
-npc rand collision %2
-good convo health++
-bad convo health--
-mutal convo nothing
-child convo - gives random found item
-pet convo - gives bonus to luck
-shopkeeper convo - trade()
-
-// npc collission logic
-* run logic
-* Recieve quest from NPC, updates objective. Perform X task. Kill paedofile in cave;
-
-
-
-
-
-* skill class
-* make money a vector
-14
-* Official website
-* Curl official website to check for updates and if so prompt to Download in the main
-if not cout no updates available.
-
 1
-shoot() soundeffect
-die() soundeffect
-
-2
 Learn Windows and POSIX/GNU handles to change colours
 * brown = player
 * red = enemies
@@ -50,40 +13,83 @@ Learn Windows and POSIX/GNU handles to change colours
 * blue = items
 * dark blue = water
 
+
+2
+draw_world_map()
+static map
+ ____
+|  1 |
+|    |
+|2   |
+|____|
+
+
+3
+npc rand collision %2
+good convo health++
+bad convo health--
+mutal convo nothing
+child convo - gives random found item
+pet convo - gives bonus to luck
+shopkeeper convo - trade()
+
+4
+// npc collission logic
+* run logic
+* Recieve quest from NPC, updates objective. Perform X task. Kill rogue magi in cave;
+
+* skill class
+* make money a vector
+
+5
+ Official website
+* Curl official website to check for updates and if so prompt to Download in the main
+if not cout no updates available.
+
+6
+shoot() soundeffect
+die() soundeffect
+
+7
 * include player_x_pos and y pos and previous in all saves and loads
 * All saves to savefile append with player_ to diffrentiate between enemies skills
 
+8
 * On Win compare items
 * item_store() needs to record a new copy of global vector of item names
 * on win condition compare previous inventory vector with new inventory vector
 
+9
 * collission_logic() not stopping player
 * random_enemies()
 * random_items()
 
+10
 * enemy_ai_logic() - add virtual skill polymorphic class to enemy class
-
 * money should be it's own class, with generation, xpos, collision logic etc.,
 
+11
 * random_generate_rooms = for cities
 * river obstacle that connects to each other from one side of map to another
 * lake obstacle, 4 pools in a square
 
+12
 * fix save()
 
-* player_object member active_skill = shoot()
+13
 * write skills_header()
 * write skills to file ???
 * check_skills = show available skills()
 *    selecting a skill updates active_skill member
 
-4 - PDF Parsing
+14
+PDF Parsing
 To read and extract text from a PDF file using C++, you can utilize a PDF
 parsing library such as Poppler or MuPDF. These libraries provide APIs
 to access and manipulate PDF documents.
 In game book - copy of early rig veda and gathas, and shanameh
 
-
+15
 2nd Library for in game topics from Wikipedia
 * Rakashaa beastiary
 * History
@@ -94,49 +100,16 @@ In game book - copy of early rig veda and gathas, and shanameh
 * Vedic maths
 * Sanskrit programming - rakashaa world
 
-6
-Locale including
-* Farsi
-* Sanskrit
-* Japanese
-* Chinese
-* English
-* German
-
-8
-create fireball()
-fireball() sfx
-
-9
-setup_world()
-setup_desert()
-setup_plains()
-setup_oasis()
-setup_city()
-setup_plains_village()
-setup_mountain_village()
-setup_enemy_camp()
-
-draw_world()
-setup_shop()
-draw_desert()
-draw_plains()
-draw_oasis()
-draw_city()
-draw_plains_village()
-draw_mountain_village()
-draw_enemy_camp()
-
-* level 1 and 2 are seperated by stairs as a dungeon.
-* however the main game is an actual environments above like Zelda 2.
-<
-Stairs class
+16
+Stairs class < leave map
 generate upstairs() and downstairs()
 draw stairs
 collision logic
-random_generate_npc()
 
-11
+17
+* torch light emits from you in all directions
+
+18
 * Skills assigned numbers e.g. numbers 1 = shoot(), 2 = fireball()
 * change skills with check skills() which changes input SPACE_BAR to new skill selected
 on Windows and Unix like OS
@@ -144,5 +117,8 @@ on Windows and Unix like OS
 * Specific scroll item drop with rand() drawn to buffer
 * scroll item adds new skill
 
-13
+19
 Level editing mode
+
+20
+SDL conversion

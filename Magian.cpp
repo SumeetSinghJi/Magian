@@ -31,6 +31,8 @@ class skill_class
   public:
     bool skill_shoot_cooldown = false;
     chrono::steady_clock::time_point skill_last_shoot_time;
+
+    virtual void shoot() = 0;
 };
 class player_class
 {
@@ -228,7 +230,7 @@ public:
       npc_random_slow_movement();
     }
 };
-class pundit_npc_subclass : public npc_class
+class sadhu_npc_subclass : public npc_class
 {
 public:
     sadhu_npc_subclass()
@@ -654,6 +656,11 @@ class money_class
   public:
     int money_moneyx; 
     int money_moneyy;
+    money_class()
+    {  
+      money_moneyx = rand() % width;
+      money_moneyy = rand() % height;
+    }
 };
 class settings_class
 {
@@ -943,6 +950,51 @@ void random_generate_items()
     }
   }
 }
+/*
+void random_generate_money()
+{
+  int max_money_objects = 0;
+  if(map_pointer_object->map_size==1) // small
+  {
+    max_item_objects += 5;
+    max_item_objects += rand() % 5;
+  }
+  else if(map_pointer_object->map_size==2) // medium
+  {
+    max_item_objects += 10;
+    max_item_objects += rand() % 5;
+  }
+  else if(map_pointer_object->map_size==3) // large
+  {
+    max_item_objects += 15;
+    max_item_objects += rand() % 5;
+  }
+  else if(map_pointer_object->map_size==4) // extra-large
+  {
+    max_item_objects += 20;
+    max_item_objects += rand() % 5;
+  }
+  else if(map_pointer_object->map_size==5) // giant
+  {
+    max_item_objects += 25;
+    max_item_objects += rand() % 5;
+  }
+  for (int i = 0; i < max_item_objects; i++)
+  {
+    int item_type_variable = rand() % 2;
+    if (item_type_variable == 0) // potion
+    {
+      shared_ptr<potion_item_subclass> leather_boots_item = make_shared<potion_item_subclass>();
+      items_vector.push_back(make_shared<potion_item_subclass>());
+    }
+    else // leather boots
+    {
+      shared_ptr<leather_boots_item_subclass> leather_boots_item = make_shared<leather_boots_item_subclass>();
+      items_vector.push_back(make_shared<leather_boots_item_subclass>());
+    }
+  }
+}
+*/
 void setup() 
 {
   if (settings_pointer_object->settings_music_variable == false)
