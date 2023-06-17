@@ -1,5 +1,5 @@
 AVATAR
-NAME: Arya
+NAME: S
 Magic: 1
 Health: 3
 XP: 1
@@ -10,3 +10,5 @@ Swimming: 0
 Herbology: 0
 Money: 0
 INVENTORY
+SKILLS
+Unlocked levels: 2

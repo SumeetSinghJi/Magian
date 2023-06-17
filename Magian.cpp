@@ -19,9 +19,9 @@ using namespace std;
 enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
 edirection direction;
 
-const int width = 20;
-const int height = 20;
-char buffer[height][width];
+int width = 20;
+int height = 20;
+vector<vector<char>> buffer(height, vector<char>(width));
 
 // CLASSES
 class skill_class
@@ -680,14 +680,15 @@ class settings_class
 class map_class
 {
   public:
-    static const int map_width = 20;
-    static const int map_height = 20;
-    static const int map_l2width = 40;
-    static const int map_l2height = 40;
-    char map_buffer[map_height][map_width];
-    char map_l2buffer[map_l2height][map_l2width];
+    int width = 20;
+    int height = 20;
+    vector<vector<char>> buffer;
     int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
     int map_location =0; //1 cave, 2, town, 3 world map
+
+    //constructor when object is created it's initialised.
+    map_class() : buffer(height, std::vector<char>(width, ' ')) {}
+
 };
 
 // POINTERS
@@ -1040,6 +1041,9 @@ void setup()
 }
 void l2setup() 
 {
+  map_pointer_object->height=20;
+  map_pointer_object->width=20;
+
   if (settings_pointer_object->settings_music_variable == false)
   {
     PlaySoundW(NULL, NULL, 0);
@@ -1053,25 +1057,25 @@ void l2setup()
   settings_pointer_object->settings_score=0;
   settings_pointer_object->settings_gameover = false;
 
-  // Below srand method needs to be executed at runtime hence run in a function vs global variable;
-  money_pointer_object->money_moneyx = rand() % map_pointer_object->map_l2width;
-  money_pointer_object->money_moneyy = rand() % map_pointer_object->map_l2height;
+  // Below method needs to be executed at runtime hence run in a function vs global variable;
+  money_pointer_object->money_moneyx = rand() % map_pointer_object->width;
+  money_pointer_object->money_moneyy = rand() % map_pointer_object->height;
 
   // setting position of player
   direction = STOP;
-  player_pointer_object->player_x_pos = map_pointer_object->map_l2width / 2;
-  player_pointer_object->player_y_pos = map_pointer_object->map_l2height / 2;
+  player_pointer_object->player_x_pos = map_pointer_object->width / 2;
+  player_pointer_object->player_y_pos = map_pointer_object->height / 2;
 
   // to refresh vectors for new game and level select
   items_vector.clear();
   enemies_vector.clear();
 
   //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
-  for (int i = 0; i < map_pointer_object->map_l2height; i++)
+  for (int i = 0; i < map_pointer_object->height; i++)
   {  
-    for (int j = 0; j < map_pointer_object->map_l2width; j++)
+    for (int j = 0; j < map_pointer_object->width; j++)
     {
-        map_pointer_object->map_l2buffer[i][j] = ' ';
+        map_pointer_object->buffer[i][j] = ' ';
     }
   }
 }
@@ -1355,64 +1359,62 @@ void draw_level_1()
 }
 void draw_level_2()
 {
-    // Draw top wall  
-  for (int top_wall = 0; top_wall < map_pointer_object->map_l2width; top_wall++) {
-    map_pointer_object->map_l2buffer[0][top_wall] = '#';
+  // Initialize the buffer with wall boundaries and empty spaces
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      // Draw wall boundaries
+      if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
+        buffer[y][x] = '#'; // draw all 4 walls
+      else
+        buffer[y][x] = ' '; // fill empty spaces with blank
+    }
   }
 
-  // draw middle section
-  //loop through y axis 19 times down
-  for (int y = 1; y < map_pointer_object->map_l2height-1; y++) 
+  // Draw player
+  buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = 'P';
+
+  // Draw money
+  buffer[money_pointer_object->money_moneyy][money_pointer_object->money_moneyx] = '$';
+
+  // Draw obstacles
+  for (const auto& obstacle : obstacles_vector)
   {
-    // loop through x axis 19 times across
-    for (int x = 0; x < map_pointer_object->map_l2width; x++) 
+    if (obstacle->obstacle_alive)
     {
-      // draw side wall
-      if (x == 0 || x == map_pointer_object->map_l2width - 1) 
-      {
-        map_pointer_object->map_l2buffer[y][x] = '#';
-      }
-      //draw player
-      else if (x == player_pointer_object->player_x_pos && y == player_pointer_object->player_y_pos) 
-      {
-        map_pointer_object->map_l2buffer[y][x] = 'P';
-      }
-      //draw money
-      else if (x == money_pointer_object->money_moneyx && y == money_pointer_object->money_moneyy) 
-      {
-        map_pointer_object->map_l2buffer[y][x] = '$';
-      }
-      else 
-      {
-        // Initialize to empty space
-        map_pointer_object->map_l2buffer[y][x] = ' ';
-
-        // Draw all enemies if any exists at this position
-        for (const auto& enemy : enemies_vector) 
-        {
-          if (enemy->enemy_alive && x == enemy->enemy_x_pos && y == enemy->enemy_y_pos) 
-          {
-            map_pointer_object->map_l2buffer[y][x] = enemy->enemy_symbol;
-          }
-        }
-      }
-    } 
+      buffer[obstacle->obstacle_y_pos][obstacle->obstacle_x_pos] = obstacle->obstacle_symbol;
+    }
   }
 
-  // Draw bottom wall
-  for (int bottom_wall = 0; bottom_wall < map_pointer_object->map_l2width; bottom_wall++) {
-    map_pointer_object->map_l2buffer[height-1][bottom_wall] = '#';
-  }
-
-  system("cls");
-  for (int y = 0; y < map_pointer_object->map_l2height; y++) 
+  // Draw enemies
+  for (const auto& enemy : enemies_vector) 
   {
-    for (int x = 0; x < map_pointer_object->map_l2width; x++) {
-      cout << map_pointer_object->map_l2buffer[y][x];
+    if (enemy->enemy_alive) 
+    {
+      buffer[enemy->enemy_y_pos][enemy->enemy_x_pos] = enemy->enemy_symbol;
+    }
+  }
+
+  // Draw items
+  for (const auto& item : items_vector) 
+  {
+    if (item->item_alive) 
+    {
+      buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
+    }
+  }
+
+  // Clear the console screen
+  system("cls");
+
+  // Print the buffer
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      cout << buffer[y][x];
     }
     cout << endl;
   }
-  // print the current score and lives beneath the array
+
+  // Print the current score and lives beneath the array
   string score_str = "Current Score: " + to_string(settings_pointer_object->settings_score);
   string lives_str = "Current Health: " + to_string(player_pointer_object->player_health);
   cout << score_str << endl;
@@ -1794,22 +1796,12 @@ void npc_ai_logic()
 }
 void money_pickup_logic()
 {
-// Level 1 score - Check if player picked up money and update score and money location if true
     if (player_pointer_object->player_x_pos == money_pointer_object->money_moneyx && player_pointer_object->player_y_pos == money_pointer_object->money_moneyy) 
     {
         settings_pointer_object->settings_score++;
         player_pointer_object->player_money++;
         money_pointer_object->money_moneyx = rand() % width-1;
         money_pointer_object->money_moneyy = rand() % height-1;
-    } else {  }
-
-    // Level 2 score - Check if player picked up money and update score and money location if true
-    if (player_pointer_object->player_x_pos == money_pointer_object->money_moneyx && player_pointer_object->player_y_pos == money_pointer_object->money_moneyy) 
-    {
-        settings_pointer_object->settings_score++;
-        player_pointer_object->player_money++;
-        money_pointer_object->money_moneyx = rand() % map_pointer_object->map_l2width-1;
-        money_pointer_object->money_moneyy = rand() % map_pointer_object->map_l2height-1;
     } else {  }
 }
 void logic()
@@ -3138,6 +3130,7 @@ void choose_player_name()
 void newgame()
 {
   cout << "Starting new game." << endl;
+  srand(time(0));
   cin.get();
   setup_player_header();
   choose_player_name();
