@@ -17,13 +17,23 @@ using namespace std;
 
 // VARIABLES
 enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
-edirection direction;
-
-int width = 20;
-int height = 20;
-vector<vector<char>> buffer(height, vector<char>(width));
 
 // CLASSES
+edirection direction;
+class map_class
+{
+  public:
+    int width = 20;
+    int height = 20;
+    vector<vector<char>> buffer;
+    int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
+    int map_location =0; //1 cave, 2, town, 3 world map
+
+    //constructor when object is created it's initialised.
+    map_class() : buffer(height, std::vector<char>(width, ' ')) {}
+
+};
+shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 class skill_class
 {
   public:
@@ -70,28 +80,28 @@ class npc_class
     
     virtual void npc_movement() = 0;
 
-    void npc_random_slow_movement() 
+    void npc_random_slow_movement(shared_ptr<map_class> &map_pointer_object) 
     {
         if (npc_alive && npc_pause == 0) {
             int random_direction = rand() % 4;
             switch (random_direction) {
             case 0: // Up
-                if (npc_y_pos > 1 && buffer[npc_y_pos - 1][npc_x_pos] != '#') {
+                if (npc_y_pos > 1 && map_pointer_object->buffer[npc_y_pos - 1][npc_x_pos] != '#') {
                     npc_y_pos--;
                 }
                 break;
             case 1: // Down
-                if (npc_y_pos < height - 2 && buffer[npc_y_pos + 1][npc_x_pos] != '#') {
+                if (npc_y_pos < map_pointer_object->height - 2 && map_pointer_object->buffer[npc_y_pos + 1][npc_x_pos] != '#') {
                     npc_y_pos++;
                 }
                 break;
             case 2: // Left
-                if (npc_x_pos > 1 && buffer[npc_y_pos][npc_x_pos - 1] != '#') {
+                if (npc_x_pos > 1 && map_pointer_object->buffer[npc_y_pos][npc_x_pos - 1] != '#') {
                     npc_x_pos--;
                 }
                 break;
             case 3: // Right
-                if (npc_x_pos < width - 2 && buffer[npc_y_pos][npc_x_pos + 1] != '#') {
+                if (npc_x_pos < map_pointer_object->width - 2 && map_pointer_object->buffer[npc_y_pos][npc_x_pos + 1] != '#') {
                     npc_x_pos++;
                 }
                 break;
@@ -116,6 +126,8 @@ class npc_class
 };
 class male_commoner_npc_subclass : public npc_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 public:
     male_commoner_npc_subclass()
     {
@@ -124,8 +136,8 @@ public:
         npc_description = "A strong looking man from the civilisaion of Arianna. Brown Hair, eyes and bark skin.";
         npc_speed = 1;
         npc_xp = 1;
-        npc_x_pos = rand() % width;
-        npc_y_pos = rand() % height;
+        npc_x_pos = rand() % map_pointer_object->width;
+        npc_y_pos = rand() % map_pointer_object->height;
         npc_ranged_damage = 0;
         npc_melee_damage = 1;
         npc_alive = true;
@@ -134,11 +146,13 @@ public:
     }
     void npc_movement() override
     {
-      npc_random_slow_movement();
+      npc_random_slow_movement(map_pointer_object);
     }
 };
 class female_commoner_npc_subclass : public npc_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 public:
     female_commoner_npc_subclass()
     {
@@ -147,8 +161,8 @@ public:
         npc_description = "A copper hued woman from the civilisation of Arianna. Elegant in fashion, quick to judge.";
         npc_speed = 1;
         npc_xp = 1;
-        npc_x_pos = rand() % width;
-        npc_y_pos = rand() % height;
+        npc_x_pos = rand() % map_pointer_object->width;
+        npc_y_pos = rand() % map_pointer_object->height;
         npc_ranged_damage = 0;
         npc_melee_damage = 1;
         npc_alive = true;
@@ -157,11 +171,13 @@ public:
     }
     void npc_movement() override
     {
-      npc_random_slow_movement();
+      npc_random_slow_movement(map_pointer_object);
     }
 };
 class intersex_commoner_npc_subclass : public npc_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 public:
     intersex_commoner_npc_subclass()
     {
@@ -170,8 +186,8 @@ public:
         npc_description = "A gracefull walking, Hijra a transgender from the civilisation of Arianna. At peace with the world. ";
         npc_speed = 1;
         npc_xp = 1;
-        npc_x_pos = rand() % width;
-        npc_y_pos = rand() % height;
+        npc_x_pos = rand() % map_pointer_object->width;
+        npc_y_pos = rand() % map_pointer_object->height;
         npc_ranged_damage = 0;
         npc_melee_damage = 1;
         npc_alive = true;
@@ -180,11 +196,13 @@ public:
     }
     void npc_movement() override
     {
-      npc_random_slow_movement();
+      npc_random_slow_movement(map_pointer_object);
     }
 };
 class shopkeeper_npc_subclass : public npc_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 public:
     shopkeeper_npc_subclass()
     {
@@ -193,8 +211,8 @@ public:
         npc_description = "A dusk eyed pedler with flying coins in their hand, wrests their head in the palms whistling.";
         npc_speed = 1;
         npc_xp = 1;
-        npc_x_pos = rand() % width;
-        npc_y_pos = rand() % height;
+        npc_x_pos = rand() % map_pointer_object->width;
+        npc_y_pos = rand() % map_pointer_object->height;
         npc_ranged_damage = 0;
         npc_melee_damage = 1;
         npc_alive = true;
@@ -203,11 +221,13 @@ public:
     }
     void npc_movement() override
     {
-      npc_random_slow_movement();
+      npc_random_slow_movement(map_pointer_object);
     }
 };
 class rishi_npc_subclass : public npc_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 public:
     rishi_npc_subclass()
     {
@@ -216,8 +236,8 @@ public:
         npc_description = "A whittled husk of an proud person. An recluse monk of god Agni.";
         npc_speed = 1;
         npc_xp = 1;
-        npc_x_pos = rand() % width;
-        npc_y_pos = rand() % height;
+        npc_x_pos = rand() % map_pointer_object->width;
+        npc_y_pos = rand() % map_pointer_object->height;
         npc_ranged_damage = 0;
         npc_melee_damage = 1;
         npc_alive = true;
@@ -226,11 +246,13 @@ public:
     }
     void npc_movement() override
     {
-      npc_random_slow_movement();
+      npc_random_slow_movement(map_pointer_object);
     }
 };
 class sadhu_npc_subclass : public npc_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 public:
     sadhu_npc_subclass()
     {
@@ -239,8 +261,8 @@ public:
         npc_description = "A priest dressed in yellow and red in devotion to the god of fire Agni.";
         npc_speed = 1;
         npc_xp = 1;
-        npc_x_pos = rand() % width;
-        npc_y_pos = rand() % height;
+        npc_x_pos = rand() % map_pointer_object->width;
+        npc_y_pos = rand() % map_pointer_object->height;
         npc_ranged_damage = 0;
         npc_melee_damage = 1;
         npc_alive = true;
@@ -249,11 +271,13 @@ public:
     }
     void npc_movement() override
     {
-      npc_random_slow_movement();
+      npc_random_slow_movement(map_pointer_object);
     }
 };
 class magi_npc_subclass : public npc_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 public:
     magi_npc_subclass()
     {
@@ -262,8 +286,8 @@ public:
         npc_description = "A powerfull violent inferno rages behind this persons eyes. A trained fire magician.";
         npc_speed = 1;
         npc_xp = 1;
-        npc_x_pos = rand() % width;
-        npc_y_pos = rand() % height;
+        npc_x_pos = rand() % map_pointer_object->width;
+        npc_y_pos = rand() % map_pointer_object->height;
         npc_ranged_damage = 3;
         npc_melee_damage = 1;
         npc_alive = true;
@@ -272,7 +296,7 @@ public:
     }
     void npc_movement() override
     {
-      npc_random_slow_movement();
+      npc_random_slow_movement(map_pointer_object);
     }
 };
 class obstacle_class
@@ -295,6 +319,8 @@ class obstacle_class
 };
 class rock_obstacle_subclass : public obstacle_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 public:
     rock_obstacle_subclass()
     {
@@ -302,13 +328,15 @@ public:
         obstacle_name = "Rock";
         obstacle_description = "A strong rock that blocks line of sight but can be destroyed or climbed";
         obstacle_hp = 1;
-        obstacle_x_pos = rand() % width;
-        obstacle_y_pos = rand() % height;
+        obstacle_x_pos = rand() % map_pointer_object->width;
+        obstacle_y_pos = rand() % map_pointer_object->height;
         bool obstacle_alive = true;
     }
 };
 class tree_obstacle_subclass : public obstacle_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 public:
     tree_obstacle_subclass()
     {
@@ -316,8 +344,8 @@ public:
         obstacle_name = "Tree";
         obstacle_description = "A large tree that blocks line of sight. Can be burnt down";
         obstacle_hp = 1;
-        obstacle_x_pos = rand() % width;
-        obstacle_y_pos = rand() % height;
+        obstacle_x_pos = rand() % map_pointer_object->width;
+        obstacle_y_pos = rand() % map_pointer_object->height;
         bool obstacle_alive = true;
     }
 };
@@ -343,28 +371,28 @@ public:
       // polymrphic class to be overwritten by subclasses
     
 
-    void random_slow_movement() 
+    void random_slow_movement(shared_ptr<map_class> &map_pointer_object) 
     {
         if (enemy_alive && enemy_pause == 0) {
             int random_direction = rand() % 4;
             switch (random_direction) {
             case 0: // Up
-                if (enemy_y_pos > 1 && buffer[enemy_y_pos - 1][enemy_x_pos] != '#') {
+                if (enemy_y_pos > 1 && map_pointer_object->buffer[enemy_y_pos - 1][enemy_x_pos] != '#') {
                     enemy_y_pos--;
                 }
                 break;
             case 1: // Down
-                if (enemy_y_pos < height - 2 && buffer[enemy_y_pos + 1][enemy_x_pos] != '#') {
+                if (enemy_y_pos < map_pointer_object->height - 2 && map_pointer_object->buffer[enemy_y_pos + 1][enemy_x_pos] != '#') {
                     enemy_y_pos++;
                 }
                 break;
             case 2: // Left
-                if (enemy_x_pos > 1 && buffer[enemy_y_pos][enemy_x_pos - 1] != '#') {
+                if (enemy_x_pos > 1 && map_pointer_object->buffer[enemy_y_pos][enemy_x_pos - 1] != '#') {
                     enemy_x_pos--;
                 }
                 break;
             case 3: // Right
-                if (enemy_x_pos < width - 2 && buffer[enemy_y_pos][enemy_x_pos + 1] != '#') {
+                if (enemy_x_pos < map_pointer_object->width - 2 && map_pointer_object->buffer[enemy_y_pos][enemy_x_pos + 1] != '#') {
                     enemy_x_pos++;
                 }
                 break;
@@ -373,7 +401,7 @@ public:
             enemy_pause--;
         }
     }
-    void random_fast_movement() 
+    void random_fast_movement(shared_ptr<map_class> &map_pointer_object) 
     {
         if (enemy_alive && enemy_pause == 0) 
         {
@@ -386,28 +414,28 @@ public:
                 switch (random_direction) 
                 {
                     case 0: // Up
-                        if (enemy_y_pos > 1 && buffer[enemy_y_pos - 1][enemy_x_pos] != '#') 
+                        if (enemy_y_pos > 1 && map_pointer_object->buffer[enemy_y_pos - 1][enemy_x_pos] != '#') 
                         {
                             enemy_y_pos--;
                             enemy_y_pos--;
                         }
                         break;
                     case 1: // Down
-                        if (enemy_y_pos < height - 2 && buffer[enemy_y_pos + 1][enemy_x_pos] != '#') 
+                        if (enemy_y_pos < map_pointer_object->height - 2 && map_pointer_object->buffer[enemy_y_pos + 1][enemy_x_pos] != '#') 
                         {
                             enemy_y_pos++;
                             enemy_y_pos++;
                         }
                         break;
                     case 2: // Left
-                        if (enemy_x_pos > 1 && buffer[enemy_y_pos][enemy_x_pos - 1] != '#') 
+                        if (enemy_x_pos > 1 && map_pointer_object->buffer[enemy_y_pos][enemy_x_pos - 1] != '#') 
                         {
                             enemy_x_pos--;
                             enemy_x_pos--;
                         }
                         break;
                     case 3: // Right
-                        if (enemy_x_pos < width - 2 && buffer[enemy_y_pos][enemy_x_pos + 1] != '#') 
+                        if (enemy_x_pos < map_pointer_object->width - 2 && map_pointer_object->buffer[enemy_y_pos][enemy_x_pos + 1] != '#') 
                         {
                             enemy_x_pos++;
                             enemy_x_pos++;
@@ -421,7 +449,7 @@ public:
             enemy_pause--;
         }
     }
-    void random_slow_chasing(shared_ptr<player_class> &player_pointer_object) 
+    void random_slow_chasing(shared_ptr<player_class> &player_pointer_object, shared_ptr<map_class> &map_pointer_object) 
     {
       // Move the enemy only if the random number is less than 4 (40% chance)
       if (enemy_alive && enemy_pause == 0)
@@ -431,11 +459,11 @@ public:
         if (rand() % 10 < 4) 
         {
             // Move towards player
-            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < width - 2)
+            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < map_pointer_object->width - 2)
                 enemy_x_pos++;
             else if (enemy_x_pos > player_pointer_object->player_x_pos && enemy_x_pos > 1)
                 enemy_x_pos--;
-            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < height - 2)
+            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < map_pointer_object->height - 2)
                 enemy_y_pos++;
             else if (enemy_y_pos > player_pointer_object->player_y_pos && enemy_y_pos > 1)
                 enemy_y_pos--;
@@ -446,7 +474,7 @@ public:
         enemy_pause--;
       }
     }
-    void random_fast_chasing(shared_ptr<player_class> &player_pointer_object) 
+    void random_fast_chasing(shared_ptr<player_class> &player_pointer_object, shared_ptr<map_class> &map_pointer_object) 
     {
       // Move the enemy only if the random number is less than 8 (80% chance)
       if (enemy_alive && enemy_pause == 0)
@@ -456,11 +484,11 @@ public:
         if (rand() % 10 < 8) 
         {
             // Move towards player
-            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < width - 2)
+            if (enemy_x_pos < player_pointer_object->player_x_pos && enemy_x_pos < map_pointer_object->width - 2)
                 enemy_x_pos++;
             else if (enemy_x_pos > player_pointer_object->player_x_pos && enemy_x_pos > 1)
                 enemy_x_pos--;
-            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < height - 2)
+            if (enemy_y_pos < player_pointer_object->player_y_pos && enemy_y_pos < map_pointer_object->height - 2)
                 enemy_y_pos++;
             else if (enemy_y_pos > player_pointer_object->player_y_pos && enemy_y_pos > 1)
                 enemy_y_pos--;
@@ -487,6 +515,8 @@ public:
 };
 class fire_enemy_subclass : public enemy_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
   public:
     fire_enemy_subclass()
     {
@@ -495,8 +525,8 @@ class fire_enemy_subclass : public enemy_class
       enemy_xp = 1;
       enemy_melee_damage = 1;
       enemy_description="A large moving flame 2 meters high burning everything it touches.";
-      enemy_x_pos = rand() % width;
-      enemy_y_pos = rand() % height;
+      enemy_x_pos = rand() % map_pointer_object->width;
+      enemy_y_pos = rand() % map_pointer_object->height;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = 'F';
@@ -504,11 +534,13 @@ class fire_enemy_subclass : public enemy_class
     }
     void enemy_movement() override
     {
-      random_slow_movement();
+      random_slow_movement(map_pointer_object);
     }
 };
 class flying_enemy_subclass : public enemy_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
   public:
     flying_enemy_subclass()
     {
@@ -517,8 +549,8 @@ class flying_enemy_subclass : public enemy_class
       enemy_xp = 2;
       enemy_melee_damage = 2;
       enemy_description="A flying demon with powerfull magic.";
-      enemy_x_pos = rand() % width;
-      enemy_y_pos = rand() % height;
+      enemy_x_pos = rand() % map_pointer_object->width;
+      enemy_y_pos = rand() % map_pointer_object->height;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '^';
@@ -526,13 +558,14 @@ class flying_enemy_subclass : public enemy_class
     }
     void enemy_movement() override
     {
-      random_fast_movement();
+      random_fast_movement(map_pointer_object);
     }
 };
 class stalker_enemy_subclass : public enemy_class
 {
   private:
     shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
   public:
     stalker_enemy_subclass()
     {
@@ -544,8 +577,8 @@ class stalker_enemy_subclass : public enemy_class
                         "It's legs move exceedingly fast but stride is slow giving it the impression at any moment"
                         "it could outrace and catch you."
                         "The uncertanty of the humanoids actions cause you deep fear.";
-      enemy_x_pos = rand() % width;
-      enemy_y_pos = rand() % height;
+      enemy_x_pos = rand() % map_pointer_object->width;
+      enemy_y_pos = rand() % map_pointer_object->height;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '&';
@@ -553,13 +586,14 @@ class stalker_enemy_subclass : public enemy_class
     }
     void enemy_movement() override
     {
-      random_slow_chasing(player_pointer_object);
+      random_slow_chasing(player_pointer_object, map_pointer_object);
     }
 };
 class prime_stalker_enemy_subclass : public enemy_class
 {
   private:
     shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
   public:
     prime_stalker_enemy_subclass()
     {
@@ -570,8 +604,8 @@ class prime_stalker_enemy_subclass : public enemy_class
       enemy_description="A bloodied hulk of scars, stench and sharp fangs and claws gathers it's senses"
       "and notices you. You feel that today you will die."
       "The stalker pack leader";
-      enemy_x_pos = rand() % width;
-      enemy_y_pos = rand() % height;
+      enemy_x_pos = rand() % map_pointer_object->width;
+      enemy_y_pos = rand() % map_pointer_object->height;
       enemy_alive = true;
       enemy_pause = 0;
       enemy_symbol = '@';
@@ -579,7 +613,7 @@ class prime_stalker_enemy_subclass : public enemy_class
     }
     void enemy_movement() override
     {
-      random_fast_chasing(player_pointer_object);
+      random_fast_chasing(player_pointer_object, map_pointer_object);
     }
 };
 class item_class 
@@ -594,15 +628,16 @@ public:
   int item_y_pos;
   char item_symbol;
   bool item_alive;
-  item_class(string item_name, string item_description, char item_symbol)
+  item_class(string item_name, string item_description, char item_symbol, shared_ptr<map_class> &map_pointer_object)
   {
     this->item_name = item_name;
     this->item_description = item_description;
     this->item_symbol = item_symbol;
-    item_x_pos = rand() % width;
-    item_y_pos = rand() % height;
+    item_x_pos = rand() % map_pointer_object->width;
+    item_y_pos = rand() % map_pointer_object->height;
   }
   virtual void use(shared_ptr<player_class>& player_pointer_object) = 0;
+
   void item_store()
   {
     fstream savefile_object;
@@ -633,7 +668,7 @@ public:
 class potion_item_subclass : public item_class
 {
 public:
-  potion_item_subclass() : item_class("Potion", "When used increases players life by 1 by regenerating their body.", 'p') {}
+  potion_item_subclass() : item_class("Potion", "When used increases players life by 1 by regenerating their body.", 'p', map_pointer_object) {}
   void use(shared_ptr<player_class>& player_pointer_object) override
   {
     cout << "You used a Potion. 1 life gained" << endl;
@@ -643,7 +678,7 @@ public:
 class leather_boots_item_subclass : public item_class
 {
 public:
-  leather_boots_item_subclass() : item_class("Leather boots", "When used increases players speed by 1 by cushioning their steps.", 'b') {}
+  leather_boots_item_subclass() : item_class("Leather boots", "When used increases players speed by 1 by cushioning their steps.", 'b', map_pointer_object) {}
   void use(shared_ptr<player_class>& player_pointer_object) override
   {
     cout << "You wore leather boots. Speed permanently increased by 1" << endl;
@@ -652,13 +687,15 @@ public:
 };
 class money_class
 {
+  private:
+    shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
   public:
     int money_moneyx; 
     int money_moneyy;
     money_class()
     {  
-      money_moneyx = rand() % width;
-      money_moneyy = rand() % height;
+      money_moneyx = rand() % map_pointer_object->width;
+      money_moneyy = rand() % map_pointer_object->height;
     }
 };
 class settings_class
@@ -677,19 +714,6 @@ class settings_class
     int settings_kill_count=0;
     
 };
-class map_class
-{
-  public:
-    int width = 20;
-    int height = 20;
-    vector<vector<char>> buffer;
-    int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
-    int map_location =0; //1 cave, 2, town, 3 world map
-
-    //constructor when object is created it's initialised.
-    map_class() : buffer(height, std::vector<char>(width, ' ')) {}
-
-};
 
 // POINTERS
 vector<shared_ptr<obstacle_class>> obstacles_vector;
@@ -698,7 +722,6 @@ vector<shared_ptr<item_class>> items_vector;
 vector<shared_ptr<npc_class>> npc_vector;
 shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
 shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
-shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 shared_ptr<money_class> money_pointer_object = make_shared<money_class>();
 shared_ptr<skill_class> skill_pointer_object = make_shared<skill_class>();
 
@@ -714,7 +737,7 @@ void toggle_music();
 void check_objective();
 void update_savefile_level();
 void match_savefile_level();
-void use_active_skill();
+void perform_active_skill();
 
 // FUNCTIONS
 string find_host_os()
@@ -1015,8 +1038,8 @@ void setup()
 
 
   direction = STOP;
-  player_pointer_object->player_x_pos = width / 2;
-  player_pointer_object->player_y_pos = height / 2;
+  player_pointer_object->player_x_pos = map_pointer_object->width / 2;
+  player_pointer_object->player_y_pos = map_pointer_object->height / 2;
 
   random_generate_obstacle();
 
@@ -1026,16 +1049,16 @@ void setup()
   items_vector.push_back(make_shared<potion_item_subclass>());
   items_vector.push_back(make_shared<leather_boots_item_subclass>());
 
-  money_pointer_object->money_moneyx = rand() % width;
-  money_pointer_object->money_moneyy = rand() % height;
+  money_pointer_object->money_moneyx = rand() % map_pointer_object->width-1;
+  money_pointer_object->money_moneyy = rand() % map_pointer_object->height-1;
   
 
-  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
-  for (int i = 0; i < height; i++)
+  //initialise map_pointer_object->buffer with default character ' ' (space) to avoid console map_pointer_object->buffer not clearing.
+  for (int i = 0; i < map_pointer_object->height; i++)
   {  
-    for (int j = 0; j < width; j++)
+    for (int j = 0; j < map_pointer_object->width; j++)
     {
-        buffer[i][j] = ' ';
+        map_pointer_object->buffer[i][j] = ' ';
     }
   }
 }
@@ -1070,7 +1093,7 @@ void l2setup()
   items_vector.clear();
   enemies_vector.clear();
 
-  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
+  //initialise map_pointer_object->buffer with default character ' ' (space) to avoid console map_pointer_object->buffer not clearing.
   for (int i = 0; i < map_pointer_object->height; i++)
   {  
     for (int j = 0; j < map_pointer_object->width; j++)
@@ -1099,21 +1122,21 @@ void setup_town()
   npc_vector.clear();
 
   direction = STOP;
-  player_pointer_object->player_x_pos = width / 2;
-  player_pointer_object->player_y_pos = height / 2;
+  player_pointer_object->player_x_pos = map_pointer_object->width / 2;
+  player_pointer_object->player_y_pos = map_pointer_object->height / 2;
 
   random_generate_obstacle();
   random_generate_npc();
 
-  money_pointer_object->money_moneyx = rand() % width;
-  money_pointer_object->money_moneyy = rand() % height;
+  money_pointer_object->money_moneyx = rand() % map_pointer_object->width;
+  money_pointer_object->money_moneyy = rand() % map_pointer_object->height;
 
-  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
-  for (int i = 0; i < height; i++)
+  //initialise map_pointer_object->buffer with default character ' ' (space) to avoid console map_pointer_object->buffer not clearing.
+  for (int i = 0; i < map_pointer_object->height; i++)
   {  
-    for (int j = 0; j < width; j++)
+    for (int j = 0; j < map_pointer_object->width; j++)
     {
-        buffer[i][j] = ' ';
+        map_pointer_object->buffer[i][j] = ' ';
     }
   }
 }
@@ -1137,20 +1160,20 @@ void setup_temple()
   npc_vector.clear();
 
   direction = STOP;
-  player_pointer_object->player_x_pos = width / 2;
-  player_pointer_object->player_y_pos = height / 2;
+  player_pointer_object->player_x_pos = map_pointer_object->width / 2;
+  player_pointer_object->player_y_pos = map_pointer_object->height / 2;
 
   random_generate_obstacle();
 
-  money_pointer_object->money_moneyx = rand() % width;
-  money_pointer_object->money_moneyy = rand() % height;
+  money_pointer_object->money_moneyx = rand() % map_pointer_object->width;
+  money_pointer_object->money_moneyy = rand() % map_pointer_object->height;
 
-  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
-  for (int i = 0; i < height; i++)
+  //initialise map_pointer_object->buffer with default character ' ' (space) to avoid console map_pointer_object->buffer not clearing.
+  for (int i = 0; i < map_pointer_object->height; i++)
   {  
-    for (int j = 0; j < width; j++)
+    for (int j = 0; j < map_pointer_object->width; j++)
     {
-        buffer[i][j] = ' ';
+        map_pointer_object->buffer[i][j] = ' ';
     }
   }
 }
@@ -1174,21 +1197,21 @@ void setup_desert()
   npc_vector.clear();
 
   direction = STOP;
-  player_pointer_object->player_x_pos = width / 2;
-  player_pointer_object->player_y_pos = height / 2;
+  player_pointer_object->player_x_pos = map_pointer_object->width / 2;
+  player_pointer_object->player_y_pos = map_pointer_object->height / 2;
 
   random_generate_obstacle();
   random_generate_npc();
 
-  money_pointer_object->money_moneyx = rand() % width;
-  money_pointer_object->money_moneyy = rand() % height;
+  money_pointer_object->money_moneyx = rand() % map_pointer_object->width;
+  money_pointer_object->money_moneyy = rand() % map_pointer_object->height;
 
-  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
-  for (int i = 0; i < height; i++)
+  //initialise map_pointer_object->buffer with default character ' ' (space) to avoid console map_pointer_object->buffer not clearing.
+  for (int i = 0; i < map_pointer_object->height; i++)
   {  
-    for (int j = 0; j < width; j++)
+    for (int j = 0; j < map_pointer_object->width; j++)
     {
-        buffer[i][j] = ' ';
+        map_pointer_object->buffer[i][j] = ' ';
     }
   }
 }
@@ -1212,21 +1235,21 @@ void setup_nava_agni()
   npc_vector.clear();
 
   direction = STOP;
-  player_pointer_object->player_x_pos = width / 2;
-  player_pointer_object->player_y_pos = height / 2;
+  player_pointer_object->player_x_pos = map_pointer_object->width / 2;
+  player_pointer_object->player_y_pos = map_pointer_object->height / 2;
 
   random_generate_obstacle();
   random_generate_npc();
 
-  money_pointer_object->money_moneyx = rand() % width;
-  money_pointer_object->money_moneyy = rand() % height;
+  money_pointer_object->money_moneyx = rand() % map_pointer_object->width;
+  money_pointer_object->money_moneyy = rand() % map_pointer_object->height;
 
-  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
-  for (int i = 0; i < height; i++)
+  //initialise map_pointer_object->buffer with default character ' ' (space) to avoid console map_pointer_object->buffer not clearing.
+  for (int i = 0; i < map_pointer_object->height; i++)
   {  
-    for (int j = 0; j < width; j++)
+    for (int j = 0; j < map_pointer_object->width; j++)
     {
-        buffer[i][j] = ' ';
+        map_pointer_object->buffer[i][j] = ' ';
     }
   }
 }
@@ -1250,21 +1273,21 @@ void setup_rift()
   npc_vector.clear();
 
   direction = STOP;
-  player_pointer_object->player_x_pos = width / 2;
-  player_pointer_object->player_y_pos = height / 2;
+  player_pointer_object->player_x_pos = map_pointer_object->width / 2;
+  player_pointer_object->player_y_pos = map_pointer_object->height / 2;
 
   random_generate_obstacle();
   random_generate_npc();
 
-  money_pointer_object->money_moneyx = rand() % width;
-  money_pointer_object->money_moneyy = rand() % height;
+  money_pointer_object->money_moneyx = rand() % map_pointer_object->width;
+  money_pointer_object->money_moneyy = rand() % map_pointer_object->height;
 
-  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
-  for (int i = 0; i < height; i++)
+  //initialise map_pointer_object->buffer with default character ' ' (space) to avoid console map_pointer_object->buffer not clearing.
+  for (int i = 0; i < map_pointer_object->height; i++)
   {  
-    for (int j = 0; j < width; j++)
+    for (int j = 0; j < map_pointer_object->width; j++)
     {
-        buffer[i][j] = ' ';
+        map_pointer_object->buffer[i][j] = ' ';
     }
   }
 }
@@ -1296,29 +1319,29 @@ void draw_rift()
 }
 void draw_level_1()
 {
-  // Initialize the buffer with wall boundaries and empty spaces
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
+  // Initialize the map_pointer_object->buffer with wall boundaries and empty spaces
+  for (int y = 0; y < map_pointer_object->height; y++) {
+    for (int x = 0; x < map_pointer_object->width; x++) {
       // Draw wall boundaries
-      if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
-        buffer[y][x] = '#'; // draw all 4 walls
+      if (x == 0 || x == map_pointer_object->width - 1 || y == 0 || y == map_pointer_object->height - 1)
+        map_pointer_object->buffer[y][x] = '#'; // draw all 4 walls
       else
-        buffer[y][x] = ' '; // fill empty spaces with blank
+        map_pointer_object->buffer[y][x] = ' '; // fill empty spaces with blank
     }
   }
 
   // Draw player
-  buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = 'P';
+  map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = 'P';
 
   // Draw money
-  buffer[money_pointer_object->money_moneyy][money_pointer_object->money_moneyx] = '$';
+  map_pointer_object->buffer[money_pointer_object->money_moneyy][money_pointer_object->money_moneyx] = '$';
 
   // Draw obstacles
   for (const auto& obstacle : obstacles_vector)
   {
     if (obstacle->obstacle_alive)
     {
-      buffer[obstacle->obstacle_y_pos][obstacle->obstacle_x_pos] = obstacle->obstacle_symbol;
+      map_pointer_object->buffer[obstacle->obstacle_y_pos][obstacle->obstacle_x_pos] = obstacle->obstacle_symbol;
     }
   }
 
@@ -1327,7 +1350,7 @@ void draw_level_1()
   {
     if (enemy->enemy_alive) 
     {
-      buffer[enemy->enemy_y_pos][enemy->enemy_x_pos] = enemy->enemy_symbol;
+      map_pointer_object->buffer[enemy->enemy_y_pos][enemy->enemy_x_pos] = enemy->enemy_symbol;
     }
   }
 
@@ -1336,17 +1359,17 @@ void draw_level_1()
   {
     if (item->item_alive) 
     {
-      buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
+      map_pointer_object->buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
     }
   }
 
   // Clear the console screen
   system("cls");
 
-  // Print the buffer
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
-      cout << buffer[y][x];
+  // Print the map_pointer_object->buffer
+  for (int y = 0; y < map_pointer_object->height; y++) {
+    for (int x = 0; x < map_pointer_object->width; x++) {
+      cout << map_pointer_object->buffer[y][x];
     }
     cout << endl;
   }
@@ -1359,29 +1382,29 @@ void draw_level_1()
 }
 void draw_level_2()
 {
-  // Initialize the buffer with wall boundaries and empty spaces
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
+  // Initialize the map_pointer_object->buffer with wall boundaries and empty spaces
+  for (int y = 0; y < map_pointer_object->height; y++) {
+    for (int x = 0; x < map_pointer_object->width; x++) {
       // Draw wall boundaries
-      if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
-        buffer[y][x] = '#'; // draw all 4 walls
+      if (x == 0 || x == map_pointer_object->width - 1 || y == 0 || y == map_pointer_object->height - 1)
+        map_pointer_object->buffer[y][x] = '#'; // draw all 4 walls
       else
-        buffer[y][x] = ' '; // fill empty spaces with blank
+        map_pointer_object->buffer[y][x] = ' '; // fill empty spaces with blank
     }
   }
 
   // Draw player
-  buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = 'P';
+  map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = 'P';
 
   // Draw money
-  buffer[money_pointer_object->money_moneyy][money_pointer_object->money_moneyx] = '$';
+  map_pointer_object->buffer[money_pointer_object->money_moneyy][money_pointer_object->money_moneyx] = '$';
 
   // Draw obstacles
   for (const auto& obstacle : obstacles_vector)
   {
     if (obstacle->obstacle_alive)
     {
-      buffer[obstacle->obstacle_y_pos][obstacle->obstacle_x_pos] = obstacle->obstacle_symbol;
+      map_pointer_object->buffer[obstacle->obstacle_y_pos][obstacle->obstacle_x_pos] = obstacle->obstacle_symbol;
     }
   }
 
@@ -1390,7 +1413,7 @@ void draw_level_2()
   {
     if (enemy->enemy_alive) 
     {
-      buffer[enemy->enemy_y_pos][enemy->enemy_x_pos] = enemy->enemy_symbol;
+      map_pointer_object->buffer[enemy->enemy_y_pos][enemy->enemy_x_pos] = enemy->enemy_symbol;
     }
   }
 
@@ -1399,17 +1422,17 @@ void draw_level_2()
   {
     if (item->item_alive) 
     {
-      buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
+      map_pointer_object->buffer[item->item_y_pos][item->item_x_pos] = item->item_symbol;
     }
   }
 
   // Clear the console screen
   system("cls");
 
-  // Print the buffer
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
-      cout << buffer[y][x];
+  // Print the map_pointer_object->buffer
+  for (int y = 0; y < map_pointer_object->height; y++) {
+    for (int x = 0; x < map_pointer_object->width; x++) {
+      cout << map_pointer_object->buffer[y][x];
     }
     cout << endl;
   }
@@ -1554,7 +1577,7 @@ void input()
 
                 if (skill_pointer_object->skill_elapsed_seconds.count() >= 2.0) {
                     // The shoot skill is off cooldown
-                    use_active_skill();
+                    perform_active_skill();
                     // Update the last shoot time
                 } else {
                     // The shoot skill is on cooldown
@@ -1620,7 +1643,7 @@ void POSIXinput()
 
                 if (skill_pointer_object->skill_elapsed_seconds.count() >= 2.0) {
                     // The shoot skill is off cooldown
-                    use_active_skill();
+                    perform_active_skill();
                     // Update the last shoot time
                 } else {
                     // The shoot skill is on cooldown
@@ -1638,24 +1661,24 @@ void POSIXinput()
 // LOGIC
 void player_movement()
 {
-  // After input() new location in buffer[][] is saved
+  // After input() new location in map_pointer_object->buffer[][] is saved
   // if condition prevents moving out of wall boundary '#'
   switch (direction) 
   {
     case UP:
-        if (player_pointer_object->player_y_pos > 1 && buffer[player_pointer_object->player_y_pos - 1][player_pointer_object->player_x_pos] != '#') {
+        if (player_pointer_object->player_y_pos > 1 && map_pointer_object->buffer[player_pointer_object->player_y_pos - 1][player_pointer_object->player_x_pos] != '#') {
         player_pointer_object->player_y_pos--; }
         break;
     case DOWN:
-    if (player_pointer_object->player_y_pos < height - 2 && buffer[player_pointer_object->player_y_pos + 1][player_pointer_object->player_x_pos] != '#') {
+    if (player_pointer_object->player_y_pos < map_pointer_object->height - 2 && map_pointer_object->buffer[player_pointer_object->player_y_pos + 1][player_pointer_object->player_x_pos] != '#') {
         player_pointer_object->player_y_pos++; }
         break;
     case LEFT:
-    if (player_pointer_object->player_x_pos > 1 && buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos - 1] != '#') {
+    if (player_pointer_object->player_x_pos > 1 && map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos - 1] != '#') {
         player_pointer_object->player_x_pos--; }
         break;
     case RIGHT:
-    if (player_pointer_object->player_x_pos < width - 2 && buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos + 1] != '#') {
+    if (player_pointer_object->player_x_pos < map_pointer_object->width - 2 && map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos + 1] != '#') {
         player_pointer_object->player_x_pos++; }
         break;
   }
@@ -1800,8 +1823,8 @@ void money_pickup_logic()
     {
         settings_pointer_object->settings_score++;
         player_pointer_object->player_money++;
-        money_pointer_object->money_moneyx = rand() % width-1;
-        money_pointer_object->money_moneyy = rand() % height-1;
+        money_pointer_object->money_moneyx = rand() % map_pointer_object->width-1;
+        money_pointer_object->money_moneyy = rand() % map_pointer_object->height-1;
     } else {  }
 }
 void logic()
@@ -1835,7 +1858,7 @@ void shoot_fireball()
             targetX++;
 
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        if (targetX >= 0 && targetX < map_pointer_object->width && targetY >= 0 && targetY < map_pointer_object->height) 
         {
             // Check if there is an enemy at the target position
             bool hitEnemy = false;
@@ -1873,20 +1896,20 @@ void shoot_fireball()
             }
 
             // Clear the bullet from the previous position
-            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+            map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
 
             // Draw the bullet at the target position
-            buffer[targetY][targetX] = '*';
+            map_pointer_object->buffer[targetY][targetX] = '*';
             draw_level_1();
 
             // Sleep after drawing the bullet
             Sleep(50);
 
             // Clear the bullet from the current position
-            buffer[targetY][targetX] = ' ';
+            map_pointer_object->buffer[targetY][targetX] = ' ';
 
             // Check if the target position hit a wall
-            if (buffer[targetY][targetX] == '#') 
+            if (map_pointer_object->buffer[targetY][targetX] == '#') 
             {
                 break;
             }
@@ -1914,7 +1937,7 @@ void shoot_volcano()
         // Move the target position based on the player's direction
             targetY--;
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        if (targetX >= 0 && targetX < map_pointer_object->width && targetY >= 0 && targetY < map_pointer_object->height) 
         {
             // Check if there is an enemy at the target position
             bool hitEnemy = false;
@@ -1952,20 +1975,20 @@ void shoot_volcano()
             }
 
             // Clear the bullet from the previous position
-            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+            map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
 
             // Draw the bullet at the target position
-            buffer[targetY][targetX] = '*';
+            map_pointer_object->buffer[targetY][targetX] = '*';
             draw_level_1();
 
             // Sleep after drawing the bullet
             Sleep(50);
 
             // Clear the bullet from the current position
-            buffer[targetY][targetX] = ' ';
+            map_pointer_object->buffer[targetY][targetX] = ' ';
 
             // Check if the target position hit a wall
-            if (buffer[targetY][targetX] == '#') 
+            if (map_pointer_object->buffer[targetY][targetX] == '#') 
             {
                 break;
             }
@@ -1984,7 +2007,7 @@ void shoot_volcano()
             targetX--;
 
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        if (targetX >= 0 && targetX < map_pointer_object->width && targetY >= 0 && targetY < map_pointer_object->height) 
         {
             // Check if there is an enemy at the target position
             bool hitEnemy = false;
@@ -2022,20 +2045,20 @@ void shoot_volcano()
             }
 
             // Clear the bullet from the previous position
-            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+            map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
 
             // Draw the bullet at the target position
-            buffer[targetY][targetX] = '*';
+            map_pointer_object->buffer[targetY][targetX] = '*';
             draw_level_1();
 
             // Sleep after drawing the bullet
             Sleep(50);
 
             // Clear the bullet from the current position
-            buffer[targetY][targetX] = ' ';
+            map_pointer_object->buffer[targetY][targetX] = ' ';
 
             // Check if the target position hit a wall
-            if (buffer[targetY][targetX] == '#') 
+            if (map_pointer_object->buffer[targetY][targetX] == '#') 
             {
                 break;
             }
@@ -2054,7 +2077,7 @@ void shoot_volcano()
             targetX++;
 
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        if (targetX >= 0 && targetX < map_pointer_object->width && targetY >= 0 && targetY < map_pointer_object->height) 
         {
             // Check if there is an enemy at the target position
             bool hitEnemy = false;
@@ -2092,20 +2115,20 @@ void shoot_volcano()
             }
 
             // Clear the bullet from the previous position
-            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+            map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
 
             // Draw the bullet at the target position
-            buffer[targetY][targetX] = '*';
+            map_pointer_object->buffer[targetY][targetX] = '*';
             draw_level_1();
 
             // Sleep after drawing the bullet
             Sleep(50);
 
             // Clear the bullet from the current position
-            buffer[targetY][targetX] = ' ';
+            map_pointer_object->buffer[targetY][targetX] = ' ';
 
             // Check if the target position hit a wall
-            if (buffer[targetY][targetX] == '#') 
+            if (map_pointer_object->buffer[targetY][targetX] == '#') 
             {
                 break;
             }
@@ -2124,7 +2147,7 @@ void shoot_volcano()
             targetY++;
 
         // Check if the target position is within the bounds of the game map
-        if (targetX >= 0 && targetX < width && targetY >= 0 && targetY < height) 
+        if (targetX >= 0 && targetX < map_pointer_object->width && targetY >= 0 && targetY < map_pointer_object->height) 
         {
             // Check if there is an enemy at the target position
             bool hitEnemy = false;
@@ -2162,20 +2185,20 @@ void shoot_volcano()
             }
 
             // Clear the bullet from the previous position
-            buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
+            map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = ' ';
 
             // Draw the bullet at the target position
-            buffer[targetY][targetX] = '*';
+            map_pointer_object->buffer[targetY][targetX] = '*';
             draw_level_1();
 
             // Sleep after drawing the bullet
             Sleep(50);
 
             // Clear the bullet from the current position
-            buffer[targetY][targetX] = ' ';
+            map_pointer_object->buffer[targetY][targetX] = ' ';
 
             // Check if the target position hit a wall
-            if (buffer[targetY][targetX] == '#') 
+            if (map_pointer_object->buffer[targetY][targetX] == '#') 
             {
                 break;
             }
@@ -2213,7 +2236,7 @@ void check_skills()
       break;
   }
 }
-void use_active_skill()
+void perform_active_skill()
 {
   switch(skill_pointer_object->skill_choose_active_skill)
   {

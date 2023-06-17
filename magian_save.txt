@@ -1,5 +1,5 @@
 AVATAR
-NAME: S
+NAME: a
 Magic: 1
 Health: 3
 XP: 1
@@ -11,4 +11,3 @@ Herbology: 0
 Money: 0
 INVENTORY
 SKILLS
-Unlocked levels: 2
