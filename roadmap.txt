@@ -1,5 +1,12 @@
 ROADMAP
 
+0.0
+rename draw_level_1 to draw_map()
+rename l2setup() - setup_camp()
+renam l2gamesetup() - start_camp()
+remove all draw 1- 10.
+
+
 0
 Map class should only have 2D vector
 

@@ -2886,34 +2886,34 @@ void arena()
         cout << "1. Arianna Outskirts\n";
         break;
       case 2:
-        cout << "2. Blazed home\n";
+        cout << "2. Nava Agni\n";
         break;
       case 3:
-        cout << "3. Hunt\n";
+        cout << "3. Worn path\n";
         break;
       case 4:
-        cout << "4. Captured aboard\n";
+        cout << "4. Boat\n";
         break;
       case 5:
-        cout << "5. Capsize\n";
+        cout << "5. Anchored Ship\n";
         break;
       case 6:
-        cout << "6. Underwater inferno\n";
+        cout << "6. Underwater\n";
         break;
       case 7:
-        cout << "7. Final spell\n";
+        cout << "7. Deserts\n";
         break;
       case 8:
         cout << "8. Rakashaa planet\n";
         break;
       case 9:
-        cout << "9. Cosmic escape\n";
+        cout << "9. Alien Bagh\n";
         break;
       case 10:
         cout << "10. Nirvana\n";
         break;
       case 11:
-        cout << "11. Restoration\n";
+        cout << "11. Nava Nava Agni\n";
         break;
       default:
         break;
