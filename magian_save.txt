@@ -1,5 +1,5 @@
 AVATAR
-NAME: a
+NAME: Sum
 Magic: 1
 Health: 3
 XP: 1

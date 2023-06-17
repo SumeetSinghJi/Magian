@@ -1,5 +1,14 @@
 ROADMAP
 
+0
+Map class should only have 2D vector
+
+0.1
+continue() should load() which should load level.
+save() - fix. And add player last position also.
+
+0.2
+Skill name not updating
 
 1
 Learn Windows and POSIX/GNU handles to change colours
@@ -73,8 +82,6 @@ die() soundeffect
 * river obstacle that connects to each other from one side of map to another
 * lake obstacle, 4 pools in a square
 
-12
-* fix save()
 
 13
 * write skills_header()

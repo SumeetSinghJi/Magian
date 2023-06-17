@@ -730,7 +730,7 @@ void menu();
 void l2startgame();
 void check_stats();
 void check_items();
-void check_skills();
+void choose_skill();
 void save();
 void change_language();
 void toggle_music();
@@ -738,6 +738,7 @@ void check_objective();
 void update_savefile_level();
 void match_savefile_level();
 void perform_active_skill();
+string return_skill_name();
 
 // FUNCTIONS
 string find_host_os()
@@ -1064,6 +1065,7 @@ void setup()
 }
 void l2setup() 
 {
+  // ERROR updating value causes segmenttion fault.
   map_pointer_object->height=20;
   map_pointer_object->width=20;
 
@@ -1078,7 +1080,6 @@ void l2setup()
   map_pointer_object->map_size=2;
   // reset the level variables
   settings_pointer_object->settings_score=0;
-  settings_pointer_object->settings_gameover = false;
 
   // Below method needs to be executed at runtime hence run in a function vs global variable;
   money_pointer_object->money_moneyx = rand() % map_pointer_object->width;
@@ -1375,10 +1376,14 @@ void draw_level_1()
   }
 
   // Print the current score and lives beneath the array
-  string score_str = "Current Score: " + to_string(settings_pointer_object->settings_score);
-  string lives_str = "Current Health: " + to_string(player_pointer_object->player_health);
-  cout << score_str << endl;
-  cout << lives_str << endl;
+  string score_str = "Score: " + to_string(settings_pointer_object->settings_score);
+  string health_str = "Health: " + to_string(player_pointer_object->player_health);
+  string magic_str = "Magic: " + to_string(player_pointer_object->player_magic);
+  string xp_str = "XP: " + to_string(player_pointer_object->player_xp);
+  string speed_str = "Speed: " + to_string(player_pointer_object->player_speed);
+  string money_str = "Money: " + to_string(player_pointer_object->player_money);
+  cout << player_pointer_object->player_name << endl;
+  cout << health_str << " " << magic_str << " " << xp_str << " " << speed_str << " " << money_str << " " << return_skill_name();
 }
 void draw_level_2()
 {
@@ -1438,10 +1443,14 @@ void draw_level_2()
   }
 
   // Print the current score and lives beneath the array
-  string score_str = "Current Score: " + to_string(settings_pointer_object->settings_score);
-  string lives_str = "Current Health: " + to_string(player_pointer_object->player_health);
-  cout << score_str << endl;
-  cout << lives_str << endl;
+  string score_str = "Score: " + to_string(settings_pointer_object->settings_score);
+  string health_str = "Health: " + to_string(player_pointer_object->player_health);
+  string magic_str = "Magic: " + to_string(player_pointer_object->player_magic);
+  string xp_str = "XP: " + to_string(player_pointer_object->player_xp);
+  string speed_str = "Speed: " + to_string(player_pointer_object->player_speed);
+  string money_str = "Money: " + to_string(player_pointer_object->player_money);
+  cout << player_pointer_object->player_name << endl;
+  cout << health_str << " " << magic_str << " " << xp_str << " " << speed_str << " " << money_str << " " << return_skill_name();
 }
 void draw_level_3()
 {
@@ -1554,7 +1563,7 @@ void input()
             cin.get();
             break;
         case 'x':
-            check_skills();
+            choose_skill();
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break; 
@@ -1620,7 +1629,7 @@ void POSIXinput()
             cin.get();
             break;
         case 'x':
-            check_skills();
+            choose_skill();
             cout << "Press ENTER button to Return to game" << endl;
             cin.get();
             break; 
@@ -1742,7 +1751,7 @@ void win_logic()
     } else {  }
 
     // Level 1 - win logic 
-    if (settings_pointer_object->settings_score >= 3) 
+    if (settings_pointer_object->settings_score >= 1) 
     {
     settings_pointer_object->settings_level = 2;
     cout << "You collected all Scrolls. Now advance to Agni.";
@@ -1753,7 +1762,7 @@ void win_logic()
     } else {  }
 
     // Level 2 - win logic - after specific time searching win condition (friend? or lover) appears
-    if (settings_pointer_object->settings_kill_count >= 1) 
+    if (settings_pointer_object->settings_kill_count >= 2) 
     {
     settings_pointer_object->settings_level = 3;
     cout << "Agni's demise was slain. Find the source of the chaotic celestical invasion.";
@@ -2216,7 +2225,7 @@ void shoot_volcano()
     // reset shoot skill cooldown
     skill_pointer_object->skill_shoot_cooldown = false;
 }
-void check_skills()
+void choose_skill()
 {
   cout << "SKILLS\n\n"
   "Change skill to\n"
@@ -2234,6 +2243,25 @@ void check_skills()
     default:
       skill_pointer_object->skill_choose_active_skill=1;
       break;
+  }
+}
+string return_skill_name()
+{
+  string skill="";
+  if(skill_pointer_object->skill_choose_active_skill=1)
+  {
+    skill = "Fireball";
+    return skill;
+  }
+  else if (skill_pointer_object->skill_choose_active_skill=2)
+  {
+    skill = "Volcano";
+    return skill;
+  }
+  else
+  {
+    skill = "Fireball";
+    return skill;
   }
 }
 void perform_active_skill()
@@ -2716,7 +2744,7 @@ void welcome()
   "MAIN MENU\n"
   "1. Start Game\n"
   "2. Save | Load Game\n"
-  "3. Level select\n"
+  "3. Arena\n"
   "4. Help\n"
   "5. Settings\n"
   "6. Library\n"
@@ -2847,10 +2875,10 @@ void help()
   cin.get();
   menu();
 }
-void level_select()
+void arena()
 {
   match_savefile_level();
-  cout << "Choose any level you've unlocked \n"; 
+  cout << "Choose any Arena map you've unlocked \n"; 
   // add a condition to show only levels that are below or equal to level_select
   for (int i = 1; i <= settings_pointer_object->settings_level_select_variable; i++) {
     switch (i) {
@@ -3161,7 +3189,6 @@ void newgame()
   item_store_header();
   skill_store_header();
   setup();
-  player_pointer_object->player_health = 3;
 
   // Clear the console screen initially
   system("cls");
@@ -3306,7 +3333,6 @@ void startgame()
 void l2startgame() 
 {
   l2setup();
-  player_pointer_object->player_health = 3;
   
   if (find_host_os() == "Windows")
   { 
@@ -3356,7 +3382,7 @@ void menu()
     save_load_game();
     break;
   case 3:
-    level_select();
+    arena();
     break;
   case 4:
     help();
