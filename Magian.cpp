@@ -2237,7 +2237,6 @@ void use_active_skill()
   }
 }
 
-
 // ABILITIES
 void check_items()
 {
