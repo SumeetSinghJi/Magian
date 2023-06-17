@@ -31,8 +31,6 @@ class skill_class
   public:
     bool skill_shoot_cooldown = false;
     chrono::steady_clock::time_point skill_last_shoot_time;
-
-    virtual void shoot() = 0;
 };
 class player_class
 {
@@ -700,6 +698,7 @@ shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
 shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
 shared_ptr<map_class> map_pointer_object = make_shared<map_class>();
 shared_ptr<money_class> money_pointer_object = make_shared<money_class>();
+shared_ptr<skill_class> skill_pointer_object = make_shared<skill_class>();
 
 // PROTOTYPES
 void menu();
@@ -950,51 +949,49 @@ void random_generate_items()
     }
   }
 }
-/*
 void random_generate_money()
 {
   int max_money_objects = 0;
   if(map_pointer_object->map_size==1) // small
   {
-    max_item_objects += 5;
-    max_item_objects += rand() % 5;
+    max_money_objects += 5;
+    max_money_objects += rand() % 5;
   }
   else if(map_pointer_object->map_size==2) // medium
   {
-    max_item_objects += 10;
-    max_item_objects += rand() % 5;
+    max_money_objects += 10;
+    max_money_objects += rand() % 5;
   }
   else if(map_pointer_object->map_size==3) // large
   {
-    max_item_objects += 15;
-    max_item_objects += rand() % 5;
+    max_money_objects += 15;
+    max_money_objects += rand() % 5;
   }
   else if(map_pointer_object->map_size==4) // extra-large
   {
-    max_item_objects += 20;
-    max_item_objects += rand() % 5;
+    max_money_objects += 20;
+    max_money_objects += rand() % 5;
   }
   else if(map_pointer_object->map_size==5) // giant
   {
-    max_item_objects += 25;
-    max_item_objects += rand() % 5;
+    max_money_objects += 25;
+    max_money_objects += rand() % 5;
   }
-  for (int i = 0; i < max_item_objects; i++)
+  for (int i = 0; i < max_money_objects; i++)
   {
-    int item_type_variable = rand() % 2;
-    if (item_type_variable == 0) // potion
+    int money_type_variable = rand() % 2;
+    if (money_type_variable == 0) // small money drop
     {
-      shared_ptr<potion_item_subclass> leather_boots_item = make_shared<potion_item_subclass>();
-      items_vector.push_back(make_shared<potion_item_subclass>());
+      cout << "Hello world";
     }
-    else // leather boots
+    else // large money drop
     {
-      shared_ptr<leather_boots_item_subclass> leather_boots_item = make_shared<leather_boots_item_subclass>();
-      items_vector.push_back(make_shared<leather_boots_item_subclass>());
+      cout << "Hello world";
     }
   }
 }
-*/
+
+// SETUP MAPS
 void setup() 
 {
   if (settings_pointer_object->settings_music_variable == false)
@@ -1037,6 +1034,43 @@ void setup()
     for (int j = 0; j < width; j++)
     {
         buffer[i][j] = ' ';
+    }
+  }
+}
+void l2setup() 
+{
+  if (settings_pointer_object->settings_music_variable == false)
+  {
+    PlaySoundW(NULL, NULL, 0);
+  }
+  else
+  {
+    PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
+  }
+  map_pointer_object->map_size=2;
+  // reset the level variables
+  settings_pointer_object->settings_score=0;
+  settings_pointer_object->settings_gameover = false;
+
+  // Below srand method needs to be executed at runtime hence run in a function vs global variable;
+  money_pointer_object->money_moneyx = rand() % map_pointer_object->map_l2width;
+  money_pointer_object->money_moneyy = rand() % map_pointer_object->map_l2height;
+
+  // setting position of player
+  direction = STOP;
+  player_pointer_object->player_x_pos = map_pointer_object->map_l2width / 2;
+  player_pointer_object->player_y_pos = map_pointer_object->map_l2height / 2;
+
+  // to refresh vectors for new game and level select
+  items_vector.clear();
+  enemies_vector.clear();
+
+  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
+  for (int i = 0; i < map_pointer_object->map_l2height; i++)
+  {  
+    for (int j = 0; j < map_pointer_object->map_l2width; j++)
+    {
+        map_pointer_object->map_l2buffer[i][j] = ' ';
     }
   }
 }
@@ -1229,43 +1263,8 @@ void setup_rift()
     }
   }
 }
-void l2setup() 
-{
-  if (settings_pointer_object->settings_music_variable == false)
-  {
-    PlaySoundW(NULL, NULL, 0);
-  }
-  else
-  {
-    PlaySoundW(L"sound//music//alien-jungle.wav", NULL, SND_FILENAME | SND_ASYNC);
-  }
-  map_pointer_object->map_size=2;
-  // reset the level variables
-  settings_pointer_object->settings_score=0;
-  settings_pointer_object->settings_gameover = false;
 
-  // Below srand method needs to be executed at runtime hence run in a function vs global variable;
-  money_pointer_object->money_moneyx = rand() % map_pointer_object->map_l2width;
-  money_pointer_object->money_moneyy = rand() % map_pointer_object->map_l2height;
-
-  // setting position of player
-  direction = STOP;
-  player_pointer_object->player_x_pos = map_pointer_object->map_l2width / 2;
-  player_pointer_object->player_y_pos = map_pointer_object->map_l2height / 2;
-
-  // to refresh vectors for new game and level select
-  items_vector.clear();
-  enemies_vector.clear();
-
-  //initialise buffer with default character ' ' (space) to avoid console buffer not clearing.
-  for (int i = 0; i < map_pointer_object->map_l2height; i++)
-  {  
-    for (int j = 0; j < map_pointer_object->map_l2width; j++)
-    {
-        map_pointer_object->map_l2buffer[i][j] = ' ';
-    }
-  }
-}
+// MAPS
 void draw_world()
 {
   cout << "| |";
@@ -1498,6 +1497,8 @@ void destination()
     cout << "You stumble upon the ruins of an ancient civilisation. There's nothing ahead" << endl;
   }
 }
+
+// INPUT
 void input()
 {
     if (_kbhit()) 
@@ -1628,88 +1629,8 @@ void POSIXinput()
         }
     }
 }
-void save()
-{
-    cout << "Saving Game..." << endl;
-    cin.get();
-  
-    // search strings to match
-    string name_match = "Name: ";
-    string magic_match = "Magic: ";
-    string health_match = "Health: ";
-    string xp_match = "XP: ";
-    string speed_match = "Speed: ";
-    string literacy_match = "Literacy: ";
-    string diplomacy_match = "Diplomacy: ";
-    string swimming_match = "Swimming: ";
-    string herbology_match = "Herbology: ";
-    string money_match = "Money: ";
-    string player_x_pos_match = "Player_X_pos: ";
-    string player_y_pos_match = "Player_X_pos: ";
-    string player_previous_x_pos_match = "Player_previous_X_pos: ";
-    string player_previous_y_pos_match = "Player_previous_Y_pos: ";
 
-    // test open file to read the contents first
-    fstream savefile_object;
-    savefile_object.open("magian_save.txt", ios::app);
-    if (savefile_object.is_open())
-    {
-      string line;
-      while (getline(savefile_object, line))
-      {
-        if (line.find(name_match) != string::npos) // NAME
-        {
-          savefile_object << name_match << player_pointer_object->player_name;
-        }
-        if (line.find(magic_match) != string::npos) // MAGIC
-        {
-          savefile_object << magic_match << player_pointer_object->player_magic;
-        }
-        if (line.find(health_match) != string::npos) // HEALTH
-        {
-          savefile_object << health_match << player_pointer_object->player_health;
-        }
-        if (line.find(xp_match) != string::npos) // XP
-        {
-          savefile_object << xp_match << player_pointer_object->player_xp;
-        }
-        if (line.find(speed_match) != string::npos) // SPEED
-        {
-          savefile_object << speed_match << player_pointer_object->player_speed;
-        }
-        if (line.find(literacy_match) != string::npos) // LITERACY
-        {
-          savefile_object << literacy_match << player_pointer_object->player_literacy;
-        }
-        if (line.find(diplomacy_match) != string::npos) // DIPLOMACY
-        {
-          savefile_object << diplomacy_match << player_pointer_object->player_diplomacy;
-        }
-        if (line.find(swimming_match) != string::npos) // SWIMMING
-        {
-          savefile_object << swimming_match << player_pointer_object->player_swimming;
-        }
-        if (line.find(herbology_match) != string::npos) // HERBOLOGY
-        {
-          savefile_object << herbology_match << player_pointer_object->player_herbology;
-        }  
-        if (line.find(money_match) != string::npos) // Money
-        {
-          savefile_object << money_match << player_pointer_object->player_money;
-        }    
-      }
-      savefile_object.close();
-      savefile_object.clear();
-      std::cout << "Game Saved" << endl;
-      cin.get();
-    }
-    // test open file to read the contents first
-    else
-    {
-        cerr << "Error: failed to open magian_save.txt" << endl;
-        return;
-    }
-}
+// LOGIC
 void player_movement()
 {
   // After input() new location in buffer[][] is saved
@@ -1898,35 +1819,11 @@ void logic()
     levelup_logic();
     win_logic();
 }
-void l2startgame() 
+
+// SKILLS
+void active_skill()
 {
-  l2setup();
-  player_pointer_object->player_health = 3;
-  
-  if (find_host_os() == "Windows")
-  { 
-    while (!settings_pointer_object->settings_gameover) 
-    {
-      draw_level_2();
-      input();
-      logic();
-      Sleep(150);
-    }
-    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
-    cin.get();
-  }
-  else
-  {
-    while (!settings_pointer_object->settings_gameover) 
-    {
-      draw_level_2();
-      POSIXinput();
-      logic();
-      Sleep(150);
-    }
-    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
-    cin.get();
-  }
+  cout << "Shoot active skill";
 }
 void shoot_fireball()
 {
@@ -2319,6 +2216,8 @@ void volcano()
     // reset shoot skill cooldown
     shoot_skill_cooldown = false;
 }
+
+// ABILITIES
 void check_items()
 {
   // Read from the savefile
@@ -2417,6 +2316,90 @@ void check_objective()
         cout << "You must keep searching" <<endl;
     }
 }
+void save()
+{
+    cout << "Saving Game..." << endl;
+    cin.get();
+  
+    // search strings to match
+    string name_match = "Name: ";
+    string magic_match = "Magic: ";
+    string health_match = "Health: ";
+    string xp_match = "XP: ";
+    string speed_match = "Speed: ";
+    string literacy_match = "Literacy: ";
+    string diplomacy_match = "Diplomacy: ";
+    string swimming_match = "Swimming: ";
+    string herbology_match = "Herbology: ";
+    string money_match = "Money: ";
+    string player_x_pos_match = "Player_X_pos: ";
+    string player_y_pos_match = "Player_X_pos: ";
+    string player_previous_x_pos_match = "Player_previous_X_pos: ";
+    string player_previous_y_pos_match = "Player_previous_Y_pos: ";
+
+    // test open file to read the contents first
+    fstream savefile_object;
+    savefile_object.open("magian_save.txt", ios::app);
+    if (savefile_object.is_open())
+    {
+      string line;
+      while (getline(savefile_object, line))
+      {
+        if (line.find(name_match) != string::npos) // NAME
+        {
+          savefile_object << name_match << player_pointer_object->player_name;
+        }
+        if (line.find(magic_match) != string::npos) // MAGIC
+        {
+          savefile_object << magic_match << player_pointer_object->player_magic;
+        }
+        if (line.find(health_match) != string::npos) // HEALTH
+        {
+          savefile_object << health_match << player_pointer_object->player_health;
+        }
+        if (line.find(xp_match) != string::npos) // XP
+        {
+          savefile_object << xp_match << player_pointer_object->player_xp;
+        }
+        if (line.find(speed_match) != string::npos) // SPEED
+        {
+          savefile_object << speed_match << player_pointer_object->player_speed;
+        }
+        if (line.find(literacy_match) != string::npos) // LITERACY
+        {
+          savefile_object << literacy_match << player_pointer_object->player_literacy;
+        }
+        if (line.find(diplomacy_match) != string::npos) // DIPLOMACY
+        {
+          savefile_object << diplomacy_match << player_pointer_object->player_diplomacy;
+        }
+        if (line.find(swimming_match) != string::npos) // SWIMMING
+        {
+          savefile_object << swimming_match << player_pointer_object->player_swimming;
+        }
+        if (line.find(herbology_match) != string::npos) // HERBOLOGY
+        {
+          savefile_object << herbology_match << player_pointer_object->player_herbology;
+        }  
+        if (line.find(money_match) != string::npos) // Money
+        {
+          savefile_object << money_match << player_pointer_object->player_money;
+        }    
+      }
+      savefile_object.close();
+      savefile_object.clear();
+      std::cout << "Game Saved" << endl;
+      cin.get();
+    }
+    // test open file to read the contents first
+    else
+    {
+        cerr << "Error: failed to open magian_save.txt" << endl;
+        return;
+    }
+}
+
+// MENU
 void setup_player_header()
 {
   fstream savefile_object;
@@ -3273,6 +3256,36 @@ void startgame()
     }
       
     newgame();
+}
+void l2startgame() 
+{
+  l2setup();
+  player_pointer_object->player_health = 3;
+  
+  if (find_host_os() == "Windows")
+  { 
+    while (!settings_pointer_object->settings_gameover) 
+    {
+      draw_level_2();
+      input();
+      logic();
+      Sleep(150);
+    }
+    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
+    cin.get();
+  }
+  else
+  {
+    while (!settings_pointer_object->settings_gameover) 
+    {
+      draw_level_2();
+      POSIXinput();
+      logic();
+      Sleep(150);
+    }
+    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
+    cin.get();
+  }
 }
 void menu() 
 {

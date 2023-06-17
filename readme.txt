@@ -405,7 +405,7 @@ De-vi. A-su-ra. Ra-ka-sh-aa. Ma. Pa...? finishing each word with the tonal infle
 sentence. AAhsakar responded mirroring the same expressions and matching the same short
 sylable words to back to Zahra. Each saw each other as a mist through the haze of the boundary
 of Nirvana. AAhsakar in his world had heard of stories of a world of nāraṅgī to kapila
-coloured uniform creatures that had yet mastered the arts of vimāna (space voyaging ships)
+coloured sensible creatures that had yet mastered the arts of vimāna (space voyaging ships)
 yet were a favoured by powerfull divinity. Their planet was known as pṛthvī (Earth).
 
 
