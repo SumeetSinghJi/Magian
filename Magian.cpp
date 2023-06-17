@@ -18,19 +18,20 @@ using namespace std;
 // VARIABLES
 enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
 edirection direction;
+
 const int width = 20;
 const int height = 20;
 char buffer[height][width];
-
-bool shoot_skill_cooldown = false;
-chrono::steady_clock::time_point lastShootTime;
 
 // CLASSES
 class skill_class
 {
   public:
     bool skill_shoot_cooldown = false;
-    chrono::steady_clock::time_point skill_last_shoot_time;
+    int skill_choose_active_skill = 1;
+    chrono::steady_clock::time_point skill_last_shoot_time; // Previous Shoot time
+    chrono::steady_clock::time_point skill_current_time = chrono::steady_clock::now(); // Current time
+    chrono::duration<double> skill_elapsed_seconds = skill_current_time - skill_last_shoot_time; // time between previous and current
 };
 class player_class
 {
@@ -707,12 +708,12 @@ void check_stats();
 void check_items();
 void check_skills();
 void save();
-void shoot_fireball();
 void change_language();
 void toggle_music();
 void check_objective();
 void update_savefile_level();
 void match_savefile_level();
+void use_active_skill();
 
 // FUNCTIONS
 string find_host_os()
@@ -1546,15 +1547,16 @@ void input()
         case ' ':
             if (direction != STOP)
             {
-                chrono::steady_clock::time_point currentTime = chrono::steady_clock::now();
-                chrono::duration<double> elapsedSeconds = currentTime - lastShootTime;
-                if (elapsedSeconds.count() >= 2.0) {
+              skill_pointer_object->skill_current_time = chrono::steady_clock::now(); // Current time
+              skill_pointer_object->skill_elapsed_seconds = skill_pointer_object->skill_current_time - skill_pointer_object->skill_last_shoot_time; // time between previous and current
+
+                if (skill_pointer_object->skill_elapsed_seconds.count() >= 2.0) {
                     // The shoot skill is off cooldown
-                    shoot_fireball();
+                    use_active_skill();
                     // Update the last shoot time
                 } else {
                     // The shoot skill is on cooldown
-                    cout << "The shoot skill is on cooldown. Please wait for " << (2.0 - elapsedSeconds.count()) << " seconds." << endl;
+                    cout << "The shoot skill is on cooldown. Please wait for " << (2.0 - skill_pointer_object->skill_elapsed_seconds.count()) << " seconds." << endl;
                 }
             }
             break;
@@ -1611,15 +1613,16 @@ void POSIXinput()
         case ' ':
             if (direction != STOP)
             {
-                chrono::steady_clock::time_point currentTime = chrono::steady_clock::now();
-                chrono::duration<double> elapsedSeconds = currentTime - lastShootTime;
-                if (elapsedSeconds.count() >= 2.0) {
+              skill_pointer_object->skill_current_time = chrono::steady_clock::now(); // Current time
+              skill_pointer_object->skill_elapsed_seconds = skill_pointer_object->skill_current_time - skill_pointer_object->skill_last_shoot_time; // time between previous and current
+
+                if (skill_pointer_object->skill_elapsed_seconds.count() >= 2.0) {
                     // The shoot skill is off cooldown
-                    shoot_fireball();
+                    use_active_skill();
                     // Update the last shoot time
                 } else {
                     // The shoot skill is on cooldown
-                    cout << "The shoot skill is on cooldown. Please wait for " << (2.0 - elapsedSeconds.count()) << " seconds." << endl;
+                    cout << "The shoot skill is on cooldown. Please wait for " << (2.0 - skill_pointer_object->skill_elapsed_seconds.count()) << " seconds." << endl;
                 }
             }
             break;
@@ -1821,19 +1824,8 @@ void logic()
 }
 
 // SKILLS
-void active_skill()
-{
-  cout << "Shoot active skill";
-}
 void shoot_fireball()
 {
-
-    if (shoot_skill_cooldown) 
-    {
-        cout << "Your too tired to shoot again.";
-        return;
-    }
-
     // The bullet STARTS from the players current position
     int targetX = player_pointer_object->player_x_pos;
     int targetY = player_pointer_object->player_y_pos;
@@ -1913,21 +1905,14 @@ void shoot_fireball()
         }
     }
     // shoot skill cooldown
-    shoot_skill_cooldown = true;
-    lastShootTime = chrono::steady_clock::now();
+    skill_pointer_object->skill_shoot_cooldown = true;
+    skill_pointer_object->skill_last_shoot_time = chrono::steady_clock::now();
     // reset shoot skill cooldown
-    shoot_skill_cooldown = false;
+    skill_pointer_object->skill_shoot_cooldown = false;
 }
-void volcano()
+void shoot_volcano()
 {
   // skill to shoot in all 4 directions
-
-    if (shoot_skill_cooldown) 
-    {
-        cout << "Your too tired to shoot again.";
-        return;
-    }
-
     // The bullet STARTS from the players current position
     int targetX = player_pointer_object->player_x_pos;
     int targetY = player_pointer_object->player_y_pos;
@@ -2211,11 +2196,47 @@ void volcano()
 
 
     // shoot skill cooldown
-    shoot_skill_cooldown = true;
-    lastShootTime = chrono::steady_clock::now();
+    skill_pointer_object->skill_shoot_cooldown = true;
+    skill_pointer_object->skill_last_shoot_time = chrono::steady_clock::now();
     // reset shoot skill cooldown
-    shoot_skill_cooldown = false;
+    skill_pointer_object->skill_shoot_cooldown = false;
 }
+void check_skills()
+{
+  cout << "SKILLS\n\n"
+  "Change skill to\n"
+  "1. Fireball\n"
+  "2. Volcano\n";
+  skill_pointer_object->skill_choose_active_skill = cin_valid_input();
+  switch(skill_pointer_object->skill_choose_active_skill)
+  {
+    case 1:
+      skill_pointer_object->skill_choose_active_skill=1;
+      break;
+    case 2:
+      skill_pointer_object->skill_choose_active_skill=2;
+      break;
+    default:
+      skill_pointer_object->skill_choose_active_skill=1;
+      break;
+  }
+}
+void use_active_skill()
+{
+  switch(skill_pointer_object->skill_choose_active_skill)
+  {
+    case 1:
+      shoot_fireball();
+      break;
+    case 2:
+      shoot_volcano();
+      break;
+    default:
+      shoot_fireball();
+      break;
+  }
+}
+
 
 // ABILITIES
 void check_items()
@@ -2273,11 +2294,20 @@ void item_store_header()
     cerr << "Error: Couldn't write header txt INVENTORY to savefile";
   }
 }
-void check_skills()
+void skill_store_header()
 {
-  // read from the savefile NOT the pointer object!!!
-  cout << "SKILLS\n\n"
-  "Change skill to\n";
+  fstream savefile_object;
+  savefile_object.open("magian_save.txt", ios::app);
+  if(savefile_object.is_open())
+  {
+    savefile_object << "SKILLS" << endl;
+    savefile_object.close();
+    savefile_object.clear();
+  }
+  else
+  {
+    cerr << "Error: Couldn't write header txt SKILLS to savefile";
+  }
 }
 void check_stats()
 {
@@ -2971,10 +3001,10 @@ void update_savefile_level()
     savefile_object.open("magian_save.txt", ios::app);
     if (savefile_object.is_open())
     {
-        savefile_object << "SAVE UPDATE" << endl;
-        savefile_object << "Host OS is: " << find_host_os() << endl;
-        savefile_object << "Version: "<< settings_pointer_object->settings_version << endl;
-        savefile_object << "Date: " << get_datetime() << endl;
+        // savefile_object << "SAVE UPDATE" << endl;
+        // savefile_object << "Host OS is: " << find_host_os() << endl;
+        // savefile_object << "Version: "<< settings_pointer_object->settings_version << endl;
+        // savefile_object << "Date: " << get_datetime() << endl;
         savefile_object << "Unlocked levels: " << settings_pointer_object->settings_level_select_variable << endl;
         savefile_object.close();
         savefile_object.clear();
@@ -3114,6 +3144,7 @@ void newgame()
   choose_player_name();
   initialise_player();
   item_store_header();
+  skill_store_header();
   setup();
   player_pointer_object->player_health = 3;
 
