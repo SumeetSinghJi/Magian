@@ -12,19 +12,18 @@
 #include <unistd.h>
 #include <vector>
 #include <windows.h>
-
 using namespace std;
 
-// VARIABLES
-enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
-
 // CLASSES
+enum edirection {STOP = 0, UP, DOWN, LEFT, RIGHT};
 edirection direction;
 class map_class
 {
   public:
     int width = 20;
     int height = 20;
+    const int town_map_width = 10;
+    const int town_map_height = 10;
     vector<vector<char>> buffer;
     int map_size = 0; // 1 = small, 2, medium, 3, large, 4, extra large, 5 giant, 6 world map
     int map_location =0; //1 cave, 2, town, 3 world map
@@ -47,6 +46,7 @@ class player_class
 {
   public:
     string player_name = "";
+    char player_symbol = 'P';
     int player_magic = 0;
     int player_health = 0;
     int player_literacy = 0;
@@ -715,7 +715,7 @@ class settings_class
     
 };
 
-// POINTERS
+// OBJECTS
 vector<shared_ptr<obstacle_class>> obstacles_vector;
 vector<shared_ptr<enemy_class>> enemies_vector;
 vector<shared_ptr<item_class>> items_vector;
@@ -724,6 +724,8 @@ shared_ptr<player_class> player_pointer_object = make_shared<player_class>();
 shared_ptr<settings_class> settings_pointer_object = make_shared<settings_class>();
 shared_ptr<money_class> money_pointer_object = make_shared<money_class>();
 shared_ptr<skill_class> skill_pointer_object = make_shared<skill_class>();
+
+// GLOBAL VARIABLSE
 
 // PROTOTYPES
 void menu();
@@ -1294,10 +1296,46 @@ void setup_rift()
 }
 
 // MAPS
-void draw_world()
-{
-  cout << "| |";
-}
+const int world_map_width = 15;
+const int world_map_height = 15;
+char world_map[world_map_height][world_map_width] = {
+    {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
+    {'#', 'T', 'T', 'T', 'T', ' ', ' ', ' ', ' ', '^', ' ', ' ', ' ', ' ', '#'},
+    {'#', 'T', 'T', 'T', 'T', ' ', ' ', ' ', '^', '^', ' ', ' ', 'I', '^', '#'},
+    {'#', 'T', 'T', 'T', 'T', ' ', ' ', ' ', '^', '^', ' ', ' ', '^', '^', '#'},
+    {'#', 'T', 'T', ' ', 'T', ' ', ' ', '^', '^', '^', ' ', '^', '^', '^', '#'},
+    {'#', 'T', ' ', ' ', ' ', ' ', 'T', '^', '^', 'T', ' ', '^', '^', 'O', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', '^', '^', 'T', 'T', ' ', ' ', ' ', 'O', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', '^', 'T', 'T', ' ', ' ', ' ', ' ', 'O', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', '^', 'T', 'T', ' ', ' ', ' ', ' ', 'O', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'O', '#'},
+    {'#', 'D', 'D', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'O', 'O', '#'},
+    {'#', 'D', 'D', 'D', 'D', ' ', ' ', ' ', ' ', ' ', ' ', 'I', 'O', 'O', '#'},
+    {'#', 'D', 'D', 'D', 'D', ' ', ' ', ' ', ' ', ' ', ' ', 'O', 'O', ' ', '#'},
+    {'#', ' ', 'D', 'D', 'D', ' ', ' ', 'O', 'O', 'O', 'O', 'O', ' ', ' ', '#'},
+    {'#', '#', '#', '#', '#', '#', '#', 'O', '#', '#', '#', '#', '#', '#', '#'},
+};
+const int town_map_width = 15;
+const int town_map_height = 15;
+char town_map[town_map_height][town_map_width] = {
+    {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+    {'#', ' ', '#', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+    {'#', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+    {'#', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', '#', '#', '#', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', 'T', 'T', 'T', ' ', ' ', ' ', ' ', ' ', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', 'T', 'O', 'T', ' ', ' ', ' ', ' ', '#', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', 'T', ' ', 'T', ' ', ' ', ' ', ' ', ' ', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', 'T', ' ', 'T', ' ', ' ', '#', '#', '#', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+    {'#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+    {'#', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+    {'#', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#'},
+    {'#', ' ', '#', ' ', ' ', ' ', '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#'},
+    {'#', '#', '#', '#', '#', '#', '#', ' ', '#', '#', '#', '#', '#', '#', '#'},
+};
+
+
 void draw_town()
 {
   cout << "Coming soon" << endl;
@@ -1332,7 +1370,7 @@ void draw_level_1()
   }
 
   // Draw player
-  map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = 'P';
+  map_pointer_object->buffer[player_pointer_object->player_y_pos][player_pointer_object->player_x_pos] = player_pointer_object->player_symbol;
 
   // Draw money
   map_pointer_object->buffer[money_pointer_object->money_moneyy][money_pointer_object->money_moneyx] = '$';
@@ -1365,7 +1403,7 @@ void draw_level_1()
   }
 
   // Clear the console screen
-  system("cls");
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0,0});
 
   // Print the map_pointer_object->buffer
   for (int y = 0; y < map_pointer_object->height; y++) {
@@ -1489,49 +1527,6 @@ void draw_level_11()
 {
     cout << "Test" << endl;
 }
-void destination()
-{
-  if(map_pointer_object->map_location=1) // cave
-  {
-    cout << "You stumble upon a dark cave" << endl;
-    setup();
-    draw_level_1();
-  }
-  else if(map_pointer_object->map_location=2) // town
-  {
-    cout << "You enter a vibrant settlement" << endl;
-    setup_town();
-    draw_town();
-  }
-  else if(map_pointer_object->map_location=3) // Temple
-  {
-    cout << "You enter a vibrant settlement" << endl;
-    setup_temple();
-    draw_temple();
-  }
-  else if(map_pointer_object->map_location=4) // Desert
-  {
-    cout << "You enter a vibrant settlement" << endl;
-    setup_desert();
-    draw_desert();
-  }
-  else if(map_pointer_object->map_location=5) // Nava Agni
-  {
-    cout << "You enter a vibrant settlement" << endl;
-    setup_nava_agni();
-    draw_nava_agni();
-  }
-  else if(map_pointer_object->map_location=6) // Rift
-  {
-    cout << "You enter a vibrant settlement" << endl;
-    setup_rift();
-    draw_rift();
-  }
-  else
-  {
-    cout << "You stumble upon the ruins of an ancient civilisation. There's nothing ahead" << endl;
-  }
-}
 
 // INPUT
 void input()
@@ -1539,72 +1534,6 @@ void input()
     if (_kbhit()) 
     {
         switch (_getch()) 
-        {
-        case 'w':
-            direction = UP;
-            break;
-        case 's':
-            direction = DOWN;
-            break;
-        case 'a':
-            direction = LEFT;
-            break;
-        case 'd':
-            direction = RIGHT;
-            break;
-        case 'i':
-            check_items();
-            cout << "Press ENTER button to Return to game" << endl;
-            cin.get();
-            break;
-        case 'l':
-            check_objective();
-            cout << "Press ENTER button to Return to game" << endl;
-            cin.get();
-            break;
-        case 'x':
-            choose_skill();
-            cout << "Press ENTER button to Return to game" << endl;
-            cin.get();
-            break; 
-        case 'c':
-            check_stats();
-            cout << "Press ENTER button to Return to game" << endl;
-            cin.get();
-            break; 
-        case 59:
-            save(); // F1 keu
-            break;
-        case 27: // escape key
-            menu();
-            break;
-        case ' ':
-            if (direction != STOP)
-            {
-              skill_pointer_object->skill_current_time = chrono::steady_clock::now(); // Current time
-              skill_pointer_object->skill_elapsed_seconds = skill_pointer_object->skill_current_time - skill_pointer_object->skill_last_shoot_time; // time between previous and current
-
-                if (skill_pointer_object->skill_elapsed_seconds.count() >= 2.0) {
-                    // The shoot skill is off cooldown
-                    perform_active_skill();
-                    // Update the last shoot time
-                } else {
-                    // The shoot skill is on cooldown
-                    cout << "The shoot skill is on cooldown. Please wait for " << (2.0 - skill_pointer_object->skill_elapsed_seconds.count()) << " seconds." << endl;
-                }
-            }
-            break;
-        case 'e':
-            direction = STOP;
-            break;
-        }
-    }
-}
-void POSIXinput()
-{
-    if (_kbhit()) 
-    {
-        switch (getchar()) 
         {
         case 'w':
             direction = UP;
@@ -1692,6 +1621,50 @@ void player_movement()
         break;
   }
 }
+void destination()
+{
+  if(map_pointer_object->map_location=1) // cave
+  {
+    cout << "You stumble upon a dark cave" << endl;
+    setup();
+    draw_level_1();
+  }
+  else if(map_pointer_object->map_location=2) // town
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_town();
+    draw_town();
+  }
+  else if(map_pointer_object->map_location=3) // Temple
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_temple();
+    draw_temple();
+  }
+  else if(map_pointer_object->map_location=4) // Desert
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_desert();
+    draw_desert();
+  }
+  else if(map_pointer_object->map_location=5) // Nava Agni
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_nava_agni();
+    draw_nava_agni();
+  }
+  else if(map_pointer_object->map_location=6) // Rift
+  {
+    cout << "You enter a vibrant settlement" << endl;
+    setup_rift();
+    draw_rift();
+  }
+  else
+  {
+    cout << "You stumble upon the ruins of an ancient civilisation. There's nothing ahead" << endl;
+  }
+}
+
 void collision_logic()
 {
   player_pointer_object->player_previous_x_pos = player_pointer_object->player_x_pos;
@@ -2932,8 +2905,6 @@ void arena()
     case 1:
       setup();
       player_pointer_object->player_health = 3;
-      if (find_host_os() == "Windows")
-      { 
         while (!settings_pointer_object->settings_gameover) 
         {
           draw_level_1();
@@ -2943,20 +2914,6 @@ void arena()
         }
         cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
         cin.get();
-      }
-      else
-      {
-        while (!settings_pointer_object->settings_gameover) 
-        {
-          draw_level_1();
-          POSIXinput();
-          logic();
-          Sleep(150);
-        }
-        cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
-        cin.get();
-      }
-      break;
     case 2:
       draw_level_2();
       break;
@@ -3181,7 +3138,7 @@ void choose_player_name()
 void newgame()
 {
   cout << "Starting new game." << endl;
-  srand(time(0));
+  
   cin.get();
   setup_player_header();
   choose_player_name();
@@ -3195,86 +3152,38 @@ void newgame()
 
   // Print the static elements that don't change during gameplay
   draw_level_1();
-  
   // Start the game loop
-  if (find_host_os() == "Windows")
-  { 
+
     while (!settings_pointer_object->settings_gameover)
     {
       // Update the dynamic elements and player input
       input();
       logic();
-
-      // Print the updated game state without clearing the screen
       draw_level_1();
-
       Sleep(150);
     }
     cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
     cin.get();
-  }
-  else
-  {
-    while (!settings_pointer_object->settings_gameover)
-    {
-      // Update the dynamic elements and player input
-      POSIXinput();
-      logic();
-
-      // Print the updated game state without clearing the screen
-      draw_level_1();
-
-      Sleep(150);
-    }
-    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
-    cin.get();
-  }
 }
 void continuegame() 
 {
   load_player();
   setup();
   player_pointer_object->player_health = 3;
-
-  // Clear the console screen initially
-  system("cls");
-
-  // Print the static elements that don't change during gameplay
+    // Clear the console screen initially
+    system("cls");
+    // Print the static elements that don't change during gameplay
   draw_level_1();
-  
-  // Start the game loop
-  if (find_host_os() == "Windows")
-  { 
+    // Start the game loop
     while (!settings_pointer_object->settings_gameover)
     {
-      // Update the dynamic elements and player input
       input();
       logic();
-
-      // Print the updated game state without clearing the screen
       draw_level_1();
-
       Sleep(150);
     }
     cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
     cin.get();
-  }
-  else
-  {
-    while (!settings_pointer_object->settings_gameover)
-    {
-      // Update the dynamic elements and player input
-      POSIXinput();
-      logic();
-
-      // Print the updated game state without clearing the screen
-      draw_level_1();
-
-      Sleep(150);
-    }
-    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
-    cin.get();
-  }
 }
 void startgame()
 {
@@ -3333,9 +3242,7 @@ void startgame()
 void l2startgame() 
 {
   l2setup();
-  
-  if (find_host_os() == "Windows")
-  { 
+
     while (!settings_pointer_object->settings_gameover) 
     {
       draw_level_2();
@@ -3345,22 +3252,11 @@ void l2startgame()
     }
     cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
     cin.get();
-  }
-  else
-  {
-    while (!settings_pointer_object->settings_gameover) 
-    {
-      draw_level_2();
-      POSIXinput();
-      logic();
-      Sleep(150);
-    }
-    cout << "Game Over. Your final score is: " << settings_pointer_object->settings_score << endl;
-    cin.get();
-  }
+
 }
 void menu() 
 {
+  srand(time(0));
   if (settings_pointer_object->settings_music_variable == false)
   {
     PlaySoundW(NULL, NULL, 0);
